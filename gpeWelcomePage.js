@@ -1,3 +1,10 @@
+/**
+* Dynamic Welcome Page for Cornerstone OnDemand
+* @desc Dynamic welcome page engine for Cornerstone OnDemand. The script is using the navigation menu as base to generate the page.
+* @author   Klas Anundby kanundby@csod.com
+* @version 0.5
+*/
+
 const accessURLs = [{
     "title": "view_your_transcript",
     "url": "/LMS/UserTranscript/MainView.aspx?Reset=TRUE&tab_page_id=-8",
@@ -712,7 +719,6 @@ const accessURLs = [{
   }
 ];
 
-
 const approvalURLs = {
   training: {
     url: "/reports/trackemployee/TrackEmpRequest.aspx",
@@ -774,8 +780,7 @@ const approvalURLs = {
       "de-DE": "Genehmigung des Vergütungsplans",
     },
   }
-
-}
+};
 
 /*
  * Custom translation array
@@ -889,7 +894,7 @@ const cs_customLocale = {
       },
     },
   },
-}
+};
 // +cs_customLocale.wp.widget.goals.notitle
 /*
 .getstarted_button {
@@ -948,12 +953,13 @@ REC
 */
 var cs_DashboardArray = {
   "MGR": {
-    //		"reports": [],
+          "reports": [],
     //		"reports": [2, 3, 14, 19, 46, 47, 48],
     //		"reports": [3],
   },
   "HRD": {
-    "reports": [2, 12, 13, 15, 16, 25, 32, 46],
+    "reports": [],
+//    "reports": [2, 12, 13, 15, 16, 25, 32, 46],
   },
   "INS": {
     "reports": [14, 28, 30, 42, 47],
@@ -1119,18 +1125,27 @@ var cs_DashboardDetailsArray = {
       "width": 6
     }
   }
-}
+};
 
 const gpeABOUTCARDDIV = "gpewp_topcontainer_upper";
 const gpeUSRMAINDIV = "USR-right";
 const gpeUSRLEFTDIV = "USR-left";
 const gpeDEMOPERSONADIV = "demopersona";
-const gpeDEMOUSERDIV = "demousername"
+const gpeDEMOUSERDIV = "demousername";
 const gpeTARGETNAVDIV = "gpewp_topcontainer_nav";
 const gpeUSERNAME = document.getElementById(gpeDEMOUSERDIV).getAttribute(gpeDEMOUSERDIV).toLowerCase().split(";");
 const gpeDEMOROLE = getDemoRole(document.getElementById(gpeDEMOPERSONADIV).getAttribute(gpeDEMOPERSONADIV));
 const gpePRIMARYBGCSS = $('.c-nav-user').css('background-color');
-const gpeUSERREPORTID = 51;
+const gpeUSERREPORTID = {
+    MGR: {
+      reportid: 51,
+      filterid: 688
+    },
+    HRD: {
+      reportid: 51,
+      filterid: 689,
+    }
+};
 
 /**
  * Returns demorole abbreviation from custom field
@@ -1143,7 +1158,6 @@ function getDemoRole(elementArg) {
   else return elementArg.substr(0, 3);
 }
 
-
 /**
  * Gets details of user's navmenu (titles & urls)
  * @param {Array} accessURLsArg - The array of possible access items a user might/could have.
@@ -1153,15 +1167,15 @@ function getAccessDetails(accessURLsArg) {
   let accessArr = [];
   var urlData = [];
   for (var URL in accessURLsArg) {
-    $("a[id$='lnkSubMenu'][href*='" + accessURLsArg[URL]["url"] + "']").text(function() {
+    $("a[id$='lnkSubMenu'][href*='" + accessURLsArg[URL].url + "']").text(function() {
       urlData = {
-        "id": accessURLsArg[URL]["title"],
+        "id": accessURLsArg[URL].title,
         "title": $(this).text(),
         "url": $(this).attr('href'),
-        "icon": accessURLsArg[URL]["icon"],
-        "module": accessURLsArg[URL]["module"],
-        "quicklinkPrio": accessURLsArg[URL]["quicklinkPrio"],
-        "widgetPrio": accessURLsArg[URL]["widgetPrio"]
+        "icon": accessURLsArg[URL].icon,
+        "module": accessURLsArg[URL].module,
+        "quicklinkPrio": accessURLsArg[URL].quicklinkPrio,
+        "widgetPrio": accessURLsArg[URL].widgetPrio
       };
       accessArr[URL] = urlData;
     });
@@ -1272,7 +1286,7 @@ async function buildNav(demoRoleArg, targetNavDiv, cultureArg) {
     topNavBtnUSR.setAttribute("aria-controls", "nav-USR");
     topNavBtnUSR.setAttribute("aria-selected", "true");
     topNavBtnUSR.setAttribute("_ngcontent-nml-c376", "");
-    topNavBtnUSR.innerHTML = cs_customLocale["topNavigationTitle"]["USR"][cultureArg]; //sessionStorage["csCulture"]
+    topNavBtnUSR.innerHTML = cs_customLocale.topNavigationTitle.USR[cultureArg]; //sessionStorage["csCulture"]
 
     topNavItmUSR.appendChild(topNavBtnUSR);
 
@@ -1283,7 +1297,8 @@ async function buildNav(demoRoleArg, targetNavDiv, cultureArg) {
       case "HRD":
       case "INS":
       case "ADM":
-        if (demoRoleArg == "MGR") buildManagerPage(getAccessDetails(accessURLs), demoRoleArg + "-right", gpeUSERREPORTID, gpeUSERNAME);
+        //if (demoRoleArg == "MGR") buildExtendedWidget(getAccessDetails(accessURLs), demoRoleArg + "-right", gpeUSERREPORTID[demoRoleArg].reportid, gpeUSERNAME, demoRoleArg);
+        if(gpeUSERREPORTID[demoRoleArg]) buildExtendedWidget(getAccessDetails(accessURLs), demoRoleArg + "-right", gpeUSERREPORTID[demoRoleArg].reportid, gpeUSERNAME, demoRoleArg);
         var topNavItmRole = buildExtraNavItem(demoRoleArg, cultureArg);
         break;
     }
@@ -1305,7 +1320,7 @@ async function buildNav(demoRoleArg, targetNavDiv, cultureArg) {
     topNavBtnQLS.setAttribute("aria-controls", "nav-QLS");
     topNavBtnQLS.setAttribute("aria-selected", "true");
     topNavBtnQLS.setAttribute("_ngcontent-nml-c376", "");
-    topNavBtnQLS.innerHTML = cs_customLocale["topNavigationTitle"]["QLS"][cultureArg]; // sessionStorage["csCulture"]
+    topNavBtnQLS.innerHTML = cs_customLocale.topNavigationTitle.QLS[cultureArg]; // sessionStorage["csCulture"]
 
     topNavItmQLS.appendChild(topNavBtnQLS);
 
@@ -1381,7 +1396,7 @@ function buildExtraNavItem(demoRoleArg, cultureArg) {
   topNavBtnRole.setAttribute("aria-controls", "nav-" + demoRoleArg);
   topNavBtnRole.setAttribute("aria-selected", "true");
   topNavBtnRole.setAttribute("_ngcontent-nml-c376", "");
-  topNavBtnRole.innerHTML = cs_customLocale["topNavigationTitle"][demoRoleArg][cultureArg]; //sessionStorage["csCulture"]
+  topNavBtnRole.innerHTML = cs_customLocale.topNavigationTitle[demoRoleArg][cultureArg]; //sessionStorage["csCulture"]
   test = 2;
   topNavItmRole.appendChild(topNavBtnRole);
 
@@ -1455,7 +1470,7 @@ async function getWidgetData(widgetIDArg) {
           return $(a).data("position") - $(b).data("position");
         }).appendTo("#USR-left");
 
-        $("#feedContents").niceScroll().resize()
+        $("#feedContents").niceScroll().resize();
 
 
         /*
@@ -1473,10 +1488,9 @@ async function getWidgetData(widgetIDArg) {
       .catch(error => {
         console.error("Error bulding Welcome Page: " + error);
         reject(error);
-      })
+      });
     return true;
   });
-  return true;
 }
 
 /*
@@ -1505,7 +1519,7 @@ async function buildWidgets(accessArrArg, cultureArg) {
       .then((res) => {
 
         // Sort array on widgetPrio column
-        var widgetOrderedArr = accessArrArg.sort((a, b) => a.widgetPrio - b.widgetPrio)
+        var widgetOrderedArr = accessArrArg.sort((a, b) => a.widgetPrio - b.widgetPrio);
 
         // Get all widgets (widgetPrio = 99 means it is not a widget and should not be used)
         widgetIDArr = widgetOrderedArr.filter(v => +v.widgetPrio < 99);
@@ -1517,8 +1531,8 @@ async function buildWidgets(accessArrArg, cultureArg) {
       .catch(error => {
         console.error("Error bulding Welcome Page: " + error);
         reject(error);
-      })
-  })
+      });
+  });
 }
 
 /* createWidget functions */
@@ -1540,7 +1554,7 @@ var createWidget = (widgets) => {
       return widgetResponse;
     })
     .catch(error => console.error("Error in getting widget data: " + error));
-}
+};
 
 /*
  * Build Widget function
@@ -1553,11 +1567,11 @@ var createWidget = (widgets) => {
  */
 async function buildWidget(contentArr, colArg, colIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, contentArg) {
   return new Promise((resolve, reject) => {
-
+      var tmpRowDiv = "";
       if (document.getElementById(rowIDArg)) {
-        var tmpRowDiv = document.getElementById(rowIDArg);
+        tmpRowDiv = document.getElementById(rowIDArg);
       } else {
-        var tmpRowDiv = document.createElement("div");
+        tmpRowDiv = document.createElement("div");
         tmpRowDiv.setAttribute("id", rowIDArg); //"cs_main_transcript"
         tmpRowDiv.setAttribute("data-position", contentArr.widgetPrio); //"cs_main_transcript"
         //		tmpRowDiv.className = "widgetData";
@@ -1594,7 +1608,7 @@ async function buildWidget(contentArr, colArg, colIDArg, rowIDArg, targetColDivI
       tmpColDiv.appendChild(tmpCardParent);
       tmpRowDiv.appendChild(tmpColDiv);
 
-      resolve(tmpRowDiv)
+      resolve(tmpRowDiv);
     })
     .catch(error => console.error("Error in getGoalsDetails: " + error));
 }
@@ -1609,11 +1623,11 @@ async function buildWidget(contentArr, colArg, colIDArg, rowIDArg, targetColDivI
  * @returns
  */
 async function buildCard_NEW(cardTitleArg, cardTitleHrefArg, colArg, colIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, contentArg) {
-
+  var tmpRowDiv = "";
   if (document.getElementById(rowIDArg)) {
-    var tmpRowDiv = document.getElementById(rowIDArg);
+    tmpRowDiv = document.getElementById(rowIDArg);
   } else {
-    var tmpRowDiv = document.createElement("div");
+    tmpRowDiv = document.createElement("div");
     tmpRowDiv.setAttribute("id", rowIDArg); //"cs_main_transcript"
     tmpRowDiv.className = "row";
   }
@@ -1690,7 +1704,7 @@ function buildQuickLinksCard(accessArrArg, cultureArg) {
   $.each(qlArr, function(e, i, a) {
     var test = i.slice(0, 5);
     //		console.log("Module: "+ e +" - ONLY GET: "+ test);
-    var qlInfo = "<p>Module: " + e + "</p>"
+    var qlInfo = "<p>Module: " + e + "</p>";
     var tmpBtnDivider = document.createElement("span");
     tmpBtnDivider.innerHTML = qlInfo;
     //		tmpContentDiv.appendChild(tmpBtnDivider);
@@ -1707,7 +1721,7 @@ function buildQuickLinksCard(accessArrArg, cultureArg) {
     //		console.log("module: "+ e);
     //		console.log("culture: "+ cultureArg);
     //		console.log("translated: "+ cs_customLocale["moduleTitle"][e][cultureArg]);
-    tmpCardHeader.innerHTML = cs_customLocale["moduleTitle"][e][cultureArg]; //accessArr[accessItem]["title"];
+    tmpCardHeader.innerHTML = cs_customLocale.moduleTitle[e][cultureArg]; //accessArr[accessItem]["title"];
     //		tmpCardHeader.innerHTML = "QUICK LINKS: "+ e; //accessArr[accessItem]["title"];
 
     var tmpCardBody = document.createElement("div");
@@ -1742,14 +1756,14 @@ function buildQuickLinksCard(accessArrArg, cultureArg) {
 function buildQuickLinkButton(accessItemArg, accessArrArg) {
   var tmpBtnDiv = document.createElement("a");
   tmpBtnDiv.className = "btn btn-primary";
-  tmpBtnDiv.setAttribute("href", accessItemArg["url"]);
+  tmpBtnDiv.setAttribute("href", accessItemArg.url);
   var tmpBtnDivIcon = document.createElement("i");
-  tmpBtnDivIcon.className = "fa " + accessItemArg["icon"];
+  tmpBtnDivIcon.className = "fa " + accessItemArg.icon;
   tmpBtnDiv.appendChild(tmpBtnDivIcon);
 
   var tmpBtnDivText = document.createElement("span");
   tmpBtnDivText.className = "text";
-  tmpBtnDivText.innerHTML = accessItemArg["title"];
+  tmpBtnDivText.innerHTML = accessItemArg.title;
   tmpBtnDiv.appendChild(tmpBtnDivText);
   return tmpBtnDiv;
 }
@@ -1802,8 +1816,8 @@ function buildAboutCard(contentDivClassArg) {
 
   tmpUserNameDiv.appendChild(tmpUserNameSpan);
 
-  tmpAboutDiv.appendChild(tmpUserNameDiv)
-  tmpAboutDiv.appendChild(tmpUserJobDiv)
+  tmpAboutDiv.appendChild(tmpUserNameDiv);
+  tmpAboutDiv.appendChild(tmpUserJobDiv);
 
   tmpColNameDiv.appendChild(tmpAboutDiv);
 
@@ -1922,7 +1936,7 @@ function getApprovalDetails(approvalURLsArg, cultureArg, demoRoleArg) {
   var check;
   for (var item in approvalURLsArg) {
     count += 1;
-    $("table[id*='plnInbox_content'] a[href*='" + approvalURLsArg[item]["url"] + "']").text(function() {
+    $("table[id*='plnInbox_content'] a[href*='" + approvalURLsArg[item].url + "']").text(function() {
 
       var tmpAprvlDiv = document.createElement("div");
       tmpAprvlDiv.className = "approval-item approval-" + item + " app" + count;
@@ -1932,22 +1946,22 @@ function getApprovalDetails(approvalURLsArg, cultureArg, demoRoleArg) {
       tmpAprvlDivHref.setAttribute("href", $(this).attr('href'));
 
       var tmpAprvlDivImg = new Image();
-      tmpAprvlDivImg.className = approvalURLsArg[item]["icon"];
-      tmpAprvlDivImg.src = "/clientimg/" + sessionStorage["csCorp"] + "/welcome/" + approvalURLsArg[item]["imgname"];
+      tmpAprvlDivImg.className = approvalURLsArg[item].icon;
+      tmpAprvlDivImg.src = "/clientimg/" + sessionStorage.csCorp + "/welcome/" + approvalURLsArg[item].imgname;
 
       var tmpAprvlDivText = document.createElement("span");
-      tmpAprvlDivText.innerHTML += approvalURLsArg[item]["title"][cultureArg];
+      tmpAprvlDivText.innerHTML += approvalURLsArg[item].title[cultureArg];
 
       var tmpAprvlDivBadge = document.createElement("span");
       tmpAprvlDivBadge.className = "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger";
-      tmpAprvlDivBadge.innerHTML = $("table[id*='plnInbox_content'] a[href*='" + approvalURLsArg[item]["url"] + "'] ~ span:first").text().match(/\d+/)[0];
+      tmpAprvlDivBadge.innerHTML = $("table[id*='plnInbox_content'] a[href*='" + approvalURLsArg[item].url + "'] ~ span:first").text().match(/\d+/)[0];
 
       tmpAprvlDivHref.appendChild(tmpAprvlDivImg);
       tmpAprvlDivHref.appendChild(tmpAprvlDivText);
       tmpAprvlDivHref.appendChild(tmpAprvlDivBadge);
       tmpAprvlDiv.appendChild(tmpAprvlDivHref);
 
-      aprvlDiv.appendChild(tmpAprvlDiv)
+      aprvlDiv.appendChild(tmpAprvlDiv);
       check = "ok";
     });
   }
@@ -1982,7 +1996,7 @@ async function getGoalsDetails(contentDivClassArg) {
   tmpContentDiv.className = contentDivClassArg;
   tmpContentDiv.setAttribute("id", contentDivClassArg);
 
-  var widgetUrl = "/phnx/driver.aspx?routename=Goals/GoalList"
+  var widgetUrl = "/phnx/driver.aspx?routename=Goals/GoalList";
 
   let getHTML = (url) => {
     return fetch(url);
@@ -1996,7 +2010,7 @@ async function getGoalsDetails(contentDivClassArg) {
       if (goalComplete != 0) {
         drawDonut(goalComplete, contentDivClassArg, tmpContentDiv);
       } else {
-        tmpContentDiv.innerHTML = "<button type='button' id='createNewGoalsBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets.goals.notitle[sessionStorage["csCulture"]] + "</button>";
+        tmpContentDiv.innerHTML = "<button type='button' id='createNewGoalsBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets.goals.notitle[sessionStorage.csCulture] + "</button>";
       }
       return tmpContentDiv.className;
     })
@@ -2024,7 +2038,7 @@ async function getTranscriptdetails(contentDivClassArg) {
   var tmpContent = document.querySelector("div[data-tag='pnlMyTraining'] div[id$='_widgetContainer_ctl00_upnlList'] table");
   var data = [...tmpContent.rows].map(row => [...row.cells].map(td => {
     return td.innerHTML.replace(/\s+/g, ' ').trim();
-  }))
+  }));
 
   data.shift();
   var columns = [{
@@ -2049,7 +2063,7 @@ async function getTranscriptdetails(contentDivClassArg) {
   $table = $('<table>');
   $table.appendTo(tmpContentDiv);
   $table.bootstrapTable({
-    locale: sessionStorage["csCulture"],
+    locale: sessionStorage.csCulture,
     pageSize: 10,
     pagination: false, // Allow pagination
     search: true, // Allow search
@@ -2058,7 +2072,7 @@ async function getTranscriptdetails(contentDivClassArg) {
     detailView: false,
     columns: columns,
     data: data
-  })
+  });
 
   return tmpContentDiv;
 }
@@ -2108,7 +2122,7 @@ async function getDevPlanDetails(contentDivClassArg) {
         devPlanPercentComplete = devPlanPercent.text();
         drawDonut(devPlanPercentComplete, contentDivClassArg, tmpContentDiv);
       } else {
-        tmpContentDiv.innerHTML = "<button type='button' id='createNewDevplanBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets.devplan.notitle[sessionStorage["csCulture"]] + "</button>";
+        tmpContentDiv.innerHTML = "<button type='button' id='createNewDevplanBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets.devplan.notitle[sessionStorage.csCulture] + "</button>";
       }
       return tmpContentDiv.className;
     })
@@ -2138,12 +2152,12 @@ function updateJWT() {
     })
     .then(response => response.text())
       .then(tokenStr => {
-        sessionStorage["csToken"] = tokenStr.substring(tokenStr.indexOf('"token"') + 9, tokenStr.indexOf('",', tokenStr.indexOf('"token"')));
-        sessionStorage["csCloud"] = tokenStr.substring(tokenStr.indexOf('"cloud"') + 9, tokenStr.indexOf('",', tokenStr.indexOf('"cloud"')));
-        sessionStorage["csUser"] = tokenStr.substring(tokenStr.indexOf('"user":') + 7, tokenStr.indexOf(",", tokenStr.indexOf('"user"')));;
-        sessionStorage["csCorp"] = tokenStr.substring(tokenStr.indexOf('"corp"') + 8, tokenStr.indexOf('",', tokenStr.indexOf('"corp"')));
-        sessionStorage["csCulture"] = tokenStr.substring(tokenStr.indexOf('"cultureName"') + 15, tokenStr.indexOf('",', tokenStr.indexOf('"cultureName"')));
-        return sessionStorage["csToken"];
+        sessionStorage.csToken = tokenStr.substring(tokenStr.indexOf('"token"') + 9, tokenStr.indexOf('",', tokenStr.indexOf('"token"')));
+        sessionStorage.csCloud = tokenStr.substring(tokenStr.indexOf('"cloud"') + 9, tokenStr.indexOf('",', tokenStr.indexOf('"cloud"')));
+        sessionStorage.csUser = tokenStr.substring(tokenStr.indexOf('"user":') + 7, tokenStr.indexOf(",", tokenStr.indexOf('"user"')));
+        sessionStorage.csCorp = tokenStr.substring(tokenStr.indexOf('"corp"') + 8, tokenStr.indexOf('",', tokenStr.indexOf('"corp"')));
+        sessionStorage.csCulture = tokenStr.substring(tokenStr.indexOf('"cultureName"') + 15, tokenStr.indexOf('",', tokenStr.indexOf('"cultureName"')));
+        return sessionStorage.csToken;
       })
     .catch(error => {
         console.error("Function updateJWT failed: ", error);
@@ -2159,11 +2173,11 @@ function updateJWT() {
  */
 function checkJWT() {
   return new Promise((resolve, reject) => {
-    if (sessionStorage["csToken"]) {
-      var checkReturningUser = $("[id*='pnlActionItems_titleMiddle'] a[href*='TargetUser=" + sessionStorage["csUser"] + "']").length ? true : false;
+    if (sessionStorage.csToken) {
+      var checkReturningUser = $("[id*='pnlActionItems_titleMiddle'] a[href*='TargetUser=" + sessionStorage.csUser + "']").length ? true : false;
       if (checkReturningUser == true) {
 
-        var jwt = JSON.parse(atob(sessionStorage["csToken"].split('.')[1]));
+        var jwt = JSON.parse(atob(sessionStorage.csToken.split('.')[1]));
         var year = jwt.exp.substring(0, 4);
         var month = jwt.exp.substring(4, 6);
         var day = jwt.exp.substring(6, 8);
@@ -2176,10 +2190,10 @@ function checkJWT() {
         if (validity == false) {
           //console.log("-[ UPDATING JWT ]-");
           resolve(updateJWT());
-          return sessionStorage["csToken"];
+          return sessionStorage.csToken;
         } else {
           //console.log("-[ JWT OK ]-");
-          resolve(sessionStorage["csToken"]);
+          resolve(sessionStorage.csToken);
         }
       } else {
         //console.log("-[ UPDATING JWT ]-");
@@ -2189,36 +2203,29 @@ function checkJWT() {
       //console.log("-[ UPDATING JWT ]-");
       resolve(updateJWT());
     }
-  })
+  });
 }
 
-/*
-1. jwt
-2. participants
-3. user data
-4. goal data
-5. devplan data
-6. other data...
-*/
 /**
  *
  * @param
  * @param
  * @returns
  */
-function buildManagerPage(accessArrArg, appendDivArg, reportIDArg, usernameArg) {
+function buildExtendedWidget(accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg) {
+
   const userName = usernameArg[0][0].concat(usernameArg[1]);
+
   console.log(userName);
 
   let reportToken = checkReportToken();
   $.when(reportToken)
     .then((data) => {
-      console.log(gpeUSERREPORTID)
-      return fetchManagerReport(reportIDArg, userName);
+      return fetchManagerReport(reportIDArg, userName, demoRoleArg);
     })
     .then(reportresp => {
-      console.log(reportresp);
-      console.log(reportresp[0].data)
+      console.log(reportresp[0].data);
+//      console.log(reportresp[0].data.length);
 
     })
     .catch(error => console.error("error with building manager page: " + error));
@@ -2399,22 +2406,22 @@ async function getCheckinsDetails(contentDivClassArg) {
 
   var localResponse = {};
 
-  return fetch("/services/x/localization/v1/localizations/ui?groups=GoalPanel,DevPlanPanel,CheckIns&culture=" + sessionStorage["csCulture"], {
+  return fetch("/services/x/localization/v1/localizations/ui?groups=GoalPanel,DevPlanPanel,CheckIns&culture=" + sessionStorage.csCulture, {
       method: 'GET',
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + sessionStorage["csToken"],
+        'Authorization': 'Bearer ' + sessionStorage.csToken,
       },
     })
     .then(response => response.json())
     .then(localStr => {
       //		console.log("checkins 1 - done");
-      endpointURL = sessionStorage["csCloud"] + "perf-conversations-api/v1/conversations";
+      endpointURL = sessionStorage.csCloud + "perf-conversations-api/v1/conversations";
 
-      localResponse = localStr["data"];
+      localResponse = localStr.data;
 
       return fetch(endpointURL, {
         method: 'GET',
@@ -2423,9 +2430,9 @@ async function getCheckinsDetails(contentDivClassArg) {
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + sessionStorage["csToken"]
+          'Authorization': 'Bearer ' + sessionStorage.csToken
         }
-      })
+      });
     })
     .then(response => response.json())
     .then(checkinObjects => {
@@ -2447,10 +2454,10 @@ async function getCheckinsDetails(contentDivClassArg) {
         checkinStr += "</thead>";
         for (let checkinItem in checkinObjects) {
 
-          var avatarUrl = "/clientimg/" + hostName[0] + "/users/photos/" + checkinObjects[checkinItem]["participants"][1]["pictureUrl"];
+          var avatarUrl = "/clientimg/" + hostName[0] + "/users/photos/" + checkinObjects[checkinItem].participants[1].pictureUrl;
 
 
-          checkinStr += "<tr id='checkinItem-" + checkinItem + "' class='checkinItem clickable-row' data-href='/ui/perf-check-ins/Check-Ins/view/" + checkinObjects[checkinItem]["id"] + "/meeting/" + checkinObjects[checkinItem]["meetingsSummary"]["nextMeetingId"] + "'>";
+          checkinStr += "<tr id='checkinItem-" + checkinItem + "' class='checkinItem clickable-row' data-href='/ui/perf-check-ins/Check-Ins/view/" + checkinObjects[checkinItem].id + "/meeting/" + checkinObjects[checkinItem].meetingsSummary.nextMeetingId + "'>";
           //				checkinStr += "<a href='/ui/perf-check-ins/Check-Ins/view/"+ checkinObjects[checkinItem]["id"] +"/meeting/"+ checkinObjects[checkinItem]["meetingsSummary"]["nextMeetingId"] +"'>";
 
           checkinStr += "<td class='checkItemCol'>";
@@ -2460,27 +2467,27 @@ async function getCheckinsDetails(contentDivClassArg) {
           checkinStr += "<div class='chkAvatarImage' style='background-image:url(" + avatarUrl + ")'></div>";
           checkinStr += "</div>";
           checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail'>";
-          checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__user-name'>" + checkinObjects[checkinItem]["participants"][1]["firstName"] + " " + checkinObjects[checkinItem]["participants"][1]["lastName"] + "</div>";
-          checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'>" + checkinObjects[checkinItem]["title"] + "</div>";
+          checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__user-name'>" + checkinObjects[checkinItem].participants[1].firstName + " " + checkinObjects[checkinItem].participants[1].lastName + "</div>";
+          checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'>" + checkinObjects[checkinItem].title + "</div>";
           checkinStr += "</div>";
           checkinStr += "</div>";
           checkinStr += "</div>";
           checkinStr += "</td>";
 
-          var lastModMonth = new Date(checkinObjects[checkinItem]["lastModifiedDate"]).toLocaleDateString('en-GB', {
+          var lastModMonth = new Date(checkinObjects[checkinItem].lastModifiedDate).toLocaleDateString('en-GB', {
             month: 'short'
           }).split(' ');
-          var lastModDay = new Date(checkinObjects[checkinItem]["lastModifiedDate"]).toLocaleDateString('en-GB', {
+          var lastModDay = new Date(checkinObjects[checkinItem].lastModifiedDate).toLocaleDateString('en-GB', {
             day: 'numeric'
           }).split(' ');
           //				var lastMod = new Date(checkinObjects[checkinItem]["lastModifiedDate"]).toLocaleDateString('en-GB', { day : 'numeric',  month : 'short'}).split(' ').join('-');
           checkinStr += "<td class='lastMod checkItemColDate'><div class='month'>" + lastModMonth + "</div><div class='day'>" + lastModDay + "</div></td>";
 
-          if (checkinObjects[checkinItem]["meetingsSummary"]["isNextMeetingCreated"]) {
-            var nextMeetingMonth = new Date(checkinObjects[checkinItem]["meetingsSummary"]["nextMeetingDate"]).toLocaleDateString('en-GB', {
+          if (checkinObjects[checkinItem].meetingsSummary.isNextMeetingCreated) {
+            var nextMeetingMonth = new Date(checkinObjects[checkinItem].meetingsSummary.nextMeetingDate).toLocaleDateString('en-GB', {
               month: 'short'
             }).split(' ');
-            var nextMeetingDay = new Date(checkinObjects[checkinItem]["meetingsSummary"]["nextMeetingDate"]).toLocaleDateString('en-GB', {
+            var nextMeetingDay = new Date(checkinObjects[checkinItem].meetingsSummary.nextMeetingDate).toLocaleDateString('en-GB', {
               day: 'numeric'
             }).split(' ');
             checkinStr += "<td class='nextMeeting checkItemColDate'><div class='month'>" + nextMeetingMonth + "</div><div class='day'>" + nextMeetingDay + "</div></td>";
@@ -2493,15 +2500,15 @@ async function getCheckinsDetails(contentDivClassArg) {
         checkinStr += "</table>";
 
       } else {
-        checkinStr = "<button type='button' id='createNewCheckInsBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets.checkins.notitle[sessionStorage["csCulture"]] + "</button>";
+        checkinStr = "<button type='button' id='createNewCheckInsBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets.checkins.notitle[sessionStorage.csCulture] + "</button>";
       }
       //		console.log("checkinStr : "+ checkinStr);
       tmpContentDiv.innerHTML = checkinStr;
-      return tmpContentDiv
+      return tmpContentDiv;
     })
     .catch(error => {
       console.error("Error building Checkins - ", error);
-    })
+    });
 }
 
 /**
@@ -2532,18 +2539,18 @@ function getFeedDetails(contentDivClassArg) {
       commenttext: $(this).find(".csod-sf-wplist-message p[id$='pLine3'] a:first").text(),
     };
 
-    feedStr += "<tr id='feedItem-" + index + "' class='feedItem clickable-row' data-href='" + feedArr[index]["avatarurl"] + "'>";
+    feedStr += "<tr id='feedItem-" + index + "' class='feedItem clickable-row' data-href='" + feedArr[index].avatarurl + "'>";
 
     feedStr += "<td class='checkItemCol'>";
     feedStr += "<div class='cellContent'>";
     feedStr += "<div class='upcoming-conversations-list--desktop__title-cell' role='button' tabindex='0'>";
     feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-avatar' aria-hidden='true'>";
-    feedStr += "<div class='chkAvatarImage' style='background-image:url(" + feedArr[index]["avatarimg"] + ")'></div>";
+    feedStr += "<div class='chkAvatarImage' style='background-image:url(" + feedArr[index].avatarimg + ")'></div>";
     feedStr += "</div>";
     feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail'>";
 
     var actionDate = "";
-    var theDate = new Date(feedArr[index]["actiondate"]); //.toLocaleDateString('en-GB', { month : 'short', day : 'long'}).split(' ');
+    var theDate = new Date(feedArr[index].actiondate); //.toLocaleDateString('en-GB', { month : 'short', day : 'long'}).split(' ');
     if (isNaN(theDate.getTime())) {
       actionDate = $(this).find(".csod-sf-wplist-message p[id$='pLine3'] span.csod-sf-wplist-ts:first").text();
 
@@ -2559,13 +2566,13 @@ function getFeedDetails(contentDivClassArg) {
     }
     actionDate = "<div class='feedDate'>" + actionDate + "</div>";
 
-    feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__user-name'>" + actionDate + " " + feedArr[index]["name"] + " " + feedArr[index]["action"] + " " + feedArr[index]["recipient"] + "</div>";
+    feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__user-name'>" + actionDate + " " + feedArr[index].name + " " + feedArr[index].action + " " + feedArr[index].recipient + "</div>";
 
 
-    if (feedArr[index]["actionurl"] == null) {
-      feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'><i>" + feedArr[index]["actiontitle"] + "</i></div>";
+    if (feedArr[index].actionurl == null) {
+      feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'><i>" + feedArr[index].actiontitle + "</i></div>";
     } else {
-      feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'><a href='" + feedArr[index]["actionurl"] + "'>" + feedArr[index]["actiontitle"] + "</a></div>";
+      feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'><a href='" + feedArr[index].actionurl + "'>" + feedArr[index].actiontitle + "</a></div>";
     }
     feedStr += "</div>";
     feedStr += "</div>";
@@ -2596,20 +2603,17 @@ function status(response) {
   switch (response.status) {
     case 202:
       return new Promise(r => setTimeout(() => r(response), 1000));
-      break;
     case 200:
-      return Promise.resolve(response)
-      break;
+      return Promise.resolve(response);
     case 204:
-      return Promise.resolve(response)
-      break;
+      return Promise.resolve(response);
   }
 }
 
 /* Get Report Token (if now is within 10 mins of last token update, continue. */
 async function checkReportToken() {
-  if (sessionStorage["reportToken"]) {
-    var tokenDate = sessionStorage["reportTokenDate"];
+  if (sessionStorage.reportToken) {
+    var tokenDate = sessionStorage.reportTokenDate;
     var dateDiff = Math.floor((Date.now() - tokenDate) / 1000 / 60);
     if (dateDiff < 10) {
       return true;
@@ -2624,6 +2628,8 @@ async function checkReportToken() {
 }
 
 /* Update token */
+var tempJSON = "";
+
 function updateReportToken() {
   return fetch("/Analytics/ReportBuilder/index.aspx/GetNewToken", {
       method: 'POST',
@@ -2633,14 +2639,14 @@ function updateReportToken() {
     })
     .then(response => response.json())
     .then(token => {
-      sessionStorage["reportToken"] = token.d;
-      sessionStorage["reportTokenDate"] = Date.now();
+      sessionStorage.reportToken = token.d;
+      sessionStorage.reportTokenDate = Date.now();
       //		console.log("-[ Report Designer Token updated ]-");
-    })
+    });
 }
 
 /* Get reporta meta */
-function fetchManagerReport(reportIDArg, filterArg) {
+function fetchManagerReport(reportIDArg, filterArg, demoRoleArg) {
   var rptDataSet = {};
   return fetch("/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
       method: 'GET',
@@ -2649,7 +2655,7 @@ function fetchManagerReport(reportIDArg, filterArg) {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': sessionStorage["reportToken"],
+        'Authorization': sessionStorage.reportToken,
       },
     })
     //.then(response => response.json())
@@ -2662,17 +2668,33 @@ function fetchManagerReport(reportIDArg, filterArg) {
     })
     .then(reportDetailsResponse => {
 
-      //		reportDetailsResponse.filters[0].values[0].value = filterArg;
+      tempJSON = reportDetailsResponse;
 
+      // Get the filterindex based on user.
+      var filterVal = reportDetailsResponse.filters.map(function(element) {return element.id;}).indexOf(gpeUSERREPORTID[demoRoleArg].filterid);
+
+      // Update filter on report to fetch
+      reportDetailsResponse.filters[filterVal].values[0] = {
+        "isDefault" : "true",
+        "isList" : "true",
+        "order" : 1,
+        "value" : filterArg
+      };
+
+      // Prepare payload array
       var payload = {
         "filters": [],
         "sorting": []
       };
+
+      // Update payload array
       payload.filters = [...reportDetailsResponse.filters];
       payload.sorting = [...reportDetailsResponse.sorting];
 
+      // Populate another array which is to be used in global return
       rptDataSet = reportDetailsResponse;
 
+      // Post report request
       return fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
         method: 'POST',
         mode: 'cors',
@@ -2680,7 +2702,7 @@ function fetchManagerReport(reportIDArg, filterArg) {
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': sessionStorage["reportToken"]
+          'Authorization': sessionStorage.reportToken
         },
         body: JSON.stringify(payload)
       });
@@ -2695,7 +2717,7 @@ function fetchManagerReport(reportIDArg, filterArg) {
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': sessionStorage["reportToken"],
+          'Authorization': sessionStorage.reportToken,
         },
       });
     })
@@ -2719,7 +2741,7 @@ function fetchReport(reportIDArg) {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': sessionStorage["reportToken"],
+        'Authorization': sessionStorage.reportToken,
       },
     })
     //.then(response => response.json())
@@ -2748,7 +2770,7 @@ function fetchReport(reportIDArg) {
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': sessionStorage["reportToken"]
+          'Authorization': sessionStorage.reportToken
         },
         body: JSON.stringify(payload)
       });
@@ -2763,7 +2785,7 @@ function fetchReport(reportIDArg) {
         credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': sessionStorage["reportToken"],
+          'Authorization': sessionStorage.reportToken,
         },
       });
     })
@@ -2803,7 +2825,7 @@ async function createDashboard(reportIDArg, chartTitleArg, chartDivTitleArg, cha
       const chartData = {
         labels: [...labels],
         datasets: [],
-      }
+      };
 
       var legendFlag = "";
 
@@ -2849,7 +2871,7 @@ async function createDashboard(reportIDArg, chartTitleArg, chartDivTitleArg, cha
           fill: true,
         });
         legendFlag = false;
-        console.log(chartData)
+        console.log(chartData);
       } else {
         for (var i in reportCols) {
           dataSet[reportCols[i]] = [];
@@ -2861,13 +2883,17 @@ async function createDashboard(reportIDArg, chartTitleArg, chartDivTitleArg, cha
               }
             }
           }
+          let bgColor = reportData.chartPalette.filter(function(item) {
+            return item.displayName === reportCols[i];
+          });
+
+          bgColor.map(function(item) {
+            return item.color;
+          });
+
           chartData.datasets.push({
             label: reportCols[i],
-            backgroundColor: reportData.chartPalette.filter(function(item) {
-              return item.displayName === reportCols[i]
-            }).map(function(item) {
-              return item.color
-            }),
+            backgroundColor: bgColor,
             data: dataSet[reportCols[i]],
             fill: true,
             datalabels: {
@@ -2938,7 +2964,7 @@ async function createDashboard(reportIDArg, chartTitleArg, chartDivTitleArg, cha
       var myChart = new Chart(ctx, config);
 
       var tempCol = generateColumns(reportTBLColumns);
-      var tempData = generateReportData(reportTBLData, reportTBLColumns)
+      var tempData = generateReportData(reportTBLData, reportTBLColumns);
       return Promise.all([tempCol, tempData])
         .then(response => {
           //			console.log(response);
@@ -2962,8 +2988,8 @@ async function generateColumns(colArg) {
       field: e,
       title: e,
       sortable: true
-    }
-  })
+    };
+  });
   //	return colArr;
 }
 
@@ -2979,17 +3005,17 @@ async function generateReportData(dataArg, colArg) {
 
 var tempReport = "";
 async function buildDashboards(demoRoleArg) {
-  if (cs_DashboardArray[demoRoleArg]["reports"].length != 0) {
+  if (cs_DashboardArray[demoRoleArg].reports.length != 0) {
     return await new Promise((resolve, reject) => {
       let reportToken = checkReportToken();
       $.when(reportToken)
         .then((data) => {
           //				console.log("-[ Initiate Dashboard Reports ]-");
           //var getReportData = async (reports) => {
-          resolve(getReportData(cs_DashboardArray[demoRoleArg]["reports"], demoRoleArg));
+          resolve(getReportData(cs_DashboardArray[demoRoleArg].reports, demoRoleArg));
         })
         .catch(error => console.error("Error bulding navigation menu: " + error));
-    })
+    });
   } else {
     console.log("no reports");
     return true;
@@ -3074,7 +3100,7 @@ var getReportData = async (reports, demoRoleArg) => {
         //$table = $("ReportTable"+reportResponse[2]);
         $table.appendTo(modalContent);
         $table.bootstrapTable({
-          locale: sessionStorage["csCulture"],
+          locale: sessionStorage.csCulture,
           exportDataType: true,
           exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel'],
           pageSize: 25,
@@ -3091,7 +3117,7 @@ var getReportData = async (reports, demoRoleArg) => {
           showColumnsToggleAll: true,
           columns: reportColumns,
           data: reportData
-        })
+        });
 
         var divTemp = document.getElementById("cs_report_" + reportID);
         divTemp.appendChild(modalTbl);
@@ -3099,12 +3125,12 @@ var getReportData = async (reports, demoRoleArg) => {
         $("#cs_report_" + reportID + " .card").click(function() {
           $("#modalTable_" + reportID).modal("toggle");
           $("#ReportTable" + reportID).bootstrapTable('refreshOptions', {});
-        })
+        });
       });
       //						$("div[id='cs_report_"+reportIDresp+"'] .loader").css("display","none");
     })
     .catch(error => console.error("Error in getting report data: " + error));
-}
+};
 
 /*************************************************************************************************************************************/
 /*************************************************************************************************************************************/
@@ -3115,13 +3141,13 @@ $(function() {
       console.log("---*** TOKEN ***---");
       return true;
     })
-    .then(() => buildNav(gpeDEMOROLE, gpeTARGETNAVDIV, sessionStorage["csCulture"]))
+    .then(() => buildNav(gpeDEMOROLE, gpeTARGETNAVDIV, sessionStorage.csCulture))
     .then(resp => {
       console.log("---*** BUILD NAV ***---");
       return true;
     })
 
-    .then(() => buildWidgets(getAccessDetails(accessURLs), sessionStorage["csCulture"]))
+    .then(() => buildWidgets(getAccessDetails(accessURLs), sessionStorage.csCulture))
     .then(resp => {
       console.log("---*** BUILD WIDGETS & DASHBOARDS***---");
       return buildDashboards(gpeDEMOROLE);
@@ -3140,8 +3166,8 @@ $(function() {
       $('.trq-tab-link--flat').click(function(e) {
         //console.log("hej");
         setTimeout(function() {
-          $("#feedContents").niceScroll().resize()
-        }, 200)
+          $("#feedContents").niceScroll().resize();
+        }, 200);
       });
 
       // Delete sessionStorage upon logout
@@ -3156,8 +3182,8 @@ $(function() {
       if ($('#USR-left').children().length == 0) {
         // do something
         console.log("you should remove USR LEFT");
-        $(".gpewp_USR").css("grid-template-columns", "1fr")
-        $(".gpewp_USR").css("grid-template-areas", "gpewp_USR-right")
+        $(".gpewp_USR").css("grid-template-columns", "1fr");
+        $(".gpewp_USR").css("grid-template-areas", "gpewp_USR-right");
       }
 
       console.log("We'll know for the first time.");
