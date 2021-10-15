@@ -1127,6 +1127,19 @@ var cs_DashboardDetailsArray = {
   }
 };
 
+const gpeUSERREPORTID = {
+    MGR: {
+      reportid: 51,
+      filterid: -2,
+      showcolumns : ["user_name_first_70", "user_name_last_70", "user_pos_70"]
+    },
+    HRD: {
+      reportid: 51,
+      filterid: 774,
+      showcolumns : ["user_name_first_70", "user_name_last_70", "user_pos_70"]
+    }
+};
+
 const gpeABOUTCARDDIV = "gpewp_topcontainer_upper";
 const gpeUSRMAINDIV = "USR-right";
 const gpeUSRLEFTDIV = "USR-left";
@@ -1136,16 +1149,6 @@ const gpeTARGETNAVDIV = "gpewp_topcontainer_nav";
 const gpeUSERNAME = document.getElementById(gpeDEMOUSERDIV).getAttribute(gpeDEMOUSERDIV).toLowerCase().split(";");
 const gpeDEMOROLE = getDemoRole(document.getElementById(gpeDEMOPERSONADIV).getAttribute(gpeDEMOPERSONADIV));
 const gpePRIMARYBGCSS = $('.c-nav-user').css('background-color');
-const gpeUSERREPORTID = {
-    MGR: {
-      reportid: 51,
-      filterid: 688
-    },
-    HRD: {
-      reportid: 51,
-      filterid: 689,
-    }
-};
 
 /**
  * Returns demorole abbreviation from custom field
@@ -1613,13 +1616,17 @@ async function buildWidget(contentArr, colArg, colIDArg, rowIDArg, targetColDivI
     .catch(error => console.error("Error in getGoalsDetails: " + error));
 }
 
-/*
- * Build Card function
- */
+
 /**
- *
- * @param
- * @param
+ * This function builds a bootstrap card dynamically based on arguments given.
+ * @param {string} cardTitleArg - Title of the card.
+ * @param {string} cardTitleHrefArg - URL on the card title.
+ * @param {integer} colArg - Bootstrap column width. Max 12.
+ * @param {string} colIDArg - ID of the card column.
+ * @param {string} rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
+ * @param {string} targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
+ * @param {string} contentDivClassArg - css class name of the content. This in order to be able to further style the card.
+ * @param {object} contentArg - main content of the card.
  * @returns
  */
 async function buildCard_NEW(cardTitleArg, cardTitleHrefArg, colArg, colIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, contentArg) {
@@ -2207,48 +2214,92 @@ function checkJWT() {
 }
 
 /**
- *
- * @param
- * @param
- * @returns
+ * Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
+ * @param {array} accessArrArg -
+ * @param {string} appendDivArg -
+ * @param {array} usernameArg -
+ * @param {string} demoRoleArg -
+ * @returns HTML table to be put on the welcome page
  */
-function buildExtendedWidget(accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg) {
-
+async function buildExtendedWidget(accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg) {
   const userName = usernameArg[0][0].concat(usernameArg[1]);
-
-  console.log(userName);
-
   let reportToken = checkReportToken();
   $.when(reportToken)
     .then((data) => {
       return fetchManagerReport(reportIDArg, userName, demoRoleArg);
     })
     .then(reportresp => {
-      console.log(reportresp[0].data);
-//      console.log(reportresp[0].data.length);
+        const userArr = reportresp[0].data;
+        const userMetaArr = reportresp[1];
+        const [, ...userData] = [...new Set(userArr.map(x => x))];
 
+        // Fix columns array for the table
+        var tempCol = userMetaArr.columns.map((e) => {
+          return {
+            field: e.name+"_"+e.entityId,
+            title: e.title,
+            visible: gpeUSERREPORTID[demoRoleArg].showcolumns.includes(e.name+"_"+e.entityId),
+            sortable: true
+          };
+        });
+
+        // Fix data array for the table
+        var tempData = userData.map(function(row) {
+          return row.reduce(function(result, field, index) {
+            result[tempCol[index].field] = field;
+            return result;
+          }, {});
+        });
+
+        console.log(tempCol);
+        console.log(tempData);
+        // var divTemp = document.getElementById("cs_report_"+reportID);
+
+        var reportContentDiv = document.createElement("div");
+        reportContentDiv.setAttribute("id", "user_table_" + reportIDArg);
+        reportContentDiv.className = "user_table";
+
+        var $table;
+        $table = $("<table id='extReport" + reportIDArg + "'>");
+        //$table = $("ReportTable"+reportResponse[2]);
+        $table.appendTo(reportContentDiv);
+        $table.bootstrapTable({
+          locale: sessionStorage.csCulture,
+          exportDataType: true,
+          exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel'],
+          pageSize: 25,
+          pagination: true, // Allow pagination
+          search: true, // Allow search
+          searchHighlight: true,
+          showColumns: true,
+          showColumnsSearch: true,
+          sortClass: "table-active",
+          height: "500",
+          checkboxHeader: true,
+          showToggle: false,
+          detailView: false,
+          showColumnsToggleAll: true,
+          columns: tempCol,
+          data: tempData
+        });
+        return reportContentDiv;
+    })
+    .then(reportContent => {
+
+        var cardTitle = "";                                 // cardTitleArg - Title of the card.
+        var cardLink = "";                                  // cardTitleHrefArg - URL on the card title.
+        var cardWidth = 12;                                 // colArg - Bootstrap column width. Max 12.
+        var cardColID = "userReport_Col_" + reportIDArg;    // colIDArg - ID of the card column.
+        var cardRowID = "userReport_Row_" + reportIDArg;    // rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
+        var targetColDivID = appendDivArg;                  // targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
+        var contentDivClass = "userReport";                 // contentDivClassArg - css class name of the content. This in order to be able to further style the card.
+        var content = reportContent;                        // contentArg - main content of the card.
+
+        buildCard_NEW(cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content);
     })
     .catch(error => console.error("error with building manager page: " + error));
 
   /*
-
-  				for(var user in userData["data"]){
-  					var goalUrlStr = "/services/api/goalSummary/summary/" + userData["data"][user]["id"] +"?StartDate=2021-01-01&EndDate=2021-12-24";
-  					async_request.push($.ajax({
-  						type: "GET",
-  						url: goalUrlStr,
-  						contentType: "json",
-  						beforeSend: function (xhr) {
-  							xhr.setRequestHeader('Cache-Control', 'no-cache');
-  							xhr.setRequestHeader('Content-Type', 'application/json');
-  							xhr.setRequestHeader("Authorization", 'Bearer '+ sessionStorage["csToken"]);
-  						},
-  						success: function(data){
-  							goalResponses.push(data["data"]);
-  						}
-  					}));
-  				}
-  				$.when.apply(null, async_request).done( function(){
 
   					// all done
 
@@ -2671,7 +2722,7 @@ function fetchManagerReport(reportIDArg, filterArg, demoRoleArg) {
       tempJSON = reportDetailsResponse;
 
       // Get the filterindex based on user.
-      var filterVal = reportDetailsResponse.filters.map(function(element) {return element.id;}).indexOf(gpeUSERREPORTID[demoRoleArg].filterid);
+      var filterVal = reportDetailsResponse.filters.map(function(element) {return element.column.id;}).indexOf(gpeUSERREPORTID[demoRoleArg].filterid);
 
       // Update filter on report to fetch
       reportDetailsResponse.filters[filterVal].values[0] = {
@@ -2982,10 +3033,10 @@ async function createDashboard(reportIDArg, chartTitleArg, chartDivTitleArg, cha
 }
 
 async function generateColumns(colArg) {
-  return await colArg.map((e) => {
+  return colArg.map((e) => {
     return {
       //field: e.replace(/ /g,"_"),
-      field: e,
+      field: e.replace(/\s/g, ''),
       title: e,
       sortable: true
     };
@@ -2994,9 +3045,9 @@ async function generateColumns(colArg) {
 }
 
 async function generateReportData(dataArg, colArg) {
-  return await dataArg.map(function(row) {
+  return dataArg.map(function(row) {
     return row.reduce(function(result, field, index) {
-      result[colArg[index]] = field;
+      result[colArg[index].replace(/\s/g, '')] = field;
       return result;
     }, {});
   });
@@ -3124,7 +3175,7 @@ var getReportData = async (reports, demoRoleArg) => {
 
         $("#cs_report_" + reportID + " .card").click(function() {
           $("#modalTable_" + reportID).modal("toggle");
-          $("#ReportTable" + reportID).bootstrapTable('refreshOptions', {});
+//          $("#ReportTable" + reportID).bootstrapTable('refreshOptions', {});
         });
       });
       //						$("div[id='cs_report_"+reportIDresp+"'] .loader").css("display","none");
