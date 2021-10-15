@@ -788,7 +788,7 @@ const approvalURLs = {
  */
 const cs_customLocale = {
   ManagerWidgetTitle: {
-    "en-US": "Manager Widget",
+    "en-US": "Team widget",
   },
   ManagerToggleSwitch: {
     "en-US": "Team View",
@@ -953,8 +953,8 @@ REC
 */
 var cs_DashboardArray = {
   "MGR": {
-          "reports": [],
-    //		"reports": [2, 3, 14, 19, 46, 47, 48],
+//          "reports": [],
+      		"reports": [2, 3, 14, 19, 46, 47, 48],
     //		"reports": [3],
   },
   "HRD": {
@@ -1131,12 +1131,12 @@ const gpeUSERREPORTID = {
     MGR: {
       reportid: 51,
       filterid: -2,
-      showcolumns : ["user_name_first_70", "user_name_last_70", "user_pos_70"]
+      showcolumns : ["User Full Name_70", "user_hire_dt_orig_70", "user_pos_70"]
     },
     HRD: {
       reportid: 51,
       filterid: 774,
-      showcolumns : ["user_name_first_70", "user_name_last_70", "user_pos_70"]
+      showcolumns : ["User Full Name_70", "user_hire_dt_orig_70", "user_pos_70"]
     }
 };
 
@@ -1292,7 +1292,7 @@ async function buildNav(demoRoleArg, targetNavDiv, cultureArg) {
     topNavBtnUSR.innerHTML = cs_customLocale.topNavigationTitle.USR[cultureArg]; //sessionStorage["csCulture"]
 
     topNavItmUSR.appendChild(topNavBtnUSR);
-
+    var topNavItmRole = 0;
     if (demoRoleArg == "HRM") demoRoleArg = "HRD"; // Fix until we have update all the different areas from HRM to HRD
     switch (demoRoleArg) {
       case "REC":
@@ -1302,7 +1302,7 @@ async function buildNav(demoRoleArg, targetNavDiv, cultureArg) {
       case "ADM":
         //if (demoRoleArg == "MGR") buildExtendedWidget(getAccessDetails(accessURLs), demoRoleArg + "-right", gpeUSERREPORTID[demoRoleArg].reportid, gpeUSERNAME, demoRoleArg);
         if(gpeUSERREPORTID[demoRoleArg]) buildExtendedWidget(getAccessDetails(accessURLs), demoRoleArg + "-right", gpeUSERREPORTID[demoRoleArg].reportid, gpeUSERNAME, demoRoleArg);
-        var topNavItmRole = buildExtraNavItem(demoRoleArg, cultureArg);
+          topNavItmRole = buildExtraNavItem(demoRoleArg, cultureArg);
         break;
     }
 
@@ -1328,7 +1328,7 @@ async function buildNav(demoRoleArg, targetNavDiv, cultureArg) {
     topNavItmQLS.appendChild(topNavBtnQLS);
 
     topNavUL.appendChild(topNavItmUSR);
-    if (typeof topNavItmRole !== 'undefined') {
+    if (topNavItmRole != 0) {
       topNavUL.appendChild(topNavItmRole);
     }
     topNavUL.appendChild(topNavItmQLS);
@@ -2223,9 +2223,26 @@ function checkJWT() {
  */
 async function buildExtendedWidget(accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg) {
   const userName = usernameArg[0][0].concat(usernameArg[1]);
+  var rowID = "";
   let reportToken = checkReportToken();
   $.when(reportToken)
     .then((data) => {
+
+      var reportContentDiv = document.createElement("div");
+      reportContentDiv.setAttribute("id", "userReport" + reportIDArg);
+      reportContentDiv.className = "user_table";
+
+      var cardTitle = cs_customLocale.ManagerWidgetTitle[sessionStorage.csCulture];     // cardTitleArg - Title of the card.
+      var cardLink = "";                                                                // cardTitleHrefArg - URL on the card title.
+      var cardWidth = 12;                                                               // colArg - Bootstrap column width. Max 12.
+      var cardColID = "userReport_Col_" + reportIDArg;                                  // colIDArg - ID of the card column.
+      var cardRowID = "userReport_Row_" + reportIDArg;                                  // rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
+      var targetColDivID = appendDivArg;                                                // targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
+      var contentDivClass = "userReport";                                               // contentDivClassArg - css class name of the content. This in order to be able to further style the card.
+      var content = reportContentDiv;                                                      // contentArg - main content of the card.
+
+      buildCard_NEW(cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content);
+
       return fetchManagerReport(reportIDArg, userName, demoRoleArg);
     })
     .then(reportresp => {
@@ -2251,14 +2268,7 @@ async function buildExtendedWidget(accessArrArg, appendDivArg, reportIDArg, user
           }, {});
         });
 
-        console.log(tempCol);
-        console.log(tempData);
-        // var divTemp = document.getElementById("cs_report_"+reportID);
-
-        var reportContentDiv = document.createElement("div");
-        reportContentDiv.setAttribute("id", "user_table_" + reportIDArg);
-        reportContentDiv.className = "user_table";
-
+        var reportContentDiv = document.getElementById("userReport"+reportIDArg);
         var $table;
         $table = $("<table id='extReport" + reportIDArg + "'>");
         //$table = $("ReportTable"+reportResponse[2]);
@@ -2274,7 +2284,6 @@ async function buildExtendedWidget(accessArrArg, appendDivArg, reportIDArg, user
           showColumns: true,
           showColumnsSearch: true,
           sortClass: "table-active",
-          height: "500",
           checkboxHeader: true,
           showToggle: false,
           detailView: false,
@@ -2284,162 +2293,10 @@ async function buildExtendedWidget(accessArrArg, appendDivArg, reportIDArg, user
         });
         return reportContentDiv;
     })
-    .then(reportContent => {
-
-        var cardTitle = "";                                 // cardTitleArg - Title of the card.
-        var cardLink = "";                                  // cardTitleHrefArg - URL on the card title.
-        var cardWidth = 12;                                 // colArg - Bootstrap column width. Max 12.
-        var cardColID = "userReport_Col_" + reportIDArg;    // colIDArg - ID of the card column.
-        var cardRowID = "userReport_Row_" + reportIDArg;    // rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
-        var targetColDivID = appendDivArg;                  // targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
-        var contentDivClass = "userReport";                 // contentDivClassArg - css class name of the content. This in order to be able to further style the card.
-        var content = reportContent;                        // contentArg - main content of the card.
-
-        buildCard_NEW(cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content);
+    .then((cardRowID) => {
+      $("div[id='"+cardRowID+"'] .loader").css("display","none");
     })
     .catch(error => console.error("error with building manager page: " + error));
-
-  /*
-
-  					// all done
-
-  					var goalSummaryArr = [];
-  					for(var goalArr in goalResponses){
-  						var goalProgress = 0;
-  						var goalWeight = 0;
-  						for(var goalItem in goalResponses[goalArr]){
-  							goalProgress += goalResponses[goalArr][goalItem]["Weight"]*goalResponses[goalArr][goalItem]["Progress"];
-  							goalWeight += goalResponses[goalArr][goalItem]["Weight"];
-  						}
-  						//var totalGoalProgress = goalProgress / goalWeight;
-  						goalSummaryArr[goalArr] = Math.round(goalProgress / goalWeight)+"%";
-  					}
-
-  //						console.log("goal summary: ");
-  //						console.log(goalSummaryArr);
-
-  						let managerWidgetStr = "<table border='0' cellspacing='0' cellpadding='0' width='100%' class='table table-hover'>";
-  						managerWidgetStr += "<thead>";
-  						managerWidgetStr += "<tr>";
-  						managerWidgetStr += "<th class='checkHeaderCol'>"+ cs_customLocale["ManagerTableHeader1"][sessionStorage["csCulture"]]  +"</th>";
-  						managerWidgetStr += "<th class='checkHeaderCol'>"+ cs_customLocale["ManagerTableHeader2"][sessionStorage["csCulture"]]  +"</th>";
-  						managerWidgetStr += "<th class='checkHeaderCol'>"+ cs_customLocale["ManagerTableHeader3"][sessionStorage["csCulture"]] +"</th>";
-  						managerWidgetStr += "</tr>";
-  						managerWidgetStr += "</thead>";
-
-  						managerWidgetStr += "<tbody>";
-  					for(var directReport in userData["data"]){
-  						//console.log("build html");
-  						//console.log(emplData[directReport]);
-
-  						var hostName = window.location.host.split('.');
-
-  						if(emplData[directReport]["pictureUrl"] != null){
-  							var avatarUrl = "/clientimg/"+sessionStorage["csCorp"]+"/users/photos/"+emplData[directReport]["pictureUrl"];
-  						}else{
-  							var avatarUrl = "/phnx/images/nophoto.png";
-  						}
-
-  //							managerWidgetStr += "<tr data-toggle='collapse' data-target='#user-"+directReport+"' class='accordion-toggle'>";
-  						managerWidgetStr += "<tr data-bs-toggle='collapse' data-bs-target='#user-"+directReport+"' class='accordion-toggle'>";
-
-  						managerWidgetStr += "<td class='checkItemCol'>";
-  						managerWidgetStr += 	"<div class='cellContent'>";
-  						managerWidgetStr +=		"<div class='upcoming-conversations-list--desktop__title-cell' role='button' tabindex='0'>";
-  						managerWidgetStr +=			"<div class='upcoming-conversations-list--desktop__title-cell-avatar' aria-hidden='true'>";
-  						managerWidgetStr +=				"<div class='chkAvatarImage' style='background-image:url("+avatarUrl+")'></div>";
-  						managerWidgetStr +=			"</div>";
-  						managerWidgetStr +=			"<div class='upcoming-conversations-list--desktop__title-cell-detail'>";
-  						managerWidgetStr +=				"<div class='upcoming-conversations-list--desktop__title-cell-detail__user-name'>"+ emplData[directReport]["firstName"] +" "+ emplData[directReport]["lastName"] +"</div>";
-  						managerWidgetStr +=				"<div class='upcoming-conversations-list--desktop__title-cell-detail__title'>"+ emplData[directReport]["position"] +"</div>";
-  						managerWidgetStr +=			"</div>";
-  						managerWidgetStr +=		"</div>";
-  						managerWidgetStr += 	"</div>";
-  						managerWidgetStr += "</td>";
-
-  						managerWidgetStr += "<td class='checkItemCol'>";
-  						managerWidgetStr += 	"<div class='cellContent goalContent'>";
-  						//managerWidgetStr +=		"<div class='upcoming-conversations-list--desktop__title-cell' role='button' tabindex='0'> GOAL DATA";
-  						managerWidgetStr +=		"<div class='upcoming-conversations-list--desktop__title-cell' role='button' tabindex='0'>"+ goalSummaryArr[directReport];
-  						managerWidgetStr +=		"</div>";
-  						managerWidgetStr += 	"</div>";
-  						managerWidgetStr += "</td>";
-
-  						managerWidgetStr += "<td class='checkItemCol'>";
-  						managerWidgetStr += 	"<div class='cellContent'>";
-  						managerWidgetStr +=		"<div class='upcoming-conversations-list--desktop__title-cell' role='button' tabindex='0'> DATA";
-  						managerWidgetStr +=		"</div>";
-  						managerWidgetStr += 	"</div>";
-  						managerWidgetStr += "</td>";
-
-  						managerWidgetStr += "</tr>";
-
-  						managerWidgetStr += "<tr>";
-  						managerWidgetStr += 	"<td colspan='12' class='hiddenRow'>";
-  						managerWidgetStr += 		"<div class='accordian-body collapse' id='user-"+directReport+"'>";
-  						managerWidgetStr += 			"<table class='table table-striped'>";
-  						managerWidgetStr += 				"<thead>";
-  						managerWidgetStr += 					"<tr class='info'>";
-  						managerWidgetStr += 						"<th>E-mail</th>";
-  						managerWidgetStr += 						"<th>Last Hire Date</th>";
-  						managerWidgetStr += 						"<th>Address</th>";
-  						managerWidgetStr += 						"<th>Mobile</th>";
-  						managerWidgetStr += 					"</tr>";
-  						managerWidgetStr += 				"</thead>";
-  						managerWidgetStr += 				"<tbody>";
-  						managerWidgetStr += 					"<tr>";
-  						managerWidgetStr += 						"<td class='upcoming-conversations-list--desktop__title-cell-detail'>"+ userData["data"][directReport]["primaryEmail"] +"</td>";
-  						managerWidgetStr += 						"<td class='upcoming-conversations-list--desktop__title-cell-detail'>"+ userData["data"][directReport]["workerStatus"]["lastHireDate"] +"</td>";
-  						managerWidgetStr += 						"<td class='upcoming-conversations-list--desktop__title-cell-detail'>"+ userData["data"][directReport]["address"]["line1"] +" <br> "+ userData["data"][directReport]["address"]["zipCode"]  +" <br> "+ userData["data"][directReport]["address"]["city"] +" <br> "+  userData["data"][directReport]["address"]["country"] +"</td>";
-  						managerWidgetStr += 						"<td class='upcoming-conversations-list--desktop__title-cell-detail'>"+ userData["data"][directReport]["mobilePhone"] +"</td>";
-  						managerWidgetStr += 					"</tr>";
-  						managerWidgetStr += 				"</tbody>";
-  						managerWidgetStr += 			"</table>";
-  						managerWidgetStr += 		"</div>";
-  						managerWidgetStr += 	"</td>";
-  						managerWidgetStr += "</tr>";
-  					}
-  					managerWidgetStr += "</table>";
-
-  					managerWidgetDiv = document.createElement("div");
-  					managerWidgetDiv.className = "manager_div";
-  					managerWidgetDiv.setAttribute("id", "manager_div");
-  					managerWidgetDiv.innerHTML = managerWidgetStr;
-
-  					buildCard_NEW(
-  						cs_customLocale["ManagerWidgetTitle"][sessionStorage["csCulture"]],
-  						"#",
-  						12,
-  						"cs_main_1234",
-  						"row_12",
-  						//"MGR-right",
-  						appendDivArg,
-  						"userContents",
-  						managerWidgetDiv
-  					)
-  					.then(mainDiv => {
-  						$("div[id='"+mainDiv+"'] .loader").css("display","none");
-  					})
-  					.catch(error => {
-  						console.error("error with printing manager widget: "+ error);
-  					});
-  					//$("div[class='"+managerWidgetDiv.className+"']").parent(".card-body").children(".loader").css("display","none");
-  					return true;
-  					//resolve();
-  				})
-  			});
-  		}else{
-  //			console.log("**************** DIRECT REPORTS NOT FOUND ****************");
-  			return true;
-  			resolve();
-  		}
-  	return true;
-  //	resolve();
-  	})
-  	.catch(error => {
-  		console.error("error with building manager page "+ error);
-  	});
-  */
 }
 
 /**
