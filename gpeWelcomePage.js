@@ -1402,12 +1402,12 @@ async function getWidgetData(widgetIDArg) {
 		$.when(widgetContentDiv)
 			.then(widgetData => {
 				//resolve(buildWidget(widgetIDArg, widgetColumnWidth, "cs_main "+widgetIDArg.id, "widgetData_"+widgetColumnID, targetDiv, "cs_"+widgetIDArg.id, widgetData));
-				return buildWidget(widgetIDArg, widgetColumnWidth, "cs_main_" + widgetIDArg.id, "widgetData_" + widgetColumnID, targetDiv, "cs_" + widgetIDArg.id, widgetData);
+				return generateHTMLWidget(widgetIDArg, widgetColumnWidth, "cs_main_" + widgetIDArg.id, "widgetData_" + widgetColumnID, targetDiv, "cs_" + widgetIDArg.id, widgetData);
 				//return widgetIDArg;
 			})
 			.then(contentDiv => {
-				console.log("widgetContentDiv");
-				console.log(widgetContentDiv);
+				// console.log("widgetContentDiv");
+				// console.log(widgetContentDiv);
 				var tmpRowDiv = document.getElementById(targetDiv);
 				tmpRowDiv.appendChild(contentDiv);
 
@@ -1434,47 +1434,60 @@ async function getWidgetData(widgetIDArg) {
 	});
 }
 
-/*
- * buildWidgets
- */
+
 /**
  *
  * @param
  * @param
  * @returns
  */
+ // buildWidgets
+async function buildWidgets(accessArrArg, cultureArg) {
+	return new Promise((resolve, reject) => {
+		// Sort array on widgetPrio column
+		var widgetOrderedArr = accessArrArg.sort((a, b) => a.widgetPrio - b.widgetPrio);
+		// Get all widgets (widgetPrio = 99 means it is not a widget and should not be used)
+		widgetIDArr = widgetOrderedArr.filter(v => +v.widgetPrio < 99);
+		// Execute!
+		//resolve(createWidget(widgetIDArr));
+		resolve(createWidget(widgetIDArr));
+	})
+	.catch(error => {
+		console.error("Error bulding Welcome Page: " + error);
+		reject(error);
+	});
+}
+
+/*
 async function buildWidgets(accessArrArg, cultureArg) {
 	return new Promise((resolve, reject) => {
 		let aboutDetails = buildAboutCard(gpeABOUTCARDDIV);
 		$.when(aboutDetails)
+		.then((res) => {
+			let quickLinks = buildQuickLinksCard(accessArrArg, cultureArg);
+			getApprovalDetails(approvalURLs, cultureArg, gpeDEMOROLE);
+			$.when(quickLinks)
 			.then((res) => {
-				let quickLinks = buildQuickLinksCard(accessArrArg, cultureArg);
-				getApprovalDetails(approvalURLs, cultureArg, gpeDEMOROLE);
-				$.when(quickLinks)
-					.then((res) => {
-						//				console.log("-[ Quick links OK ]-");
-						//				console.log(res);
-					})
-					.catch(error => console.error("Error bulding Quick links: " + error));
+				return true;
 			})
-			.then((res) => {
-
+			.catch(error => console.error("Error bulding Quick links: " + error));
+		})
+		.then((res) => {
 				// Sort array on widgetPrio column
-				var widgetOrderedArr = accessArrArg.sort((a, b) => a.widgetPrio - b.widgetPrio);
-
+			var widgetOrderedArr = accessArrArg.sort((a, b) => a.widgetPrio - b.widgetPrio);
 				// Get all widgets (widgetPrio = 99 means it is not a widget and should not be used)
-				widgetIDArr = widgetOrderedArr.filter(v => +v.widgetPrio < 99);
-
+			widgetIDArr = widgetOrderedArr.filter(v => +v.widgetPrio < 99);
 				// Execute!
-				//resolve(createWidget(widgetIDArr));
-				resolve(createWidget(widgetIDArr));
-			})
-			.catch(error => {
-				console.error("Error bulding Welcome Page: " + error);
-				reject(error);
-			});
+			//resolve(createWidget(widgetIDArr));
+			resolve(createWidget(widgetIDArr));
+		})
+		.catch(error => {
+			console.error("Error bulding Welcome Page: " + error);
+			reject(error);
+		});
 	});
 }
+*/
 
 /* createWidget functions */
 /**
@@ -1506,7 +1519,7 @@ var createWidget = (widgets) => {
  * @param
  * @returns
  */
-async function buildWidget(contentArr, colArg, colIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, contentArg) {
+async function generateHTMLWidget(contentArr, colArg, colIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, contentArg) {
 	return new Promise((resolve, reject) => {
 			var tmpRowDiv = "";
 			if (document.getElementById(rowIDArg)) {
@@ -1568,7 +1581,7 @@ async function buildWidget(contentArr, colArg, colIDArg, rowIDArg, targetColDivI
  * @param {object} contentArg - main content of the card.
  * @returns
  */
-async function buildCard_NEW(cardTitleArg, cardTitleHrefArg, colArg, colIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, contentArg) {
+async function generateHTMLCard(cardTitleArg, cardTitleHrefArg, colArg, colIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, contentArg) {
 	var tmpRowDiv = "";
 	if (document.getElementById(rowIDArg)) {
 		tmpRowDiv = document.getElementById(rowIDArg);
@@ -1914,7 +1927,7 @@ function getApprovalDetails(approvalURLsArg, cultureArg, demoRoleArg) {
 	//console.log(aprvlDiv);
 	if (check == "ok") {
 
-		buildCard_NEW(
+		generateHTMLCard(
 				$("td[id$='_ctl00_plnInbox_titleMiddle'] h2").text(),
 				"#",
 				12,
@@ -1962,7 +1975,7 @@ async function getGoalsDetails(contentDivClassArg) {
 		})
 		.then(targetDiv => {
 			// Hide the loader
-			console.log("loaded????");
+			// console.log("loaded????");
 			//$("div[id='" + targetDiv + "']").parent(".card-body").children(".loader").css("display", "none");
 			return targetDiv;
 		})
@@ -2034,9 +2047,38 @@ async function getActionsdetails(contentDivClassArg) {
 	tmpContentDiv.className = contentDivClassArg;
 	tmpContentDiv.setAttribute("id", contentDivClassArg);
 
-	var tmpContent = document.querySelector("table[id*='ctl00_pnlActionItems_content']");
-	//console.log(tmpContent);
-	tmpContentDiv.appendChild(tmpContent);
+	//var tmpContent = document.querySelector("table[id*='ctl00_pnlActionItems_content']");
+	var tmpContent = document.querySelector("div[data-tag='pnlMyTraining'] div[id$='_widgetContainer_ctl00_upnlList'] table");
+	var data = [...tmpContent.rows].map(row => [...row.cells].map(td => {
+		return td.innerHTML.replace(/\s+/g, ' ').trim();
+	}));
+
+	data.shift();
+	var columns = [{
+			title: "Title",
+			sortable: true
+		},
+		{
+			title: "Due Date",
+			sortable: true
+		}
+	];
+
+	var $table;
+	$table = $('<table>');
+	$table.appendTo(tmpContentDiv);
+	$table.bootstrapTable({
+		locale: sessionStorage.csCulture,
+		pageSize: 10,
+		pagination: false, // Allow pagination
+		search: true, // Allow search
+		checkboxHeader: false,
+		showToggle: false,
+		detailView: false,
+		columns: columns,
+		data: data
+	});
+	//tmpContentDiv.appendChild(tmpContent);
 
 	return tmpContentDiv;
 }
@@ -2180,7 +2222,7 @@ async function buildExtendedWidget(accessArrArg, appendDivArg, reportIDArg, user
 			var contentDivClass = "userReport"; // contentDivClassArg - css class name of the content. This in order to be able to further style the card.
 			var content = reportContentDiv; // contentArg - main content of the card.
 
-			buildCard_NEW(cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content);
+			generateHTMLCard(cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content);
 
 			return fetchManagerReport(reportIDArg, userName, demoRoleArg);
 		})
@@ -2427,23 +2469,13 @@ function getFeedDetails(contentDivClassArg) {
 		feedStr += "</td>";
 
 		feedStr += "</tr>";
-
-
 	});
 	feedStr += "</table>";
-
-	//$("div[class='"+contentDivClassArg+"']").parent(".card-body").children(".loader").css("display","none");
 
 	tmpFeedContentDiv.innerHTML = feedStr;
 
 	return tmpFeedContentDiv;
 }
-
-/*************************************************************************************************************************************/
-/*************************************************************************************************************************************/
-// DASHBOARD / REPORT BUILDER FUNCTIONS START
-/*************************************************************************************************************************************/
-/*************************************************************************************************************************************/
 
 /* Status function - used to pause 202 responses */
 /**
@@ -2463,12 +2495,9 @@ function status(response) {
 	}
 }
 
-/* Get Report Token (if now is within 10 mins of last token update, continue. */
 /**
- *
- * @param
- * @param
- * @returns
+ * Checks if Report Token needs to be refreshed
+ * @returns true
  */
 async function checkReportToken() {
 	if (sessionStorage.reportToken) {
@@ -2486,11 +2515,8 @@ async function checkReportToken() {
 	}
 }
 
-/* Update token */
 /**
- *
- * @param
- * @param
+ * Updates sessionStorage with refreshed token details
  * @returns
  */
 function updateReportToken() {
@@ -2504,15 +2530,15 @@ function updateReportToken() {
 		.then(token => {
 			sessionStorage.reportToken = token.d;
 			sessionStorage.reportTokenDate = Date.now();
-			//		console.log("-[ Report Designer Token updated ]-");
+			return token.d;
 		});
 }
 
-/* Get reporta meta */
 /**
- *
- * @param
- * @param
+ * Fetches report metadata used for Manager/HRD extended widget
+ * @param {string} reportIDArg - Report ID to be gathered. Derives from
+ * @param {string} filterArg - derives from gpeUSERREPORTID.filterid
+ * @param {string} demoRoleArg - derives from custom field
  * @returns
  */
 function fetchManagerReport(reportIDArg, filterArg, demoRoleArg) {
@@ -2672,15 +2698,6 @@ function fetchReport(reportIDArg) {
 		});
 }
 
-/*
-var testArr = [];
-var testArr1;
-var testMetaArr;
-*/
-// arg 1 = Report ID
-// arg 2 = ID of the div (in which the chart will be placed)
-// arg 3 =
-// arg 4 = Where to place the chart
 /**
  *
  * @param
@@ -2806,6 +2823,7 @@ async function createDashboard(reportIDArg, chartTitleArg, chartDivTitleArg, cha
 			var myChart = new Chart(ctx, config);
 
 			var tempCol = generateColumns(reportTBLColumns);
+			//console.log(tempCol);
 			var tempData = generateReportData(reportTBLData, reportTBLColumns);
 			return Promise.all([tempCol, tempData])
 				.then(response => {
@@ -2826,12 +2844,11 @@ async function generateColumns(colArg) {
 	return colArg.map((e) => {
 		return {
 			//field: e.replace(/ /g,"_"),
-			field: e.replace(/\s/g, ''),
+			field: e.replace(/[/()\ \s-]+/g, ''),
 			title: e,
 			sortable: true
 		};
 	});
-	//	return colArr;
 }
 
 /**
@@ -2888,7 +2905,7 @@ var getReportData = async (reports, demoRoleArg) => {
 		tmpCanvas.setAttribute("id", "report" + reportID);
 		tmpCanvas.setAttribute("style", "height: 250px, width: 100%");
 
-		buildCard_NEW("", "#", cs_DashboardDetailsArray.reports[reportID].width, "cs_report_" + reportID, "cs_report", demoRoleArg + "-dashboards", "reportContents", tmpCanvas);
+		generateHTMLCard("", "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/"+reportID, cs_DashboardDetailsArray.reports[reportID].width, "cs_report_" + reportID, "cs_report", demoRoleArg + "-dashboards", "reportContents", tmpCanvas);
 
 		return createDashboard(reportID, "report" + reportID, 'reportData' + reportID, demoRoleArg + "-right")
 			.catch(error => {
@@ -2899,7 +2916,7 @@ var getReportData = async (reports, demoRoleArg) => {
 	return Promise.all(requests)
 		.then(reportResponseData => {
 			console.log("-[ Dashboards are now displayed - Lets create some tables/modals  ]-");
-			//console.log(reportResponseData);
+			console.log(reportResponseData);
 
 			// for each report, create modal data
 			reportResponseData.forEach(function(reportResponse) {
@@ -2973,7 +2990,7 @@ var getReportData = async (reports, demoRoleArg) => {
 				var divTemp = document.getElementById("cs_report_" + reportID);
 				divTemp.appendChild(modalTbl);
 
-				$("#cs_report_" + reportID + " .card").click(function() {
+				$("#cs_report_" + reportID + " .card-body").click(function() {
 					$("#modalTable_" + reportID).modal("toggle");
 					//          $("#ReportTable" + reportID).bootstrapTable('refreshOptions', {});
 				});
@@ -3007,14 +3024,21 @@ function lastinline() {
 $(function() {
 	checkJWT()
 		.then(tokenResponse => {
-			//console.log("---*** TOKEN ***---");
 			const gpeNav = buildNav(gpeDEMOROLE, gpeTARGETNAVDIV, sessionStorage.csCulture);
 			const gpeWidgets = buildWidgets(getAccessDetails(accessURLs), sessionStorage.csCulture);
+			const gpeAboutCard = buildAboutCard(gpeABOUTCARDDIV);
+			const gpeQuickLinks = buildQuickLinksCard(accessURLs, sessionStorage.csCulture);
+			const gpeApprovals = getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
 			const gpeDashboards = buildDashboards(gpeDEMOROLE);
-			const allPromise = Promise.all([gpeNav, gpeWidgets, gpeDashboards]);
-
+			const allPromise = Promise.all([
+				gpeNav,
+				gpeAboutCard,
+				gpeQuickLinks,
+				gpeApprovals,
+				gpeWidgets,
+				gpeDashboards]);
 			allPromise.then(values => {
-				//$(".loader").css("display", "none");
+				$(".loader").css("display", "none");
 
 				$("#feedContents").niceScroll({
 					cursorborder: "",
@@ -3022,9 +3046,9 @@ $(function() {
 					autohidemode: false,
 					boxzoom: false
 				});
+				$("#feedContents").niceScroll().resize();
 
 				$('.trq-tab-link--flat').click(function(e) {
-					//console.log("hej");
 					setTimeout(function() {
 						$("#feedContents").niceScroll().resize();
 					}, 200);
