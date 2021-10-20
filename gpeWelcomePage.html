@@ -1294,18 +1294,11 @@ function rgbToHsl(rgbARg, lightnessArg) {
 }
 
 /**
- * setRandomCustomBG - Picks a random background image (URL) from array and updates css variables used for background images on welcome page.
+ * setCustomBG - Picks a random background image (URL) from array and updates css variables used for background images on welcome page.
  * @param {array} tmpArrayArg - Array of URL
  * @param {string} elementArg -
  * @returns {boolean} true (lazy, yeah... I know)
  */
-function setRandomCustomBG(tmpArrayArg, elementArg) {
-    var bgURL = tmpArrayArg[Math.floor(Math.random() * tmpArrayArg.length)];
-    var cssUpdateStr = "linear-gradient(180deg, #f1f1f100 360px, #f1f1f1 360px), url(" + bgURL + ") no-repeat center center / cover";
-    document.querySelector(elementArg).style.setProperty('--gpewp-banner-background', cssUpdateStr, "important");
-    return true;
-}
-
 function setCustomBG(tmpArrayArg, elementArg, useRandomArg) {
     var bgURL = (useRandomArg == 1) ? tmpArrayArg[Math.floor(Math.random() * tmpArrayArg.length)] : tmpArrayArg;
     var cssUpdateStr = "linear-gradient(180deg, #f1f1f100 360px, #f1f1f1 360px), url(" + bgURL + ") no-repeat center center / cover";
@@ -1353,16 +1346,6 @@ function checkRandomCustomBG() {
             });
     } else {
         return JSON.parse(sessionStorage["csBackgroundJSON"]);
-        /*
-                const tmpbgArr = JSON.parse(sessionStorage["csBackgroundJSON"]);
-                setRandomCustomBG(tmpbgArr, "html");
-
-                const cssPrimaryBG = $('.c-nav-user').css('background-color');
-                document.querySelector('html').style.setProperty('--gpewp-brand-color--primary', cssPrimaryBG, "important");
-
-                const cssPrimaryBG_light = rgbToHsl(cssPrimaryBG, 10)
-                document.querySelector('html').style.setProperty('--gpewp-banner-bg-color--light', cssPrimaryBG_light, "important");
-        */
     }
 }
 
@@ -1417,6 +1400,21 @@ function checkIfImageExists(url, callback) {
     }
 }
 
+/**
+ * updateWelcomePage - Final update on welcome page banner and primary color css
+ * @param {string} cssPrimaryArg - primary colour to be used on banner.
+ * @param {array} topBannerImgURLArg - Array of either an image url OR several image URLs
+ * @param {string} randomArg - 0 = do not randomise, 1 = do randomise
+ * @returns {boolean} true if image exists.
+ */
+function updateWelcomePage(cssPrimaryArg, topBannerImgURLArg, randomArg) {
+    const cssPrimaryBG = cssPrimaryArg;
+    document.querySelector('html').style.setProperty('--gpewp-brand-color--primary', cssPrimaryBG, "important");
+    const cssPrimaryBG_light = rgbToHsl(cssPrimaryBG, 10)
+    document.querySelector('html').style.setProperty('--gpewp-banner-bg-color--light', cssPrimaryBG_light, "important");
+    return setCustomBG(topBannerImgURLArg, "html", randomArg);
+}
+
 const gpeDEMOVISUALS = "demovisuals";
 const gpeBRANDING = getBrandingDetails(gpeDEMOVISUALS);
 
@@ -1425,30 +1423,19 @@ $(function() {
         .then((brandingResponse) => {
             console.log(brandingResponse);
             if (brandingResponse.TopBannerImage != "") {
-                console.log("SET FROM URCF!")
+                console.log("Image is in Custom Field!")
                 const topBannerImgURL = "https://scfiles.csod.com" + brandingResponse.TopBannerImage;
                 const ProspectBG = checkIfImageExists(topBannerImgURL, (exists) => {
                     if (exists) {
-                        console.log("Yes, image exists...");
-
-                        const cssPrimaryBG = brandingResponse.UserHeaderColor;
-                        document.querySelector('html').style.setProperty('--gpewp-brand-color--primary', cssPrimaryBG, "important");
-
-                        const cssPrimaryBG_light = rgbToHsl(cssPrimaryBG, 10)
-                        document.querySelector('html').style.setProperty('--gpewp-banner-bg-color--light', cssPrimaryBG_light, "important");
-
-                        return setCustomBG(topBannerImgURL, "html", 0);
+                        console.log("Yes, image exists.");
+                        return updateWelcomePage(brandingResponse.UserHeaderColor, topBannerImgURL, 0);
                     } else {
+                        console.log("Nope, image does not exist.");
                         const RandomCustomBG = checkRandomCustomBG();
                         $.when(RandomCustomBG)
                             .then((randomBGResponse) => {
                                 const cssPrimaryBG = $('.c-nav-user').css('background-color');
-                                document.querySelector('html').style.setProperty('--gpewp-brand-color--primary', cssPrimaryBG, "important");
-
-                                const cssPrimaryBG_light = rgbToHsl(cssPrimaryBG, 10)
-                                document.querySelector('html').style.setProperty('--gpewp-banner-bg-color--light', cssPrimaryBG_light, "important");
-
-                                return setCustomBG(randomBGResponse, "html", 1);
+                                return updateWelcomePage(cssPrimaryBG, randomBGResponse, 1);
                             })
                     }
                 })
@@ -1457,12 +1444,7 @@ $(function() {
                 $.when(RandomCustomBG)
                     .then((randomBGResponse) => {
                         const cssPrimaryBG = $('.c-nav-user').css('background-color');
-                        document.querySelector('html').style.setProperty('--gpewp-brand-color--primary', cssPrimaryBG, "important");
-
-                        const cssPrimaryBG_light = rgbToHsl(cssPrimaryBG, 10)
-                        document.querySelector('html').style.setProperty('--gpewp-banner-bg-color--light', cssPrimaryBG_light, "important");
-
-                        return setCustomBG(randomBGResponse, "html", 1);
+                        return updateWelcomePage(cssPrimaryBG, randomBGResponse, 1);
                     })
             }
         })
