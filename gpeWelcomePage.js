@@ -5,718 +5,719 @@
  * @version 0.5
  */
 
-const accessURLs = [{
-		"title": "view_your_transcript",
-		"url": "/LMS/UserTranscript/MainView.aspx?Reset=TRUE&tab_page_id=-8",
-		"icon": "fas fa-graduation-cap",
-		"module": "lms",
-		"quicklinkPrio": 4,
-		"widgetPrio": 3
-	},
-	{
-		"title": "development_plans",
-		"url": "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&tab_page_id=-200159413",
-		"icon": "fa-tasks",
-		"module": "epm, careers",
-		"quicklinkPrio": 2,
-		"widgetPrio": 2
-	},
-	{
-		"title": "goals",
-		"url": "/phnx/driver.aspx?routename=Goals/GoalList&tab_page_id=-200159402",
-		"icon": "fa-bullseye",
-		"module": "epm, careers",
-		"quicklinkPrio": 3,
-		"widgetPrio": 1
-	},
-	{
-		"title": "performance_reviews",
-		"url": "/EPM/Reviews/UserReview.aspx?tab_page_id=-18",
-		"icon": "",
-		"module": "epm",
-		"quicklinkPrio": 99,
-		"widgetPrio": 4
-	},
-	{
-		"title": "check_ins",
-		"url": "/ui/perf-check-ins/Check-Ins?utm_source=mainnav&tab_page_id=-222000016",
-		"icon": "fa-calendar-check",
-		"module": "epm, careers",
-		"quicklinkPrio": 1,
-		"widgetPrio": 2
-	},
-	{
-		"title": "live_feed",
-		"url": "/phnx/driver.aspx?routename=Social/Connect/LiveFeed&tab_page_id=-200157002",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 5
-	},
-	{
-		"title": "create_manage_requisitions",
-		"url": "/phnx/driver.aspx?routename=ATS/RecruitingManagement/ManageRequisitions&tab_page_id=-200159034",
-		"icon": "fa-user-astronaut",
-		"module": "ats",
-		"quicklinkPrio": 1,
-		"widgetPrio": 99
-	},
-	{
-		"title": "benchmark",
-		"url": "/benchmark/#/benchmark-dashboard?tab_page_id=-200200000",
-		"icon": "fa-poll-h",
-		"module": "chr",
-		"quicklinkPrio": 1,
-		"widgetPrio": 99
-	},
-	{
-		"title": "campaign_dashboard",
-		"url": "/Engage/Reporting.aspx?tab_page_id=-7402",
-		"icon": "fa-poll",
-		"module": "careers",
-		"quicklinkPrio": 1,
-		"widgetPrio": 99
-	},
-	{
-		"title": "learner_home",
-		"url": "/ui/lms-learner-home/home?tab_page_id=-200300006",
-		"icon": "fas fa-graduation-cap",
-		"module": "lms",
-		"quicklinkPrio": 1,
-		"widgetPrio": 99
-	},
-	{
-		"title": "observation_checklists",
-		"url": "/EPM/POC/ManageChecklist.aspx?tab_page_id=-500200",
-		"icon": "fa-eye",
-		"module": "epm",
-		"quicklinkPrio": 1,
-		"widgetPrio": 99
-	},
-	{
-		"title": "report_builder",
-		"url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000",
-		"icon": "fa-chart-area",
-		"module": "reporting",
-		"quicklinkPrio": 1,
-		"widgetPrio": 99
-	},
-	{
-		"title": "skills_profile",
-		"url": "/phnx/driver.aspx?routename=Social/UniversalProfile/SkillsProfile&tab_page_id=221000366",
-		"icon": "fa-star",
-		"module": "core",
-		"quicklinkPrio": 1,
-		"widgetPrio": 99
-	},
-	{
-		"title": "all_communities",
-		"url": "/phnx/driver.aspx?routename=Social/Communities&tab_page_id=-200157026",
-		"icon": "fa-comments",
-		"module": "lms",
-		"quicklinkPrio": 2,
-		"widgetPrio": 99
-	},
-	{
-		"title": "employee_transitions",
-		"url": "/phnx/driver.aspx?routename=ONB/EmployeeTransitions&tab_page_id=-200157041",
-		"icon": "fa-user-cog",
-		"module": "ats",
-		"quicklinkPrio": 2,
-		"widgetPrio": 99
-	},
-	{
-		"title": "dashboards",
-		"url": "/Dashboard/DashboardView.aspx?tab_page_id=-303",
-		"icon": "fa-tachometer-alt",
-		"module": "reporting",
-		"quicklinkPrio": 2,
-		"widgetPrio": 99
-	},
-	{
-		"title": "manage_campaigns",
-		"url": "/Engage/Authoring.aspx?tab_page_id=-7405",
-		"icon": "fa-search-location",
-		"module": "careers",
-		"quicklinkPrio": 2,
-		"widgetPrio": 99
-	},
-	{
-		"title": "planning",
-		"url": "/pbom/index.aspx?tab_page_id=-200159500",
-		"icon": "fa-map-marked-alt",
-		"module": "chr",
-		"quicklinkPrio": 2,
-		"widgetPrio": 99
-	},
-	{
-		"title": "scheduled_tasks",
-		"url": "/EPM/scheduler/TaskReview.aspx?tab_page_id=-220",
-		"icon": "fa-tasks",
-		"module": "core",
-		"quicklinkPrio": 2,
-		"widgetPrio": 99
-	},
-	{
-		"title": "skills_matrix",
-		"url": "/EPM/SkillsMatrix/User/SkillsMatrixPage.aspx?tab_page_id=-200157022",
-		"icon": "fa-award",
-		"module": "epm",
-		"quicklinkPrio": 2,
-		"widgetPrio": 99
-	},
-	{
-		"title": "hiring_dashboard",
-		"url": "/phnx/driver.aspx?routename=ATS/Dashboard/HiringDashboard&tab_page_id=-200159526",
-		"icon": "fa-address-card",
-		"module": "ats",
-		"quicklinkPrio": 3,
-		"widgetPrio": 99
-	},
-	{
-		"title": "data",
-		"url": "/launchers/mobile.aspx?pu=Analytics/ViewDiscover&tab_page_id=-7556",
-		"icon": "fa-eye",
-		"module": "reporting",
-		"quicklinkPrio": 3,
-		"widgetPrio": 99
-	},
-	{
-		"title": "org_chart",
-		"url": "/launchers/mobile.aspx?pu=Organization/OrgChart&tab_page_id=-200159593",
-		"icon": "fa-sitemap",
-		"module": "core",
-		"quicklinkPrio": 3,
-		"widgetPrio": 99
-	},
-	{
-		"title": "playlists",
-		"url": "/ui/lms-learner-playlist/UsersPlaylists?tab_page_id=-200300052",
-		"icon": "fa-list-alt",
-		"module": "lms",
-		"quicklinkPrio": 3,
-		"widgetPrio": 99
-	},
-	{
-		"title": "internal_career_site",
-		"url": "/ui/internal-career-site/app?tab_page_id=-212000108",
-		"icon": "fa-globe-americas",
-		"module": "ats",
-		"quicklinkPrio": 4,
-		"widgetPrio": 99
-	},
-	{
-		"title": "insights_dashboard",
-		"url": "/insights/#/index?tab_page_id=-200159302",
-		"icon": "fa-pie-chart",
-		"module": "reporting",
-		"quicklinkPrio": 4,
-		"widgetPrio": 99
-	},
-	{
-		"title": "talent_search",
-		"url": "/EPM/TalentSearch/TalentList.aspx?tab_page_id=-501",
-		"icon": "fa-searchengin",
-		"module": "epm",
-		"quicklinkPrio": 4,
-		"widgetPrio": 99
-	},
-	{
-		"title": "events_calendar",
-		"url": "/LMS/catalog/EventsCalendar.aspx?tab_page_id=-10",
-		"icon": "fa-calendar",
-		"module": "lms",
-		"quicklinkPrio": 5,
-		"widgetPrio": 99
-	},
-	{
-		"title": "helicopter_view",
-		"url": "/EPM/Smp/User/CurrentGridPlacement.aspx?tab_page_id=-580203",
-		"icon": "fa-helicopter",
-		"module": "epm",
-		"quicklinkPrio": 5,
-		"widgetPrio": 99
-	},
-	{
-		"title": "interview_manager",
-		"url": "/ATS/Interview/ScheduledInterviews.aspx?tab_page_id=-20017010",
-		"icon": "fa-comments-dollar",
-		"module": "ats",
-		"quicklinkPrio": 5,
-		"widgetPrio": 99
-	},
-	{
-		"title": "standard_reports",
-		"url": "/reports/index.aspx?tab_page_id=-302",
-		"icon": "fa-file-excel",
-		"module": "reporting",
-		"quicklinkPrio": 5,
-		"widgetPrio": 99
-	},
-	{
-		"title": "compensation_statement",
-		"url": "/COMP/Compensation/User/CompensationStatement.aspx?tab_page_id=-507",
-		"icon": "fa-money-check-alt",
-		"module": "epm",
-		"quicklinkPrio": 6,
-		"widgetPrio": 99
-	},
-	{
-		"title": "express_class",
-		"url": "/ui/lms-express-class/app/create/general-info?tab_page_id=-211000001",
-		"icon": "fas fa-graduation-cap",
-		"module": "lms",
-		"quicklinkPrio": 6,
-		"widgetPrio": 99
-	},
-	{
-		"title": "requisition_offer_approvals",
-		"url": "/ATS/Approval/RequisitionRequestsPending.aspx?aar=1&tab_page_id=-20012003",
-		"icon": "fa-balance-scale-right",
-		"module": "ats",
-		"quicklinkPrio": 6,
-		"widgetPrio": 99
-	},
-	{
-		"title": "compensation_plan_approvals",
-		"url": "/EPM/Compensation/User/ApprovalsList.aspx?tab_page_id=-506",
-		"icon": "fa-search-dollar",
-		"module": "epm",
-		"quicklinkPrio": 7,
-		"widgetPrio": 99
-	},
-	{
-		"title": "interests_and_waitlists",
-		"url": "/LMS/ILT/MyWaitlistsAndInterests.aspx?tab_page_id=-131060",
-		"icon": "fa-clock-o",
-		"module": "lms",
-		"quicklinkPrio": 7,
-		"widgetPrio": 99
-	},
-	{
-		"title": "review_applicants",
-		"url": "/ATS/JobRequisition/ReviewCandidates.aspx?tab_page_id=-20010012",
-		"icon": "fa-search-location",
-		"module": "ats",
-		"quicklinkPrio": 7,
-		"widgetPrio": 99
-	},
-	{
-		"title": "career_center",
-		"url": "/EPM/CareerCenter/CareerCenter.aspx?tab_page_id=-13",
-		"icon": "fa-file-contract",
-		"module": "epm",
-		"quicklinkPrio": 8,
-		"widgetPrio": 99
-	},
-	{
-		"title": "submit_requisition_requests",
-		"url": "/ATS/JobRequisitionRequest/RequisitionRequests.aspx?tab_page_id=-20010017",
-		"icon": "fa-paper-plane",
-		"module": "ats",
-		"quicklinkPrio": 8,
-		"widgetPrio": 99
-	},
-	{
-		"title": "recruiting_manager_dashboard",
-		"url": "/phnx/driver.aspx?routename=ATS/Dashboard/Manager&tab_page_id=-200159037",
-		"icon": "fa-paper-plane",
-		"module": "ats",
-		"quicklinkPrio": 9,
-		"widgetPrio": 99
-	},
-	{
-		"title": "recruiting_dashboard",
-		"url": "/phnx/driver.aspx?routename=ATS/Dashboard/Recruiting&tab_page_id=-200159035",
-		"icon": "fa-paper-plane",
-		"module": "ats",
-		"quicklinkPrio": 10,
-		"widgetPrio": 99
-	},
-	{
-		"title": "onboarding_dashboard",
-		"url": "/phnx/driver.aspx?routename=ONB/Dashboard&tab_page_id=-200157070",
-		"icon": "fa-paper-plane",
-		"module": "ats",
-		"quicklinkPrio": 11,
-		"widgetPrio": 99
-	},
-	{
-		"title": "manage_talent_pool",
-		"url": "/phnx/driver.aspx?routename=TalentPools/ManageTalentPools&tab_page_id=-20000753",
-		"icon": "fa-search-dollar",
-		"module": "epm",
-		"quicklinkPrio": 12,
-		"widgetPrio": 99
-	},
-	{
-		"title": "manage_candidates",
-		"url": "/ui/ats-manage-candidates/managecandidates?tab_page_id=-200300336",
-		"icon": "fa-balance-scale-right",
-		"module": "ats",
-		"quicklinkPrio": 13,
-		"widgetPrio": 99
-	},
-	{
-		"title": "candidate_search_query",
-		"url": "/phnx/driver.aspx?routename=ATS/Search/CandidateSearch&tab_page_id=-20010020",
-		"icon": "fa-balance-scale-right",
-		"module": "ats",
-		"quicklinkPrio": 14,
-		"widgetPrio": 99
-	},
-	{
-		"title": "agency_portal",
-		"url": "/ATS/AgencyPortal/MyJobs.aspx?tab_page_id=-20015911",
-		"icon": "",
-		"module": "ats",
-		"quicklinkPrio": 15,
-		"widgetPrio": 99
-	},
-	{
-		"title": "recruiting",
-		"url": "/ATS/admin/selectionmanagement.aspx?tab_page_id=-20008000",
-		"icon": "",
-		"module": "ats",
-		"quicklinkPrio": 16,
-		"widgetPrio": 99
-	},
-	{
-		"title": "all_teams",
-		"url": "/phnx/driver.aspx?routename=Social/Connect/AllTeams&tab_page_id=-200157003",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "catalog",
-		"url": "/LMS/admin/catalog.aspx?tab_page_id=-30",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "certification_management",
-		"url": "/LMS/Cert/Admin/CertManagement.aspx?tab_page_id=-180106",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "compensation",
-		"url": "/EPM/Compensation/Admin/CmpTools.aspx?tab_page_id=-42",
-		"icon": "",
-		"module": "epm",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "competency_assessment_summary",
-		"url": "/EPM/Compassessment/UserCompetencies.aspx?tab_page_id=-520013",
-		"icon": "",
-		"module": "epm",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "cost_model_manager",
-		"url": "/Admin/PlanningCostModelManager.aspx?tab_page_id=-200159700",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "create_tool",
-		"url": "/LMS/CreateTool/Redirect.aspx?tab_page_id=-221000101",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "custom_field_administration",
-		"url": "/admin/ManageCustomFields.aspx?tab_page_id=-118010",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "custom_reports",
-		"url": "/analytics/Main.aspx?tab_page_id=-301",
-		"icon": "",
-		"module": "reporting",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "data_import_wizard",
-		"url": "/ISM/DLW/DataImportWizard.aspx?tab_page_id=-801",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "data_merge",
-		"url": "/LMS/Admin/DataMerge.aspx?tab_page_id=-2002000",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "email",
-		"url": "/Email/admin.aspx?tab_page_id=-105",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "exemption_tracking",
-		"url": "/LMS/Admin/PendingExemptionRequests.aspx?tab_page_id=-20007002",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "facilities_resources",
-		"url": "/LMS/ILT/FacilityList.aspx?tab_page_id=-52",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "form_management",
-		"url": "/phnx/driver.aspx?routename=FormManagement/Admin&tab_page_id=-200157029",
-		"icon": "",
-		"module": "chr",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "ilt_request_forms",
-		"url": "/LMS/ILT/ILTRequestForms.aspx?tab_page_id=-55",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "learning_assignment_tool",
-		"url": "/phnx/driver.aspx?routename=Learning/EnrollTraining/EnrollTrainingManagement&tab_page_id=-200159608",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "manage_employee_learning",
-		"url": "/LMS/Admin/SubordinateLearning.aspx?tab_page_id=-400",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "manage_employee_relationships",
-		"url": "/EPM/peers/admin/EmployeeRelationship.aspx?a=1&tab_page_id=-505",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "manage_events_sessions",
-		"url": "/LMS/ILT/main.aspx?tab_page_id=-49",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "manage_shared_and_dynamic_goals",
-		"url": "/EPM/Goals/ManageShared.aspx?tab_page_id=-580200",
-		"icon": "",
-		"module": "epm, careers",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "marketing",
-		"url": "/email/MarketingEmail.aspx?tab_page_id=-221",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "matr_cula_de_certificaci_n",
-		"url": "/LMS/Designations/Owner/CertEnrollment.aspx?tab_page_id=-610",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "new_connect",
-		"url": "/lms/connect/admin/NewConnectAdmin.aspx?tab_page_id=-200156011",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "on_the_job_training_observers",
-		"url": "/phnx/driver.aspx?routename=Learning/OnTheJobTraining/OJTObservers&tab_page_id=-905251",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "org_units",
-		"url": "/admin/OrgUnits.aspx?tab_page_id=-34",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "performance",
-		"url": "/EPM/admin/CareerTools.aspx?tab_page_id=-37",
-		"icon": "",
-		"module": "epm",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "preferences",
-		"url": "/admin/OUPrefList.aspx?tab_page_id=-29",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "question_bank",
-		"url": "/Evaluations/Tests/AdminQuestionBank.aspx?tab_page_id=-150030",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "report_delivery_setup",
-		"url": "/ISM/ReportDelivery/ReportDeliverySetup.aspx?tab_page_id=-810",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "review_sign_off",
-		"url": "/EPM/ReviewsWeb/ReviewsBulkSignOff.aspx?tab_page_id=-590052",
-		"icon": "",
-		"module": "epm",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "security",
-		"url": "/Security/SecurityRoleAdmin.aspx?tab_page_id=-71",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "succession",
-		"url": "/EPM/Admin/SuccessionMgmt.aspx?tab_page_id=-40",
-		"icon": "",
-		"module": "epm",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "test_engine",
-		"url": "/Evaluations/Tests/AdminTests.aspx?tab_page_id=-203",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "test_grading",
-		"url": "/Evaluations/Tests/PendingGrade.aspx?tab_page_id=-210",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "toolkit",
-		"url": "/ISM/IntegrationSuite.aspx?tab_page_id=-811",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "tools",
-		"url": "/admin/Main.aspx?tab_page_id=-39",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "universal_profile",
-		"url": "/Social/UniversalProfile/UPPageRedirectHandler.ashx?tab_page_id=-20016001",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "users",
-		"url": "/admin/Users.aspx?tab_page_id=-38",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "welcome",
-		"url": "/catalog/CustomPage.aspx?id=221000375&tab_page_id=221000375",
-		"icon": "",
-		"module": "core",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "vendors_instructors",
-		"url": "/LMS/ILT/VendorsMain.aspx?tab_page_id=-51",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	},
-	{
-		"title": "view_your_sessions",
-		"url": "/LMS/catalog/EventsCalendar.aspx?instructor=me&tab_page_id=-54",
-		"icon": "",
-		"module": "lms",
-		"quicklinkPrio": 99,
-		"widgetPrio": 99
-	}
+const accessURLs = [
+ {
+   "title": "check_ins",
+   "url": "/ui/perf-check-ins/Check-Ins?utm_source=mainnav&tab_page_id=-222000016",
+   "icon": "fa-calendar-check",
+   "module": "epm-careers",
+   "quicklinkPrio": 1,
+   "widgetPrio": 2
+ },
+ {
+   "title": "create_manage_requisitions",
+   "url": "/phnx/driver.aspx?routename=ATS/RecruitingManagement/ManageRequisitions&tab_page_id=-200159034",
+   "icon": "fa-user-astronaut",
+   "module": "ats",
+   "quicklinkPrio": 1,
+   "widgetPrio": 99
+ },
+ {
+   "title": "benchmark",
+   "url": "/benchmark/#/benchmark-dashboard?tab_page_id=-200200000",
+   "icon": "fa-poll-h",
+   "module": "chr",
+   "quicklinkPrio": 1,
+   "widgetPrio": 99
+ },
+ {
+   "title": "campaign_dashboard",
+   "url": "/Engage/Reporting.aspx?tab_page_id=-7402",
+   "icon": "fa-poll",
+   "module": "careers",
+   "quicklinkPrio": 1,
+   "widgetPrio": 99
+ },
+ {
+   "title": "observation_checklists",
+   "url": "/EPM/POC/ManageChecklist.aspx?tab_page_id=-500200",
+   "icon": "fa-eye",
+   "module": "epm",
+   "quicklinkPrio": 1,
+   "widgetPrio": 99
+ },
+ {
+   "title": "report_builder",
+   "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000",
+   "icon": "fa-chart-area",
+   "module": "reporting",
+   "quicklinkPrio": 1,
+   "widgetPrio": 99
+ },
+ {
+   "title": "skills_profile",
+   "url": "/phnx/driver.aspx?routename=Social/UniversalProfile/SkillsProfile&tab_page_id=221000366",
+   "icon": "fa-star",
+   "module": "core",
+   "quicklinkPrio": 1,
+   "widgetPrio": 99
+ },
+ {
+   "title": "learner_home",
+   "url": "/ui/lms-learner-home/home?tab_page_id=-200300006",
+   "icon": "fas fa-graduation-cap",
+   "module": "lms",
+   "quicklinkPrio": 1,
+   "widgetPrio": 99
+ },
+ {
+   "title": "development_plans",
+   "url": "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&tab_page_id=-200159413",
+   "icon": "fa-tasks",
+   "module": "epm-careers",
+   "quicklinkPrio": 2,
+   "widgetPrio": 1
+ },
+ {
+   "title": "skills_matrix",
+   "url": "/EPM/SkillsMatrix/User/SkillsMatrixPage.aspx?tab_page_id=-200157022",
+   "icon": "fa-award",
+   "module": "epm",
+   "quicklinkPrio": 2,
+   "widgetPrio": 99
+ },
+ {
+   "title": "employee_transitions",
+   "url": "/phnx/driver.aspx?routename=ONB/EmployeeTransitions&tab_page_id=-200157041",
+   "icon": "fa-user-cog",
+   "module": "ats",
+   "quicklinkPrio": 2,
+   "widgetPrio": 99
+ },
+ {
+   "title": "dashboards",
+   "url": "/Dashboard/DashboardView.aspx?tab_page_id=-303",
+   "icon": "fa-tachometer-alt",
+   "module": "reporting",
+   "quicklinkPrio": 2,
+   "widgetPrio": 99
+ },
+ {
+   "title": "manage_campaigns",
+   "url": "/Engage/Authoring.aspx?tab_page_id=-7405",
+   "icon": "fa-search-location",
+   "module": "careers",
+   "quicklinkPrio": 2,
+   "widgetPrio": 99
+ },
+ {
+   "title": "planning",
+   "url": "/pbom/index.aspx?tab_page_id=-200159500",
+   "icon": "fa-map-marked-alt",
+   "module": "chr",
+   "quicklinkPrio": 2,
+   "widgetPrio": 99
+ },
+ {
+   "title": "scheduled_tasks",
+   "url": "/EPM/scheduler/TaskReview.aspx?tab_page_id=-220",
+   "icon": "fa-tasks",
+   "module": "core",
+   "quicklinkPrio": 2,
+   "widgetPrio": 99
+ },
+ {
+   "title": "all_communities",
+   "url": "/phnx/driver.aspx?routename=Social/Communities&tab_page_id=-200157026",
+   "icon": "fa-comments",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "goals",
+   "url": "/phnx/driver.aspx?routename=Goals/GoalList&tab_page_id=-200159402",
+   "icon": "fa-bullseye",
+   "module": "epm-careers",
+   "quicklinkPrio": 3,
+   "widgetPrio": 1
+ },
+ {
+   "title": "hiring_dashboard",
+   "url": "/phnx/driver.aspx?routename=ATS/Dashboard/HiringDashboard&tab_page_id=-200159526",
+   "icon": "fa-address-card",
+   "module": "ats",
+   "quicklinkPrio": 3,
+   "widgetPrio": 99
+ },
+ {
+   "title": "data",
+   "url": "/launchers/mobile.aspx?pu=Analytics/ViewDiscover&tab_page_id=-7556",
+   "icon": "fa-eye",
+   "module": "reporting",
+   "quicklinkPrio": 3,
+   "widgetPrio": 99
+ },
+ {
+   "title": "org_chart",
+   "url": "/launchers/mobile.aspx?pu=Organization/OrgChart&tab_page_id=-200159593",
+   "icon": "fa-sitemap",
+   "module": "core",
+   "quicklinkPrio": 3,
+   "widgetPrio": 99
+ },
+ {
+   "title": "playlists",
+   "url": "/ui/lms-learner-playlist/UsersPlaylists?tab_page_id=-200300052",
+   "icon": "fa-list-alt",
+   "module": "lms",
+   "quicklinkPrio": 2,
+   "widgetPrio": 99
+ },
+ {
+   "title": "view_your_transcript",
+   "url": "/LMS/UserTranscript/MainView.aspx?Reset=TRUE&tab_page_id=-8",
+   "icon": "fas fa-graduation-cap",
+   "module": "lms",
+   "quicklinkPrio": 5,
+   "widgetPrio": 3
+ },
+ {
+   "title": "talent_search",
+   "url": "/EPM/TalentSearch/TalentList.aspx?tab_page_id=-501",
+   "icon": "fa-searchengin",
+   "module": "epm",
+   "quicklinkPrio": 4,
+   "widgetPrio": 99
+ },
+ {
+   "title": "internal_career_site",
+   "url": "/ui/internal-career-site/app?tab_page_id=-212000108",
+   "icon": "fa-globe-americas",
+   "module": "ats",
+   "quicklinkPrio": 4,
+   "widgetPrio": 99
+ },
+ {
+   "title": "insights_dashboard",
+   "url": "/insights/#/index?tab_page_id=-200159302",
+   "icon": "fa-pie-chart",
+   "module": "reporting",
+   "quicklinkPrio": 4,
+   "widgetPrio": 99
+ },
+ {
+   "title": "helicopter_view",
+   "url": "/EPM/Smp/User/CurrentGridPlacement.aspx?tab_page_id=-580203",
+   "icon": "fa-helicopter",
+   "module": "epm",
+   "quicklinkPrio": 5,
+   "widgetPrio": 99
+ },
+ {
+   "title": "interview_manager",
+   "url": "/ATS/Interview/ScheduledInterviews.aspx?tab_page_id=-20017010",
+   "icon": "fa-comments-dollar",
+   "module": "ats",
+   "quicklinkPrio": 5,
+   "widgetPrio": 99
+ },
+ {
+   "title": "standard_reports",
+   "url": "/reports/index.aspx?tab_page_id=-302",
+   "icon": "fa-file-excel",
+   "module": "reporting",
+   "quicklinkPrio": 5,
+   "widgetPrio": 99
+ },
+ {
+   "title": "events_calendar",
+   "url": "/LMS/catalog/EventsCalendar.aspx?tab_page_id=-10",
+   "icon": "fa-calendar",
+   "module": "lms",
+   "quicklinkPrio": 3,
+   "widgetPrio": 99
+ },
+ {
+   "title": "compensation_statement",
+   "url": "/COMP/Compensation/User/CompensationStatement.aspx?tab_page_id=-507",
+   "icon": "fa-money-check-alt",
+   "module": "epm",
+   "quicklinkPrio": 6,
+   "widgetPrio": 99
+ },
+ {
+   "title": "requisition_offer_approvals",
+   "url": "/ATS/Approval/RequisitionRequestsPending.aspx?aar=1&tab_page_id=-20012003",
+   "icon": "fa-balance-scale-right",
+   "module": "ats",
+   "quicklinkPrio": 6,
+   "widgetPrio": 99
+ },
+ {
+   "title": "express_class",
+   "url": "/ui/lms-express-class/app/create/general-info?tab_page_id=-211000001",
+   "icon": "fas fa-graduation-cap",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "compensation_plan_approvals",
+   "url": "/EPM/Compensation/User/ApprovalsList.aspx?tab_page_id=-506",
+   "icon": "fa-search-dollar",
+   "module": "epm",
+   "quicklinkPrio": 7,
+   "widgetPrio": 99
+ },
+ {
+   "title": "review_applicants",
+   "url": "/ATS/JobRequisition/ReviewCandidates.aspx?tab_page_id=-20010012",
+   "icon": "fa-search-location",
+   "module": "ats",
+   "quicklinkPrio": 7,
+   "widgetPrio": 99
+ },
+ {
+   "title": "interests_and_waitlists",
+   "url": "/LMS/ILT/MyWaitlistsAndInterests.aspx?tab_page_id=-131060",
+   "icon": "fa-clock-o",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "career_center",
+   "url": "/EPM/CareerCenter/CareerCenter.aspx?tab_page_id=-13",
+   "icon": "fa-file-contract",
+   "module": "epm",
+   "quicklinkPrio": 8,
+   "widgetPrio": 99
+ },
+ {
+   "title": "submit_requisition_requests",
+   "url": "/ATS/JobRequisitionRequest/RequisitionRequests.aspx?tab_page_id=-20010017",
+   "icon": "fa-paper-plane",
+   "module": "ats",
+   "quicklinkPrio": 8,
+   "widgetPrio": 99
+ },
+ {
+   "title": "recruiting_manager_dashboard",
+   "url": "/phnx/driver.aspx?routename=ATS/Dashboard/Manager&tab_page_id=-200159037",
+   "icon": "fa-paper-plane",
+   "module": "ats",
+   "quicklinkPrio": 9,
+   "widgetPrio": 99
+ },
+ {
+   "title": "recruiting_dashboard",
+   "url": "/phnx/driver.aspx?routename=ATS/Dashboard/Recruiting&tab_page_id=-200159035",
+   "icon": "fa-paper-plane",
+   "module": "ats",
+   "quicklinkPrio": 10,
+   "widgetPrio": 99
+ },
+ {
+   "title": "onboarding_dashboard",
+   "url": "/phnx/driver.aspx?routename=ONB/Dashboard&tab_page_id=-200157070",
+   "icon": "fa-paper-plane",
+   "module": "ats",
+   "quicklinkPrio": 11,
+   "widgetPrio": 99
+ },
+ {
+   "title": "manage_talent_pool",
+   "url": "/phnx/driver.aspx?routename=TalentPools/ManageTalentPools&tab_page_id=-20000753",
+   "icon": "fa-search-dollar",
+   "module": "epm",
+   "quicklinkPrio": 12,
+   "widgetPrio": 99
+ },
+ {
+   "title": "manage_candidates",
+   "url": "/ui/ats-manage-candidates/managecandidates?tab_page_id=-200300336",
+   "icon": "fa-balance-scale-right",
+   "module": "ats",
+   "quicklinkPrio": 13,
+   "widgetPrio": 99
+ },
+ {
+   "title": "candidate_search_query",
+   "url": "/phnx/driver.aspx?routename=ATS/Search/CandidateSearch&tab_page_id=-20010020",
+   "icon": "fa-balance-scale-right",
+   "module": "ats",
+   "quicklinkPrio": 14,
+   "widgetPrio": 99
+ },
+ {
+   "title": "agency_portal",
+   "url": "/ATS/AgencyPortal/MyJobs.aspx?tab_page_id=-20015911",
+   "icon": "",
+   "module": "ats",
+   "quicklinkPrio": 15,
+   "widgetPrio": 99
+ },
+ {
+   "title": "recruiting",
+   "url": "/ATS/admin/selectionmanagement.aspx?tab_page_id=-20008000",
+   "icon": "",
+   "module": "ats",
+   "quicklinkPrio": 16,
+   "widgetPrio": 99
+ },
+ {
+   "title": "performance_reviews",
+   "url": "/EPM/Reviews/UserReview.aspx?tab_page_id=-18",
+   "icon": "",
+   "module": "epm",
+   "quicklinkPrio": 99,
+   "widgetPrio": 4
+ },
+ {
+   "title": "live_feed",
+   "url": "/phnx/driver.aspx?routename=Social/Connect/LiveFeed&tab_page_id=-200157002",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 5
+ },
+ {
+   "title": "compensation",
+   "url": "/EPM/Compensation/Admin/CmpTools.aspx?tab_page_id=-42",
+   "icon": "",
+   "module": "epm",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "competency_assessment_summary",
+   "url": "/EPM/Compassessment/UserCompetencies.aspx?tab_page_id=-520013",
+   "icon": "",
+   "module": "epm",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "performance",
+   "url": "/EPM/admin/CareerTools.aspx?tab_page_id=-37",
+   "icon": "",
+   "module": "epm",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "review_sign_off",
+   "url": "/EPM/ReviewsWeb/ReviewsBulkSignOff.aspx?tab_page_id=-590052",
+   "icon": "",
+   "module": "epm",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "succession",
+   "url": "/EPM/Admin/SuccessionMgmt.aspx?tab_page_id=-40",
+   "icon": "",
+   "module": "epm",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "all_teams",
+   "url": "/phnx/driver.aspx?routename=Social/Connect/AllTeams&tab_page_id=-200157003",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "catalog",
+   "url": "/LMS/admin/catalog.aspx?tab_page_id=-30",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "custom_field_administration",
+   "url": "/admin/ManageCustomFields.aspx?tab_page_id=-118010",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "custom_reports",
+   "url": "/analytics/Main.aspx?tab_page_id=-301",
+   "icon": "",
+   "module": "reporting",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "data_import_wizard",
+   "url": "/ISM/DLW/DataImportWizard.aspx?tab_page_id=-801",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "data_merge",
+   "url": "/LMS/Admin/DataMerge.aspx?tab_page_id=-2002000",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "email",
+   "url": "/Email/admin.aspx?tab_page_id=-105",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "certification_management",
+   "url": "/LMS/Cert/Admin/CertManagement.aspx?tab_page_id=-180106",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 4,
+   "widgetPrio": 99
+ },
+ {
+   "title": "cost_model_manager",
+   "url": "/Admin/PlanningCostModelManager.aspx?tab_page_id=-200159700",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "form_management",
+   "url": "/phnx/driver.aspx?routename=FormManagement/Admin&tab_page_id=-200157029",
+   "icon": "",
+   "module": "chr",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "create_tool",
+   "url": "/LMS/CreateTool/Redirect.aspx?tab_page_id=-221000101",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "exemption_tracking",
+   "url": "/LMS/Admin/PendingExemptionRequests.aspx?tab_page_id=-20007002",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "facilities_resources",
+   "url": "/LMS/ILT/FacilityList.aspx?tab_page_id=-52",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "manage_employee_relationships",
+   "url": "/EPM/peers/admin/EmployeeRelationship.aspx?a=1&tab_page_id=-505",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "ilt_request_forms",
+   "url": "/LMS/ILT/ILTRequestForms.aspx?tab_page_id=-55",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "manage_shared_and_dynamic_goals",
+   "url": "/EPM/Goals/ManageShared.aspx?tab_page_id=-580200",
+   "icon": "",
+   "module": "epm-careers",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "marketing",
+   "url": "/email/MarketingEmail.aspx?tab_page_id=-221",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "learning_assignment_tool",
+   "url": "/phnx/driver.aspx?routename=Learning/EnrollTraining/EnrollTrainingManagement&tab_page_id=-200159608",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "manage_employee_learning",
+   "url": "/LMS/Admin/SubordinateLearning.aspx?tab_page_id=-400",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "manage_events_sessions",
+   "url": "/LMS/ILT/main.aspx?tab_page_id=-49",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "org_units",
+   "url": "/admin/OrgUnits.aspx?tab_page_id=-34",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "matr_cula_de_certificaci_n",
+   "url": "/LMS/Designations/Owner/CertEnrollment.aspx?tab_page_id=-610",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "preferences",
+   "url": "/admin/OUPrefList.aspx?tab_page_id=-29",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "new_connect",
+   "url": "/lms/connect/admin/NewConnectAdmin.aspx?tab_page_id=-200156011",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "report_delivery_setup",
+   "url": "/ISM/ReportDelivery/ReportDeliverySetup.aspx?tab_page_id=-810",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "on_the_job_training_observers",
+   "url": "/phnx/driver.aspx?routename=Learning/OnTheJobTraining/OJTObservers&tab_page_id=-905251",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "security",
+   "url": "/Security/SecurityRoleAdmin.aspx?tab_page_id=-71",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "question_bank",
+   "url": "/Evaluations/Tests/AdminQuestionBank.aspx?tab_page_id=-150030",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "test_engine",
+   "url": "/Evaluations/Tests/AdminTests.aspx?tab_page_id=-203",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "test_grading",
+   "url": "/Evaluations/Tests/PendingGrade.aspx?tab_page_id=-210",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "toolkit",
+   "url": "/ISM/IntegrationSuite.aspx?tab_page_id=-811",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "tools",
+   "url": "/admin/Main.aspx?tab_page_id=-39",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "universal_profile",
+   "url": "/Social/UniversalProfile/UPPageRedirectHandler.ashx?tab_page_id=-20016001",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "users",
+   "url": "/admin/Users.aspx?tab_page_id=-38",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "welcome",
+   "url": "/catalog/CustomPage.aspx?id=221000375&tab_page_id=221000375",
+   "icon": "",
+   "module": "core",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "vendors_instructors",
+   "url": "/LMS/ILT/VendorsMain.aspx?tab_page_id=-51",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ },
+ {
+   "title": "view_your_sessions",
+   "url": "/LMS/catalog/EventsCalendar.aspx?instructor=me&tab_page_id=-54",
+   "icon": "",
+   "module": "lms",
+   "quicklinkPrio": 99,
+   "widgetPrio": 99
+ }
 ];
 
 const approvalURLs = {
@@ -851,21 +852,21 @@ const cs_customLocale = {
 			"en-US": "Core",
 			"en-UK": "Core",
 		},
+		"lms": {
+			"en-US": "Learning",
+			"en-UK": "Learning",
+		},
 		"epm": {
 			"en-US": "Performance",
 			"en-UK": "Performance",
 		},
-		"epm, careers": {
+		"epm-careers": {
 			"en-US": "Careers",
 			"en-UK": "Careers",
 		},
 		"careers": {
 			"en-US": "Careers",
 			"en-UK": "Careers",
-		},
-		"lms": {
-			"en-US": "Learning",
-			"en-UK": "Learning",
 		},
 		"reporting": {
 			"en-US": "Reports",
@@ -1102,6 +1103,7 @@ const gpeTARGETNAVDIV = "gpewp_topcontainer_nav";
 const gpeUSERNAME = document.getElementById(gpeDEMOUSERDIV).getAttribute(gpeDEMOUSERDIV).toLowerCase().split(";");
 const gpeDEMOROLE = getDemoRole(document.getElementById(gpeDEMOPERSONADIV).getAttribute(gpeDEMOPERSONADIV));
 const gpePRIMARYBGCSS = $('.c-nav-user').css('background-color');
+const gpeQUICKLINKSMAINDIV = "QLS-content";
 
 /**
  * Returns demorole abbreviation from custom field
@@ -1110,7 +1112,7 @@ const gpePRIMARYBGCSS = $('.c-nav-user').css('background-color');
  */
 function getDemoRole(elementArg) {
 	if (elementArg.substr(0, 3) == "HRM") return "HRD";
-	if (elementArg.substr(0, 3) == null) return "USR";
+	if (elementArg.substr(0, 3) == "") return "USR";
 	else return elementArg.substr(0, 3);
 }
 
@@ -1123,7 +1125,7 @@ function getAccessDetails(accessURLsArg) {
 	let accessArr = [];
 	var urlData = [];
 	for (var URL in accessURLsArg) {
-		$("a[id$='lnkSubMenu'][href*='" + accessURLsArg[URL].url + "']").text(function() {
+		$("a[id*='headerResponsive_responsiveNav_rptMenu_'][href*='" + accessURLsArg[URL].url + "']").text(function() {
 			urlData = {
 				"id": accessURLsArg[URL].title,
 				"title": $(this).text(),
@@ -1217,7 +1219,7 @@ async function buildNav(demoRoleArg, targetNavDiv, cultureArg) {
 		/* Set top menu space  END */
 
 		/* Replace hamburger menu with user image */
-		$("a[id='ctl00_header_headerResponsive_lnkNavBar'] i").replaceWith($("img[id='ctl00_header_headerResponsive_responsiveNav_imgPhoto']").clone());
+		$("a[id*='header_headerResponsive_lnkNavBar'] i").replaceWith($("img[id*='header_headerResponsive_responsiveNav_imgPhoto']").clone());
 
 		var topNavUL = document.createElement("ul");
 		topNavUL.className = "nav nav-tabs trq-tab-group ng-star-inserted";
@@ -1461,37 +1463,6 @@ async function buildWidgets(accessArrArg, cultureArg) {
 	});
 }
 
-/*
-async function buildWidgets(accessArrArg, cultureArg) {
-	return new Promise((resolve, reject) => {
-		let aboutDetails = buildAboutCard(gpeABOUTCARDDIV);
-		$.when(aboutDetails)
-		.then((res) => {
-			let quickLinks = buildQuickLinksCard(accessArrArg, cultureArg);
-			getApprovalDetails(approvalURLs, cultureArg, gpeDEMOROLE);
-			$.when(quickLinks)
-			.then((res) => {
-				return true;
-			})
-			.catch(error => console.error("Error bulding Quick links: " + error));
-		})
-		.then((res) => {
-				// Sort array on widgetPrio column
-			var widgetOrderedArr = accessArrArg.sort((a, b) => a.widgetPrio - b.widgetPrio);
-				// Get all widgets (widgetPrio = 99 means it is not a widget and should not be used)
-			widgetIDArr = widgetOrderedArr.filter(v => +v.widgetPrio < 99);
-				// Execute!
-			//resolve(createWidget(widgetIDArr));
-			resolve(createWidget(widgetIDArr));
-		})
-		.catch(error => {
-			console.error("Error bulding Welcome Page: " + error);
-			reject(error);
-		});
-	});
-}
-*/
-
 /* createWidget functions */
 /**
  *
@@ -1504,7 +1475,7 @@ var createWidget = (widgets) => {
 		return getWidgetData(widgetID)
 			.catch(error => console.error("Error in getWidgetData: " + widgetID.id + ". Error message: " + error));
 	});
-	Promise.all(widgetQueueArr)
+	return Promise.all(widgetQueueArr)
 		.then((widgetResponse) => {
 			//console.log("-[ Widgets have been processed and rendered ]-");
 			//console.log(widgetResponse);
@@ -1641,72 +1612,87 @@ async function generateHTMLCard(cardTitleArg, cardTitleHrefArg, colArg, colIDArg
  * @param
  * @returns
  */
-function buildQuickLinksCard(accessArrArg, cultureArg) {
-	var tmpRowDiv = document.createElement("div");
-	tmpRowDiv.className = "row";
+async function buildQuickLinksCard(accessArrArg, cultureArg) {
+	let tmpRowDivQLS = document.createElement("div");
+	tmpRowDivQLS.className = "row";
 
 	/* BTN START */
-	var qlArrTmp = multiSort(getAccessDetails(accessURLs), {
+	let qlArrTmp = multiSort(getAccessDetails(accessURLs), {
 		module: 'asc',
 		quicklinkPrio: 'asc'
 	});
-	var qlArr = {};
+	let qlArr = {};
 
-	var counter = 0;
+	console.log("qlArrTmp ----------------------------------------------");
+	console.log(qlArrTmp);
+	console.log("----------------------------------------------");
+
+	let counter = 0;
 	qlArrTmp.forEach(function(o) {
 		var k = o.module;
 		if (!qlArr[k]) {
 			qlArr[k] = [];
 			counter = 0;
 		}
-		if (counter < 5) qlArr[k].push(o);
+		if (counter < 10) qlArr[k].push(o);
 		counter++;
 	});
+	console.log(qlArr);
 
 	$.each(qlArr, function(e, i, a) {
-		var test = i.slice(0, 5);
-		//		console.log("Module: "+ e +" - ONLY GET: "+ test);
-		var qlInfo = "<p>Module: " + e + "</p>";
-		var tmpBtnDivider = document.createElement("span");
-		tmpBtnDivider.innerHTML = qlInfo;
-		//		tmpContentDiv.appendChild(tmpBtnDivider);
-
-		var tmpColDiv = document.createElement("div");
+		let tmpColDiv = document.createElement("div");
 		tmpColDiv.className = "col-md-6";
 		tmpColDiv.setAttribute("id", "cs_main_quicklinks"); //"cs_main_transcript"
 
-		var tmpCardParent = document.createElement("div");
+		let tmpCardParent = document.createElement("div");
 		tmpCardParent.className = "card";
 
-		var tmpCardHeader = document.createElement("a");
+		let tmpCardHeader = document.createElement("a");
 		tmpCardHeader.className = "card-header";
-		//		console.log("module: "+ e);
-		//		console.log("culture: "+ cultureArg);
-		//		console.log("translated: "+ cs_customLocale["moduleTitle"][e][cultureArg]);
 		tmpCardHeader.innerHTML = cs_customLocale.moduleTitle[e][cultureArg]; //accessArr[accessItem]["title"];
-		//		tmpCardHeader.innerHTML = "QUICK LINKS: "+ e; //accessArr[accessItem]["title"];
 
-		var tmpCardBody = document.createElement("div");
+		let tmpCardBody = document.createElement("div");
 		tmpCardBody.className = "card-body";
 
-		tmpContentDiv = document.createElement("div");
+		let tmpContentDiv = document.createElement("div");
+		tmpContentDiv.className = "quicklinks"
 
 		$.each(i.slice(0, 5), function(e1, i1, a1) {
-			if (i1.quicklinkPrio != 99) tmpContentDiv.appendChild(buildQuickLinkButton(i1, accessArrArg));
+			if (i1.quicklinkPrio != 99) {
+				const tmpBtnDiv = document.createElement("a");
+				tmpBtnDiv.className = "btn btn-primary";
+				tmpBtnDiv.setAttribute("href", i1.url);
+
+				const tmpBtnDivIcon = document.createElement("i");
+				tmpBtnDivIcon.className = "fa " + i1.icon;
+
+				const tmpBtnDivText = document.createElement("span");
+				tmpBtnDivText.className = "text";
+				tmpBtnDivText.innerHTML = i1.title;
+
+				tmpBtnDiv.appendChild(tmpBtnDivIcon);
+				tmpBtnDiv.appendChild(tmpBtnDivText);
+				tmpContentDiv.appendChild(tmpBtnDiv);
+				// tmpContentDiv.appendChild(buildQuickLinkButton(i1, accessArrArg));
+			}
 		});
+
+		console.log("----------------------------------------------");
+		console.log(tmpContentDiv);
+		console.log("----------------------------------------------");
 
 		tmpCardBody.appendChild(tmpContentDiv);
 
 		tmpCardParent.append(tmpCardHeader, tmpCardBody);
 		tmpColDiv.appendChild(tmpCardParent);
-		tmpRowDiv.appendChild(tmpColDiv);
+		tmpRowDivQLS.appendChild(tmpColDiv);
 	});
 
 	/* BTN END */
 
-	var mainContent = document.getElementById("QLS-content");
-	mainContent.appendChild(tmpRowDiv);
-	return true;
+	let mainContent = document.getElementById(gpeQUICKLINKSMAINDIV);
+	mainContent.appendChild(tmpRowDivQLS);
+	return mainContent;
 }
 
 /**
@@ -1716,16 +1702,18 @@ function buildQuickLinksCard(accessArrArg, cultureArg) {
  * @returns
  */
 function buildQuickLinkButton(accessItemArg, accessArrArg) {
-	var tmpBtnDiv = document.createElement("a");
+	const tmpBtnDiv = document.createElement("a");
 	tmpBtnDiv.className = "btn btn-primary";
 	tmpBtnDiv.setAttribute("href", accessItemArg.url);
-	var tmpBtnDivIcon = document.createElement("i");
-	tmpBtnDivIcon.className = "fa " + accessItemArg.icon;
-	tmpBtnDiv.appendChild(tmpBtnDivIcon);
 
-	var tmpBtnDivText = document.createElement("span");
+	const tmpBtnDivIcon = document.createElement("i");
+	tmpBtnDivIcon.className = "fa " + accessItemArg.icon;
+
+	const tmpBtnDivText = document.createElement("span");
 	tmpBtnDivText.className = "text";
 	tmpBtnDivText.innerHTML = accessItemArg.title;
+
+	tmpBtnDiv.appendChild(tmpBtnDivIcon);
 	tmpBtnDiv.appendChild(tmpBtnDivText);
 	return tmpBtnDiv;
 }
@@ -1749,7 +1737,7 @@ function buildAboutCard(contentDivClassArg) {
 
 	var tmpCardAboutImage = document.createElement("img");
 	tmpCardAboutImage.className = "abt-image";
-	tmpCardAboutImage.setAttribute("src", document.getElementById("ctl00_header_headerResponsive_responsiveNav_imgPhoto").getAttribute("src"));
+	tmpCardAboutImage.setAttribute("src", document.querySelector("img[id*='header_headerResponsive_responsiveNav_imgPhoto']").getAttribute("src"));
 
 	tmpColImageDiv.appendChild(tmpCardAboutImage);
 
@@ -1765,7 +1753,7 @@ function buildAboutCard(contentDivClassArg) {
 
 	var tmpUserNameSpan = document.createElement("span");
 	tmpUserNameSpan.className = "abt-name-text";
-	tmpUserNameSpan.innerHTML = document.getElementById("ctl00_header_headerResponsive_responsiveNav_lblName").innerHTML;
+	tmpUserNameSpan.innerHTML = document.querySelector("[id*='header_headerResponsive_responsiveNav_lblName']").innerHTML;
 
 	// Get Job
 	var tmpUserJobDiv = document.createElement("div");
@@ -1773,7 +1761,7 @@ function buildAboutCard(contentDivClassArg) {
 
 	var tmpUserJobSpan = document.createElement("span");
 	tmpUserJobSpan.className = "abt-job-text";
-	tmpUserJobSpan.innerHTML = document.getElementById("ctl00_header_headerResponsive_responsiveNav_lblPosition").innerHTML;
+	tmpUserJobSpan.innerHTML = document.querySelector("[id*='header_headerResponsive_responsiveNav_lblPosition']").innerHTML;
 	tmpUserJobDiv.appendChild(tmpUserJobSpan);
 
 	tmpUserNameDiv.appendChild(tmpUserNameSpan);
@@ -1791,7 +1779,7 @@ function buildAboutCard(contentDivClassArg) {
 	var mainContent = document.getElementById(contentDivClassArg);
 	mainContent.appendChild(tmpContainerDiv);
 
-	return true;
+	return mainContent;
 }
 
 /**
@@ -1940,11 +1928,8 @@ function getApprovalDetails(approvalURLsArg, cultureArg, demoRoleArg) {
 				"approvalContent",
 				aprvlDiv
 			)
-			.then(mainDiv => {
-				//$("div[id='" + mainDiv + "'] .loader").css("display", "none");
-			});
 	}
-	return true;
+	return aprvlDiv;
 }
 
 /**
@@ -2882,15 +2867,13 @@ async function buildDashboards(demoRoleArg) {
 			let reportToken = checkReportToken();
 			$.when(reportToken)
 				.then((data) => {
-					//				console.log("-[ Initiate Dashboard Reports ]-");
-					//var getReportData = async (reports) => {
 					resolve(getReportData(cs_DashboardArray[demoRoleArg].reports, demoRoleArg));
 				})
 				.catch(error => console.error("Error bulding navigation menu: " + error));
 		});
 	} else {
 		//console.log("no reports");
-		return true;
+		return "No reports for user";
 	}
 }
 
@@ -3033,14 +3016,12 @@ $(function() {
 			const gpeQuickLinks = buildQuickLinksCard(accessURLs, sessionStorage.csCulture);
 			const gpeApprovals = getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
 			const gpeDashboards = buildDashboards(gpeDEMOROLE);
-			const allPromise = Promise.all([
-				gpeNav,
-				gpeAboutCard,
-				gpeQuickLinks,
-				gpeApprovals,
-				gpeWidgets,
-				gpeDashboards]);
-			allPromise.then(values => {
+
+			const gpePromises = [gpeNav, gpeWidgets, gpeAboutCard, gpeQuickLinks, gpeApprovals, gpeDashboards];
+			//const gpePromises = [gpeNav, gpeWidgets, gpeAboutCard];
+			Promise.allSettled(gpePromises)
+			.then(values => {
+				console.log(values);
 				setTimeout(function() {
 					$(".loader").css("display", "none");
 				}, 200);
@@ -3060,7 +3041,7 @@ $(function() {
 				});
 
 				// Delete sessionStorage upon logout
-				var logoutLink = document.getElementById("ctl00_header_headerResponsive_responsiveNav_lnkLogout");
+				var logoutLink = document.querySelector("a[id*='header_headerResponsive_responsiveNav_lnkLogout']");
 				logoutLink.addEventListener("click", function(event) {
 					sessionStorage.clear();
 				});
@@ -3071,7 +3052,6 @@ $(function() {
 					$(".gpewp_USR").css("grid-template-columns", "1fr");
 					$(".gpewp_USR").css("grid-template-areas", "gpewp_USR-right");
 				}
-
 				console.log(lastinline(), "color:#00cc00;");
 			});
 			return true;
