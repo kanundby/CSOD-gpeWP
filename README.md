@@ -10,7 +10,7 @@ This file should be included in the **first** widget on the page (type HTML Widg
 
 ## gpeWelcomePage.js
 This file should be included in the **last** widget on the page (type HTML Widget).
-You will need to add <script </script> in the widget.
+You will need to add <script> </script> in the widget.
 
 ## Configuration
 1. Create a welcome page or a Custom Page
