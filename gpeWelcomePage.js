@@ -922,6 +922,9 @@ var cs_DashboardArray = {
 	},
 	"USR": {
 		"reports": [],
+	},
+	"ONB": {
+		"reports": [],
 	}
 };
 
@@ -3038,7 +3041,9 @@ $(function() {
 				gpeWidgets,
 				gpeDashboards]);
 			allPromise.then(values => {
-				$(".loader").css("display", "none");
+				setTimeout(function() {
+					$(".loader").css("display", "none");
+				}, 200);
 
 				$("#feedContents").niceScroll({
 					cursorborder: "",
