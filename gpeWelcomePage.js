@@ -1095,7 +1095,6 @@ const gpeUSRMAINDIV = "USR-right";
 const gpeUSRLEFTDIV = "USR-left";
 const gpeDEMOPERSONADIV = "demopersona";
 const gpeDEMOUSERDIV = "demousername";
-const gpeDEMOVISUALS = "demovisuals";
 const gpeTARGETNAVDIV = "gpewp_topcontainer_nav";
 const gpeUSERNAME = document.getElementById(gpeDEMOUSERDIV).getAttribute(gpeDEMOUSERDIV).toLowerCase().split(";");
 const gpeDEMOROLE = getDemoRole(document.getElementById(gpeDEMOPERSONADIV).getAttribute(gpeDEMOPERSONADIV));
@@ -2953,7 +2952,7 @@ var getReportData = async (reports, demoRoleArg) => {
 				//modalHdrCloseBtn.innerHTML = "Close";
 
 				var modalContent = document.createElement("div");
-				modalContent.setAttribute("id", "cs_report_table" + reportResponse[2]);
+				modalContent.setAttribute("id", "cs_reportModal_table" + reportResponse[2]);
 				modalContent.className = "modal-body";
 
 				modalHdr.appendChild(modalHdrTitle);
