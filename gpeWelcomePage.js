@@ -1095,6 +1095,7 @@ const gpeUSRMAINDIV = "USR-right";
 const gpeUSRLEFTDIV = "USR-left";
 const gpeDEMOPERSONADIV = "demopersona";
 const gpeDEMOUSERDIV = "demousername";
+const gpeDEMOVISUALS = "demovisuals";
 const gpeTARGETNAVDIV = "gpewp_topcontainer_nav";
 const gpeUSERNAME = document.getElementById(gpeDEMOUSERDIV).getAttribute(gpeDEMOUSERDIV).toLowerCase().split(";");
 const gpeDEMOROLE = getDemoRole(document.getElementById(gpeDEMOPERSONADIV).getAttribute(gpeDEMOPERSONADIV));
