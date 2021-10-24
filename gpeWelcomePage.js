@@ -2,7 +2,7 @@
  * Dynamic Welcome Page for Cornerstone OnDemand
  * @desc Dynamic welcome page engine for Cornerstone OnDemand. The script is using the navigation menu as base to generate the page.
  * @author   Klas Anundby kanundby@csod.com
- * @version 0.5
+ * @version 0.7
  */
 
  const gpeABOUTCARDDIV = "gpewp_topcontainer_upper"; // where do we want to put the user photo name/job?
@@ -179,13 +179,13 @@ const cs_customLocale = {
 					"en-UK": "Create goals!",
 				},
 			},
-			devplan: {
+			development_plans: {
 				notitle: {
 					"en-US": "Create a new plan!",
 					"en-UK": "Create a new plan!",
 				},
 			},
-			checkins: {
+			check_ins: {
 				notitle: {
 					"en-US": "Get Started!",
 					"en-UK": "Get Started!",
@@ -714,34 +714,42 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 	// Get all widgets (widgetPrio = 99 means it is not a widget and should not be used)
 	let widgetIDArr = widgetOrderedArr.filter( v => +v.widgetPrio < 99 );
 
-	console.log("display loader...");
-	setPreloader(gpeUSRCONTENTDIV, "on");
+	console.log("%cbuildWidgets START LOADING WIDGETS", "color:#00ffff;");
+	setPreloader(gpeUSRCONTENTDIV, "off");
 	let widgetPromisesArray = [];
-	widgetIDArr.forEach( async function(widget) {
+	widgetIDArr.forEach(function(widget) {
 		widgetPromisesArray.push(getWidgetData( widget ) );
-	} )
-	console.log("Now we have received the widget data!");
-	console.log(widgetPromisesArray);
+	})
+
 	return await Promise.all( widgetPromisesArray )
 	.then(async function(widgetPromisesArrayComplete) {
 		console.log(widgetPromisesArrayComplete);
-		const renderedWidgets = await widgetPromisesArrayComplete.map( async function(widgetData, index)  {
+		console.log("%c!!!!!!!!!!!!!!!!!-- widgetPromisesArrayComplete --!!!!!!!!!!!!!!!!!", "color:#00ffff;")
+		return await widgetPromisesArrayComplete.map( async function(widgetData, index)  {
+			console.log(widgetData);
 			if(widgetData) {
-				return Promise.resolve(generateHTMLWidget(
-					widgetData.id,
-					cs_widgetConfig[widgetData.id].width,
-					"cs_main_"+ widgetData.id,
-					"widgetData_"+ index,
-					cs_widgetConfig[widgetData.id].targetdiv,
-					"cs_"+ widgetData.id,
-					widgetData));
+				return await generateHTMLWidget(
+				 	widgetData.id,
+				 	cs_widgetConfig[widgetData.id].width,
+				 	"cs_main_"+ widgetData.id,
+				 	"widgetData_"+ index,
+				 	cs_widgetConfig[widgetData.id].targetdiv,
+				 	"cs_"+ widgetData.id,
+				 	widgetData);
+				//return await Promise.resolve(widgetData);
 			}
 		})
-		return Promise.resolve(renderedWidgets);
+		//return Promise.resolve(renderedWidgets);
 	})
 	.then(async function(renderedWidgetsResp) {
-		console.log("Now the widgets have been put on page!");
+		console.log("%cbuildWidgets WIDGETS DISPLAYED", "color:#00ffff;");
+		// console.log(renderedWidgetsResp);
 		setPreloader(gpeUSRCONTENTDIV, "off");
+		$("canvas").each(function() {
+			var chart = Chart.getChart($(this).attr("id"));
+			chart.update();
+		})
+
 		return await renderedWidgetsResp;
 	})
 	.catch( error => console.error( "Error in getting widget data: " + error ) );
@@ -754,26 +762,21 @@ async function buildWidgets( accessArrArg, cultureArg ) {
  * @returns
  */
 async function getWidgetData( widgetIDArg ) {
-	var widgetContentDiv = document.createElement( "div" );
-	var widgetColumnWidth = 12;
-	var widgetColumnID = widgetIDArg.id;
-	var targetDiv = gpeUSRMAINDIV;
-
 	switch ( widgetIDArg.id ) {
 		case "view_your_transcript":
-			return await getTranscriptdetails( widgetIDArg.id );
+			return await getTranscriptDetails( widgetIDArg.id );
 			break;
 		case "performance_reviews":
-			return await getActionsdetails( widgetIDArg.id );
+			return await getActionsDetails( widgetIDArg.id );
 			break;
 		case "check_ins":
 			return await getCheckinsDetails( widgetIDArg.id );
 			break;
 		case "goals":
-			return await getGoalsDetails( widgetIDArg.id );
+			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot"))
 			break;
 		case "development_plans":
-			return await getDevPlanDetails( widgetIDArg.id );
+			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot"));
 			break;
 		case "live_feed":
 			return await getFeedDetails( widgetIDArg.id );
@@ -1126,7 +1129,7 @@ function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
  * @param
  * @returns
  */
-async function getTranscriptdetails( contentDivClassArg ) {
+async function getTranscriptDetails( contentDivClassArg ) {
 		var tmpContentDiv = document.createElement( "div" );
 		tmpContentDiv.className = contentDivClassArg;
 		tmpContentDiv.setAttribute( "id", contentDivClassArg );
@@ -1178,7 +1181,7 @@ async function getTranscriptdetails( contentDivClassArg ) {
  * @param
  * @returns
  */
-async function getActionsdetails( contentDivClassArg ) {
+async function getActionsDetails( contentDivClassArg ) {
 	var tmpContentDiv = document.createElement( "div" );
 	tmpContentDiv.className = contentDivClassArg;
 	tmpContentDiv.setAttribute( "id", contentDivClassArg );
@@ -1220,84 +1223,42 @@ async function getActionsdetails( contentDivClassArg ) {
 }
 
 /**
- * getGoalsDetails - Loads goal progres data and generates a donut.
- * @param
- * @param
- * @returns
- */
-async function getGoalsDetails( contentDivClassArg ) {
-	var tmpContentDiv = document.createElement( "div" );
-	tmpContentDiv.className = contentDivClassArg;
-	tmpContentDiv.setAttribute( "id", contentDivClassArg );
-
-	var widgetUrl = "/phnx/driver.aspx?routename=Goals/GoalList";
-
-	let getHTML = ( url ) => {
-		return fetch( url );
-	};
-
-	var htmlData = Promise.resolve(getHTML( widgetUrl ));
-	$.when( htmlData )
-		.then( data => data.text() )
-		.then(async function(goaldataResp) {
-			var goalComplete = $( goaldataResp ).find( '.percentage' ).attr( "data-percent" );
-			if ( goalComplete != 0 ) {
-				// console.log( goalComplete );
-
-				const tmpCanvas = document.createElement( "canvas" );
-				tmpCanvas.setAttribute( "id", "ID-"+contentDivClassArg );
-				tmpCanvas.setAttribute( "style", "height: 250px, width: 100%" );
-				tmpContentDiv.appendChild(tmpCanvas);
-
-				return await Promise.resolve(drawDonut( goalComplete, contentDivClassArg, tmpCanvas ));
-			} else {
-				tmpContentDiv.innerHTML = "<button type='button' id='createNewGoalsBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets.goals.notitle[ sessionStorage.csCulture ] + "</button>";
-			}
-			return tmpContentDiv.className;
-		} )
-		.catch( error => console.error( "Error in getGoalsDetails: " + error ) );
-	return await Promise.resolve(tmpContentDiv);
-}
-
-/**
  *
  * @param
  * @param
  * @returns
  */
-async function getDevPlanDetails( contentDivClassArg ) {
-	var tmpContentDiv = document.createElement( "div" );
-	tmpContentDiv.className = contentDivClassArg;
-	tmpContentDiv.setAttribute( "id", contentDivClassArg );
-
-	var widgetUrl = "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot";
-
-	let getHTML = ( url ) => {
-		return fetch( url );
-	};
-
-	var htmlData = Promise.resolve(getHTML( widgetUrl ));
-	$.when( htmlData )
-		.then( data => data.text() )
-		.then(async function(devplanDataResp) {
-			var devPlanStr = await $( devplanDataResp ).find( "a[href*='/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew']" ).closest( "div[class*='dashboard-widget-content']" );
-			var devPlanPercent = await $( devPlanStr ).find( ".percentage span" );
-
-			if ( devPlanPercent.text() > 0 ) {
-				devPlanPercentComplete = devPlanPercent.text();
-
-				const tmpCanvas = document.createElement( "canvas" );
-				tmpCanvas.setAttribute( "id", "canvas"+contentDivClassArg );
-				tmpCanvas.setAttribute( "style", "height: 250px, width: 100%" );
-				tmpContentDiv.appendChild(tmpCanvas);
-				return await Promise.resolve(drawDonut( devPlanPercentComplete, contentDivClassArg, tmpCanvas ));
-			} else {
-				tmpContentDiv.innerHTML = "<button type='button' id='createNewDevplanBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets.devplan.notitle[ sessionStorage.csCulture ] + "</button>";
+async function getDonutDetails( contentDivClassArg, urlArg) {
+	return await Promise.resolve( await fetch( urlArg ) )
+		.then( async function( data) {
+			// console.log("%cDONUT DATA LOAD: "+ data, "color:#ccaa00;");
+			return await data.text();
+		})
+		.then( async function( dataResponse ) {
+			// console.log("%cDONUT CHECK: "+ contentDivClassArg, "color:#ccaa00;");
+			switch(contentDivClassArg) {
+				case "goals":
+					return await $( dataResponse ).find( '.percentage' ).attr( "data-percent" );
+				break;
+				case "development_plans":
+					return await $( dataResponse ).find( "a[href*='/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew']" ).closest( "div[class*='dashboard-widget-content']" ).find(".percentage span").text();
+				break;
 			}
-			return tmpContentDiv.className;
-		} )
-		.catch( error => console.error( "Error in getDevPlanDetails: " + error ) );
-	return await Promise.resolve(tmpContentDiv);
+		})
+		.then(async function(achievedData) {
+			// console.log("%cDONUT DATA: "+ achievedData, "color:#ccaa00;");
+			// IF ACHIEVED == 0 DO SOMETHING ELSE
+			let tmpContentDiv = document.createElement( "div" );
+			tmpContentDiv.className = contentDivClassArg;
+			tmpContentDiv.setAttribute( "id", contentDivClassArg);
+			if(achievedData != null) {
+				return await Promise.resolve(await drawDonut( achievedData, contentDivClassArg, tmpContentDiv));
+			}else {
+				tmpContentDiv.innerHTML = "<button type='button' id='"+contentDivClassArg+"_nodata' class='getstarted_button'>" + cs_customLocale.wp.widgets[contentDivClassArg].notitle[ sessionStorage.csCulture ] + "</button>";
+				return await tmpContentDiv
+			}
+		})
+		.catch( error => console.error( "Error in getDonutDetails: " + error ) );
 }
 
 /**
@@ -1307,7 +1268,7 @@ async function getDevPlanDetails( contentDivClassArg ) {
  * @returns
  */
 async function drawDonut(completeArg, contentDivClassArg, tmpContentDivArg) {
-
+	// console.log("%cdrawDonut: INIT DONUT ********************* "+contentDivClassArg, "color:#00cccc;");
 	let dataDonutArr = [completeArg, (100 - completeArg)];
 
 	let data = {
@@ -1376,10 +1337,28 @@ async function drawDonut(completeArg, contentDivClassArg, tmpContentDivArg) {
 		plugins: [counter],
 	};
 	// console.log(config);
+	// console.log("%cdrawDonut: RETURN DONUT CONFIG ********************* "+ contentDivClassArg, "color:#00cccc;");
 
-	let ctx = tmpContentDivArg.getContext("2d");
+	const tmpCanvas = document.createElement( "canvas" );
+	tmpCanvas.id = contentDivClassArg+"_chart";
+	tmpCanvas.setAttribute( "style", "height: 250px, width: 100%" );
+	tmpContentDivArg.appendChild(tmpCanvas);
+
+	// console.log("%cDONUT DETAILS - CREATE CTX: ", "color:#ccaa00;");
+	let ctx = tmpCanvas.getContext("2d");
+	// console.log(contentDivClassArg);
+	// console.log("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+	// console.log(ctx);
 	let myChart = new Chart(ctx, config);
-	return await Promise.resolve(myChart);
+
+
+	return await tmpContentDivArg;
+	//
+	// let ctx = tmpContentDivArg.getContext("2d");
+	// let myChart = new Chart(ctx, config);
+	// console.log("%cdrawDonut: RETURN DONUT - "+ contentDivClassArg, "color:#0000cc;");
+	// console.log(myChart);
+	// return Promise.resolve(myChart);
 }
 
 /* Update JWT */
@@ -1647,7 +1626,7 @@ async function getCheckinsDetails( contentDivClassArg ) {
 				checkinStr += "</table>";
 
 			} else {
-				checkinStr = "<button type='button' id='createNewCheckInsBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets.checkins.notitle[ sessionStorage.csCulture ] + "</button>";
+				checkinStr = "<button type='button' id='createNewCheckInsBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets[contentDivClassArg].notitle[ sessionStorage.csCulture ] + "</button>";
 			}
 			//		console.log("checkinStr : "+ checkinStr);
 			tmpContentDiv.innerHTML = checkinStr;
@@ -1966,28 +1945,25 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 	return fetchReport( reportIDArg )
 		.then( function( reportJson ) {
 
-			reportData = reportJson[ 0 ];
-			rptDataSet = reportJson[ 1 ];
+			const reportData = reportJson[ 0 ];
+			const rptDataSet = reportJson[ 1 ];
 
-			testArr = reportData;
-			testMetaArr = rptDataSet;
+			let [ , ...labels ] = [ ...new Set( reportData.chartData.map( x => x[ 0 ] ) ) ];
 
-			var [ , ...labels ] = [ ...new Set( reportData.chartData.map( x => x[ 0 ] ) ) ];
-
-			var [ , ...reportCols ] = [ ...new Set( reportData.chartData.map( status => status[ 1 ] ) ) ];
+			let [ , ...reportCols ] = [ ...new Set( reportData.chartData.map( status => status[ 1 ] ) ) ];
 
 			const chartData = {
 				labels: [ ...labels ],
 				datasets: [],
 			};
 
-			var legendFlag = "";
+			let legendFlag = "";
 
-			var dataSet = [];
+			let dataSet = [];
 
 			if ( rptDataSet.charts[ 0 ].chartDimensions.length == 1 ) {
 
-				var chBgColor = [];
+				let chBgColor = [];
 				chBgColor = reportData.chartPalette.map( function( e ) {
 					return e.color;
 				} );
@@ -2010,11 +1986,11 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 				legendFlag = false;
 				//console.log(chartData);
 			} else {
-				for ( var i in reportCols ) {
+				for ( let i in reportCols ) {
 					dataSet[ reportCols[ i ] ] = [];
-					for ( var labelIndex in labels ) {
+					for ( let labelIndex in labels ) {
 						dataSet[ reportCols[ i ] ][ labelIndex ] = [];
-						for ( var k in reportData.chartData ) {
+						for ( let k in reportData.chartData ) {
 							if ( ( labels[ labelIndex ] == reportData.chartData[ k ][ 0 ] ) && ( reportData.chartData[ k ][ rptDataSet.charts[ 0 ].chartDimensions.length - 1 ] == reportCols[ i ] ) ) {
 								dataSet[ reportCols[ i ] ][ labelIndex ] = reportData.chartData[ k ][ rptDataSet.charts[ 0 ].chartDimensions.length ];
 							}
@@ -2046,7 +2022,7 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 				type: cs_DashboardDetailsArray[ rptDataSet.charts[ 0 ].chartTypeId ].type,
 				data: chartData,
 				options: {
-					responsive: true,
+					responsive: false,
 					plugins: {
 						legend: {
 							display: legendFlag,
@@ -2072,17 +2048,17 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 			// Set the title of the chart (card-header)
 			$( "div[id='cs_report_" + reportIDArg + "'] .card-header" ).text( reportData.title );
 
-			var reportTBLColumns = [ ...testArr.data[ 0 ] ];
-			var [ , ...reportTBLData ] = testArr.data;
+			let reportTBLColumns = [ ...reportData.data[ 0 ] ];
+			let [ , ...reportTBLData ] = reportData.data;
 
-			var canvas = document.getElementById( chartTitleArg );
+			let canvas = document.getElementById( chartTitleArg );
 
-			var ctx = canvas.getContext( "2d" );
-			var myChart = new Chart( ctx, config );
+			let ctx = canvas.getContext( "2d" );
+			let myChart = new Chart( ctx, config );
 
-			var tempCol = generateColumns( reportTBLColumns );
+			let tempCol = generateColumns( reportTBLColumns );
 			//console.log(tempCol);
-			var tempData = generateReportData( reportTBLData, reportTBLColumns );
+			let tempData = generateReportData( reportTBLData, reportTBLColumns );
 			return Promise.all( [ tempCol, tempData ] )
 				.then( response => {
 					return [ response[ 0 ], response[ 1 ], reportIDArg, reportData.title ];
@@ -2327,7 +2303,7 @@ function setPreloader(mainDivArg, visibleArg) {
 			return await Promise.all([gpeNav, gpeWidgets, gpeAboutCard, gpeQuickLinks, gpeApprovals]);
 		})
 		.then(async function(data) {
-			// console.log(data);
+			console.log("READY WITH BASIC WIDGETS!");
 
 			// Fix NiceScroll on feed widget
 			$("#live_feed").niceScroll({
@@ -2344,6 +2320,7 @@ function setPreloader(mainDivArg, visibleArg) {
 				});
 
 			// Build report dashboards.
+			console.log("PROCESSING DASHBOARDS");
 			const gpeDashboards = await buildDashboards(gpeDEMOROLE);
 			return await gpeDashboards;
 		})
