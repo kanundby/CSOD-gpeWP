@@ -865,9 +865,10 @@ span.abt-job-text {
 /* CHART CSS
 /*********************************************************/
 
+#cs_main_check_ins .card-body,
 #cs_main_goals .card-body,
 #cs_main_development_plans .card-body {
-    width: 200px !important;
+    min-width: 200px !important;
     margin: 0 auto !important;
 }
 
@@ -1143,41 +1144,51 @@ th.checkHeaderCol:not(:first-child) {
     padding: 0px !important;
 }
 
-#USR-left .card-body {
+/* #USR-left .card-body {
     width: 100%;
-}
+} */
 
 /*********************************************************/
 /* APPROVAL CARD CSS
 /*********************************************************/
-.approval-item {
+/* .approval-item {
     max-width: 100% !important;
-}
+} */
 
-.approval-item .btn {
+/* .approval-item .btn {
     font-size: .4rem !important;
+} */
+
+.approval-item {
+    padding: 4px
 }
 
-.gpewp_approvals .approval-item .btn {
-    width: 100%;
-    margin: 5px !important;
-    text-align: left !important;
-    border-radius: 4px !important;
-    font-weight: 600 !important;
-    color: rgb(89, 89, 89) !important;
-    background: linear-gradient(-180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.04) 100%) rgb(245, 245, 245) !important;
-    border: 1px solid rgb(187, 187, 187) !important;
-    box-shadow: rgb(0 0 0 / 8%) 0px 1px 2px 0px !important;
-    height: 32px !important;
-    padding: 0px 5px 0px 5px !important;
-    font-size: 13px !important;
-    text-shadow: 0px 0px 0px #ffffff !important;
+.approval_button:hover:not(:disabled) {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.08) 100%), linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) var(--gpewp-banner-bg-color--light);
 }
 
-.approval-item img {
+.approval_button {
+    border: none;
+    margin: 0px;
+    appearance: none;
+    box-sizing: border-box;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) var(--gpewp-brand-color--primary);
+    box-shadow: rgb(0 0 0 / 4%) 0px 1px 2px 0px;
+    height: 40px;
+    padding: 2px 24px 0px;
+    font-size: 14px;
+    font-family: Segoe UI, Arial, sans-serif;
+    width: 100% !important;
+}
+
+/* .approval-item img {
     width: 40px !important;
     padding-right: 10px;
-}
+} */
 
 /*********************************************************/
 /* GENERIC CSS
@@ -1247,7 +1258,8 @@ a.c-search-icon {
     text-align: center;
     font-weight: 600;
     color: rgb(255, 255, 255);
-    background: linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) rgb(0, 91, 240);
+    background: linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) var(--gpewp-brand-color--primary);
+    /* background: linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) rgb(0, 91, 240); */
     box-shadow: rgb(0 0 0 / 4%) 0px 1px 2px 0px;
     height: 40px;
     padding: 2px 24px 0px;
@@ -1256,7 +1268,8 @@ a.c-search-icon {
 }
 
 .getstarted_button:hover:not(:disabled) {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.08) 100%), linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) rgb(0, 91, 240);
+    /* background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.08) 100%), linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) rgb(0, 91, 240); */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.08) 100%), linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) var(--gpewp-banner-bg-color--light);
 }
 
 .checkinContents,

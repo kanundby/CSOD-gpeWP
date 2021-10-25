@@ -171,28 +171,6 @@ const cs_customLocale = {
 			"en-UK": "Reports",
 		},
 	},
-	wp: {
-		widgets: {
-			goals: {
-				notitle: {
-					"en-US": "Create goals!",
-					"en-UK": "Create goals!",
-				},
-			},
-			development_plans: {
-				notitle: {
-					"en-US": "Create a new plan!",
-					"en-UK": "Create a new plan!",
-				},
-			},
-			check_ins: {
-				notitle: {
-					"en-US": "Get Started!",
-					"en-UK": "Get Started!",
-				},
-			},
-		},
-	},
 };
 
 const cs_widgetConfig = {
@@ -203,6 +181,10 @@ const cs_widgetConfig = {
 			"en-US" : "Development Plan Progress",
 			"en-UK" : "My development Plan progress",
 		},
+		nocontenttitle: {
+			"en-US": "Create a new plan!",
+			"en-UK": "Create a new plan!",
+		},
 	},
 	goals : {
 		width : 12,
@@ -210,6 +192,10 @@ const cs_widgetConfig = {
 		title : {
 			"en-US" : "Goal Progress",
 			"en-UK" : "Goal Progress",
+		},
+		nocontenttitle: {
+			"en-US": "Create goals!",
+			"en-UK": "Create goals!",
 		},
 	},
 	check_ins : {
@@ -219,6 +205,10 @@ const cs_widgetConfig = {
 			"en-US" : "Check ins",
 			"en-UK" : "Check ins",
 		},
+		nocontenttitle: {
+			"en-US": "Get Started!",
+			"en-UK": "Get Started!",
+		},
 	},
 	view_your_transcript : {
 		width : 12,
@@ -227,6 +217,31 @@ const cs_widgetConfig = {
 			"en-US" : "Your Transcript",
 			"en-UK" : "Your Transcript",
 		},
+		nocontenttitle: {
+			"en-US": "empty",
+			"en-UK": "empty",
+		},
+        tablecolumns : {
+            title : {
+                "en-US": "Title",
+                "en-UK": "Title",
+                "fr-FR": "Le Title",
+            },
+            duedate : {
+                "en-US": "Due Date",
+                "en-UK": "Due Date",
+                "fr-FR": "Le Due Date",
+            },
+            status : {
+                "en-US": "Status",
+                "en-UK": "Status",
+                "fr-FR": "Le Status",
+            },
+            action : {
+                "en-US": "Action",
+                "en-UK": "Action",
+                "fr-FR": "Le Action",
+            }        }
 	},
 	live_feed : {
 		width : 12,
@@ -234,6 +249,10 @@ const cs_widgetConfig = {
 		title : {
 			"en-US" : "Live Feed",
 			"en-UK" : "Live Feed",
+		},
+		nocontenttitle: {
+			"en-US": "empty",
+			"en-UK": "empty",
 		},
 	},
 	performance_reviews : {
@@ -243,6 +262,22 @@ const cs_widgetConfig = {
 			"en-US" : "My performance actions",
 			"en-UK" : "My performance actions",
 		},
+		nocontenttitle: {
+			"en-US": "empty",
+			"en-UK": "empty",
+		},
+        tablecolumns : {
+            title : {
+                "en-US": "Title",
+                "en-UK": "Title",
+                "fr-FR": "Le Title",
+            },
+            duedate : {
+                "en-US": "Due Date",
+                "en-UK": "Due Date",
+                "fr-FR": "Le Due Date",
+            }
+        }
 	},
 };
 
@@ -714,8 +749,8 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 	// Get all widgets (widgetPrio = 99 means it is not a widget and should not be used)
 	let widgetIDArr = widgetOrderedArr.filter( v => +v.widgetPrio < 99 );
 
-	console.log("%cbuildWidgets START LOADING WIDGETS", "color:#00ffff;");
-	setPreloader(gpeUSRCONTENTDIV, "off");
+	// console.log("%cbuildWidgets START LOADING WIDGETS", "color:#00ffff;");
+	setPreloader(gpeUSRCONTENTDIV, "on");
 	let widgetPromisesArray = [];
 	widgetIDArr.forEach(function(widget) {
 		widgetPromisesArray.push(getWidgetData( widget ) );
@@ -723,10 +758,10 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 
 	return await Promise.all( widgetPromisesArray )
 	.then(async function(widgetPromisesArrayComplete) {
-		console.log(widgetPromisesArrayComplete);
-		console.log("%c!!!!!!!!!!!!!!!!!-- widgetPromisesArrayComplete --!!!!!!!!!!!!!!!!!", "color:#00ffff;")
+		// console.log(widgetPromisesArrayComplete);
+		// console.log("%c!!!!!!!!!!!!!!!!!-- widgetPromisesArrayComplete --!!!!!!!!!!!!!!!!!", "color:#00ffff;")
 		return await widgetPromisesArrayComplete.map( async function(widgetData, index)  {
-			console.log(widgetData);
+			// console.log(widgetData);
 			if(widgetData) {
 				return await generateHTMLWidget(
 				 	widgetData.id,
@@ -742,7 +777,7 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 		//return Promise.resolve(renderedWidgets);
 	})
 	.then(async function(renderedWidgetsResp) {
-		console.log("%cbuildWidgets WIDGETS DISPLAYED", "color:#00ffff;");
+		// console.log("%cbuildWidgets WIDGETS DISPLAYED", "color:#00ffff;");
 		// console.log(renderedWidgetsResp);
 		setPreloader(gpeUSRCONTENTDIV, "off");
 		$("canvas").each(function() {
@@ -773,7 +808,7 @@ async function getWidgetData( widgetIDArg ) {
 			return await getCheckinsDetails( widgetIDArg.id );
 			break;
 		case "goals":
-			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot"))
+			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Goals/GoalList"))
 			break;
 		case "development_plans":
 			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot"));
@@ -798,8 +833,7 @@ async function getWidgetData( widgetIDArg ) {
  * @returns
  */
 function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg ) {
-// rowIDArg
-	accessURLs = JSON.parse(sessionStorage.csAccessURLs);
+	const accessURLs = JSON.parse(sessionStorage.csAccessURLs);
 	let widgetData = accessURLs.find(widgetDetails => {
 		return widgetDetails.title === widgetIDArg;
 	})
@@ -1069,7 +1103,7 @@ async function buildAboutCard() {
  * @returns
  */
 function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
-
+    // console.log(approvalURLsArg);
 	var aprvlDiv = document.createElement( "div" );
 	aprvlDiv.className = "gpewp_approvals";
 
@@ -1083,22 +1117,26 @@ function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
 			tmpAprvlDiv.className = "approval-item approval-" + item + " app" + count;
 
 			var tmpAprvlDivHref = document.createElement( "a" );
-			tmpAprvlDivHref.className = "btn btn-primary position-relative " + item;
+			// tmpAprvlDivHref.className = "btn btn-primary position-relative " + item;
+			tmpAprvlDivHref.className = "position-relative " + item;
 			tmpAprvlDivHref.setAttribute( "href", $( this ).attr( 'href' ) );
+            // tmpContentDiv.innerHTML = "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button'>" + cs_widgetConfig[widgetIDArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
 
-			var tmpAprvlDivImg = new Image();
-			tmpAprvlDivImg.className = approvalURLsArg[ item ].icon;
-			tmpAprvlDivImg.src = "/clientimg/" + sessionStorage.csCorp + "/welcome/" + approvalURLsArg[ item ].imgname;
+			// var tmpAprvlDivImg = new Image();
+			// tmpAprvlDivImg.className = approvalURLsArg[ item ].icon;
+			// tmpAprvlDivImg.src = "/clientimg/" + sessionStorage.csCorp + "/welcome/" + approvalURLsArg[ item ].imgname;
 
-			var tmpAprvlDivText = document.createElement( "span" );
-			tmpAprvlDivText.innerHTML += approvalURLsArg[ item ].title[ cultureArg ];
+			var tmpAprvlButton = document.createElement( "button" );
+            tmpAprvlButton.setAttribute( "content", approvalURLsArg[ item ].title[ cultureArg ]);
+            tmpAprvlButton.className = "approval_button";
+            tmpAprvlButton.textContent = approvalURLsArg[ item ].title[ cultureArg ];
 
 			var tmpAprvlDivBadge = document.createElement( "span" );
 			tmpAprvlDivBadge.className = "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger";
 			tmpAprvlDivBadge.innerHTML = $( "table[id*='plnInbox_content'] a[href*='" + approvalURLsArg[ item ].url + "'] ~ span:first" ).text().match( /\d+/ )[ 0 ];
 
-			tmpAprvlDivHref.appendChild( tmpAprvlDivImg );
-			tmpAprvlDivHref.appendChild( tmpAprvlDivText );
+			// tmpAprvlDivHref.appendChild( tmpAprvlDivImg );
+			tmpAprvlDivHref.appendChild( tmpAprvlButton );
 			tmpAprvlDivHref.appendChild( tmpAprvlDivBadge );
 			tmpAprvlDiv.appendChild( tmpAprvlDivHref );
 
@@ -1141,19 +1179,19 @@ async function getTranscriptDetails( contentDivClassArg ) {
 
 		data.shift();
 		var columns = [ {
-				title: "Title",
+				title: cs_widgetConfig[contentDivClassArg].tablecolumns.title[sessionStorage.csCulture],
 				sortable: true
 		},
 			{
-				title: "Due Date",
+				title: cs_widgetConfig[contentDivClassArg].tablecolumns.duedate[sessionStorage.csCulture],
 				sortable: true
 		},
 			{
-				title: "Status",
+				title: cs_widgetConfig[contentDivClassArg].tablecolumns.status[sessionStorage.csCulture],
 				sortable: true
 		},
 			{
-				title: "Action",
+				title: cs_widgetConfig[contentDivClassArg].tablecolumns.action[sessionStorage.csCulture],
 				sortable: false
 		}
 	];
@@ -1194,11 +1232,11 @@ async function getActionsDetails( contentDivClassArg ) {
 
 	data.shift();
 	var columns = [ {
-			title: "Title",
+			title: cs_widgetConfig[contentDivClassArg].tablecolumns.title[sessionStorage.csCulture],
 			sortable: true
 		},
 		{
-			title: "Due Date",
+			title: cs_widgetConfig[contentDivClassArg].tablecolumns.duedate[sessionStorage.csCulture],
 			sortable: true
 		}
 	];
@@ -1228,15 +1266,15 @@ async function getActionsDetails( contentDivClassArg ) {
  * @param
  * @returns
  */
-async function getDonutDetails( contentDivClassArg, urlArg) {
+async function getDonutDetails( widgetIDArg, urlArg) {
 	return await Promise.resolve( await fetch( urlArg ) )
 		.then( async function( data) {
-			// console.log("%cDONUT DATA LOAD: "+ data, "color:#ccaa00;");
+		    // console.log("%cDONUT DATA LOAD: "+ data, "color:#ccaa00;");
 			return await data.text();
 		})
 		.then( async function( dataResponse ) {
 			// console.log("%cDONUT CHECK: "+ contentDivClassArg, "color:#ccaa00;");
-			switch(contentDivClassArg) {
+			switch(widgetIDArg) {
 				case "goals":
 					return await $( dataResponse ).find( '.percentage' ).attr( "data-percent" );
 				break;
@@ -1249,12 +1287,12 @@ async function getDonutDetails( contentDivClassArg, urlArg) {
 			// console.log("%cDONUT DATA: "+ achievedData, "color:#ccaa00;");
 			// IF ACHIEVED == 0 DO SOMETHING ELSE
 			let tmpContentDiv = document.createElement( "div" );
-			tmpContentDiv.className = contentDivClassArg;
-			tmpContentDiv.setAttribute( "id", contentDivClassArg);
+			tmpContentDiv.className = widgetIDArg;
+			tmpContentDiv.setAttribute( "id", widgetIDArg);
 			if(achievedData != null) {
-				return await Promise.resolve(await drawDonut( achievedData, contentDivClassArg, tmpContentDiv));
+				return await Promise.resolve(await drawDonut( achievedData, widgetIDArg, tmpContentDiv));
 			}else {
-				tmpContentDiv.innerHTML = "<button type='button' id='"+contentDivClassArg+"_nodata' class='getstarted_button'>" + cs_customLocale.wp.widgets[contentDivClassArg].notitle[ sessionStorage.csCulture ] + "</button>";
+				tmpContentDiv.innerHTML = "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button'>" + cs_widgetConfig[widgetIDArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
 				return await tmpContentDiv
 			}
 		})
@@ -1528,9 +1566,7 @@ async function getCheckinsDetails( contentDivClassArg ) {
 	tmpContentDiv.className = contentDivClassArg;
 	tmpContentDiv.setAttribute( "id", contentDivClassArg );
 
-	//$("div[id='"+contentDivClassArg+"']").parent(".card-body").children(".loader").show();
-
-	var localResponse = {};
+	let localResponse = {};
 
 	return await fetch( "/services/x/localization/v1/localizations/ui?groups=GoalPanel,DevPlanPanel,CheckIns&culture=" + sessionStorage.csCulture, {
 			method: 'GET',
@@ -1547,7 +1583,7 @@ async function getCheckinsDetails( contentDivClassArg ) {
 			//		console.log("checkins 1 - done");
 			let endpointURL = sessionStorage.csCloud + "perf-conversations-api/v1/conversations";
 
-			let localResponse = localStr.data;
+			localResponse = localStr.data;
 
 			return await fetch( endpointURL, {
 				method: 'GET',
@@ -1626,7 +1662,7 @@ async function getCheckinsDetails( contentDivClassArg ) {
 				checkinStr += "</table>";
 
 			} else {
-				checkinStr = "<button type='button' id='createNewCheckInsBTN' class='getstarted_button'>" + cs_customLocale.wp.widgets[contentDivClassArg].notitle[ sessionStorage.csCulture ] + "</button>";
+				checkinStr = "<button type='button' id='createNewCheckInsBTN' class='getstarted_button'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
 			}
 			//		console.log("checkinStr : "+ checkinStr);
 			tmpContentDiv.innerHTML = checkinStr;
@@ -2295,20 +2331,24 @@ function setPreloader(mainDivArg, visibleArg) {
 		.then(async function(accessURLs) {
 			sessionStorage.setItem("csAccessURLs", JSON.stringify(accessURLs));
 			const gpeNav = await buildNav(gpeDEMOROLE, sessionStorage.csCulture);
- 			const gpeWidgets = await buildWidgets(getAccessDetails(accessURLs), sessionStorage.csCulture);
 			const gpeAboutCard = await buildAboutCard();
 			const gpeQuickLinks = await buildQuickLinksCard(accessURLs, sessionStorage.csCulture);
 			const gpeApprovals = await getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
 
-			return await Promise.all([gpeNav, gpeWidgets, gpeAboutCard, gpeQuickLinks, gpeApprovals]);
+			return await Promise.all([gpeNav, gpeAboutCard, gpeQuickLinks, gpeApprovals, accessURLs]);
 		})
-		.then(async function(data) {
-			console.log("READY WITH BASIC WIDGETS!");
+		.then(async function([gpeNav, gpeAbt, gpeQLS, gpeAppr, accessURLs]) {
+            console.log("BUILDING WIDGETS!");
+            const gpeWidgets = await buildWidgets(getAccessDetails(accessURLs), sessionStorage.csCulture);
+            return await Promise.resolve(gpeWidgets);
+        })
+        .then(async function(data) {
+            console.log("READY WITH BASIC WIDGETS!");
 
 			// Fix NiceScroll on feed widget
 			$("#live_feed").niceScroll({
 				cursorborder: "",
-				cursorcolor: "#0047ba",
+				cursorcolor: "var(--gpewp-banner-bg-color--light)",
 				autohidemode: false,
 				boxzoom: false
 			});
@@ -2319,13 +2359,23 @@ function setPreloader(mainDivArg, visibleArg) {
 					sessionStorage.clear();
 				});
 
+            // Clean up niceScroll
+            const btns = document.querySelectorAll('a.trq-tab-link--flat');
+            btns.forEach(btn => {
+               btn.addEventListener('click', event => {
+                   setTimeout(function(){
+                        $("#live_feed").niceScroll().resize();
+       			    }, 200);
+               });
+            });
+
 			// Build report dashboards.
 			console.log("PROCESSING DASHBOARDS");
 			const gpeDashboards = await buildDashboards(gpeDEMOROLE);
-			return await gpeDashboards;
+			return await Promise.resolve(gpeDashboards);
 		})
 		.then(async function(data) {
-			// console.log(data);
+			console.log(data);
 			console.log(lastinline(), "color:#00cc00;");
 		})
  		.catch(error => {
