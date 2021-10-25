@@ -630,7 +630,7 @@ function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
 			case "INS":
 			case "ADM":
 				// IF there is a report in gpeUSERREPORTID - go on.
-				if ( gpeUSERREPORTID[ demoRoleArg ] ) buildExtendedWidget( getAccessDetails( accessURLsArg ), demoRoleArg + "-right", gpeUSERREPORTID[ demoRoleArg ].reportid, gpeUSERNAME, demoRoleArg );
+				if ( gpeUSERREPORTID[ demoRoleArg ] ) buildExtendedWidgetV2( getAccessDetails( accessURLsArg ), demoRoleArg + "-right", gpeUSERREPORTID[ demoRoleArg ].reportid, gpeUSERNAME, demoRoleArg );
 				topNavItmRole = buildExtraNavItem( demoRoleArg, cultureArg );
 				break;
 		}
@@ -1103,35 +1103,28 @@ async function buildAboutCard() {
  * @returns
  */
 function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
-    // console.log(approvalURLsArg);
-	var aprvlDiv = document.createElement( "div" );
+	let aprvlDiv = document.createElement( "div" );
 	aprvlDiv.className = "gpewp_approvals";
 
-	var count = 0;
-	var check;
-	for ( var item in approvalURLsArg ) {
+	let count = 0;
+	let check;
+	for ( let item in approvalURLsArg ) {
 		count += 1;
 		$( "table[id*='plnInbox_content'] a[href*='" + approvalURLsArg[ item ].url + "']" ).text( function() {
 
-			var tmpAprvlDiv = document.createElement( "div" );
+			let tmpAprvlDiv = document.createElement( "div" );
 			tmpAprvlDiv.className = "approval-item approval-" + item + " app" + count;
 
-			var tmpAprvlDivHref = document.createElement( "a" );
-			// tmpAprvlDivHref.className = "btn btn-primary position-relative " + item;
+			let tmpAprvlDivHref = document.createElement( "a" );
 			tmpAprvlDivHref.className = "position-relative " + item;
 			tmpAprvlDivHref.setAttribute( "href", $( this ).attr( 'href' ) );
-            // tmpContentDiv.innerHTML = "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button'>" + cs_widgetConfig[widgetIDArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
 
-			// var tmpAprvlDivImg = new Image();
-			// tmpAprvlDivImg.className = approvalURLsArg[ item ].icon;
-			// tmpAprvlDivImg.src = "/clientimg/" + sessionStorage.csCorp + "/welcome/" + approvalURLsArg[ item ].imgname;
-
-			var tmpAprvlButton = document.createElement( "button" );
+			let tmpAprvlButton = document.createElement( "button" );
             tmpAprvlButton.setAttribute( "content", approvalURLsArg[ item ].title[ cultureArg ]);
             tmpAprvlButton.className = "approval_button";
             tmpAprvlButton.textContent = approvalURLsArg[ item ].title[ cultureArg ];
 
-			var tmpAprvlDivBadge = document.createElement( "span" );
+			let tmpAprvlDivBadge = document.createElement( "span" );
 			tmpAprvlDivBadge.className = "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger";
 			tmpAprvlDivBadge.innerHTML = $( "table[id*='plnInbox_content'] a[href*='" + approvalURLsArg[ item ].url + "'] ~ span:first" ).text().match( /\d+/ )[ 0 ];
 
@@ -1470,7 +1463,7 @@ function checkJWT() {
 }
 
 /**
- * Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
+ * buildExtendedWidget - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
  * @param {array} accessArrArg -
  * @param {string} appendDivArg -
  * @param {array} usernameArg -
@@ -1547,12 +1540,175 @@ async function buildExtendedWidget( accessArrArg, appendDivArg, reportIDArg, use
 				columns: tempCol,
 				data: tempData
 			} );
+            console.log(reportContentDiv);
 			return reportContentDiv;
 		} )
-		.then( ( cardRowID ) => {
-			//$("div[id='" + cardRowID + "'] .loader").css("display", "none");
-		} )
 		.catch( error => console.error( "error with building manager page: " + error ) );
+}
+
+/**
+ * buildExtendedWidgetV2 - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
+ * @param {array} accessArrArg -
+ * @param {string} appendDivArg -
+ * @param {array} usernameArg -
+ * @param {string} demoRoleArg -
+ * @returns HTML table to be put on the welcome page
+ */
+//      buildExtendedWidgetV2(
+        // getAccessDetails( accessURLsArg ),
+        // demoRoleArg + "-right",
+        // gpeUSERREPORTID[ demoRoleArg ].reportid,
+        // gpeUSERNAME,
+        // demoRoleArg );
+        var extArr = "";
+async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg ) {
+    return await checkJWT()
+    	.then( async function() {
+    		let rptURL = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser + "&$select=user_id";
+    		return await fetch( rptURL, {
+    			method: 'GET',
+    			headers: {
+    				'Content-Type': 'application/json',
+    				'Authorization': 'Bearer ' + sessionStorage.csToken,
+    			},
+    		} )
+    	} )
+    	.then( response => response.json() )
+    	.then( async function( userData ) {
+    		return await userData.value.map( function( user ) {
+    			return user.user_id;
+    		} );
+    	} )
+    	.then( async function( userIDs ) {
+    		let empURL = "/services/api/x/users/v2/employees?ids=" + userIDs.join();
+    		return await fetch( empURL, {
+    			method: 'GET',
+    			headers: {
+    				'Content-Type': 'application/json',
+    				'Authorization': 'Bearer ' + sessionStorage.csToken,
+    			},
+    		} )
+    	} )
+    	.then( response => response.json() )
+    	.then( async function( userData ) {
+    		// console.log( userData );
+            extArr = userData;
+    		let emplData = userData.data.map( function( user ) {
+    			return {
+    				id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    fullName: user.firstName + " "+ user.lastName,
+    				username: user.userName,
+    				primaryEmail: user.primaryEmail,
+    				mobilPhone: user.mobilePhone,
+    				workPhone: user.workPhone,
+    				language: user.settings.displayLanguage,
+    				timezone: user.settings.timeZone,
+    				hiredate: user.workerStatus.lastHireDate,
+    				address: {
+    					line1: user.address.line1,
+    					city: user.address.city,
+    					country: user.address.country,
+    					state: user.address.state
+    				}
+    			};
+    		});
+
+            let emplCols = [{
+                title: "User ID",
+                field: "id"
+                }, {
+                    title: "Name",
+                    field: "fullName"
+                }, {
+                    title: "Hire Date",
+                    field: "hiredate"
+                },
+                {
+                    title: "Actions",
+                    field: "action",
+                    align: "center",
+                    clickToSelect: false,
+                    formatter: operateFormatter
+                }
+            ];
+
+            console.log(emplCols);
+            var reportContentDiv = document.createElement( "div" );
+			reportContentDiv.setAttribute( "id", "userReport" + reportIDArg );
+			reportContentDiv.className = "user_table";
+
+			let $table;
+			$table = $( "<table id='extReport" + reportIDArg + "'>" );
+			//$table = $("ReportTable"+reportResponse[2]);
+			$table.appendTo( reportContentDiv );
+			$table.bootstrapTable( {
+				locale: sessionStorage.csCulture,
+				showColumns: true,
+				showColumnsSearch: false,
+				checkboxHeader: false,
+				showToggle: false,
+				detailView: true,
+				columns: emplCols,
+				data: emplData
+			} );
+            console.log(reportContentDiv);
+
+			var cardTitle = cs_customLocale.ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
+			var cardLink = ""; // cardTitleHrefArg - URL on the card title.
+			var cardWidth = 12; // colArg - Bootstrap column width. Max 12.
+			var cardColID = "userReport_Col_" + reportIDArg; // colIDArg - ID of the card column.
+			var cardRowID = "userReport_Row_" + reportIDArg; // rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
+			var targetColDivID = appendDivArg; // targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
+			var contentDivClass = "userReport"; // contentDivClassArg - css class name of the content. This in order to be able to further style the card.
+			var content = reportContentDiv; // contentArg - main content of the card.
+
+			generateHTMLCard( cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content );
+
+			return await reportContentDiv;
+    	} )
+    	.catch( error => {
+    		console.error( "Error building buildExtendedWidgetV2 - ", error );
+    	} );
+}
+
+/**
+ *
+ * @param
+ * @param
+ * @returns
+ */
+function operateFormatter(value, row, index) {
+    console.log(row);
+  return [
+      '<div class="dropdown">',
+        '<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-expanded="false">',
+        'Actions',
+        '</a>',
+        '<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser='+ row.id +'">Open UP</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser='+ row.id +'">View Transcript</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser='+ row.id +'">View Snapshot</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser='+ row.id +'">View Goals</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser='+ row.id +'">View Development Plan</a></li>',
+        '</ul>',
+      '</div>'
+    ].join('');
+}
+
+/**
+ *
+ * @param
+ * @param
+ * @returns
+ */
+function detailFormatter(index, row) {
+  let html = [];
+  $.each(row, function (key, value) {
+    html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+    });
+  return html.join('');
 }
 
 /**
@@ -2083,7 +2239,8 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 
 			// Set the title of the chart (card-header)
 			$( "div[id='cs_report_" + reportIDArg + "'] .card-header" ).text( reportData.title );
-
+            // console.log("reportData.data[0]");
+            // console.log(reportData.data[0]);
 			let reportTBLColumns = [ ...reportData.data[ 0 ] ];
 			let [ , ...reportTBLData ] = reportData.data;
 
@@ -2092,8 +2249,11 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 			let ctx = canvas.getContext( "2d" );
 			let myChart = new Chart( ctx, config );
 
+            // console.log("reportTBLColumns");
+            // console.log(reportTBLColumns);
 			let tempCol = generateColumns( reportTBLColumns );
-			//console.log(tempCol);
+			// console.log("tempCol");
+			// console.log(tempCol);
 			let tempData = generateReportData( reportTBLData, reportTBLColumns );
 			return Promise.all( [ tempCol, tempData ] )
 				.then( response => {
@@ -2183,16 +2343,16 @@ var getReportData = async ( reports, demoRoleArg ) => {
 	} );
 	return Promise.all( requests )
 		.then( reportResponseData => {
-			// console.log("-[ Dashboards are now displayed - Lets create some tables/modals  ]-");
-			// console.log(reportResponseData);
 
-			// for each report, create modal data
 			reportResponseData.forEach( function( reportResponse ) {
 
 				var reportColumns = reportResponse[ 0 ];
 				var reportData = reportResponse[ 1 ];
 				var reportID = reportResponse[ 2 ];
 				//console.log(response);
+
+                // console.log("COLUMNS");
+                // console.log(reportColumns);
 
 				var modalTbl = document.createElement( "div" );
 				modalTbl.setAttribute( "id", "modalTable_" + reportResponse[ 2 ] );
@@ -2323,7 +2483,7 @@ function setPreloader(mainDivArg, visibleArg) {
  * @returns
  */
  (async function() {
- 	checkJWT()
+ 	await checkJWT()
  		.then(tokenResponse => {
 			return fetch("https://gpewp-c2dcf-default-rtdb.firebaseio.com/accessURLs.json");
 		})
