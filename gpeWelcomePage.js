@@ -1547,6 +1547,30 @@ async function buildExtendedWidget( accessArrArg, appendDivArg, reportIDArg, use
 }
 
 /**
+ * getGoalProgress - Get Goal Progress on several users
+ * @param {array} userIDArrayArg -
+ * @returns JSON Array
+ */
+async function getGoalProgress(userIDArrayArg){
+    let promiseArray = [];
+    userIDArrayArg.data.map(async function(userID){
+        var goalUrlStr = "/services/api/goalSummary/summary/" + userID.id +"?StartDate="+new Date().getFullYear()+"-01-01&EndDate="+new Date().getFullYear()+"-12-24";
+        promiseArray.push(fetch(goalUrlStr, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + sessionStorage.csToken,
+            },
+        } )
+        .then(goalResponse => goalResponse.json())
+        .then(async function(goalResponse){
+            return await goalResponse;
+        }));
+    });
+    return await Promise.all(promiseArray);
+}
+
+/**
  * buildExtendedWidgetV2 - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
  * @param {array} accessArrArg -
  * @param {string} appendDivArg -
@@ -1591,9 +1615,43 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     	} )
     	.then( response => response.json() )
     	.then( async function( userData ) {
-    		// console.log( userData );
+            // Get Goal Data;
+            console.log("get goal data");
+            console.log("Still inside the goal data function");
+            let goalData = await getGoalProgress(userData);
+            // console.log("goalData -----------------------------------");
+            // console.log(goalData);
+            let goalDataArr = [];
+            var goalSummaryArr = [];
+            goalDataArr = goalData.map(function(goalArr){
+                return goalArr.data;
+            });
+            // console.log("goalDataArr *********************************");
+            // console.log(goalDataArr);
+            for(var goalArr in goalDataArr){
+                // console.log(goalDataArr[goalArr]);
+                var goalProgress = 0;
+                var goalWeight = 0;
+                for(var goalItem in goalDataArr[goalArr]){
+                    // console.log(goalDataArr[goalArr][goalItem]);
+                    goalProgress += goalDataArr[goalArr][goalItem].Weight * goalDataArr[goalArr][goalItem].Progress;
+                    goalWeight += goalDataArr[goalArr][goalItem].Weight;
+                }
+                if(goalDataArr[goalArr].length !== 0) {
+                    goalSummaryArr[goalArr] = {
+                        id: goalDataArr[goalArr][0].User.Id,
+                        goalprogress: Math.round(goalProgress / goalWeight)+"%"
+                    };
+                }
+            }
+            let userArr = userData.data;
+            const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
+            return await finalArr;
+        })
+        .then(async function(userData) {
+            console.log("Build da shit");
             extArr = userData;
-    		let emplData = userData.data.map( function( user ) {
+    		let emplData = userData.map( function( user ) {
     			return {
     				id: user.id,
                     firstName: user.firstName,
@@ -1603,9 +1661,10 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     				primaryEmail: user.primaryEmail,
     				mobilPhone: user.mobilePhone,
     				workPhone: user.workPhone,
+                    goalProgress: user.goalprogress,
     				language: user.settings.displayLanguage,
     				timezone: user.settings.timeZone,
-    				hiredate: user.workerStatus.lastHireDate,
+    				hiredate: (user.workerStatus.lastHireDate && user.workerStatus.lastHireDate.substring(0,10)),
     				address: {
     					line1: user.address.line1,
     					city: user.address.city,
@@ -1614,16 +1673,22 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     				}
     			};
     		});
+            console.log(emplData);
 
             let emplCols = [{
                 title: "User ID",
-                field: "id"
+                field: "id",
+                visible: false
                 }, {
                     title: "Name",
                     field: "fullName"
                 }, {
                     title: "Hire Date",
                     field: "hiredate"
+                }, {
+                    title: "Goal Progress",
+                    field: "goalProgress",
+                    align: "center",
                 },
                 {
                     title: "Actions",
@@ -1634,14 +1699,12 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
                 }
             ];
 
-            console.log(emplCols);
             var reportContentDiv = document.createElement( "div" );
 			reportContentDiv.setAttribute( "id", "userReport" + reportIDArg );
 			reportContentDiv.className = "user_table";
 
 			let $table;
 			$table = $( "<table id='extReport" + reportIDArg + "'>" );
-			//$table = $("ReportTable"+reportResponse[2]);
 			$table.appendTo( reportContentDiv );
 			$table.bootstrapTable( {
 				locale: sessionStorage.csCulture,
@@ -1656,7 +1719,7 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
             console.log(reportContentDiv);
 
 			var cardTitle = cs_customLocale.ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
-			var cardLink = ""; // cardTitleHrefArg - URL on the card title.
+			var cardLink = "#"; // cardTitleHrefArg - URL on the card title.
 			var cardWidth = 12; // colArg - Bootstrap column width. Max 12.
 			var cardColID = "userReport_Col_" + reportIDArg; // colIDArg - ID of the card column.
 			var cardRowID = "userReport_Row_" + reportIDArg; // rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
@@ -1664,9 +1727,8 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
 			var contentDivClass = "userReport"; // contentDivClassArg - css class name of the content. This in order to be able to further style the card.
 			var content = reportContentDiv; // contentArg - main content of the card.
 
-			generateHTMLCard( cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content );
-
-			return await reportContentDiv;
+			return await generateHTMLCard( cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content );
+			// return await reportContentDiv;
     	} )
     	.catch( error => {
     		console.error( "Error building buildExtendedWidgetV2 - ", error );
@@ -1674,20 +1736,21 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
 }
 
 /**
- *
- * @param
- * @param
- * @returns
+ * operateFormatter - Supporting function for bootstrap-table
+ * @param {string} value -
+ * @param {array} row -
+ * @param {integer} index -
+ * @returns html array to put inside the right cell within the table
  */
 function operateFormatter(value, row, index) {
     console.log(row);
   return [
       '<div class="dropdown">',
-        '<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-expanded="false">',
+        '<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">',
         'Actions',
         '</a>',
         '<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser='+ row.id +'">Open UP</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser='+ row.id +'">Open Universal Profile</a></li>',
           '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser='+ row.id +'">View Transcript</a></li>',
           '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser='+ row.id +'">View Snapshot</a></li>',
           '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser='+ row.id +'">View Goals</a></li>',
