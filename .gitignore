@@ -9,3 +9,5 @@
 # misc
 .jshintrc
 accessURLs.json
+.vscode/launch.json
+.gitignore

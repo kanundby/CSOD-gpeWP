@@ -471,11 +471,11 @@ const gpeUSERREPORTID = {
 		filterid: -2,
 		showcolumns: [ "User Full Name_70", "user_hire_dt_orig_70", "user_pos_70" ]
 	},
-	HRD: {
-		reportid: 51,
-		filterid: 774,
-		showcolumns: [ "User Full Name_70", "user_hire_dt_orig_70", "user_pos_70" ]
-	}
+	// HRD: {
+	// 	reportid: 51,
+	// 	filterid: 774,
+	// 	showcolumns: [ "User Full Name_70", "user_hire_dt_orig_70", "user_pos_70" ]
+	// }
 };
 
 /**
@@ -754,13 +754,13 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 	let widgetPromisesArray = [];
 	widgetIDArr.forEach(function(widget) {
 		widgetPromisesArray.push(getWidgetData( widget ) );
-	})
+	});
 
 	return await Promise.all( widgetPromisesArray )
 	.then(async function(widgetPromisesArrayComplete) {
 		// console.log(widgetPromisesArrayComplete);
 		// console.log("%c!!!!!!!!!!!!!!!!!-- widgetPromisesArrayComplete --!!!!!!!!!!!!!!!!!", "color:#00ffff;")
-		return await widgetPromisesArrayComplete.map( async function(widgetData, index)  {
+		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
 			// console.log(widgetData);
 			if(widgetData) {
 				return await generateHTMLWidget(
@@ -773,7 +773,7 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 				 	widgetData);
 				//return await Promise.resolve(widgetData);
 			}
-		})
+		});
 		//return Promise.resolve(renderedWidgets);
 	})
 	.then(async function(renderedWidgetsResp) {
@@ -783,9 +783,9 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 		$("canvas").each(function() {
 			var chart = Chart.getChart($(this).attr("id"));
 			chart.update();
-		})
+		});
 
-		return await renderedWidgetsResp;
+		return renderedWidgetsResp;
 	})
 	.catch( error => console.error( "Error in getting widget data: " + error ) );
 }
@@ -800,22 +800,16 @@ async function getWidgetData( widgetIDArg ) {
 	switch ( widgetIDArg.id ) {
 		case "view_your_transcript":
 			return await getTranscriptDetails( widgetIDArg.id );
-			break;
 		case "performance_reviews":
 			return await getActionsDetails( widgetIDArg.id );
-			break;
 		case "check_ins":
 			return await getCheckinsDetails( widgetIDArg.id );
-			break;
 		case "goals":
-			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Goals/GoalList"))
-			break;
+			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Goals/GoalList"));
 		case "development_plans":
 			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot"));
-			break;
 		case "live_feed":
 			return await getFeedDetails( widgetIDArg.id );
-			break;
 	}
 }
 
@@ -836,7 +830,7 @@ function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg,
 	const accessURLs = JSON.parse(sessionStorage.csAccessURLs);
 	let widgetData = accessURLs.find(widgetDetails => {
 		return widgetDetails.title === widgetIDArg;
-	})
+	});
 
 	var tmpRowDiv = "";
 	if ( document.getElementById( rowIDArg ) ) {
@@ -990,7 +984,7 @@ async function buildQuickLinksCard( accessArrArg, cultureArg ) {
 			tmpCardBody.className = "card-body";
 
 			let tmpContentDiv = document.createElement( "div" );
-			tmpContentDiv.className = "quicklinks"
+			tmpContentDiv.className = "quicklinks";
 
 			$.each( i.slice( 0, 5 ), function( e1, i1, a1 ) {
 				if ( i1.quicklinkPrio != 99 ) {
@@ -1149,7 +1143,7 @@ function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
 			demoRoleArg + "-left",
 			"approvalContent",
 			aprvlDiv
-		)
+		);
 	}
 	return aprvlDiv;
 }
@@ -1270,10 +1264,8 @@ async function getDonutDetails( widgetIDArg, urlArg) {
 			switch(widgetIDArg) {
 				case "goals":
 					return await $( dataResponse ).find( '.percentage' ).attr( "data-percent" );
-				break;
 				case "development_plans":
 					return await $( dataResponse ).find( "a[href*='/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew']" ).closest( "div[class*='dashboard-widget-content']" ).find(".percentage span").text();
-				break;
 			}
 		})
 		.then(async function(achievedData) {
@@ -1286,7 +1278,7 @@ async function getDonutDetails( widgetIDArg, urlArg) {
 				return await Promise.resolve(await drawDonut( achievedData, widgetIDArg, tmpContentDiv));
 			}else {
 				tmpContentDiv.innerHTML = "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button'>" + cs_widgetConfig[widgetIDArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
-				return await tmpContentDiv
+				return await tmpContentDiv;
 			}
 		})
 		.catch( error => console.error( "Error in getDonutDetails: " + error ) );
@@ -1579,6 +1571,7 @@ async function getGoalProgress(userIDArrayArg){
  * @returns HTML table to be put on the welcome page
  */
 async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg ) {
+	// console.log(accessArrArg);
     return await checkJWT()
     	.then( async function() {
     		let rptURL = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser + "&$select=user_id";
@@ -1588,7 +1581,7 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     				'Content-Type': 'application/json',
     				'Authorization': 'Bearer ' + sessionStorage.csToken,
     			},
-    		} )
+    		} );
     	} )
     	.then( response => response.json() )
     	.then( async function( userData ) {
@@ -1604,7 +1597,7 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     				'Content-Type': 'application/json',
     				'Authorization': 'Bearer ' + sessionStorage.csToken,
     			},
-    		} )
+    		} );
     	} )
     	.then( response => response.json() )
     	.then( async function( userData ) {
@@ -1634,7 +1627,8 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
             return await finalArr;
         })
         .then(async function(userData) {
-            console.log("Build da shit");
+            // console.log("Build da shit");
+			// console.log(accessArrArg);
     		let emplData = userData.map( function( user ) {
     			return {
     				id: user.id,
@@ -1657,7 +1651,7 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     				}
     			};
     		});
-            console.log(emplData);
+            // console.log(emplData);
 
             let emplCols = [{
                 title: "User ID",
@@ -1697,10 +1691,11 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
 				checkboxHeader: false,
 				showToggle: false,
 				detailView: true,
+				detailFormatter: detailFormatter,
 				columns: emplCols,
 				data: emplData
 			} );
-            console.log(reportContentDiv);
+            // console.log(reportContentDiv);
 
 			var cardTitle = cs_customLocale.ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
 			var cardLink = "#"; // cardTitleHrefArg - URL on the card title.
@@ -1727,7 +1722,7 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
  * @returns html array to put inside the right cell within the table
  */
 function operateFormatter(value, row, index) {
-    console.log(row);
+    // console.log(row);
   return [
       '<div class="dropdown">',
         '<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">',
@@ -1745,18 +1740,81 @@ function operateFormatter(value, row, index) {
 }
 
 /**
- *
- * @param
- * @param
- * @returns
+ * detailFormatter - Supporting function for bootstrap-table
+ * @param {string} index -
+ * @param {array} row -
+ * @returns html array to put inside the right cell within the table
  */
+// function detailFormatter(index, row) {
+//     var html = []
+//     $.each(row, function (key, value) {
+//       html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+//     })
+//     return html.join('')
+// }
+
 function detailFormatter(index, row) {
-  let html = [];
-  $.each(row, function (key, value) {
-    html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-    });
-  return html.join('');
-}
+	let html = [];
+
+	html.push('<div class="col-xs-12 col-sm-12 col-md-12">');
+	html.push('<div class="well well-sm">');
+	html.push('<div class="row">');
+
+	html.push('<div class="col-sm-6 col-md-6">');
+	html.push('<h5>');
+	html.push('<b>'+ row.fullName  +'</b></h5>');
+	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
+	html.push('<tr>');
+	html.push('<td>First name</td>');
+	html.push('<td>'+ row.firstName +'</td>');
+	html.push('</tr>');
+	html.push('<tr>');
+	html.push('<td>Last name</td>');
+	html.push('<td>'+ row.lastName +'</td>');
+	html.push('</tr>');
+	html.push('<tr>');
+	html.push('<td>Email</td>');
+	html.push('<td>'+ row.primaryEmail +'</td>');
+	html.push('</tr>');
+	html.push('<tr>');
+	html.push('<td>Phone</td>');
+	html.push('<td>'+ row.workPhone +'</td>');
+	html.push('</tr>');
+	html.push('<tr>');
+	html.push('<td>Orig. Hire Date</td>');
+	html.push('<td>'+ row.hiredate +'</td>');
+	html.push('</tr>');
+	html.push('</table>');
+	html.push('</div>');
+   
+	html.push('<div class="col-sm-6 col-md-6">');
+	html.push('<h5><b>Address Details</b></h5>');
+	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
+	html.push('<tr>');
+	html.push('<td>Address</td>');
+	html.push('<td>'+ row.address.line1 +'</td>');
+	html.push('</tr>');
+	html.push('<tr>');
+	html.push('<td>City</td>');
+	html.push('<td>'+ row.address.city +'</td>');
+	html.push('</tr>');
+	html.push('<tr>');
+	html.push('<td>State</td>');
+	html.push('<td>'+ row.address.state +'</td>');
+	html.push('</tr>');
+	html.push('<tr>');
+	html.push('<td>Country</td>');
+	html.push('<td>'+ row.address.country +'</td>');
+	html.push('</tr>');
+	html.push('</table>');
+	html.push('</div>');
+   
+	html.push('</div>');
+	html.push('</div>');
+	html.push('</div>');
+   
+	return html.join('');
+   }
 
 /**
  *
