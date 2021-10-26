@@ -775,6 +775,7 @@ p[_ngcontent-nml-c376] {
 
 #cs_main_quicklinks .card-body {
     min-height: 250px !important;
+    width: 100% !important;
 }
 
 #cs_main_quicklinks .card-body .btn {
@@ -805,6 +806,32 @@ p[_ngcontent-nml-c376] {
 .gpewp_QLS .card-body .fa {
     font-size: .7rem !important;
     padding-left: 5px;
+}
+
+button.quicklinks_button {
+    border: none;
+    margin: 0px;
+    appearance: none;
+    box-sizing: border-box;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) var(--gpewp-brand-color--primary);
+    box-shadow: rgb(0 0 0 / 4%) 0px 1px 2px 0px;
+    height: 40px;
+    padding: 2px 24px 0px;
+    font-size: 14px;
+    font-family: Segoe UI, Arial, sans-serif;
+    width: 100% !important;
+}
+
+button.quicklinks_button:hover:not(:disabled) {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.08) 100%), linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) var(--gpewp-banner-bg-color--light);
+}
+
+div[class*='qls_btn_'] {
+    padding: 4px !important;    
 }
 
 /*********************************************************/
@@ -866,29 +893,71 @@ span.abt-job-text {
 /*********************************************************/
 /* MANAGER WIDGET CSS
 /*********************************************************/
-#userReport51 .fixed-table-body {
+#extendedUserWidget .fixed-table-body {
     overflow-x: visible !important;
     overflow-y: visible !important;
 }
 
-#userReport51 .detail-view div[class*='col-md-'] {
+#extendedUserWidget .detail-view div[class*='col-md-'] {
     margin: 0px !important;
 }
 
-#userReport51 .detail-view td {
+#extendedUserWidget .detail-view td {
     font-size: 10px !important;
     padding: 5px
 }
 
-.detailoutable  {
- width: 100% !important;
+#extendedUserWidget .table-bordered>:not(caption)>*>* {
+    border-width: 0 0px !important;
 }
 
+#extendedUserWidget .table-bordered thead tr {
+    border-width: 0 0px !important;
+}
+
+#extendedUserWidget .table-bordered thead th {
+    border-bottom: 1px solid #000 !important;
+}
+
+.detailoutable {
+    width: 100% !important;
+}
 .detailoutable td {
- padding: .1rem !important;
+    margin: 0px !important;
 }
 
+.bootstrap-table .btn {
+    border: none;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) var(--gpewp-brand-color--primary) !important;
+    box-shadow: rgb(0 0 0 / 4%) 0px 1px 2px 0px;
+    height: 40px;
+    font-size: 14px;
+    font-family: Segoe UI, Arial, sans-serif;
+}
 
+.bootstrap-table .btn:hover:not(:disabled) {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.08) 100%), linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) var(--gpewp-banner-bg-color--light) !important;
+}
+
+/*********************************************************/
+/* view_your_transcript WIDGET CSS
+/*********************************************************/
+#performance_reviews .table-bordered>:not(caption)>*>*,
+#view_your_transcript .table-bordered>:not(caption)>*>* {
+    border-width: 0 0px !important;
+}
+
+#performance_reviews .table-bordered thead tr,
+#view_your_transcript .table-bordered thead tr {
+    border-width: 0 0px !important;
+}
+
+#performance_reviews .table-bordered thead th,
+#view_your_transcript .table-bordered thead th {
+    border-bottom: 1px solid #000 !important;
+}
 
 /*********************************************************/
 /* CHART CSS
@@ -1124,6 +1193,14 @@ th.checkHeaderCol:not(:first-child) {
     vertical-align: top;
     min-width: 120px;
     text-align: center;
+}
+
+#cs_main_check_ins .card-body {
+    width: 100% !important;
+}
+
+#cs_main_check_ins .card-body tr:hover {
+    --bs-table-accent-bg: none;
 }
 
 /*********************************************************/

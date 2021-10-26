@@ -629,8 +629,7 @@ function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
 			case "HRD":
 			case "INS":
 			case "ADM":
-				// IF there is a report in gpeUSERREPORTID - go on.
-				if ( gpeUSERREPORTID[ demoRoleArg ] ) buildExtendedWidgetV2( getAccessDetails( accessURLsArg ), demoRoleArg + "-right", gpeUSERREPORTID[ demoRoleArg ].reportid, gpeUSERNAME, demoRoleArg );
+				if ( gpeUSERREPORTID[ demoRoleArg ] ) buildExtendedWidgetV2( getAccessDetails( accessURLsArg ), demoRoleArg + "-right");
 				topNavItmRole = buildExtraNavItem( demoRoleArg, cultureArg );
 				break;
 		}
@@ -791,10 +790,9 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 }
 
 /**
- * Prepare
- * @param
- * @param
- * @returns
+ * getWidgetData - Executes different functions based on widget availability
+ * @param {array} widgetIDArg - Array 
+ * @returns Content from function
  */
 async function getWidgetData( widgetIDArg ) {
 	switch ( widgetIDArg.id ) {
@@ -812,7 +810,6 @@ async function getWidgetData( widgetIDArg ) {
 			return await getFeedDetails( widgetIDArg.id );
 	}
 }
-
 
 /**
  * generateHTMLWidget - Builds a bootstrap card dynamically based on arguments given.
@@ -988,20 +985,22 @@ async function buildQuickLinksCard( accessArrArg, cultureArg ) {
 
 			$.each( i.slice( 0, 5 ), function( e1, i1, a1 ) {
 				if ( i1.quicklinkPrio != 99 ) {
-					const tmpBtnDiv = document.createElement( "a" );
-					tmpBtnDiv.className = "btn btn-primary";
-					tmpBtnDiv.setAttribute( "href", i1.url );
+					const tmpQLS_Div = document.createElement( "div" );
+					tmpQLS_Div.className = "qls_btn_"+i1.module+"-"+i1.id;
+					tmpQLS_Div.setAttribute( "priority", i1.quicklinkPrio );
 
-					const tmpBtnDivIcon = document.createElement( "i" );
-					tmpBtnDivIcon.className = "fa " + i1.icon;
+					const tmpQLS_Href = document.createElement( "a" );
+					tmpQLS_Href.className = "position-relative ";
+					tmpQLS_Href.setAttribute( "href", i1.url );
 
-					const tmpBtnDivText = document.createElement( "span" );
-					tmpBtnDivText.className = "text";
-					tmpBtnDivText.innerHTML = i1.title;
+					const tmpQLS_Button = document.createElement( "button" );
+					tmpQLS_Button.setAttribute( "content", i1.title);
+					tmpQLS_Button.className = "quicklinks_button";
+					tmpQLS_Button.textContent = i1.title;
 
-					tmpBtnDiv.appendChild( tmpBtnDivIcon );
-					tmpBtnDiv.appendChild( tmpBtnDivText );
-					tmpContentDiv.appendChild( tmpBtnDiv );
+					tmpQLS_Href.appendChild( tmpQLS_Button );
+					tmpQLS_Div.appendChild( tmpQLS_Href );
+					tmpContentDiv.appendChild( tmpQLS_Div );
 				}
 			} );
 
@@ -1274,7 +1273,7 @@ async function getDonutDetails( widgetIDArg, urlArg) {
 			let tmpContentDiv = document.createElement( "div" );
 			tmpContentDiv.className = widgetIDArg;
 			tmpContentDiv.setAttribute( "id", widgetIDArg);
-			if(achievedData != null) {
+			if(achievedData != 0) {
 				return await Promise.resolve(await drawDonut( achievedData, widgetIDArg, tmpContentDiv));
 			}else {
 				tmpContentDiv.innerHTML = "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button'>" + cs_widgetConfig[widgetIDArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
@@ -1540,6 +1539,7 @@ async function buildExtendedWidget( accessArrArg, appendDivArg, reportIDArg, use
 
 /**
  * getGoalProgress - Get Goal Progress on several users
+ * @usedby buildExtendedWidgetV2
  * @param {array} userIDArrayArg -
  * @returns JSON Array
  */
@@ -1564,14 +1564,12 @@ async function getGoalProgress(userIDArrayArg){
 
 /**
  * buildExtendedWidgetV2 - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
- * @param {array} accessArrArg -
- * @param {string} appendDivArg -
- * @param {array} usernameArg -
- * @param {string} demoRoleArg -
+ * @param {array} accessArrArg - Array of available navigation items which is based on user's security role (permissions).
+ * @param {string} appendDivArg - Where to put the card...
  * @returns HTML table to be put on the welcome page
  */
-async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg ) {
-	// console.log(accessArrArg);
+async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
+	console.log(accessArrArg);
     return await checkJWT()
     	.then( async function() {
     		let rptURL = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser + "&$select=user_id";
@@ -1602,33 +1600,38 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     	.then( response => response.json() )
     	.then( async function( userData ) {
 			// Get goal
-            let goalData = await getGoalProgress(userData);
-            let goalDataArr = [];
-            let goalSummaryArr = [];
-            goalDataArr = goalData.map(function(goalArr){
-                return goalArr.data; 
-            });
-            for(let goalArr in goalDataArr){
-                let goalProgress = 0;
-                let goalWeight = 0;
-                for(let goalItem in goalDataArr[goalArr]){
-                    goalProgress += goalDataArr[goalArr][goalItem].Weight * goalDataArr[goalArr][goalItem].Progress;
-                    goalWeight += goalDataArr[goalArr][goalItem].Weight;
-                }
-                if(goalDataArr[goalArr].length !== 0) {
-                    goalSummaryArr[goalArr] = {
-                        id: goalDataArr[goalArr][0].User.Id,
-                        goalprogress: Math.round(goalProgress / goalWeight)+"%"
-                    };
-                }
-            }
             let userArr = userData.data;
-            const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
-            return await finalArr;
+
+			//If user has access to Goal then go ahead and get the data.
+			let goalCheck = accessArrArg.some(function(accessItem){ return accessItem.id == "Goals";});
+			if(goalCheck){
+				let goalData = await getGoalProgress(userData);
+				let goalDataArr = [];
+				let goalSummaryArr = [];
+				goalDataArr = goalData.map(function(goalArr){
+					return goalArr.data; 
+				});
+				for(let goalArr in goalDataArr){
+					let goalProgress = 0;
+					let goalWeight = 0;
+					for(let goalItem in goalDataArr[goalArr]){
+						goalProgress += goalDataArr[goalArr][goalItem].Weight * goalDataArr[goalArr][goalItem].Progress;
+						goalWeight += goalDataArr[goalArr][goalItem].Weight;
+					}
+					if(goalDataArr[goalArr].length !== 0) {
+						goalSummaryArr[goalArr] = {
+							id: goalDataArr[goalArr][0].User.Id,
+							goalprogress: Math.round(goalProgress / goalWeight)+"%"
+						};
+					}
+				}
+				const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
+				return await finalArr;
+			}else {
+				return userArr;
+			}
         })
         .then(async function(userData) {
-            // console.log("Build da shit");
-			// console.log(accessArrArg);
     		let emplData = userData.map( function( user ) {
     			return {
     				id: user.id,
@@ -1639,7 +1642,7 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     				primaryEmail: user.primaryEmail,
     				mobilPhone: user.mobilePhone,
     				workPhone: user.workPhone,
-                    goalProgress: user.goalprogress,
+                    goalProgress: (user.goalprogress && user.goalprogress),
     				language: user.settings.displayLanguage,
     				timezone: user.settings.timeZone,
     				hiredate: (user.workerStatus.lastHireDate && user.workerStatus.lastHireDate.substring(0,10)),
@@ -1651,7 +1654,6 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     				}
     			};
     		});
-            // console.log(emplData);
 
             let emplCols = [{
                 title: "User ID",
@@ -1663,10 +1665,6 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
                 }, {
                     title: "Hire Date",
                     field: "hiredate"
-                }, {
-                    title: "Goal Progress",
-                    field: "goalProgress",
-                    align: "center",
                 },
                 {
                     title: "Actions",
@@ -1677,16 +1675,28 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
                 }
             ];
 
+			//If user has access to Goal then add this as a column on manager widget.
+			let goalCheck = accessArrArg.some(function(accessItem){ return accessItem.id == "Goals";});
+			if(goalCheck) {
+
+				emplCols.splice(3, 0, {
+                    title: "Goal Progress",
+                    field: "goalProgress",
+                    align: "center",
+                });
+			}
+
             var reportContentDiv = document.createElement( "div" );
-			reportContentDiv.setAttribute( "id", "userReport" + reportIDArg );
+			// reportContentDiv.setAttribute( "id", "userReport" + reportIDArg ); // userReport51
+			reportContentDiv.setAttribute( "id", "extendedUserWidget");
 			reportContentDiv.className = "user_table";
 
 			let $table;
-			$table = $( "<table id='extReport" + reportIDArg + "'>" );
+			$table = $( "<table id='extendedUserTable'>" );
 			$table.appendTo( reportContentDiv );
 			$table.bootstrapTable( {
 				locale: sessionStorage.csCulture,
-				showColumns: true,
+				showColumns: false,
 				showColumnsSearch: false,
 				checkboxHeader: false,
 				showToggle: false,
@@ -1695,19 +1705,17 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
 				columns: emplCols,
 				data: emplData
 			} );
-            // console.log(reportContentDiv);
 
 			var cardTitle = cs_customLocale.ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
 			var cardLink = "#"; // cardTitleHrefArg - URL on the card title.
 			var cardWidth = 12; // colArg - Bootstrap column width. Max 12.
-			var cardColID = "userReport_Col_" + reportIDArg; // colIDArg - ID of the card column.
-			var cardRowID = "userReport_Row_" + reportIDArg; // rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
+			var cardColID = "userReport_Col"; // colIDArg - ID of the card column.
+			var cardRowID = "userReport_Row"; // rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
 			var targetColDivID = appendDivArg; // targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
 			var contentDivClass = "userReport"; // contentDivClassArg - css class name of the content. This in order to be able to further style the card.
 			var content = reportContentDiv; // contentArg - main content of the card.
 
 			return await generateHTMLCard( cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content );
-			// return await reportContentDiv;
     	} )
     	.catch( error => {
     		console.error( "Error building buildExtendedWidgetV2 - ", error );
@@ -1745,14 +1753,6 @@ function operateFormatter(value, row, index) {
  * @param {array} row -
  * @returns html array to put inside the right cell within the table
  */
-// function detailFormatter(index, row) {
-//     var html = []
-//     $.each(row, function (key, value) {
-//       html.push('<p><b>' + key + ':</b> ' + value + '</p>')
-//     })
-//     return html.join('')
-// }
-
 function detailFormatter(index, row) {
 	let html = [];
 
@@ -2595,7 +2595,7 @@ function setPreloader(mainDivArg, visibleArg) {
 		.then(accessURLs => accessURLs.json())
 		.then(async function(accessURLs) {
 			sessionStorage.setItem("csAccessURLs", JSON.stringify(accessURLs));
-			const gpeNav = await buildNav(gpeDEMOROLE, sessionStorage.csCulture);
+			const gpeNav = await buildNav(gpeDEMOROLE, sessionStorage.csCulture, getAccessDetails(accessURLs));
 			const gpeAboutCard = await buildAboutCard();
 			const gpeQuickLinks = await buildQuickLinksCard(accessURLs, sessionStorage.csCulture);
 			const gpeApprovals = await getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
