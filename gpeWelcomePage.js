@@ -1578,13 +1578,6 @@ async function getGoalProgress(userIDArrayArg){
  * @param {string} demoRoleArg -
  * @returns HTML table to be put on the welcome page
  */
-//      buildExtendedWidgetV2(
-        // getAccessDetails( accessURLsArg ),
-        // demoRoleArg + "-right",
-        // gpeUSERREPORTID[ demoRoleArg ].reportid,
-        // gpeUSERNAME,
-        // demoRoleArg );
-        var extArr = "";
 async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg ) {
     return await checkJWT()
     	.then( async function() {
@@ -1615,25 +1608,17 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
     	} )
     	.then( response => response.json() )
     	.then( async function( userData ) {
-            // Get Goal Data;
-            console.log("get goal data");
-            console.log("Still inside the goal data function");
+			// Get goal
             let goalData = await getGoalProgress(userData);
-            // console.log("goalData -----------------------------------");
-            // console.log(goalData);
             let goalDataArr = [];
-            var goalSummaryArr = [];
+            let goalSummaryArr = [];
             goalDataArr = goalData.map(function(goalArr){
-                return goalArr.data;
+                return goalArr.data; 
             });
-            // console.log("goalDataArr *********************************");
-            // console.log(goalDataArr);
-            for(var goalArr in goalDataArr){
-                // console.log(goalDataArr[goalArr]);
-                var goalProgress = 0;
-                var goalWeight = 0;
-                for(var goalItem in goalDataArr[goalArr]){
-                    // console.log(goalDataArr[goalArr][goalItem]);
+            for(let goalArr in goalDataArr){
+                let goalProgress = 0;
+                let goalWeight = 0;
+                for(let goalItem in goalDataArr[goalArr]){
                     goalProgress += goalDataArr[goalArr][goalItem].Weight * goalDataArr[goalArr][goalItem].Progress;
                     goalWeight += goalDataArr[goalArr][goalItem].Weight;
                 }
@@ -1650,7 +1635,6 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg, reportIDArg, u
         })
         .then(async function(userData) {
             console.log("Build da shit");
-            extArr = userData;
     		let emplData = userData.map( function( user ) {
     			return {
     				id: user.id,
