@@ -1,23 +1,24 @@
 /**
  * Dynamic Welcome Page for Cornerstone OnDemand
  * @desc Dynamic welcome page engine for Cornerstone OnDemand. The script is using the navigation menu as base to generate the page.
- * @author   Klas Anundby kanundby@csod.com
- * @version 0.7
+ * @author 		kanundby@csod.com	-	Klas Anundby
+ * @version 0.8
  */
 
- const gpeABOUTCARDDIV = "gpewp_topcontainer_upper"; // where do we want to put the user photo name/job?
- const gpeUSRMAINDIV = "USR-right";
- const gpeUSRCONTENTDIV = "USR-content";
- const gpeUSRLEFTDIV = "USR-left";
- const gpeDEMOPERSONADIV = "demopersona";
- const gpeDEMOUSERDIV = "demousername";
- const gpeTARGETNAVDIV = "gpewp_topcontainer_nav"; // where do we want to put the navigation menu?
- const gpeUSERNAME = document.getElementById( gpeDEMOUSERDIV ).getAttribute( gpeDEMOUSERDIV ).toLowerCase().split( ";" );
- const gpeDEMOROLE = getDemoRole( document.getElementById( gpeDEMOPERSONADIV ).getAttribute( gpeDEMOPERSONADIV ) );
- const gpePRIMARYBGCSS = $( '.c-nav-user' ).css( 'background-color' );
+ const gpeABOUTCARDDIV 		= "gpewp_topcontainer_upper"; 					// where do we want to put the user photo name/job?
+ const gpeUSRMAINDIV 		= "USR-right";									// User Main div element ID (biggest area)
+ const gpeUSRCONTENTDIV 	= "USR-content";								// User Main div (overall)
+ const gpeUSRLEFTDIV 		= "USR-left";									// User left div
+ const gpeDEMOPERSONADIV 	= "demopersona";								// id of persona div (user record custom field)
+ const gpeTARGETNAVDIV 		= "gpewp_topcontainer_nav"; 					// where do we want to put the navigation menu?
+ const gpeDEMOROLE 			= getDemoRole( document.getElementById( gpeDEMOPERSONADIV ).getAttribute( gpeDEMOPERSONADIV ) );
+ const gpePRIMARYBGCSS 		= $( '.c-nav-user' ).css( 'background-color' );	
  const gpeQUICKLINKSMAINDIV = "QLS-content";
 
-
+/**
+ * @const approvalURLs
+ * @desc Array of translated welcome page data points.
+ */
 const approvalURLs = {
 	training: {
 		url: "/reports/trackemployee/TrackEmpRequest.aspx",
@@ -81,31 +82,13 @@ const approvalURLs = {
 	}
 };
 
-/*
- * Custom translation array
- * = cs_customLocale
+/**
+ * @const cs_customLocale
+ * @desc Array of translated welcome page data points.
  */
 const cs_customLocale = {
 	ManagerWidgetTitle: {
 		"en-US": "Team widget",
-	},
-	ManagerToggleSwitch: {
-		"en-US": "Team View",
-	},
-	ManagerTableHeader1: {
-		"en-US": "Employee",
-	},
-	ManagerTableHeader2: {
-		"en-US": "Goal Achievement",
-	},
-	ManagerTableHeader3: {
-		"en-US": "Dummy Title",
-	},
-	ManagerTableHeader4: {
-		"en-US": "Dummy title #3",
-	},
-	ManagerTableHeader5: {
-		"en-US": "Dummy title #5",
 	},
 	topNavigationTitle: {
 		USR: {
@@ -173,6 +156,10 @@ const cs_customLocale = {
 	},
 };
 
+/**
+ * @const cs_widgetConfig
+ * @desc Array of settings for each widget.
+ */
 const cs_widgetConfig = {
 	development_plans : {
 		width : 12,
@@ -214,8 +201,8 @@ const cs_widgetConfig = {
 		width : 12,
 		targetdiv : gpeUSRMAINDIV,
 		title : {
-			"en-US" : "Your Transcript",
-			"en-UK" : "Your Transcript",
+			"en-US" : "Transcript",
+			"en-UK" : "Training Record",
 		},
 		nocontenttitle: {
 			"en-US": "empty",
@@ -259,18 +246,18 @@ const cs_widgetConfig = {
 		width : 12,
 		targetdiv : gpeUSRMAINDIV,
 		title : {
-			"en-US" : "My performance actions",
-			"en-UK" : "My performance actions",
+			"en-US" : "Actions",
+			"en-UK" : "Actions",
 		},
 		nocontenttitle: {
 			"en-US": "empty",
 			"en-UK": "empty",
 		},
         tablecolumns : {
-            title : {
-                "en-US": "Title",
-                "en-UK": "Title",
-                "fr-FR": "Le Title",
+            url : {
+                "en-US": "Action",
+                "en-UK": "Action",
+                "fr-FR": "Le Action",
             },
             duedate : {
                 "en-US": "Due Date",
@@ -289,7 +276,8 @@ const cs_widgetConfig = {
 var cs_DashboardArray = {
 	"MGR": {
 		//          "reports": [],
-		"reports": [ 2, 3, 14, 19, 46, 47, 48 ],
+		// "reports": [ 2, 3, 14, 19, 46, 47, 48 ],
+		"reports": [ 2, 3, 14, 19, 46, 48 ],
 		//		"reports": [3],
 	},
 	"HRD": {
@@ -352,7 +340,7 @@ var cs_DashboardDetailsArray = {
 	},
 	reports: {
 		"2": {
-			"width": 6
+			"width": 12
 		},
 		"3": {
 			"width": 6
@@ -1148,10 +1136,9 @@ function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
 }
 
 /**
- *
- * @param
- * @param
- * @returns
+ * getTranscriptDetails - Takes data from Transcript widget and displays on page in a different way (in a table). There's a limit on only display the top 10...
+ * @param {string} contentDivClassArg - HTML Div where to put the widget.
+  * @returns {array} tmpContentDiv - finalized HTML div with all content.
  */
 async function getTranscriptDetails( contentDivClassArg ) {
 		var tmpContentDiv = document.createElement( "div" );
@@ -1200,6 +1187,40 @@ async function getTranscriptDetails( contentDivClassArg ) {
 }
 
 /**
+ * getTranscriptDetailsV2 - Takes data via API and displays on page in a different way (in a table)
+ * @param {string} contentDivClassArg - HTML Div where to put the widget.
+  * @returns {array} tmpContentDiv - finalized HTML div with all content.
+ */
+ async function getTranscriptDetailsV2( contentDivClassArg ) {
+    return await checkJWT()
+    	.then( async function() {
+			let params = {
+				"UserId": "csanders@CS_en-US"
+			};
+			  
+			  let query = Object.keys(params)
+						   .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+						   .join('&');
+			  
+			  let url = '/services/api/TranscriptAndTask/Transcript?' + query;
+
+    		// let rptURL = "/services/api/lms/user/"+ sessionStorage.csUser +"/transcript?isCompleted=false&isArchived=false&isRemoved=false&isStandAlone=true&sortCriteria=StatusChangeDate&pageSize=20&pageNum=1";
+    		let rptURL = "/services/api/TranscriptAndTask/Transcript?UserId=48";
+    		return await fetch( url, {
+    			method: 'GET',
+    			headers: {
+    				'Content-Type': 'application/json',
+    				'Authorization': 'Bearer ' + sessionStorage.csToken,
+    			},
+    		} );
+    	} )
+    	.then( response => response.json() )
+    	.then( async function( userTranscript ) {
+			console.log( userTranscript.data );
+		} );
+
+ }
+/**
  *
  * @param
  * @param
@@ -1211,22 +1232,34 @@ async function getActionsDetails( contentDivClassArg ) {
 	tmpContentDiv.setAttribute( "id", contentDivClassArg );
 
 	//var tmpContent = document.querySelector("table[id*='ctl00_pnlActionItems_content']");
-	var tmpContent = document.querySelector( "div[data-tag='pnlMyTraining'] div[id$='_widgetContainer_ctl00_upnlList'] table" );
+	var tmpContent = document.querySelector( "div[data-tag='pnlActionItems'] table[id*='_pnlActionItems_content'] table tbody" );
 	var data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
 		return td.innerHTML.replace( /\s+/g, ' ' ).trim();
 	} ) );
 
 	data.shift();
+	let actionData = data.map(function(actionItem){
+		return {
+			url: actionItem[0],
+			duedate: actionItem[1]
+		};
+	});
+
 	var columns = [ {
-			title: cs_widgetConfig[contentDivClassArg].tablecolumns.title[sessionStorage.csCulture],
-			sortable: true
+			title: cs_widgetConfig[contentDivClassArg].tablecolumns.url[sessionStorage.csCulture],
+			field: "url",
+			sortable: false,
+			visible: true
+
 		},
 		{
 			title: cs_widgetConfig[contentDivClassArg].tablecolumns.duedate[sessionStorage.csCulture],
-			sortable: true
+			field: "duedate",
+			sortable: true,
+			visible: true
 		}
 	];
-
+	
 	var $table;
 	$table = $( '<table>' );
 	$table.appendTo( tmpContentDiv );
@@ -1239,9 +1272,8 @@ async function getActionsDetails( contentDivClassArg ) {
 		showToggle: false,
 		detailView: false,
 		columns: columns,
-		data: data
+		data: actionData
 	} );
-	//tmpContentDiv.appendChild(tmpContent);
 
 	return await tmpContentDiv;
 }
@@ -1276,7 +1308,11 @@ async function getDonutDetails( widgetIDArg, urlArg) {
 			if(achievedData != 0) {
 				return await Promise.resolve(await drawDonut( achievedData, widgetIDArg, tmpContentDiv));
 			}else {
-				tmpContentDiv.innerHTML = "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button'>" + cs_widgetConfig[widgetIDArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
+				let tempTitle = cs_widgetConfig[widgetIDArg].nocontenttitle[ sessionStorage.csCulture ];
+				let noContentStr = "<div class='nocontent donut'>";
+				noContentStr += "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button'>" + tempTitle + "</button>";
+				noContentStr += "</div>";
+				tmpContentDiv.innerHTML = noContentStr; 
 				return await tmpContentDiv;
 			}
 		})
@@ -1531,7 +1567,7 @@ async function buildExtendedWidget( accessArrArg, appendDivArg, reportIDArg, use
 				columns: tempCol,
 				data: tempData
 			} );
-            console.log(reportContentDiv);
+            // console.log(reportContentDiv);
 			return reportContentDiv;
 		} )
 		.catch( error => console.error( "error with building manager page: " + error ) );
@@ -1546,20 +1582,104 @@ async function buildExtendedWidget( accessArrArg, appendDivArg, reportIDArg, use
 async function getGoalProgress(userIDArrayArg){
     let promiseArray = [];
     userIDArrayArg.data.map(async function(userID){
-        var goalUrlStr = "/services/api/goalSummary/summary/" + userID.id +"?StartDate="+new Date().getFullYear()+"-01-01&EndDate="+new Date().getFullYear()+"-12-24";
-        promiseArray.push(fetch(goalUrlStr, {
+        var urlStr = "/services/api/goalSummary/summary/" + userID.id +"?StartDate="+new Date().getFullYear()+"-01-01&EndDate="+new Date().getFullYear()+"-12-24";
+        promiseArray.push(fetch(urlStr, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + sessionStorage.csToken,
             },
         } )
-        .then(goalResponse => goalResponse.json())
-        .then(async function(goalResponse){
-            return await goalResponse;
+        .then(response => response.json())
+        .then(async function(response){
+            return await response;
         }));
     });
     return await Promise.all(promiseArray);
+}
+
+/**
+ * getTranscriptsStats - Get Transcripts from several users
+ * @usedby buildExtendedWidgetV2
+ * @param {array} userIDArrayArg -
+ * @returns JSON Array
+ */
+async function getTranscriptsStats(userIDArrayArg){
+	let promiseArray = [];
+	await userIDArrayArg.data.map(async function(user){
+		let params = {
+			"UserId": user.externalId,
+			"InprogressOnly": true
+		};
+		let query = Object.keys(params)
+					.map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+					.join('&');
+		  
+		let urlStr = '/services/api/TranscriptAndTask/Transcript?' + query;
+
+        promiseArray.push(fetch(urlStr, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		})
+		.then(response => response.json())
+        .then(async function(response){
+			let returnArr = {};
+			returnArr.data = response.data;
+			returnArr.id = user.id;
+            return await returnArr;
+        })
+		.catch( error => {
+			console.error( "Error fetching transcript data - ", error );
+		})
+		);
+    });
+
+	let transcriptStatus = await Promise.all(promiseArray)
+	.then(async function(transcripts){
+		let finalTranscriptArr = [];
+		transcripts.map(function(transcriptItem){
+			finalTranscriptArr[transcriptItem.id] = transcriptItem.data[0].Transcripts;
+		});
+		return await finalTranscriptArr;
+	})
+	.catch( error => {
+		console.error( "Error building getTranscriptsStats - ", error );
+	});
+
+	return await transcriptStatus;
+    // return await Promise.all(promiseArray);
+}
+
+function play() {
+	checkJWT()
+	.then( async function() {
+		//   let rptURL = "/Services/api/approval/counts";
+		// let rptURL = "/services/api/LMS/user/47";
+		// let rptURL = "/services/api/game/manager/47";
+		// let rptURL = "/Services/api/Profile?ids=48";
+		// let rptURL = "/services/api/Search/Team/47";
+		    // let rptURL = "/services/api/x/users/v1/employees/47";
+		// let rptURL = "/services/api/x/users/v2/swagger.json";
+		//let rptURL = "/services/api/x/users/v2/employees?ids=48,49";
+		let rptURL = "/services/api/LMS/swagger/";
+
+   		//let rptURL = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser;
+
+		return await fetch( rptURL, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		} );
+	} )
+	.then( response => response.json() )
+	.then( async function( userData ) {
+		console.log(userData);
+	} );
 }
 
 /**
@@ -1569,11 +1689,11 @@ async function getGoalProgress(userIDArrayArg){
  * @returns HTML table to be put on the welcome page
  */
 async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
-	console.log(accessArrArg);
     return await checkJWT()
     	.then( async function() {
-    		let rptURL = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser + "&$select=user_id";
-    		return await fetch( rptURL, {
+//			let rptUrl = "/services/api/Search/Team/"+ sessionStorage.csUser;
+    		let rptUrl = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser + "&$select=user_id";
+    		return await fetch( rptUrl, {
     			method: 'GET',
     			headers: {
     				'Content-Type': 'application/json',
@@ -1583,29 +1703,32 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
     	} )
     	.then( response => response.json() )
     	.then( async function( userData ) {
-    		return await userData.value.map( function( user ) {
-    			return user.user_id;
+			return await userData.value.map( function( user ) {
+				return user.user_id;
     		} );
     	} )
     	.then( async function( userIDs ) {
     		let empURL = "/services/api/x/users/v2/employees?ids=" + userIDs.join();
-    		return await fetch( empURL, {
+    		return await Promise.resolve(fetch( empURL, {
     			method: 'GET',
     			headers: {
     				'Content-Type': 'application/json',
     				'Authorization': 'Bearer ' + sessionStorage.csToken,
     			},
-    		} );
+    		} ));
     	} )
     	.then( response => response.json() )
     	.then( async function( userData ) {
 			// Get goal
             let userArr = userData.data;
 
+			// let transcriptData = await Promise.resolve(getTranscriptsStats(userData));
+			// console.log(transcriptData);
+
 			//If user has access to Goal then go ahead and get the data.
 			let goalCheck = accessArrArg.some(function(accessItem){ return accessItem.id == "Goals";});
 			if(goalCheck){
-				let goalData = await getGoalProgress(userData);
+				let goalData = await Promise.resolve(getGoalProgress(userData));
 				let goalDataArr = [];
 				let goalSummaryArr = [];
 				goalDataArr = goalData.map(function(goalArr){
@@ -1629,10 +1752,10 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
 				return await finalArr;
 			}else {
 				return userArr;
-			}
+			}			
         })
         .then(async function(userData) {
-    		let emplData = userData.map( function( user ) {
+    		let emplData = await userData.map( function( user ) {
     			return {
     				id: user.id,
                     firstName: user.firstName,
@@ -1923,7 +2046,9 @@ async function getCheckinsDetails( contentDivClassArg ) {
 				checkinStr += "</table>";
 
 			} else {
-				checkinStr = "<button type='button' id='createNewCheckInsBTN' class='getstarted_button'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
+				checkinStr = "<div class='checkins nocontent'>";
+				checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
+				checkinStr += "</div>";
 			}
 			//		console.log("checkinStr : "+ checkinStr);
 			tmpContentDiv.innerHTML = checkinStr;
@@ -2241,7 +2366,9 @@ function fetchReport( reportIDArg ) {
 async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, chartDivTargetArg ) {
 	return fetchReport( reportIDArg )
 		.then( function( reportJson ) {
-
+			// console.log("------------------------------ reportJson ------------------------------");
+			// console.log(reportJson);
+			// console.log("------------------------------------------------------------------------\n\n\n");
 			const reportData = reportJson[ 0 ];
 			const rptDataSet = reportJson[ 1 ];
 
@@ -2258,8 +2385,11 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 
 			let dataSet = [];
 
-			if ( rptDataSet.charts[ 0 ].chartDimensions.length == 1 ) {
+			// console.log("chartDimensions.length: "+ rptDataSet.charts[ 0 ].chartDimensions.length);
 
+			// If simple graph (one dimension)
+			if ( rptDataSet.charts[ 0 ].chartDimensions.length == 1 ) {
+				// console.log("chartDimensions.length: "+ rptDataSet.charts[ 0 ].chartDimensions.length);
 				let chBgColor = [];
 				chBgColor = reportData.chartPalette.map( function( e ) {
 					return e.color;
@@ -2274,6 +2404,7 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 
 				} );
 				dataSet.shift();
+				// chartData.shift();
 				chartData.datasets.push( {
 					backgroundColor: chBgColor,
 					hoverBackgroundColor: chBgColor,
@@ -2281,8 +2412,12 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 					fill: true,
 				} );
 				legendFlag = false;
-				//console.log(chartData);
+				
+				// console.log("chartData ***************************");
+				// console.log(chartData);
+			// If advanced graph (two dimensions)
 			} else {
+				// console.log("Jag ska inte köras....");
 				for ( let i in reportCols ) {
 					dataSet[ reportCols[ i ] ] = [];
 					for ( let labelIndex in labels ) {
@@ -2297,7 +2432,7 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 						return item.displayName === reportCols[ i ];
 					} );
 
-					bgColor.map( function( item ) {
+					let bgColor1 = bgColor.map( function( item ) {
 						return item.color;
 					} );
 
@@ -2319,7 +2454,7 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 				type: cs_DashboardDetailsArray[ rptDataSet.charts[ 0 ].chartTypeId ].type,
 				data: chartData,
 				options: {
-					responsive: false,
+					responsive: true,
 					plugins: {
 						legend: {
 							display: legendFlag,
@@ -2342,6 +2477,9 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 
 			};
 
+			// console.log("REPORT CONFIG"+ rptDataSet.charts[ 0 ].title);
+			// console.log(config);
+
 			// Set the title of the chart (card-header)
 			$( "div[id='cs_report_" + reportIDArg + "'] .card-header" ).text( reportData.title );
             // console.log("reportData.data[0]");
@@ -2351,6 +2489,7 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 
 			let canvas = document.getElementById( chartTitleArg );
 
+			// 2021-10-27
 			let ctx = canvas.getContext( "2d" );
 			let myChart = new Chart( ctx, config );
 
@@ -2436,7 +2575,8 @@ var getReportData = async ( reports, demoRoleArg ) => {
 
 		var tmpCanvas = document.createElement( "canvas" );
 		tmpCanvas.setAttribute( "id", "report" + reportID );
-		tmpCanvas.setAttribute( "style", "height: 250px, width: 100%" );
+		// tmpCanvas.setAttribute( "style", "height: 250px, width: 100%" );
+//		tmpCanvas.setAttribute( "style", "height: 250px !important, width: 100% !important" );
 
 		generateHTMLCard( "", "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/" + reportID, cs_DashboardDetailsArray.reports[ reportID ].width, "cs_report_" + reportID, "cs_report", demoRoleArg + "-dashboards", "reportContents", tmpCanvas );
 
@@ -2525,7 +2665,7 @@ var getReportData = async ( reports, demoRoleArg ) => {
 
 				$( "#cs_report_" + reportID + " .card-body" ).click( function() {
 					$( "#modalTable_" + reportID ).modal( "toggle" );
-					//          $("#ReportTable" + reportID).bootstrapTable('refreshOptions', {});
+					// $("[id*='cs_reportModal_table']").bootstrapTable('refreshOptions', {});
 				} );
 			} );
 			//						$("div[id='cs_report_"+reportIDresp+"'] .loader").css("display","none");
@@ -2608,7 +2748,7 @@ function setPreloader(mainDivArg, visibleArg) {
             return await Promise.resolve(gpeWidgets);
         })
         .then(async function(data) {
-            console.log("READY WITH BASIC WIDGETS!");
+            // console.log("READY WITH BASIC WIDGETS!");
 
 			// Fix NiceScroll on feed widget
 			$("#live_feed").niceScroll({
@@ -2634,13 +2774,29 @@ function setPreloader(mainDivArg, visibleArg) {
                });
             });
 
+            // Checkins click events
+			$(".clickable-row").click(function() {
+				window.location = $(this).data("href");
+			});
+
 			// Build report dashboards.
 			console.log("PROCESSING DASHBOARDS");
 			const gpeDashboards = await buildDashboards(gpeDEMOROLE);
 			return await Promise.resolve(gpeDashboards);
 		})
 		.then(async function(data) {
-			console.log(data);
+
+			// Fix bootstrap table on chart click
+			var reportEvnt = document.querySelectorAll("[id*='cs_report_'] .card-body");
+			reportEvnt.forEach(function(element){
+				element.addEventListener("click", function(event) {
+					var $parentEl = $(this).closest("[class*='col-md-']");
+					setTimeout(function(){ $parentEl.find("[id*='ReportTable']").bootstrapTable('refreshOptions', {}); }, 200);
+					
+				});
+			});
+
+			// console.log(data);
 			console.log(lastinline(), "color:#00cc00;");
 		})
  		.catch(error => {

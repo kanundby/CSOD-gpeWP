@@ -770,6 +770,31 @@ p[_ngcontent-nml-c376] {
 }
 
 /*********************************************************/
+/* GENERAL CSS
+/*********************************************************/
+
+div#gpewp-main div[class*='gpewp_'] table a:not(.btn) {
+    color: var(--gpewp-brand-color--primary) !important;
+    text-decoration: none !important;
+}
+
+div#gpewp-main div[class*='gpewp_'] table a:not(.btn):hover {
+    color: var(--gpewp-banner-bg-color--light) !important;
+    text-decoration: underline !important;
+    background-color: #fff !important;
+}
+
+div#gpewp-main div[class*='gpewp_'] table a:not(.btn):hover {
+    color: var(--gpewp-banner-bg-color--light) !important;
+    text-decoration: underline !important;
+}
+
+.bootstrap-table tr:hover {
+    background-color: transparent !important;
+    --bs-table-accent-bg: transparent !important;
+}
+
+/*********************************************************/
 /* QUICKLINKS CSS
 /*********************************************************/
 
@@ -942,7 +967,7 @@ span.abt-job-text {
 }
 
 /*********************************************************/
-/* view_your_transcript WIDGET CSS
+/* USR WIDGET CSS
 /*********************************************************/
 #performance_reviews .table-bordered>:not(caption)>*>*,
 #view_your_transcript .table-bordered>:not(caption)>*>* {
@@ -959,20 +984,46 @@ span.abt-job-text {
     border-bottom: 1px solid #000 !important;
 }
 
+#cs_main_check_ins .card-body {
+    max-width: 100% !important;
+}
+
+.donut.nocontent,
+.checkins.nocontent {
+  display: flex;
+  justify-content: center;    
+}
+
+#cs_main_goals .card-body,
+#cs_main_development_plans .card-body {
+    width: 90% !important;
+    margin: 0 auto !important;
+}
+
+
 /*********************************************************/
 /* CHART CSS
 /*********************************************************/
 
-#cs_main_check_ins .card-body,
-#cs_main_goals .card-body,
-#cs_main_development_plans .card-body {
-    min-width: 200px !important;
-    margin: 0 auto !important;
-}
-
 /* CHART CARD SIZE */
 #cs_report .card-body {
     margin: 0 auto !important;
+    width: 100% !important;
+}
+
+#cs_report .card-body {
+    margin: 0 auto !important;
+    width: 80% !important;
+}
+
+[id*='cs_reportModal_table'] .page-item.active .page-link {
+    background: linear-gradient(-180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%) var(--gpewp-brand-color--primary) !important;
+    box-shadow: rgb(0 0 0 / 4%) 0px 1px 2px 0px;
+    border-color: var(--gpewp-brand-color--primary);
+}
+
+[id*='cs_reportModal_table'] .page-link {
+    color: var(--gpewp-brand-color--primary);
 }
 
 /* #cs_report .card canvas {
