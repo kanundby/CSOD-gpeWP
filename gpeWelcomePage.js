@@ -784,7 +784,6 @@ async function buildWidgets( accessArrArg, cultureArg ) {
  * @returns Content from function
  */
 async function getWidgetData( widgetIDArg ) {
-	console.log(widgetIDArg.id);
 	switch ( widgetIDArg.id ) {
 		case "view_your_transcript":
 			return await getTranscriptDetails( widgetIDArg.id );
@@ -1244,7 +1243,7 @@ async function getActionsDetails( contentDivClassArg ) {
 	var data = [];
 	let actionData = [];
 	if(tmpContent != null ){
-		var data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
+		data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
 			return td.innerHTML.replace( /\s+/g, ' ' ).trim();
 		} ) );
 
