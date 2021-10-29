@@ -172,6 +172,7 @@ const cs_widgetConfig = {
 			"en-US": "Create a new plan!",
 			"en-UK": "Create a new plan!",
 		},
+		getstartedurl : "/ui/devplans/blueprints/add"
 	},
 	goals : {
 		width : 12,
@@ -184,6 +185,7 @@ const cs_widgetConfig = {
 			"en-US": "Create goals!",
 			"en-UK": "Create goals!",
 		},
+		getstartedurl : "/phnx/driver.aspx?routename=Goals/GoalEdit"
 	},
 	check_ins : {
 		width : 12,
@@ -196,6 +198,7 @@ const cs_widgetConfig = {
 			"en-US": "Get Started!",
 			"en-UK": "Get Started!",
 		},
+		getstartedurl : "/ui/perf-check-ins/Check-Ins/create/select-participant"
 	},
 	view_your_transcript : {
 		width : 12,
@@ -1320,7 +1323,7 @@ async function getDonutDetails( widgetIDArg, urlArg) {
 			}else {
 				let tempTitle = cs_widgetConfig[widgetIDArg].nocontenttitle[ sessionStorage.csCulture ];
 				let noContentStr = "<div class='nocontent donut'>";
-				noContentStr += "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button'>" + tempTitle + "</button>";
+				noContentStr += "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button' data-href='"+cs_widgetConfig[widgetIDArg].getstartedurl+"'>" + tempTitle + "</button>";
 				noContentStr += "</div>";
 				tmpContentDiv.innerHTML = noContentStr; 
 				return await tmpContentDiv;
@@ -2057,7 +2060,7 @@ async function getCheckinsDetails( contentDivClassArg ) {
 
 			} else {
 				checkinStr = "<div class='checkins nocontent'>";
-				checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
+				checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='"+cs_widgetConfig[contentDivClassArg].getstartedurl+"'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
 				checkinStr += "</div>";
 			}
 			//		console.log("checkinStr : "+ checkinStr);
@@ -2788,6 +2791,11 @@ function setPreloader(mainDivArg, visibleArg) {
 			$(".clickable-row").click(function() {
 				window.location = $(this).data("href");
 			});
+
+            // Get started click events
+			$(".getstarted_button").click(function() {
+				window.location = $(this).data("href");
+			});			
 
 			// Build report dashboards.
 			console.log("PROCESSING DASHBOARDS");
