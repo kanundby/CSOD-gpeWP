@@ -228,7 +228,8 @@ const cs_widgetConfig = {
                 "en-US": "Action",
                 "en-UK": "Action",
                 "fr-FR": "Le Action",
-            }        }
+            }        
+		}
 	},
 	live_feed : {
 		width : 12,
@@ -783,6 +784,7 @@ async function buildWidgets( accessArrArg, cultureArg ) {
  * @returns Content from function
  */
 async function getWidgetData( widgetIDArg ) {
+	console.log(widgetIDArg.id);
 	switch ( widgetIDArg.id ) {
 		case "view_your_transcript":
 			return await getTranscriptDetails( widgetIDArg.id );
@@ -1146,11 +1148,16 @@ async function getTranscriptDetails( contentDivClassArg ) {
 		tmpContentDiv.setAttribute( "id", contentDivClassArg );
 
 		var tmpContent = document.querySelector( "div[data-tag='pnlMyTraining'] div[id$='_widgetContainer_ctl00_upnlList'] table" );
-		var data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
-			return td.innerHTML.replace( /\s+/g, ' ' ).trim();
-		} ) );
+		let data = [];
+		if(tmpContent.rows >= 1){
+			console.log("getTranscriptDetails");
+			console.log(tmpContent.rows);
+			data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
+				return td.innerHTML.replace( /\s+/g, ' ' ).trim();
+			} ) );
+			data.shift();
+		}
 
-		data.shift();
 		var columns = [ {
 				title: cs_widgetConfig[contentDivClassArg].tablecolumns.title[sessionStorage.csCulture],
 				sortable: true
@@ -1227,25 +1234,29 @@ async function getTranscriptDetails( contentDivClassArg ) {
  * @returns
  */
 async function getActionsDetails( contentDivClassArg ) {
+	
 	var tmpContentDiv = document.createElement( "div" );
 	tmpContentDiv.className = contentDivClassArg;
 	tmpContentDiv.setAttribute( "id", contentDivClassArg );
 
-	//var tmpContent = document.querySelector("table[id*='ctl00_pnlActionItems_content']");
 	var tmpContent = document.querySelector( "div[data-tag='pnlActionItems'] table[id*='_pnlActionItems_content'] table tbody" );
-	var data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
-		return td.innerHTML.replace( /\s+/g, ' ' ).trim();
-	} ) );
+	var columns = [];
+	var data = [];
+	let actionData = [];
+	if(tmpContent != null ){
+		var data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
+			return td.innerHTML.replace( /\s+/g, ' ' ).trim();
+		} ) );
 
-	data.shift();
-	let actionData = data.map(function(actionItem){
-		return {
-			url: actionItem[0],
-			duedate: actionItem[1]
-		};
-	});
-
-	var columns = [ {
+		data.shift();
+		actionData = data.map(function(actionItem){
+			return {
+				url: actionItem[0],
+				duedate: actionItem[1]
+			};
+		});
+		
+		columns = [ {
 			title: cs_widgetConfig[contentDivClassArg].tablecolumns.url[sessionStorage.csCulture],
 			field: "url",
 			sortable: false,
@@ -1257,9 +1268,9 @@ async function getActionsDetails( contentDivClassArg ) {
 			field: "duedate",
 			sortable: true,
 			visible: true
-		}
-	];
-	
+		}];
+	}	
+
 	var $table;
 	$table = $( '<table>' );
 	$table.appendTo( tmpContentDiv );
