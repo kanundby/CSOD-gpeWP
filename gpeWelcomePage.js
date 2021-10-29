@@ -1151,9 +1151,7 @@ async function getTranscriptDetails( contentDivClassArg ) {
 
 		var tmpContent = document.querySelector( "div[data-tag='pnlMyTraining'] div[id$='_widgetContainer_ctl00_upnlList'] table" );
 		let data = [];
-		if(tmpContent.rows >= 1){
-			console.log("getTranscriptDetails");
-			console.log(tmpContent.rows);
+		if(tmpContent.rows.length >= 1){
 			data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
 				return td.innerHTML.replace( /\s+/g, ' ' ).trim();
 			} ) );
