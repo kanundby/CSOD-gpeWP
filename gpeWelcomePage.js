@@ -1501,7 +1501,7 @@ function checkJWT() {
 }
 
 /**
- * buildExtendedWidget - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
+ * !!! NOT IN USE !!!! buildExtendedWidget - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
  * @param {array} accessArrArg -
  * @param {string} appendDivArg -
  * @param {array} usernameArg -
@@ -1667,17 +1667,34 @@ async function getTranscriptsStats(userIDArrayArg){
 function play() {
 	checkJWT()
 	.then( async function() {
-		//   let rptURL = "/Services/api/approval/counts";
-		// let rptURL = "/services/api/LMS/user/47";
-		// let rptURL = "/services/api/game/manager/47";
-		// let rptURL = "/Services/api/Profile?ids=48";
-		// let rptURL = "/services/api/Search/Team/47";
-		    // let rptURL = "/services/api/x/users/v1/employees/47";
-		// let rptURL = "/services/api/x/users/v2/swagger.json";
-		//let rptURL = "/services/api/x/users/v2/employees?ids=48,49";
-		let rptURL = "/services/api/LMS/swagger/";
+		// Use this for approval widget, instead of page scraping (as-is)
+		//let rptURL = "/services/api/TranscriptAndTask/Inbox?UserId=csanders@CS_en-US&Language=de-DE";
 
-   		//let rptURL = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser;
+		// Possibly use this instead of action widget
+		//let rptURL = "/services/api/TranscriptAndTask/Task?UserId=csanders@CS_en-US&Language={LANGUAGE}";
+
+		// Get transcript
+		//let rptURL = "/services/api/TranscriptAndTask/Transcript?UserId=csanders@CS_en-US&InprogressOnly=true&Language=de-DE"
+
+		// Get certifications
+		// let rptURL = "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId=rjones@CS_en-US"
+		
+		// Get Goal details
+		// let rptURL = "/services/api/Goals/GetDetails?UserId=rjones@CS_en-US&StartDate=2021-01-01&EndDate=2021-12-31";
+
+		// Get team... does include user's manager.
+		// let rptURL = "/services/api/Search/Team/47?page=1&amp;pageSize=10";
+
+		// Get overall details (URLS + image)	
+		// let rptURL = "/services/api/LMS/user/47";
+
+		// LMS Metrics (own user only)
+		// let rptURL = "/services/api/LMS/user/47/transcript/metrics";
+
+		// Get recommended training (own user only)
+		// let rptURL = "/services/api/LMS/user/47/recommendedtraining";
+
+		let rptURL = "/services/api/LMS/UserInfo";
 
 		return await fetch( rptURL, {
 			method: 'GET',
@@ -1689,7 +1706,7 @@ function play() {
 	} )
 	.then( response => response.json() )
 	.then( async function( userData ) {
-		console.log(userData);
+		console.dir(userData);
 	} );
 }
 
@@ -2205,7 +2222,7 @@ function updateReportToken() {
 }
 
 /**
- * Fetches report metadata used for Manager/HRD extended widget
+ * !!! NOT IN USE !!!! Fetches report metadata used for Manager/HRD extended widget
  * @param {string} reportIDArg - Report ID to be gathered. Derives from
  * @param {string} filterArg - derives from gpeUSERREPORTID.filterid
  * @param {string} demoRoleArg - derives from custom field
