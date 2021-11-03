@@ -981,11 +981,13 @@ async function buildQuickLinksCard( accessArrArg, cultureArg ) {
 					tmpQLS_Div.className = "qls_btn_"+i1.module+"-"+i1.id;
 					tmpQLS_Div.setAttribute( "priority", i1.quicklinkPrio );
 
-					const tmpQLS_Href = document.createElement( "a" );
+					const tmpQLS_Href = document.createElement( "div" );
 					tmpQLS_Href.className = "position-relative ";
-					tmpQLS_Href.setAttribute( "href", i1.url );
+					// tmpQLS_Href.setAttribute( "href", i1.url );
 
 					const tmpQLS_Button = document.createElement( "button" );
+					tmpQLS_Button.setAttribute("data-href", i1.url);
+					tmpQLS_Button.setAttribute("type", "button");
 					tmpQLS_Button.setAttribute( "content", i1.title);
 					tmpQLS_Button.className = "quicklinks_button";
 					tmpQLS_Button.textContent = i1.title;
@@ -1100,13 +1102,15 @@ function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
 			let tmpAprvlDiv = document.createElement( "div" );
 			tmpAprvlDiv.className = "approval-item approval-" + item + " app" + count;
 
-			let tmpAprvlDivHref = document.createElement( "a" );
+			let tmpAprvlDivHref = document.createElement( "div" );
 			tmpAprvlDivHref.className = "position-relative " + item;
-			tmpAprvlDivHref.setAttribute( "href", $( this ).attr( 'href' ) );
+			// tmpAprvlDivHref.setAttribute( "href", $( this ).attr( 'href' ) );
 
 			let tmpAprvlButton = document.createElement( "button" );
             tmpAprvlButton.setAttribute( "content", approvalURLsArg[ item ].title[ cultureArg ]);
-            tmpAprvlButton.className = "approval_button";
+            tmpAprvlButton.setAttribute("data-href", $( this ).attr( 'href' ));
+            tmpAprvlButton.setAttribute("type", "button");
+			tmpAprvlButton.className = "approval_button";
             tmpAprvlButton.textContent = approvalURLsArg[ item ].title[ cultureArg ];
 
 			let tmpAprvlDivBadge = document.createElement( "span" );
@@ -1640,7 +1644,7 @@ async function getTranscriptsStats(userIDArrayArg){
 			let returnArr = {};
 			returnArr.data = response.data;
 			returnArr.id = user.id;
-            return await returnArr;
+            return returnArr;
         })
 		.catch( error => {
 			console.error( "Error fetching transcript data - ", error );
@@ -1648,25 +1652,9 @@ async function getTranscriptsStats(userIDArrayArg){
 		);
     });
 
-	let transcriptStatus = await Promise.all(promiseArray)
-	.then(async function(transcripts){
-		let finalTranscriptArr = [];
-		transcripts.map(function(transcriptItem){
-			finalTranscriptArr[transcriptItem.id] = transcriptItem.data[0].Transcripts;
-		});
-		return await finalTranscriptArr;
-	})
-	.catch( error => {
-		console.error( "Error building getTranscriptsStats - ", error );
-	});
-
-	return await transcriptStatus;
-    // return await Promise.all(promiseArray);
+    return await Promise.all(promiseArray);
 }
 
-function play() {
-	checkJWT()
-	.then( async function() {
 		// Use this for approval widget, instead of page scraping (as-is)
 		//let rptURL = "/services/api/TranscriptAndTask/Inbox?UserId=csanders@CS_en-US&Language=de-DE";
 
@@ -1694,7 +1682,16 @@ function play() {
 		// Get recommended training (own user only)
 		// let rptURL = "/services/api/LMS/user/47/recommendedtraining";
 
-		let rptURL = "/services/api/LMS/UserInfo";
+		// Learner Home details (own users)
+		// let rptURL = "/services/api/bff/learnerhome/user/47/stats";
+
+function play() {
+	checkJWT()
+	.then( async function() {
+		// let rptURL = "/services/api/lms/user/47/transcript?hasDueDate=true&isCompleted=false&isArchived=false&isRemoved=false&page=1&pageSize=20&sortCriteria=DueDate&sortDirection=Ascending";
+		// let rptURL = "/services/api/lms/user/49/recommendedtraining?type=Position&pageSize=20&pageNum=1";
+		// let rptURL = "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId=rjones@CS_en-US";
+		 let rptURL = "/services/api/bff/learnerhome/user/49/stats";
 
 		return await fetch( rptURL, {
 			method: 'GET',
@@ -1750,11 +1747,22 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
 			// Get goal
             let userArr = userData.data;
 
-			// let transcriptData = await Promise.resolve(getTranscriptsStats(userData));
-			// console.log(transcriptData);
+			// let lmsCheck = accessArrArg.some(function(accessItem) { 
+			// 	return accessItem.module == "lms";
+			// });
+			// if(lmsCheck) {
+			// 	let transcriptData = await Promise.resolve(getTranscriptsStats(userData));
+			// 	transcriptDataArr = transcriptData.map(function(transcriptArr, index){
+			// 		console.log(index);
+			// 		console.log(transcriptArr);
+			// 	});
+			// }
 
 			//If user has access to Goal then go ahead and get the data.
-			let goalCheck = accessArrArg.some(function(accessItem){ return accessItem.id == "Goals";});
+			let goalCheck = accessArrArg.some(function(accessItem) { 
+				return accessItem.module == "epm-careers";
+			});
+
 			if(goalCheck){
 				let goalData = await Promise.resolve(getGoalProgress(userData));
 				let goalDataArr = [];
@@ -1776,6 +1784,7 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
 						};
 					}
 				}
+				console.log(goalSummaryArr);
 				const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
 				return await finalArr;
 			}else {
@@ -1979,8 +1988,9 @@ async function getCheckinsDetails( contentDivClassArg ) {
 	tmpContentDiv.setAttribute( "id", contentDivClassArg );
 
 	let localResponse = {};
-
-	return await fetch( "/services/x/localization/v1/localizations/ui?groups=GoalPanel,DevPlanPanel,CheckIns&culture=" + sessionStorage.csCulture, {
+	return await checkJWT()
+	.then( async function() {
+		return await fetch( "/services/x/localization/v1/localizations/ui?groups=GoalPanel,DevPlanPanel,CheckIns&culture=" + sessionStorage.csCulture, {
 			method: 'GET',
 			mode: 'cors',
 			cache: 'no-cache',
@@ -1989,102 +1999,100 @@ async function getCheckinsDetails( contentDivClassArg ) {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + sessionStorage.csToken,
 			},
-		} )
-		.then( response => response.json() )
-		.then( async function(localStr)  {
-			//		console.log("checkins 1 - done");
-			let endpointURL = sessionStorage.csCloud + "perf-conversations-api/v1/conversations";
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+		//		console.log("checkins 1 - done");
+		let endpointURL = sessionStorage.csCloud + "perf-conversations-api/v1/conversations";
+		localResponse = localStr.data;
+		return await fetch( endpointURL, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'default',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken
+			}
+		} );
+	} )
+	.then( response => response.json() )
+	.then( async function(checkinObjects) {
+		//		console.log("checkins 2 - done");
+		//		console.log(checkinObjects.length);
+		let checkinStr = "";
+		if ( checkinObjects.length != 0 ) {
+			//			console.log("HERE I AM!");
+			var hostName = window.location.host.split( '.' );
 
-			localResponse = localStr.data;
+			checkinStr = "<table border='0' cellspacing='0' cellpadding='0' width='100%' class='table table-hover'>";
+			checkinStr += "<thead>";
+			checkinStr += "<tr>";
+			checkinStr += "<th class='checkHeaderCol'>" + localResponse[ "Perf.Check-Ins.LandingPage.upcomingConversationsOverview.checkInLabel" ] + "</th>";
+			checkinStr += "<th class='checkHeaderCol'>" + localResponse[ "Perf.Check-Ins.LandingPage.recentConversationsRow.conversationRecentlyModifiedText" ] + "</th>";
+			checkinStr += "<th class='checkHeaderCol'>" + localResponse[ "Perf.Check-Ins.LandingPage.upcomingConversationsOverview.nextMeetingLabel" ] + "</th>";
+			checkinStr += "</tr>";
+			checkinStr += "</thead>";
+			for ( let checkinItem in checkinObjects ) {
 
-			return await fetch( endpointURL, {
-				method: 'GET',
-				mode: 'cors',
-				cache: 'default',
-				credentials: 'same-origin',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + sessionStorage.csToken
-				}
-			} );
-		} )
-		.then( response => response.json() )
-		.then( async function(checkinObjects) {
-			//		console.log("checkins 2 - done");
-			//		console.log(checkinObjects.length);
-			let checkinStr = "";
-			if ( checkinObjects.length != 0 ) {
-				//			console.log("HERE I AM!");
-
-				var hostName = window.location.host.split( '.' );
-
-				checkinStr = "<table border='0' cellspacing='0' cellpadding='0' width='100%' class='table table-hover'>";
-				checkinStr += "<thead>";
-				checkinStr += "<tr>";
-				checkinStr += "<th class='checkHeaderCol'>" + localResponse[ "Perf.Check-Ins.LandingPage.upcomingConversationsOverview.checkInLabel" ] + "</th>";
-				checkinStr += "<th class='checkHeaderCol'>" + localResponse[ "Perf.Check-Ins.LandingPage.recentConversationsRow.conversationRecentlyModifiedText" ] + "</th>";
-				checkinStr += "<th class='checkHeaderCol'>" + localResponse[ "Perf.Check-Ins.LandingPage.upcomingConversationsOverview.nextMeetingLabel" ] + "</th>";
-				checkinStr += "</tr>";
-				checkinStr += "</thead>";
-				for ( let checkinItem in checkinObjects ) {
-
-					var avatarUrl = "/clientimg/" + hostName[ 0 ] + "/users/photos/" + checkinObjects[ checkinItem ].participants[ 1 ].pictureUrl;
+				var avatarUrl = "/clientimg/" + hostName[ 0 ] + "/users/photos/" + checkinObjects[ checkinItem ].participants[ 1 ].pictureUrl;
 
 
-					checkinStr += "<tr id='checkinItem-" + checkinItem + "' class='checkinItem clickable-row' data-href='/ui/perf-check-ins/Check-Ins/view/" + checkinObjects[ checkinItem ].id + "/meeting/" + checkinObjects[ checkinItem ].meetingsSummary.nextMeetingId + "'>";
-					//				checkinStr += "<a href='/ui/perf-check-ins/Check-Ins/view/"+ checkinObjects[checkinItem]["id"] +"/meeting/"+ checkinObjects[checkinItem]["meetingsSummary"]["nextMeetingId"] +"'>";
+				checkinStr += "<tr id='checkinItem-" + checkinItem + "' class='checkinItem clickable-row' data-href='/ui/perf-check-ins/Check-Ins/view/" + checkinObjects[ checkinItem ].id + "/meeting/" + checkinObjects[ checkinItem ].meetingsSummary.nextMeetingId + "'>";
+				//				checkinStr += "<a href='/ui/perf-check-ins/Check-Ins/view/"+ checkinObjects[checkinItem]["id"] +"/meeting/"+ checkinObjects[checkinItem]["meetingsSummary"]["nextMeetingId"] +"'>";
 
-					checkinStr += "<td class='checkItemCol'>";
-					checkinStr += "<div class='cellContent'>";
-					checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell' role='button' tabindex='0'>";
-					checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-avatar' aria-hidden='true'>";
-					checkinStr += "<div class='chkAvatarImage' style='background-image:url(" + avatarUrl + ")'></div>";
-					checkinStr += "</div>";
-					checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail'>";
-					checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__user-name'>" + checkinObjects[ checkinItem ].participants[ 1 ].firstName + " " + checkinObjects[ checkinItem ].participants[ 1 ].lastName + "</div>";
-					checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'>" + checkinObjects[ checkinItem ].title + "</div>";
-					checkinStr += "</div>";
-					checkinStr += "</div>";
-					checkinStr += "</div>";
-					checkinStr += "</td>";
+				checkinStr += "<td class='checkItemCol'>";
+				checkinStr += "<div class='cellContent'>";
+				checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell' role='button' tabindex='0'>";
+				checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-avatar' aria-hidden='true'>";
+				checkinStr += "<div class='chkAvatarImage' style='background-image:url(" + avatarUrl + ")'></div>";
+				checkinStr += "</div>";
+				checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail'>";
+				checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__user-name'>" + checkinObjects[ checkinItem ].participants[ 1 ].firstName + " " + checkinObjects[ checkinItem ].participants[ 1 ].lastName + "</div>";
+				checkinStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'>" + checkinObjects[ checkinItem ].title + "</div>";
+				checkinStr += "</div>";
+				checkinStr += "</div>";
+				checkinStr += "</div>";
+				checkinStr += "</td>";
 
-					var lastModMonth = new Date( checkinObjects[ checkinItem ].lastModifiedDate ).toLocaleDateString( 'en-GB', {
+				var lastModMonth = new Date( checkinObjects[ checkinItem ].lastModifiedDate ).toLocaleDateString( 'en-GB', {
+					month: 'short'
+				} ).split( ' ' );
+				var lastModDay = new Date( checkinObjects[ checkinItem ].lastModifiedDate ).toLocaleDateString( 'en-GB', {
+					day: 'numeric'
+				} ).split( ' ' );
+				//				var lastMod = new Date(checkinObjects[checkinItem]["lastModifiedDate"]).toLocaleDateString('en-GB', { day : 'numeric',  month : 'short'}).split(' ').join('-');
+				checkinStr += "<td class='lastMod checkItemColDate'><div class='month'>" + lastModMonth + "</div><div class='day'>" + lastModDay + "</div></td>";
+
+				if ( checkinObjects[ checkinItem ].meetingsSummary.isNextMeetingCreated ) {
+					var nextMeetingMonth = new Date( checkinObjects[ checkinItem ].meetingsSummary.nextMeetingDate ).toLocaleDateString( 'en-GB', {
 						month: 'short'
 					} ).split( ' ' );
-					var lastModDay = new Date( checkinObjects[ checkinItem ].lastModifiedDate ).toLocaleDateString( 'en-GB', {
+					var nextMeetingDay = new Date( checkinObjects[ checkinItem ].meetingsSummary.nextMeetingDate ).toLocaleDateString( 'en-GB', {
 						day: 'numeric'
 					} ).split( ' ' );
-					//				var lastMod = new Date(checkinObjects[checkinItem]["lastModifiedDate"]).toLocaleDateString('en-GB', { day : 'numeric',  month : 'short'}).split(' ').join('-');
-					checkinStr += "<td class='lastMod checkItemColDate'><div class='month'>" + lastModMonth + "</div><div class='day'>" + lastModDay + "</div></td>";
-
-					if ( checkinObjects[ checkinItem ].meetingsSummary.isNextMeetingCreated ) {
-						var nextMeetingMonth = new Date( checkinObjects[ checkinItem ].meetingsSummary.nextMeetingDate ).toLocaleDateString( 'en-GB', {
-							month: 'short'
-						} ).split( ' ' );
-						var nextMeetingDay = new Date( checkinObjects[ checkinItem ].meetingsSummary.nextMeetingDate ).toLocaleDateString( 'en-GB', {
-							day: 'numeric'
-						} ).split( ' ' );
-						checkinStr += "<td class='nextMeeting checkItemColDate'><div class='month'>" + nextMeetingMonth + "</div><div class='day'>" + nextMeetingDay + "</div></td>";
-					} else {
-						checkinStr += "<td class='checkItemColDate'>-</td>";
-					}
-					//			checkinStr += "</a>";
-					checkinStr += "</tr>";
+					checkinStr += "<td class='nextMeeting checkItemColDate'><div class='month'>" + nextMeetingMonth + "</div><div class='day'>" + nextMeetingDay + "</div></td>";
+				} else {
+					checkinStr += "<td class='checkItemColDate'>-</td>";
 				}
-				checkinStr += "</table>";
-
-			} else {
-				checkinStr = "<div class='checkins nocontent'>";
-				checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='"+cs_widgetConfig[contentDivClassArg].getstartedurl+"'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
-				checkinStr += "</div>";
+				//			checkinStr += "</a>";
+				checkinStr += "</tr>";
 			}
-			//		console.log("checkinStr : "+ checkinStr);
-			tmpContentDiv.innerHTML = checkinStr;
-			return tmpContentDiv;
-		} )
-		.catch( error => {
-			console.error( "Error building Checkins - ", error );
-		} );
+			checkinStr += "</table>";
+
+		} else {
+			checkinStr = "<div class='checkins nocontent'>";
+			checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='"+cs_widgetConfig[contentDivClassArg].getstartedurl+"'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
+			checkinStr += "</div>";
+		}
+		//		console.log("checkinStr : "+ checkinStr);
+		tmpContentDiv.innerHTML = checkinStr;
+		return tmpContentDiv;
+	} )
+	.catch( error => {
+		console.error( "Error building Checkins - ", error );
+	} );
 }
 
 /**
@@ -2174,7 +2182,7 @@ async function getFeedDetails( contentDivClassArg ) {
 function status( response ) {
 	switch ( response.status ) {
 		case 202:
-			return new Promise( r => setTimeout( () => r( response ), 1000 ) );
+			return new Promise( r => setTimeout( () => r( response ), 1200 ) );
 		case 200:
 			return Promise.resolve( response );
 		case 204:
@@ -2191,14 +2199,12 @@ async function checkReportToken() {
 		var tokenDate = sessionStorage.reportTokenDate;
 		var dateDiff = Math.floor( ( Date.now() - tokenDate ) / 1000 / 60 );
 		if ( dateDiff < 10 ) {
-			return true;
+			return sessionStorage.reportToken;
 		} else {
-			await updateReportToken();
-			return true;
+			return await updateReportToken();
 		}
 	} else {
-		await updateReportToken();
-		return true;
+		return await updateReportToken();
 	}
 }
 
@@ -2570,21 +2576,37 @@ async function generateReportData( dataArg, colArg ) {
 }
 
 /**
- *
- * @param
- * @param
+ * buildDashboards - if the user (demorole) has reports which should be available to display it will match that against what reports actually being shared and then go ahead and fetch data for those reports.
+ * @param {string} demoRoleArg - USR/MGR/ADM/HRD/INS/REC
  * @returns
  */
 async function buildDashboards( demoRoleArg ) {
 	if ( cs_DashboardArray[ demoRoleArg ].reports.length != 0 ) {
-		return await new Promise( ( resolve, reject ) => {
-			let reportToken = checkReportToken();
-			$.when( reportToken )
-				.then( ( data ) => {
-					resolve( getReportData( cs_DashboardArray[ demoRoleArg ].reports, demoRoleArg ) );
-				} )
-				.catch( error => console.error( "Error bulding navigation menu: " + error ) );
-		} );
+		return await checkReportToken()
+    	.then( async function(reportToken) {
+			return await fetch( "/reportarchitect/rctmetacore/metaapi/v1/reports", {
+    			method: 'GET',
+				mode: 'cors',
+				cache: 'no-cache',
+				credentials: 'same-origin',				
+    			headers: {
+    				'Content-Type': 'application/json',
+    				'Authorization': reportToken,
+    			},
+    		} );
+    	} )
+		.then(availreportresponse => availreportresponse.json())
+		.then(async function(availableReports){
+			return await availableReports.map(function(report, index){
+				if (cs_DashboardArray[demoRoleArg].reports.indexOf(report.id) != -1) {
+					return report.id;
+				}
+			}).filter(n => n);
+		})
+		.then(async function(availableReports) { 
+			return await getReportData( availableReports, demoRoleArg );
+		})
+		.catch( error => console.error( "Error bulding navigation menu: " + error ) );
 	} else {
 		//console.log("no reports");
 		return "No reports for user";
@@ -2598,7 +2620,7 @@ async function buildDashboards( demoRoleArg ) {
  * @returns
  */
 var getReportData = async ( reports, demoRoleArg ) => {
-	const requests = reports.map( ( reportID ) => {
+	const requests = reports.map(async function( reportID ) {
 		//console.log("Building dashboard in element: " + demoRoleArg + "-right");
 
 		var tmpCanvas = document.createElement( "canvas" );
@@ -2608,14 +2630,14 @@ var getReportData = async ( reports, demoRoleArg ) => {
 
 		generateHTMLCard( "", "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/" + reportID, cs_DashboardDetailsArray.reports[ reportID ].width, "cs_report_" + reportID, "cs_report", demoRoleArg + "-dashboards", "reportContents", tmpCanvas );
 
-		return createDashboard( reportID, "report" + reportID, 'reportData' + reportID, demoRoleArg + "-right" )
+		return await createDashboard( reportID, "report" + reportID, 'reportData' + reportID, demoRoleArg + "-right" )
 			.catch( error => {
 				console.error( "Error in getting report data for Report ID: " + reports );
 				console.error( error );
 			} );
 	} );
 	return Promise.all( requests )
-		.then( reportResponseData => {
+		.then( async function(reportResponseData) {
 
 			reportResponseData.forEach( function( reportResponse ) {
 
@@ -2697,22 +2719,28 @@ var getReportData = async ( reports, demoRoleArg ) => {
 				} );
 			} );
 			//						$("div[id='cs_report_"+reportIDresp+"'] .loader").css("display","none");
+			return "All done here with the dashboards";
 		} )
 		.catch( error => console.error( "Error in getting report data: " + error ) );
 };
 
 /**
  * lastinline - message printed when all is done
+ * @param {String} printStrArg - optional string to be printed as part of last then method.
  * @returns {string} - Message to be printed via console.log
  */
-function lastinline() {
+function lastinline(printStrArg) {
 	const mad = String.fromCodePoint( 0x1F631 );
 	const flame = String.fromCodePoint( 0x1F525 );
-	var lastinline = mad + " " + flame + " " + flame + "\n";
+	const happy = String.fromCodePoint( 0x1F600 );
+	const horns = String.fromCodePoint( 0x1F918 );
+	var lastinline = happy +" "+ mad +" "+ flame +" "+ mad +" "+ happy +"\n";
 	lastinline += "%cWe'll know for the first time.\n";
 	lastinline += "If we're evil or divine\n";
 	lastinline += "We're the last in line!\n";
-	lastinline += mad + " " + flame + " " + flame;
+	lastinline += "--[ "+ printStrArg +" ]--\n";
+	lastinline += "--[ "+ gpeDEMOROLE +" ]--\n";
+	lastinline += horns +" "+ flame +" "+ mad +" "+ flame +" "+ horns;
 	return lastinline;
 }
 
@@ -2771,11 +2799,13 @@ function setPreloader(mainDivArg, visibleArg) {
 			return await Promise.all([gpeNav, gpeAboutCard, gpeQuickLinks, gpeApprovals, accessURLs]);
 		})
 		.then(async function([gpeNav, gpeAbt, gpeQLS, gpeAppr, accessURLs]) {
-            console.log("BUILDING WIDGETS!");
+            console.log("NAV/ABT/QLS/APPROVALS DONE");
             const gpeWidgets = await buildWidgets(getAccessDetails(accessURLs), sessionStorage.csCulture);
             return await Promise.resolve(gpeWidgets);
         })
         .then(async function(data) {
+            console.log("WIDGETS DONE");
+			console.log(data);
             // console.log("READY WITH BASIC WIDGETS!");
 
 			// Fix NiceScroll on feed widget
@@ -2811,14 +2841,23 @@ function setPreloader(mainDivArg, visibleArg) {
 			$(".getstarted_button").click(function() {
 				window.location = $(this).data("href");
 			});			
+            
+			// Get approval buttons click events
+			$(".approval_button").click(function() {
+				window.location = $(this).data("href");
+			});			
 
+			// Get quick link buttons click events
+			$(".quicklinks_button").click(function() {
+				window.location = $(this).data("href");
+			});			
+		
 			// Build report dashboards.
 			console.log("PROCESSING DASHBOARDS");
 			const gpeDashboards = await buildDashboards(gpeDEMOROLE);
 			return await Promise.resolve(gpeDashboards);
 		})
-		.then(async function(data) {
-
+		.then(async function(DashboardData) {
 			// Fix bootstrap table on chart click
 			var reportEvnt = document.querySelectorAll("[id*='cs_report_'] .card-body");
 			reportEvnt.forEach(function(element){
@@ -2830,7 +2869,7 @@ function setPreloader(mainDivArg, visibleArg) {
 			});
 
 			// console.log(data);
-			console.log(lastinline(), "color:#00cc00;");
+			console.log(lastinline(DashboardData), "color:#00cc00;");
 		})
  		.catch(error => {
  			console.error(error);
