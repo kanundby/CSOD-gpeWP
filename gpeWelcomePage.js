@@ -10,8 +10,10 @@
  const gpeUSRCONTENTDIV 	= "USR-content";								// User Main div (overall)
  const gpeUSRLEFTDIV 		= "USR-left";									// User left div
  const gpeDEMOPERSONADIV 	= "demopersona";								// id of persona div (user record custom field)
+ const gpeDEMONAMEDIV	 	= "demousername";								// User name
  const gpeTARGETNAVDIV 		= "gpewp_topcontainer_nav"; 					// where do we want to put the navigation menu?
  const gpeDEMOROLE 			= getDemoRole( document.getElementById( gpeDEMOPERSONADIV ).getAttribute( gpeDEMOPERSONADIV ) );
+ const gpeDEMOUNAME 		= document.getElementById( gpeDEMONAMEDIV ).getAttribute( gpeDEMONAMEDIV ).split(';');
  const gpePRIMARYBGCSS 		= $( '.c-nav-user' ).css( 'background-color' );	
  const gpeQUICKLINKSMAINDIV = "QLS-content";
 
@@ -154,6 +156,139 @@ const cs_customLocale = {
 			"en-UK": "Reports",
 		},
 	},
+	onboarding : {
+		"en-US" : {
+			headertitle : gpeDEMOUNAME[0] +", your onboarding journey starts here!",
+			headertext : "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!" ,
+			videourl : "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
+			onbprocess : {
+				title : "What's next on the onboarding",
+				resourceTitle : "Further resources and/or activities:",
+				imgurl : "url(/clientimg/demogpe/welcome/onb_wp_process.png)",	
+				text : {
+					nextstepstext1 : {
+						headline : "First day",
+						text : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
+						resources : {
+							res1 : {
+								text : "Read more about is on our Company website",
+								url : "https://www.cornerstoneondemand.com/company/",
+								type: "url",
+							},
+							res2 : {
+								text : "Follow us on LinkedIn",
+								url : "https://www.linkedin.com/company/cornerstone-ondemand",
+								type: "url",
+							},
+							res3 : {
+								text : "Fill out form - Personal Contact Details",
+								url : "/phnx/driver.aspx?routename=CustomForm/Create_Change_Contact_Details_001_frm_Edit_1&cfqs=%5e%5e%5ecsAJl9tGgheNnOyu8GlE8K6r80OhoI17mYrdxw86mqqyfExbEIrnU5YTbP2Svv8FgSnRkmhgXTrOE2Vd2J4C48aqSGGgD1Cc954k1FiWNcKwYrNZCkBr%2fm18odFjDYs1Z4IAcqcoia8N%2fvWUbFTIUqTaCUKFX4rcGsnSasW%2fyWcbQKxao12LMJ5qYkoW4wAi9Z7DN3BuO93jek0KZ1CQWw%3d%3d",
+								type: "url",
+							},
+							res4 : {
+								text : "Update your Bio page in Universal Profile",
+								url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Bio",
+								type: "url",
+							}
+						}
+					},
+					nextstepstext2 : { 
+						headline : "First week",
+						text : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
+						resources : {
+							res1 : {
+								text : "Go through your Onboarding Curriculum",
+								url : "/DeepLink/ProcessRedirect.aspx?module=loRegisterAndLaunch&lo=0ffd0bdc-e67a-4283-bdb1-79b4ab25189e",
+								type: "url",
+							},
+							res2 : {
+								text : "Be recommended training for your role",
+								url : "/ui/lms-learner-home/home",
+								type: "url",
+							},
+							res3 : {
+								text : "Create your own playlist together with your manager",
+								url : "/ui/lms-learner-playlist/UsersPlaylists",
+								type: "url",
+							}
+						}
+					},
+					nextstepstext3 : { 
+						headline : "First month",
+						text : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
+						resources : {
+							res1 : {
+								text : "Schedule regular check-in meetings with your manager",
+								type: "text",
+							},
+							res2 : {
+								text : "Create goals",
+								type: "text",
+							},
+							res3 : {
+								text : "Have fun!",
+								type: "text",
+							}
+						}
+					},
+					nextstepstext4 : {
+						headline : "First 6 months",
+						text : "When you succeed - we succeed! We're a group. We're a team. From the President and Leo on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
+						resources : {
+							res1 : {
+								text : "Create your Personal Development Plan",
+								type: "text",
+							},
+							res2 : {
+								text : "Get Certified",
+								type: "text",
+							},
+							res3 : {
+								text : "Receive and give badges",
+								type: "text",
+							},
+						}
+					},
+				},
+			},
+		},
+		"en-UK" : {
+			headertitle : "{FIRSTNAME}, your onboarding journey starts here!",
+			headertext : "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!" ,
+			videourl : "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
+			onbprocess : {
+				title : "What's next on the onboarding",
+				imgurl : "url(/clientimg/demogpe/welcome/onb_wp_process.png)",	
+				text : {
+					nextstepstext1 : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
+					nextstepstext2 : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
+					nextstepstext3 : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
+					nextstepstext4 : "When you are succeed - we succeed! We're a group. We're a team. From the President and Leo on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
+				},
+			},
+			form1_url : "",
+			form2_url : "",
+			form3_url : "",
+			form4_url : "",		},
+		"de-DE" : {
+			headertitle : "{FIRSTNAME}, your onboarding journey starts here!",
+			headertext : "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!" ,
+			videourl : "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
+			onbprocess : {
+				title : "What's next on the onboarding",
+				imgurl : "url(/clientimg/demogpe/welcome/onb_wp_process.png)",	
+				text : {
+					nextstepstext1 : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
+					nextstepstext2 : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
+					nextstepstext3 : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
+					nextstepstext4 : "When you are succeed - we succeed! We're a group. We're a team. From the President and Leo on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
+				},
+			},
+			form1_url : "",
+			form2_url : "",
+			form3_url : "",
+			form4_url : "",		}
+	}
 };
 
 /**
@@ -729,6 +864,169 @@ function buildExtraNavItem( demoRoleArg, cultureArg ) {
 }
 
 /**
+ * Creates content for the ONB user
+ * @param
+ * @param
+ * @returns
+ */
+async function buildOnbWidgets(demoRoleArg, cultureArg){
+	console.log("buildOnbWidgets: "+ demoRoleArg);
+	if(demoRoleArg == "ONB") {
+
+		// Remove left column
+		$(".gpewp_USR").css("grid-template-columns", "1fr");
+		$(".gpewp_USR").css("grid-template-areas", "gpewp_USR-right");
+
+		// Wrapper
+		let onbWrapperContent = document.createElement( "div" );
+		onbWrapperContent.className = "onbwrapper";
+
+		// Header
+		let onbHeader = document.createElement( "div" );
+		onbHeader.className = "onbheader";
+		// Get header
+		let onbHeaderTitle = document.createElement( "h5" );
+		onbHeaderTitle.innerHTML = cs_customLocale.onboarding[cultureArg].headertitle;
+		// Get text
+		let onbHeaderText = document.createElement( "p" );
+		onbHeaderText.innerHTML = cs_customLocale.onboarding[cultureArg].headertext;
+
+		// Get video
+		let onbHeaderVideoDiv = document.createElement( "div" );
+		onbHeaderVideoDiv.className = "video";
+
+		let onbHeaderVideoObj = document.createElement( "video" );
+		onbHeaderVideoObj.setAttribute("width", "70%");
+		onbHeaderVideoObj.setAttribute("height", "420");
+		onbHeaderVideoObj.setAttribute("controls", "");
+		let onbHeaderVideoSrc = document.createElement( "source" );
+		onbHeaderVideoSrc.setAttribute("src", cs_customLocale.onboarding[cultureArg].videourl);
+		onbHeaderVideoSrc.setAttribute("type", "video/mp4");
+		onbHeaderVideoObj.appendChild(onbHeaderVideoSrc);
+		onbHeaderVideoDiv.appendChild(onbHeaderVideoObj);
+
+		onbHeader.appendChild(onbHeaderTitle);
+		onbHeader.appendChild(onbHeaderText);
+		onbHeader.appendChild(onbHeaderVideoDiv);
+
+		/* ONB PROCESS */
+
+		let onbProcess = document.createElement('div');
+		onbProcess.className = "onbProcess";
+
+		let onbProcessTitle = document.createElement('h5');
+		onbProcessTitle.className = "processtitle";
+		onbProcessTitle.innerHTML = cs_customLocale.onboarding[cultureArg].onbprocess.title;
+
+		let onbProcessDesc = document.createElement('div');
+		onbProcessDesc.className = "processdesc";
+	
+		let tmpOnbProcessTextOl = document.createElement('ol');
+		tmpOnbProcessTextOl.className = "list";
+
+		for(let textItem in cs_customLocale.onboarding[cultureArg].onbprocess.text) {
+			let tmpOnbProcessTextLi = document.createElement('li');
+			tmpOnbProcessTextLi.className = "item";
+
+			let tmpOnbProcessTextLiHeadline = document.createElement('h2');
+			tmpOnbProcessTextLiHeadline.className = "headline";
+			tmpOnbProcessTextLiHeadline.innerHTML = cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].headline;
+
+			let tmpOnbProcessTextLiText = document.createElement('span');
+			tmpOnbProcessTextLiText.innerHTML = cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].text;
+
+			let tmpOnbResourceDiv = document.createElement('div');
+			tmpOnbResourceDiv.className = "resourceTitle";
+			tmpOnbResourceDiv.innerHTML = "<br>"+cs_customLocale.onboarding[cultureArg].onbprocess.resourceTitle;
+
+			let tmpOnbResourceUl = document.createElement('ul');
+			tmpOnbResourceUl.className = "resList";
+			for(let resItem in cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources) {
+				let tmpOnbResourceLi = document.createElement("li");
+				tmpOnbResourceLi.className = "resItem";
+				if(cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].type == "url"){
+					tmpOnbResourceLi.innerHTML = "<a href='"+cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].url+" target='_blank'>"+cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text+"</a>";
+				}else {
+					tmpOnbResourceLi.innerHTML = cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text;
+				}
+				tmpOnbResourceUl.appendChild(tmpOnbResourceLi);
+			}
+			tmpOnbResourceDiv.appendChild(tmpOnbResourceUl);
+
+			tmpOnbProcessTextLiText.appendChild(tmpOnbResourceDiv);
+
+			tmpOnbProcessTextLi.appendChild(tmpOnbProcessTextLiHeadline);
+			tmpOnbProcessTextLi.appendChild(tmpOnbProcessTextLiText);
+
+			tmpOnbProcessTextOl.appendChild(tmpOnbProcessTextLi);
+		}
+		onbProcessDesc.appendChild(onbProcessTitle);
+		onbProcessDesc.appendChild(tmpOnbProcessTextOl);
+		
+		let onbProcessImg = document.createElement('div');
+		onbProcessImg.className = "processimg";
+		onbProcessImg.style.backgroundImage = cs_customLocale.onboarding[cultureArg].onbprocess.imgurl;
+		onbProcessImg.style.backgroundRepeat = "no-repeat";
+		onbProcessImg.style.backgroundPosition = "center";
+		onbProcessImg.style.width = "100%";
+		onbProcessImg.style.height = "270px";
+
+		onbProcess.appendChild(onbProcessDesc);
+		onbProcess.appendChild(onbProcessImg);
+
+		onbWrapperContent.appendChild(onbHeader);
+		onbWrapperContent.appendChild(onbProcess);
+
+		generateHTMLCard(
+			"",
+			"#",
+			12,
+			"gpe_onboarding",
+			"row_left_1",
+			"USR-right",
+			"onboardingContent",
+			onbWrapperContent
+		);		
+
+		return onbHeader;	
+	} else {
+		return true;
+	}
+}
+
+
+/*
+
+		// Wrapper
+		let onbHeader = document.createElement( "div" );
+		onbHeader.className = "onbheader";
+		// Get header
+		let onbHeaderTitle = document.createElement( "h5" );
+		onbHeaderTitle.innerHTML = cs_customLocale.onboarding[cultureArg].headertitle;
+		// Get text
+		let onbHeaderText = document.createElement( "p" );
+		onbHeaderText.innerHTML = cs_customLocale.onboarding[cultureArg].headertext;
+		// Get video
+		let onbHeaderVideoObj = document.createElement( "object" );
+		onbHeaderVideoObj.setAttribute("width", "100%");
+		onbHeaderVideoObj.setAttribute("height", "330");
+		let onbHeaderVideoPar = document.createElement( "param" );
+		onbHeaderVideoPar.setAttribute("name", "onboarding_video");
+		onbHeaderVideoPar.setAttribute("value", cs_customLocale.onboarding[cultureArg].videourl);
+		let onbHeaderVideoSrc = document.createElement( "embed" );
+		onbHeaderVideoSrc.setAttribute("src", cs_customLocale.onboarding[cultureArg].videourl);
+		onbHeaderVideoSrc.setAttribute("width", "100%");
+		onbHeaderVideoSrc.setAttribute("height", "330");
+
+		onbHeaderVideoObj.appendChild(onbHeaderVideoPar);
+		onbHeaderVideoObj.appendChild(onbHeaderVideoSrc);
+
+		onbHeader.appendChild(onbHeaderTitle).appendChild(onbHeaderText);
+		onbHeader.appendChild(onbHeaderVideoObj);
+
+*/
+
+/**
  *
  * @param
  * @param
@@ -740,7 +1038,6 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 	// Get all widgets (widgetPrio = 99 means it is not a widget and should not be used)
 	let widgetIDArr = widgetOrderedArr.filter( v => +v.widgetPrio < 99 );
 
-	// console.log("%cbuildWidgets START LOADING WIDGETS", "color:#00ffff;");
 	setPreloader(gpeUSRCONTENTDIV, "on");
 	let widgetPromisesArray = [];
 	widgetIDArr.forEach(function(widget) {
@@ -749,8 +1046,6 @@ async function buildWidgets( accessArrArg, cultureArg ) {
 
 	return await Promise.all( widgetPromisesArray )
 	.then(async function(widgetPromisesArrayComplete) {
-		// console.log(widgetPromisesArrayComplete);
-		// console.log("%c!!!!!!!!!!!!!!!!!-- widgetPromisesArrayComplete --!!!!!!!!!!!!!!!!!", "color:#00ffff;")
 		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
 			// console.log(widgetData);
 			if(widgetData) {
@@ -842,7 +1137,7 @@ function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg,
 	var tmpCardHeader = document.createElement( "a" );
 	tmpCardHeader.className = "card-header";
 	tmpCardHeader.innerHTML = cs_widgetConfig[widgetIDArg].title[sessionStorage.csCulture]; //accessArr[accessItem]["title"];
-	tmpCardHeader.setAttribute( 'href', widgetData.url );
+	tmpCardHeader.setAttribute( 'href', widgetData.widgeturl );
 
 	var tmpCardBody = document.createElement( "div" );
 	tmpCardBody.className = "card-body";
@@ -1034,11 +1329,15 @@ async function buildAboutCard() {
 		var tmpColImageDiv = document.createElement( "div" );
 		tmpColImageDiv.className = "col-md-2";
 
+		var tmpCardAboutImageLink = document.createElement( "a" );
+		tmpCardAboutImageLink.setAttribute("href", "/phnx/driver.aspx?routename=Social/UniversalProfile/Bio");
+
 		var tmpCardAboutImage = document.createElement( "img" );
 		tmpCardAboutImage.className = "abt-image";
 		tmpCardAboutImage.setAttribute( "src", document.querySelector( "img[id*='header_headerResponsive_responsiveNav_imgPhoto']" ).getAttribute( "src" ) );
 
-		tmpColImageDiv.appendChild( tmpCardAboutImage );
+		tmpCardAboutImageLink.appendChild(tmpCardAboutImage);
+		tmpColImageDiv.appendChild( tmpCardAboutImageLink );
 
 		var tmpColNameDiv = document.createElement( "div" );
 		tmpColNameDiv.className = "col-md-10";
@@ -1691,10 +1990,10 @@ function play() {
 		// let rptURL = "/services/api/lms/user/47/transcript?hasDueDate=true&isCompleted=false&isArchived=false&isRemoved=false&page=1&pageSize=20&sortCriteria=DueDate&sortDirection=Ascending";
 		// let rptURL = "/services/api/lms/user/49/recommendedtraining?type=Position&pageSize=20&pageNum=1";
 		// let rptURL = "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId=rjones@CS_en-US";
-		 let rptURL = "/services/api/bff/learnerhome/user/49/stats";
+		 let rptURL = "/v1/users/47/default-password";
 
 		return await fetch( rptURL, {
-			method: 'GET',
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + sessionStorage.csToken,
@@ -1777,12 +2076,13 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
 						goalProgress += goalDataArr[goalArr][goalItem].Weight * goalDataArr[goalArr][goalItem].Progress;
 						goalWeight += goalDataArr[goalArr][goalItem].Weight;
 					}
-					if(goalDataArr[goalArr].length !== 0) {
-						goalSummaryArr[goalArr] = {
-							id: goalDataArr[goalArr][0].User.Id,
-							goalprogress: Math.round(goalProgress / goalWeight)+"%"
-						};
-					}
+					console.log(goalDataArr[goalArr]);
+					// if(goalDataArr[goalArr].length !== 0) {
+					// 	goalSummaryArr[goalArr] = {
+					// 		id: goalDataArr[goalArr][0].User.Id,
+					// 		goalprogress: Math.round(goalProgress / goalWeight)+"%"
+					// 	};
+					// }
 				}
 				console.log(goalSummaryArr);
 				const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
@@ -2786,7 +3086,7 @@ function setPreloader(mainDivArg, visibleArg) {
  (async function() {
  	await checkJWT()
  		.then(tokenResponse => {
-			return fetch("https://gpewp-c2dcf-default-rtdb.firebaseio.com/accessURLs.json");
+			return fetch("https://scfiles.csod.com/Baseline/Config/json/accessURLs.json");
 		})
 		.then(accessURLs => accessURLs.json())
 		.then(async function(accessURLs) {
@@ -2795,8 +3095,9 @@ function setPreloader(mainDivArg, visibleArg) {
 			const gpeAboutCard = await buildAboutCard();
 			const gpeQuickLinks = await buildQuickLinksCard(accessURLs, sessionStorage.csCulture);
 			const gpeApprovals = await getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
+			const gpeOnboarding = await buildOnbWidgets(gpeDEMOROLE, sessionStorage.csCulture);
 
-			return await Promise.all([gpeNav, gpeAboutCard, gpeQuickLinks, gpeApprovals, accessURLs]);
+			return await Promise.all([gpeNav, gpeAboutCard, gpeQuickLinks, gpeApprovals, accessURLs, gpeOnboarding]);
 		})
 		.then(async function([gpeNav, gpeAbt, gpeQLS, gpeAppr, accessURLs]) {
             console.log("NAV/ABT/QLS/APPROVALS DONE");
@@ -2864,7 +3165,6 @@ function setPreloader(mainDivArg, visibleArg) {
 				element.addEventListener("click", function(event) {
 					var $parentEl = $(this).closest("[class*='col-md-']");
 					setTimeout(function(){ $parentEl.find("[id*='ReportTable']").bootstrapTable('refreshOptions', {}); }, 200);
-					
 				});
 			});
 
