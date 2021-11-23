@@ -1,0 +1,101 @@
+:root {
+    --bg: #ffffff;
+    --highlight1: var(--gpewp-brand-color--primary);
+    --highlight2: var(--gpewp-banner-bg-color--light);
+    --color: #000000;
+    --font-number: Montserrat, Roboto, Helvetica, Arial, sans-serif;
+    --font-head: "Space Mono", Consolas, Menlo, Monaco, "Courier New", monospace;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+#gpe_onboarding .list {
+    list-style: none;
+    width: 100%;
+    max-width: 90%;    
+}
+
+
+#gpe_onboarding .item {
+    display: block;
+    clear: both;
+    counter-increment: list;
+    padding-bottom: 4rem;
+    font-size: 0.9rem;
+    line-height: 1.375;
+    position: relative;
+}
+
+#gpe_onboarding .item:before {
+    font: bold 2.25rem/1 var(--font-number);
+    content: counter(list);
+    width: 5rem;
+    height: 5rem;
+    float: left;
+    margin: 0 1.5rem 4.75rem 0;
+    color: var(--bg);
+    background: var(--highlight1) linear-gradient(to bottom right, var(--highlight1) 25%, var(--highlight2));
+    text-shadow: 0 0 2px var(--highlight1);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+/*    shape-outside: ellipse(); */
+    z-index: 1;
+}
+
+#gpe_onboarding .item:after {
+    width: 2.5rem;
+    height: 2.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    background: var(--highlight1);
+    z-index: -1;
+    border-top-left-radius: 3px;
+}
+
+#gpe_onboarding .headline {
+    padding: 0rem 0 0 0;
+    margin: 0 0 1rem 0;
+    font: normal 1.3rem var(--font-head);
+}
+
+.onbheader h5 {
+    font-size: 1.4rem;
+    line-height: 1.375;
+    font-weight: 700;
+    text-align: center !important;    
+}
+.onbheader p {
+    font-size: 1rem;
+    line-height: 1.375;
+    font-weight: 700;
+    text-align: center !important;
+}
+
+
+.onbProcess {
+    padding-top: 2rem !important;
+}
+
+.onbwrapper ol {
+    padding-top: 2rem !important;
+}
+
+.onbheader .video {
+    margin: auto 0px;
+    text-align:center
+}
+
+.resourceTitle {
+    padding-left: 160px
+}
+
+.resourceTitle a {
+    color: var(--gpewp-brand-color--primary);
+}
+
+.resourceTitle a:hover {
+    color: var(--gpewp-banner-bg-color--light);
+}

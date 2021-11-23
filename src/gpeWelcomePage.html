@@ -1052,27 +1052,27 @@ span.abt-job-text {
 #preloader {
     grid-column: 1/span 2;
     grid-row: 1/span 1;
-    background: #d2d2d2;
+    background: #ffffff;
     z-index: 1500;
     border-radius: 10px;
     animation-name: loadingbg;
     animation-duration: 2s;
     animation-iteration-count: infinite;
-    box-shadow: 0px 0px 10px #c6c6c6;
+    box-shadow: 0px 0px 10px #ffffff;
     min-height: 500px !important;
 }
 
 @keyframes loadingbg {
     0% {
-        background-color: #d2d2d2;
+        background-color: #ffffff;
     }
 
     50% {
-        background-color: #b2b2b2;
+        background-color: #efefef;
     }
 
     100% {
-        background-color: #d2d2d2;
+        background-color: #ffffff;
     }
 }
 
@@ -1083,25 +1083,16 @@ span.abt-job-text {
 }
 
 .loader {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border: 2px solid #f3e6e8;
+    background: url('/clientimg/demogpe/welcome/gpe_csLoader_001.gif') 100% 100% no-repeat rgba(255, 0, 0, 0);
+    width: 250px;
+    height: 250px;
+    border-radius: 0%;
+    border: 0px solid #f3e6e8;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
     transition: all .4s ease-in;
-}
-
-.loader::after {
-    content: "";
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    border: 8px solid transparent;
-    border-top: 8px solid #ff4f15;
-    animation: rotate 1.3s linear infinite;
 }
 
 @keyframes rotate {

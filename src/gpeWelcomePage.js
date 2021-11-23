@@ -233,7 +233,7 @@ const cs_customLocale = {
 					},
 					nextstepstext4 : {
 						headline : "First 6 months",
-						text : "When you succeed - we succeed! We're a group. We're a team. From the President and Leo on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
+						text : "When you succeed - we succeed! We're a group. We're a team. From the CEO  and on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
 						resources : {
 							res1 : {
 								text : "Create your Personal Development Plan",
@@ -284,10 +284,7 @@ const cs_customLocale = {
 					nextstepstext4 : "When you are succeed - we succeed! We're a group. We're a team. From the President and Leo on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
 				},
 			},
-			form1_url : "",
-			form2_url : "",
-			form3_url : "",
-			form4_url : "",		}
+		}
 	}
 };
 
@@ -768,25 +765,29 @@ function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
 		topNavItmQLS.setAttribute( "trqid", "group-item" );
 		topNavItmQLS.setAttribute( "trqiduseparent", "true" );
 
-		let topNavBtnQLS = document.createElement( "a" );
-		topNavBtnQLS.className = "trq-tab-link--flat ng-star-inserted";
-		topNavBtnQLS.setAttribute( "id", "nav-QLS-tab" );
-		topNavBtnQLS.setAttribute( "data-bs-toggle", "tab" );
-		topNavBtnQLS.setAttribute( "data-bs-target", "#nav-QLS" );
-		topNavBtnQLS.setAttribute( "type", "button" );
-		topNavBtnQLS.setAttribute( "role", "tab" );
-		topNavBtnQLS.setAttribute( "aria-controls", "nav-QLS" );
-		topNavBtnQLS.setAttribute( "aria-selected", "true" );
-		topNavBtnQLS.setAttribute( "_ngcontent-nml-c376", "" );
-		topNavBtnQLS.innerHTML = cs_customLocale.topNavigationTitle.QLS[ cultureArg ]; // sessionStorage["csCulture"]
+		if ( demoRoleArg != "ONB") {
 
-		topNavItmQLS.appendChild( topNavBtnQLS );
+			let topNavBtnQLS = document.createElement( "a" );
+			topNavBtnQLS.className = "trq-tab-link--flat ng-star-inserted";
+			topNavBtnQLS.setAttribute( "id", "nav-QLS-tab" );
+			topNavBtnQLS.setAttribute( "data-bs-toggle", "tab" );
+			topNavBtnQLS.setAttribute( "data-bs-target", "#nav-QLS" );
+			topNavBtnQLS.setAttribute( "type", "button" );
+			topNavBtnQLS.setAttribute( "role", "tab" );
+			topNavBtnQLS.setAttribute( "aria-controls", "nav-QLS" );
+			topNavBtnQLS.setAttribute( "aria-selected", "true" );
+			topNavBtnQLS.setAttribute( "_ngcontent-nml-c376", "" );
+			topNavBtnQLS.innerHTML = cs_customLocale.topNavigationTitle.QLS[ cultureArg ]; // sessionStorage["csCulture"]
 
+			topNavItmQLS.appendChild( topNavBtnQLS );
+		}
+		
 		topNavUL.appendChild( topNavItmUSR );
 		if ( topNavItmRole != 0 ) {
 			topNavUL.appendChild( topNavItmRole );
 		}
 		topNavUL.appendChild( topNavItmQLS );
+
 
 		let w1 = document.createElement( "nav" );
 		w1.className = "profile-nav trq-mb-3 trq-bg-white trq-shadow-bottom-lg ng-star-inserted";
@@ -869,8 +870,7 @@ function buildExtraNavItem( demoRoleArg, cultureArg ) {
  * @param
  * @returns
  */
-async function buildOnbWidgets(demoRoleArg, cultureArg){
-	console.log("buildOnbWidgets: "+ demoRoleArg);
+async function buildOnbWidget(demoRoleArg, cultureArg){
 	if(demoRoleArg == "ONB") {
 
 		// Remove left column
@@ -945,7 +945,7 @@ async function buildOnbWidgets(demoRoleArg, cultureArg){
 				let tmpOnbResourceLi = document.createElement("li");
 				tmpOnbResourceLi.className = "resItem";
 				if(cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].type == "url"){
-					tmpOnbResourceLi.innerHTML = "<a href='"+cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].url+" target='_blank'>"+cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text+"</a>";
+					tmpOnbResourceLi.innerHTML = "<a href='"+cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].url+"' target='_blank'>"+cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text+"</a>";
 				}else {
 					tmpOnbResourceLi.innerHTML = cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text;
 				}
@@ -2077,12 +2077,12 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
 						goalWeight += goalDataArr[goalArr][goalItem].Weight;
 					}
 					console.log(goalDataArr[goalArr]);
-					// if(goalDataArr[goalArr].length !== 0) {
-					// 	goalSummaryArr[goalArr] = {
-					// 		id: goalDataArr[goalArr][0].User.Id,
-					// 		goalprogress: Math.round(goalProgress / goalWeight)+"%"
-					// 	};
-					// }
+					if(goalDataArr[goalArr].length !== 0) {
+					 	goalSummaryArr[goalArr] = {
+					 		id: goalDataArr[goalArr][0].User.Id,
+					 		goalprogress: Math.round(goalProgress / goalWeight)+"%"
+					 	};
+					}
 				}
 				console.log(goalSummaryArr);
 				const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
@@ -3083,6 +3083,7 @@ function setPreloader(mainDivArg, visibleArg) {
  * @param
  * @returns
  */
+
  (async function() {
  	await checkJWT()
  		.then(tokenResponse => {
@@ -3095,7 +3096,7 @@ function setPreloader(mainDivArg, visibleArg) {
 			const gpeAboutCard = await buildAboutCard();
 			const gpeQuickLinks = await buildQuickLinksCard(accessURLs, sessionStorage.csCulture);
 			const gpeApprovals = await getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
-			const gpeOnboarding = await buildOnbWidgets(gpeDEMOROLE, sessionStorage.csCulture);
+			const gpeOnboarding = await buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture);
 
 			return await Promise.all([gpeNav, gpeAboutCard, gpeQuickLinks, gpeApprovals, accessURLs, gpeOnboarding]);
 		})

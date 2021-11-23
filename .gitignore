@@ -11,3 +11,5 @@
 accessURLs.json
 .vscode/launch.json
 .gitignore
+node_modules
+build
