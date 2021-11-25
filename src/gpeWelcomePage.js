@@ -2,7 +2,7 @@
  * Dynamic Welcome Page for Cornerstone OnDemand
  * @desc Dynamic welcome page engine for Cornerstone OnDemand. The script is using the navigation menu as base to generate the page.
  * @author 		kanundby@csod.com	-	Klas Anundby
- * @version 0.8
+ * @version 	0.9
  */
 
  const gpeABOUTCARDDIV 		= "gpewp_topcontainer_upper"; 					// where do we want to put the user photo name/job?
@@ -73,13 +73,13 @@ const approvalURLs = {
 		},
 	},
 	compensation: {
-		url: "COMPAPPROVALURL",
+		url: "/EPM/Compensation/User/ApprovalsList.aspx",
 		icon: "gpe-appr-form",
 		imgname: "appr_comp_002.png",
 		title: {
-			"en-US": "Compensation Plan Approval",
-			"en-UK": "Compensation Plan Approval",
-			"de-DE": "Genehmigung des Vergütungsplans",
+			"en-US": "Compensation Plan",
+			"en-UK": "Compensation Plan",
+			"de-DE": "Kompensationsplan",
 		},
 	}
 };
@@ -96,64 +96,79 @@ const cs_customLocale = {
 		USR: {
 			"en-US": "My Development",
 			"en-UK": "My Development",
+			"de-DE": "Meine Entwicklung",
 		},
 		MGR: {
 			"en-US": "My team",
-			"en-UK": "People Manager",
+			"en-UK": "My team",
+			"de-DE": "Meine Mannschaft",
 		},
 		HRD: {
 			"en-US": "HR Dashboard",
 			"en-UK": "HR Dashboard",
+			"de-DE": "HR-Dashboard",
 		},
 		ADM: {
 			"en-US": "Admin Dashboard",
 			"en-UK": "Administrator",
+			"de-DE": "Admin-Dashboard",
 		},
 		REC: {
 			"en-US": "Recruiter Dashboard",
 			"en-UK": "Recruiter Dashboard",
+			"de-DE": "Recruiter-Dashboard",			
 		},
 		INS: {
 			"en-US": "Instructor Dashboard",
-			"en-UK": "Instructor",
+			"en-UK": "Instructor Dashboard",
+			"de-DE": "Lehrer-Dashboard",			
 		},
 		QLS: {
 			"en-US": "Quick links",
 			"en-UK": "Quick links",
+			"de-DE": "Schnelllinks",
 		},
 	},
 	moduleTitle: {
 		"ats": {
 			"en-US": "Recruiting",
 			"en-UK": "Recruiting",
+			"de-DE": "Rekrutierung",
 		},
 		"chr": {
 			"en-US": "Core HR",
 			"en-UK": "Core HR",
+			"de-DE": "Core HR-Plattform",
 		},
 		"core": {
 			"en-US": "Core",
 			"en-UK": "Core",
+			"de-DE": "Core",
 		},
 		"lms": {
 			"en-US": "Learning",
 			"en-UK": "Learning",
+			"de-DE": "Lernen",
 		},
 		"epm": {
 			"en-US": "Performance",
 			"en-UK": "Performance",
+			"de-DE": "Performance",
 		},
 		"epm-careers": {
 			"en-US": "Careers",
 			"en-UK": "Careers",
+			"de-DE": "Careers",
 		},
 		"careers": {
 			"en-US": "Careers",
 			"en-UK": "Careers",
+			"de-DE": "Careers",
 		},
 		"reporting": {
 			"en-US": "Reports",
 			"en-UK": "Reports",
+			"de-DE": "Berichte",
 		},
 	},
 	onboarding : {
@@ -253,38 +268,195 @@ const cs_customLocale = {
 			},
 		},
 		"en-UK" : {
-			headertitle : "{FIRSTNAME}, your onboarding journey starts here!",
+			headertitle : gpeDEMOUNAME[0] +", your onboarding journey starts here!",
 			headertext : "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!" ,
 			videourl : "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
 			onbprocess : {
 				title : "What's next on the onboarding",
+				resourceTitle : "Further resources and/or activities:",
 				imgurl : "url(/clientimg/demogpe/welcome/onb_wp_process.png)",	
 				text : {
-					nextstepstext1 : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
-					nextstepstext2 : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
-					nextstepstext3 : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
-					nextstepstext4 : "When you are succeed - we succeed! We're a group. We're a team. From the President and Leo on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
+					nextstepstext1 : {
+						headline : "First day",
+						text : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
+						resources : {
+							res1 : {
+								text : "Read more about is on our Company website",
+								url : "https://www.cornerstoneondemand.com/company/",
+								type: "url",
+							},
+							res2 : {
+								text : "Follow us on LinkedIn",
+								url : "https://www.linkedin.com/company/cornerstone-ondemand",
+								type: "url",
+							},
+							res3 : {
+								text : "Fill out form - Personal Contact Details",
+								url : "/phnx/driver.aspx?routename=CustomForm/Create_Change_Contact_Details_001_frm_Edit_1&cfqs=%5e%5e%5ecsAJl9tGgheNnOyu8GlE8K6r80OhoI17mYrdxw86mqqyfExbEIrnU5YTbP2Svv8FgSnRkmhgXTrOE2Vd2J4C48aqSGGgD1Cc954k1FiWNcKwYrNZCkBr%2fm18odFjDYs1Z4IAcqcoia8N%2fvWUbFTIUqTaCUKFX4rcGsnSasW%2fyWcbQKxao12LMJ5qYkoW4wAi9Z7DN3BuO93jek0KZ1CQWw%3d%3d",
+								type: "url",
+							},
+							res4 : {
+								text : "Update your Bio page in Universal Profile",
+								url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Bio",
+								type: "url",
+							}
+						}
+					},
+					nextstepstext2 : { 
+						headline : "First week",
+						text : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
+						resources : {
+							res1 : {
+								text : "Go through your Onboarding Curriculum",
+								url : "/DeepLink/ProcessRedirect.aspx?module=loRegisterAndLaunch&lo=0ffd0bdc-e67a-4283-bdb1-79b4ab25189e",
+								type: "url",
+							},
+							res2 : {
+								text : "Be recommended training for your role",
+								url : "/ui/lms-learner-home/home",
+								type: "url",
+							},
+							res3 : {
+								text : "Create your own playlist together with your manager",
+								url : "/ui/lms-learner-playlist/UsersPlaylists",
+								type: "url",
+							}
+						}
+					},
+					nextstepstext3 : { 
+						headline : "First month",
+						text : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
+						resources : {
+							res1 : {
+								text : "Schedule regular check-in meetings with your manager",
+								type: "text",
+							},
+							res2 : {
+								text : "Create goals",
+								type: "text",
+							},
+							res3 : {
+								text : "Have fun!",
+								type: "text",
+							}
+						}
+					},
+					nextstepstext4 : {
+						headline : "First 6 months",
+						text : "When you succeed - we succeed! We're a group. We're a team. From the CEO  and on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
+						resources : {
+							res1 : {
+								text : "Create your Personal Development Plan",
+								type: "text",
+							},
+							res2 : {
+								text : "Get Certified",
+								type: "text",
+							},
+							res3 : {
+								text : "Receive and give badges",
+								type: "text",
+							},
+						}
+					},
 				},
 			},
-			form1_url : "",
-			form2_url : "",
-			form3_url : "",
-			form4_url : "",		},
+		},
 		"de-DE" : {
-			headertitle : "{FIRSTNAME}, your onboarding journey starts here!",
+			headertitle : gpeDEMOUNAME[0] +", your onboarding journey starts here!",
 			headertext : "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!" ,
 			videourl : "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
 			onbprocess : {
 				title : "What's next on the onboarding",
+				resourceTitle : "Further resources and/or activities:",
 				imgurl : "url(/clientimg/demogpe/welcome/onb_wp_process.png)",	
 				text : {
-					nextstepstext1 : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
-					nextstepstext2 : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
-					nextstepstext3 : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
-					nextstepstext4 : "When you are succeed - we succeed! We're a group. We're a team. From the President and Leo on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
+					nextstepstext1 : {
+						headline : "First day",
+						text : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
+						resources : {
+							res1 : {
+								text : "Read more about is on our Company website",
+								url : "https://www.cornerstoneondemand.com/company/",
+								type: "url",
+							},
+							res2 : {
+								text : "Follow us on LinkedIn",
+								url : "https://www.linkedin.com/company/cornerstone-ondemand",
+								type: "url",
+							},
+							res3 : {
+								text : "Fill out form - Personal Contact Details",
+								url : "/phnx/driver.aspx?routename=CustomForm/Create_Change_Contact_Details_001_frm_Edit_1&cfqs=%5e%5e%5ecsAJl9tGgheNnOyu8GlE8K6r80OhoI17mYrdxw86mqqyfExbEIrnU5YTbP2Svv8FgSnRkmhgXTrOE2Vd2J4C48aqSGGgD1Cc954k1FiWNcKwYrNZCkBr%2fm18odFjDYs1Z4IAcqcoia8N%2fvWUbFTIUqTaCUKFX4rcGsnSasW%2fyWcbQKxao12LMJ5qYkoW4wAi9Z7DN3BuO93jek0KZ1CQWw%3d%3d",
+								type: "url",
+							},
+							res4 : {
+								text : "Update your Bio page in Universal Profile",
+								url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Bio",
+								type: "url",
+							}
+						}
+					},
+					nextstepstext2 : { 
+						headline : "First week",
+						text : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
+						resources : {
+							res1 : {
+								text : "Go through your Onboarding Curriculum",
+								url : "/DeepLink/ProcessRedirect.aspx?module=loRegisterAndLaunch&lo=0ffd0bdc-e67a-4283-bdb1-79b4ab25189e",
+								type: "url",
+							},
+							res2 : {
+								text : "Be recommended training for your role",
+								url : "/ui/lms-learner-home/home",
+								type: "url",
+							},
+							res3 : {
+								text : "Create your own playlist together with your manager",
+								url : "/ui/lms-learner-playlist/UsersPlaylists",
+								type: "url",
+							}
+						}
+					},
+					nextstepstext3 : { 
+						headline : "First month",
+						text : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
+						resources : {
+							res1 : {
+								text : "Schedule regular check-in meetings with your manager",
+								type: "text",
+							},
+							res2 : {
+								text : "Create goals",
+								type: "text",
+							},
+							res3 : {
+								text : "Have fun!",
+								type: "text",
+							}
+						}
+					},
+					nextstepstext4 : {
+						headline : "First 6 months",
+						text : "When you succeed - we succeed! We're a group. We're a team. From the CEO  and on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
+						resources : {
+							res1 : {
+								text : "Create your Personal Development Plan",
+								type: "text",
+							},
+							res2 : {
+								text : "Get Certified",
+								type: "text",
+							},
+							res3 : {
+								text : "Receive and give badges",
+								type: "text",
+							},
+						}
+					},
 				},
 			},
-		}
+		},
 	}
 };
 
@@ -299,10 +471,12 @@ const cs_widgetConfig = {
 		title : {
 			"en-US" : "Development Plan Progress",
 			"en-UK" : "My development Plan progress",
+			"de-DE" : "Fortschritt meines Entwicklungsplans",
 		},
 		nocontenttitle: {
-			"en-US": "Create a new plan!",
-			"en-UK": "Create a new plan!",
+			"en-US" : "Create a new plan!",
+			"en-UK" : "Create a new plan!",
+			"de-DE" : "Erstellen Sie einen neuen Plan!",
 		},
 		getstartedurl : "/ui/devplans/blueprints/add"
 	},
@@ -312,10 +486,12 @@ const cs_widgetConfig = {
 		title : {
 			"en-US" : "Goal Progress",
 			"en-UK" : "Goal Progress",
+			"de-DE" : "Zielfortschritt",
 		},
 		nocontenttitle: {
-			"en-US": "Create goals!",
-			"en-UK": "Create goals!",
+			"en-US" : "Create goals!",
+			"en-UK" : "Create goals!",
+			"de-DE" : "Ziele schaffen!",
 		},
 		getstartedurl : "/phnx/driver.aspx?routename=Goals/GoalEdit"
 	},
@@ -325,10 +501,12 @@ const cs_widgetConfig = {
 		title : {
 			"en-US" : "Check ins",
 			"en-UK" : "Check ins",
+			"de-DE" : "Einchecken",
 		},
 		nocontenttitle: {
-			"en-US": "Get Started!",
-			"en-UK": "Get Started!",
+			"en-US" : "Get Started!",
+			"en-UK" : "Get Started!",
+			"de-DE" : "Loslegen!",
 		},
 		getstartedurl : "/ui/perf-check-ins/Check-Ins/create/select-participant"
 	},
@@ -338,31 +516,37 @@ const cs_widgetConfig = {
 		title : {
 			"en-US" : "Transcript",
 			"en-UK" : "Training Record",
+			"de-DE" : "Schulungsübersicht",
 		},
 		nocontenttitle: {
-			"en-US": "empty",
-			"en-UK": "empty",
+			"en-US" : "empty",
+			"en-UK" : "empty",
+			"de-DE" : "leer",
 		},
         tablecolumns : {
             title : {
-                "en-US": "Title",
-                "en-UK": "Title",
-                "fr-FR": "Le Title",
+                "en-US" : "Title",
+                "en-UK" : "Title",
+				"de-DE" : "Titel",
+                "fr-FR" : "Le Title",
             },
             duedate : {
-                "en-US": "Due Date",
-                "en-UK": "Due Date",
-                "fr-FR": "Le Due Date",
+                "en-US" : "Due Date",
+                "en-UK" : "Due Date",
+				"de-DE" : "Geburtstermin",
+                "fr-FR" : "Le Due Date",
             },
             status : {
-                "en-US": "Status",
-                "en-UK": "Status",
-                "fr-FR": "Le Status",
+                "en-US" : "Status",
+                "en-UK" : "Status",
+				"de-DE" : "Status",
+                "fr-FR" : "Le Status",
             },
             action : {
-                "en-US": "Action",
-                "en-UK": "Action",
-                "fr-FR": "Le Action",
+                "en-US" : "Action",
+                "en-UK" : "Action",
+				"de-DE" : "Handlung",
+                "fr-FR" : "Le Action",
             }        
 		}
 	},
@@ -372,10 +556,12 @@ const cs_widgetConfig = {
 		title : {
 			"en-US" : "Live Feed",
 			"en-UK" : "Live Feed",
+			"de-DE" : "Live-Feed",
 		},
 		nocontenttitle: {
-			"en-US": "empty",
-			"en-UK": "empty",
+			"en-US" : "empty",
+			"en-UK" : "empty",
+			"de-DE" : "leer",
 		},
 	},
 	performance_reviews : {
@@ -384,24 +570,131 @@ const cs_widgetConfig = {
 		title : {
 			"en-US" : "Actions",
 			"en-UK" : "Actions",
+			"de-DE" : "Aktionen",
 		},
 		nocontenttitle: {
-			"en-US": "empty",
-			"en-UK": "empty",
+			"en-US" : "empty",
+			"en-UK" : "empty",
+			"de-DE" : "leer",
 		},
         tablecolumns : {
             url : {
-                "en-US": "Action",
-                "en-UK": "Action",
-                "fr-FR": "Le Action",
+                "en-US" : "Action",
+                "en-UK" : "Action",
+				"de-DE" : "Aktionen",
+                "fr-FR" : "Le Action",
             },
             duedate : {
-                "en-US": "Due Date",
-                "en-UK": "Due Date",
-                "fr-FR": "Le Due Date",
+                "en-US" : "Due Date",
+                "en-UK" : "Due Date",
+				"de-DE" : "Geburtstermin",
+                "fr-FR" : "Le Due Date",
             }
         }
 	},
+	managerwidget : {
+		title : {
+			"en-US" : "My team widget",
+			"en-UK" : "My team widget",
+			"de-DE" : "Mein Team-Widget"
+		},
+		tableheader : {
+			name : {
+				"en-US" : "Name",
+				"en-UK" : "Name",
+				"de-DE" : "Name"
+			},
+			hiredate : {
+				"en-US" : "Hire Date",
+				"en-UK" : "Hire Date",
+				"de-DE" : "Anstellungsdatum"
+			},
+			actions : {
+				"en-US" : "Actions",
+				"en-UK" : "Actions",
+				"de-DE" : "Aktionen"
+			},
+		},
+		actionsitems : {
+			openup : {
+				"en-US" : "Open Universal Profile",
+				"en-UK" : "Open Universal Profile",
+				"de-DE" : "Universelles Profil öffnen"
+			},
+			viewtranscript : {
+				"en-US" : "View Transcript",
+				"en-UK" : "View Training Record",
+				"de-DE" : "Trainingsaufzeichnung anzeigen"
+			},
+			viewsnapshot : {
+				"en-US" : "View Snapshot",
+				"en-UK" : "View Snapshot",
+				"de-DE" : "Schnappschuss ansehen"
+			},
+			viewgoals : {
+				"en-US" : "View Goals",
+				"en-UK" : "View Objectives",
+				"de-DE" : "Ziele anzeigen"
+			},
+			viewdevplan : {
+				"en-US" : "View Development Plan",
+				"en-UK" : "View Development Plan",
+				"de-DE" : "Entwicklungsplan anzeigen"
+			},
+		},
+		detailtable : {
+			firstname : {
+				"en-US" : "First name",
+				"en-UK" : "First name",
+				"de-DE" : "Vorname"
+			},
+			lastname : {
+				"en-US" : "Last name",
+				"en-UK" : "Last name",
+				"de-DE" : "Nachname"
+			},
+			email : {
+				"en-US" : "Email",
+				"en-UK" : "Email",
+				"de-DE" : "Email"
+			},
+			phone : {
+				"en-US" : "Phone",
+				"en-UK" : "Phone",
+				"de-DE" : "Telefon"
+			},
+			hiredate : {
+				"en-US" : "Hire Date",
+				"en-UK" : "Hire Date",
+				"de-DE" : "Anstellungsdatum"
+			},
+			addressdetails : {
+				"en-US" : "Address Details",
+				"en-UK" : "Address Details",
+				"de-DE" : "Adressen Details"
+			},
+			address : {
+				"en-US" : "Address",
+				"en-UK" : "Address",
+				"de-DE" : "Die Anschrift"
+			},
+			city : {
+				"en-US" : "City",
+				"en-UK" : "City",
+				"de-DE" : "Stadt"
+			},
+			state : {
+				"en-US" : "State",
+				"en-UK" : "State",
+				"de-DE" : "Bundesland"
+			},
+			country : {
+				"en-US" : "Country",
+				"en-UK" : "Country",
+				"de-DE" : "Land"
+			},
+		}
+	}
 };
 
 /**
@@ -2120,14 +2413,14 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
                 field: "id",
                 visible: false
                 }, {
-                    title: "Name",
+                    title: cs_widgetConfig.managerwidget.tableheader.name[sessionStorage.csCulture],
                     field: "fullName"
                 }, {
-                    title: "Hire Date",
+                    title: cs_widgetConfig.managerwidget.tableheader.hiredate[sessionStorage.csCulture],
                     field: "hiredate"
                 },
                 {
-                    title: "Actions",
+                    title: cs_widgetConfig.managerwidget.tableheader.actions[sessionStorage.csCulture],
                     field: "action",
                     align: "center",
                     clickToSelect: false,
@@ -2190,18 +2483,17 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
  * @returns html array to put inside the right cell within the table
  */
 function operateFormatter(value, row, index) {
-    // console.log(row);
   return [
       '<div class="dropdown">',
         '<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">',
-        'Actions',
+        cs_widgetConfig.managerwidget.tableheader.actions[sessionStorage.csCulture],
         '</a>',
         '<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser='+ row.id +'">Open Universal Profile</a></li>',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser='+ row.id +'">View Transcript</a></li>',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser='+ row.id +'">View Snapshot</a></li>',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser='+ row.id +'">View Goals</a></li>',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser='+ row.id +'">View Development Plan</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.openup[sessionStorage.csCulture] +'</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.viewtranscript[sessionStorage.csCulture] +'</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.viewsnapshot[sessionStorage.csCulture] +'</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.viewgoals[sessionStorage.csCulture] +'</a></li>',
+          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.viewdevplan[sessionStorage.csCulture] +'</a></li>',
         '</ul>',
       '</div>'
     ].join('');
@@ -2225,45 +2517,45 @@ function detailFormatter(index, row) {
 	html.push('<b>'+ row.fullName  +'</b></h5>');
 	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
 	html.push('<tr>');
-	html.push('<td>First name</td>');
+	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.firstname[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.firstName +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>Last name</td>');
+	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.lastname[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.lastName +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>Email</td>');
+	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.email[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.primaryEmail +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>Phone</td>');
+	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.phone[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.workPhone +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>Orig. Hire Date</td>');
+	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.hiredate[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.hiredate +'</td>');
 	html.push('</tr>');
 	html.push('</table>');
 	html.push('</div>');
    
 	html.push('<div class="col-sm-6 col-md-6">');
-	html.push('<h5><b>Address Details</b></h5>');
+	html.push('<h5><b>'+ cs_widgetConfig.managerwidget.detailtable.addressdetails[sessionStorage.csCulture] +'</b></h5>');
 	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
 	html.push('<tr>');
-	html.push('<td>Address</td>');
+	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.address[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.address.line1 +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>City</td>');
+	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.city[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.address.city +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>State</td>');
+	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.state[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.address.state +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>Country</td>');
+	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.country[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.address.country +'</td>');
 	html.push('</tr>');
 	html.push('</table>');
