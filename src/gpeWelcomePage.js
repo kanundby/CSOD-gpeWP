@@ -17,6 +17,15 @@
  const gpePRIMARYBGCSS 		= $( '.c-nav-user' ).css( 'background-color' );	
  const gpeQUICKLINKSMAINDIV = "QLS-content";
 
+
+ /**
+  * @desc Viewport definition for mobile devices
+  */
+ var meta = document.createElement('meta');
+ meta.name = "viewport";
+ meta.content = "width=device-width, initial-scale=1.0";
+ document.getElementsByTagName('head')[0].appendChild(meta);
+
 /**
  * @const approvalURLs
  * @desc Array of translated welcome page data points.
@@ -466,10 +475,10 @@ const cs_customLocale = {
  */
 const cs_widgetConfig = {
 	development_plans : {
-		width : 12,
-		targetdiv : gpeUSRLEFTDIV,
+		width : 3,
+		targetdiv : gpeUSRMAINDIV,
 		title : {
-			"en-US" : "Development Plan Progress",
+			"en-US" : "Devplan Progress",
 			"en-UK" : "My development Plan progress",
 			"de-DE" : "Fortschritt meines Entwicklungsplans",
 		},
@@ -481,8 +490,8 @@ const cs_widgetConfig = {
 		getstartedurl : "/ui/devplans/blueprints/add"
 	},
 	goals : {
-		width : 12,
-		targetdiv : gpeUSRLEFTDIV,
+		width : 3,
+		targetdiv : gpeUSRMAINDIV,
 		title : {
 			"en-US" : "Goal Progress",
 			"en-UK" : "Goal Progress",
@@ -496,7 +505,7 @@ const cs_widgetConfig = {
 		getstartedurl : "/phnx/driver.aspx?routename=Goals/GoalEdit"
 	},
 	check_ins : {
-		width : 12,
+		width : 6,
 		targetdiv : gpeUSRMAINDIV,
 		title : {
 			"en-US" : "Check ins",
@@ -511,7 +520,7 @@ const cs_widgetConfig = {
 		getstartedurl : "/ui/perf-check-ins/Check-Ins/create/select-participant"
 	},
 	view_your_transcript : {
-		width : 12,
+		width : 6,
 		targetdiv : gpeUSRMAINDIV,
 		title : {
 			"en-US" : "Transcript",
@@ -551,7 +560,7 @@ const cs_widgetConfig = {
 		}
 	},
 	live_feed : {
-		width : 12,
+		width : 6,
 		targetdiv : gpeUSRMAINDIV,
 		title : {
 			"en-US" : "Live Feed",
@@ -565,7 +574,7 @@ const cs_widgetConfig = {
 		},
 	},
 	performance_reviews : {
-		width : 12,
+		width : 6,
 		targetdiv : gpeUSRMAINDIV,
 		title : {
 			"en-US" : "Actions",
@@ -594,9 +603,9 @@ const cs_widgetConfig = {
 	},
 	managerwidget : {
 		title : {
-			"en-US" : "My team widget",
-			"en-UK" : "My team widget",
-			"de-DE" : "Mein Team-Widget"
+			"en-US" : "My team",
+			"en-UK" : "My team",
+			"de-DE" : "Meine team"
 		},
 		tableheader : {
 			name : {
@@ -769,115 +778,115 @@ var cs_DashboardDetailsArray = {
 	},
 	reports: {
 		"2": {
-			"width": 12
+			"width": 6
 		},
 		"3": {
-			"width": 6
+			"width": 3
 		},
 		"4": {
-			"width": 6
+			"width": 3
 		},
 		"7": {
-			"width": 6
+			"width": 3
 		},
 		"8": {
-			"width": 6
+			"width": 3
 		},
 		"10": {
-			"width": 6
+			"width": 3
 		},
 		"11": {
-			"width": 6
+			"width": 3
 		},
 		"12": {
-			"width": 6
+			"width": 3
 		},
 		"13": {
-			"width": 6
+			"width": 3
 		},
 		"14": {
-			"width": 6
+			"width": 3
 		},
 		"15": {
-			"width": 6
+			"width": 3
 		},
 		"16": {
-			"width": 6
+			"width": 3
 		},
 		"17": {
-			"width": 6
+			"width": 3
 		},
 		"18": {
-			"width": 6
+			"width": 3
 		},
 		"19": {
-			"width": 6
+			"width": 3
 		},
 		"22": {
-			"width": 6
+			"width": 3
 		},
 		"23": {
-			"width": 6
+			"width": 3
 		},
 		"24": {
-			"width": 6
+			"width": 3
 		},
 		"25": {
-			"width": 6
+			"width": 3
 		},
 		"26": {
-			"width": 6
+			"width": 3
 		},
 		"27": {
-			"width": 6
+			"width": 3
 		},
 		"28": {
-			"width": 6
+			"width": 3
 		},
 		"29": {
-			"width": 6
+			"width": 3
 		},
 		"30": {
-			"width": 6
+			"width": 3
 		},
 		"31": {
-			"width": 6
+			"width": 3
 		},
 		"32": {
-			"width": 6
+			"width": 3
 		},
 		"36": {
-			"width": 6
+			"width": 3
 		},
 		"38": {
-			"width": 6
+			"width": 3
 		},
 		"41": {
-			"width": 6
+			"width": 3
 		},
 		"42": {
-			"width": 6
+			"width": 3
 		},
 		"43": {
-			"width": 6
+			"width": 3
 		},
 		"44": {
-			"width": 6
+			"width": 3
 		},
 		"46": {
-			"width": 6
+			"width": 3
 		},
 		"47": {
-			"width": 12
+			"width": 6
 		},
 		"48": {
-			"width": 6
+			"width": 3
 		},
 		"49": {
-			"width": 6
+			"width": 3
 		},
 		"50": {
-			"width": 6
+			"width": 3
 		}
 	}
 };
@@ -2280,13 +2289,14 @@ async function getTranscriptsStats(userIDArrayArg){
 function play() {
 	checkJWT()
 	.then( async function() {
-		// let rptURL = "/services/api/lms/user/47/transcript?hasDueDate=true&isCompleted=false&isArchived=false&isRemoved=false&page=1&pageSize=20&sortCriteria=DueDate&sortDirection=Ascending";
+		///transcript?isCompleted=false&isArchived=false&isRemoved=false&isStandAlone=true&sortCriteria=StatusChangeDate&pageSize=20&pageNum=1
+		let rptURL = "/services/api/lms/user/47/transcript?hasDueDate=true&isCompleted=false&isArchived=false&isRemoved=false&page=1&pageSize=20&sortCriteria=DueDate&sortDirection=Ascending";
 		// let rptURL = "/services/api/lms/user/49/recommendedtraining?type=Position&pageSize=20&pageNum=1";
 		// let rptURL = "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId=rjones@CS_en-US";
-		 let rptURL = "/v1/users/47/default-password";
+		// let rptURL = "/v1/users/47/default-password";
 
 		return await fetch( rptURL, {
-			method: 'POST',
+			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + sessionStorage.csToken,
@@ -2513,8 +2523,8 @@ function detailFormatter(index, row) {
 	html.push('<div class="row">');
 
 	html.push('<div class="col-sm-6 col-md-6">');
-	html.push('<h5>');
-	html.push('<b>'+ row.fullName  +'</b></h5>');
+	// html.push('<h5>');
+	// html.push('<b>'+ row.fullName  +'</b></h5>');
 	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
 	html.push('<tr>');
 	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.firstname[sessionStorage.csCulture] +'</td>');
@@ -2540,7 +2550,7 @@ function detailFormatter(index, row) {
 	html.push('</div>');
    
 	html.push('<div class="col-sm-6 col-md-6">');
-	html.push('<h5><b>'+ cs_widgetConfig.managerwidget.detailtable.addressdetails[sessionStorage.csCulture] +'</b></h5>');
+	// html.push('<h5><b>'+ cs_widgetConfig.managerwidget.detailtable.addressdetails[sessionStorage.csCulture] +'</b></h5>');
 	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
 	html.push('<tr>');
 	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.address[sessionStorage.csCulture] +'</td>');
@@ -2804,9 +2814,9 @@ async function checkReportToken() {
  * Updates sessionStorage with refreshed token details
  * @returns
  */
-function updateReportToken() {
+function updateReportToken_old() {
 	return fetch( "/Analytics/ReportBuilder/index.aspx/GetNewToken", {
-			method: 'POST',
+			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -2820,95 +2830,25 @@ function updateReportToken() {
 }
 
 /**
- * !!! NOT IN USE !!!! Fetches report metadata used for Manager/HRD extended widget
- * @param {string} reportIDArg - Report ID to be gathered. Derives from
- * @param {string} filterArg - derives from gpeUSERREPORTID.filterid
- * @param {string} demoRoleArg - derives from custom field
+ * Updates sessionStorage with refreshed token details
  * @returns
  */
-function fetchManagerReport( reportIDArg, filterArg, demoRoleArg ) {
-	var rptDataSet = {};
-	return fetch( "/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': sessionStorage.reportToken,
-			},
-		} )
-		.then( function( response ) {
-			if ( !response.ok ) {
-				throw new Error( "HTTP status " + response.status );
-			}
-			return response.json();
-		} )
-		.then( reportDetailsResponse => {
-
-			// Get the filterindex based on user.
-			var filterVal = reportDetailsResponse.filters.map( function( element ) {
-				return element.column.id;
-			} ).indexOf( gpeUSERREPORTID[ demoRoleArg ].filterid );
-
-			// Update filter on report to fetch
-			reportDetailsResponse.filters[ filterVal ].values[ 0 ] = {
-				"isDefault": "true",
-				"isList": "true",
-				"order": 1,
-				"value": filterArg
-			};
-
-			// Prepare payload array
-			var payload = {
-				"filters": [],
-				"sorting": []
-			};
-
-			// Update payload array
-			payload.filters = [ ...reportDetailsResponse.filters ];
-			payload.sorting = [ ...reportDetailsResponse.sorting ];
-
-			// Populate another array which is to be used in global return
-			rptDataSet = reportDetailsResponse;
-
-			// Post report request
-			return fetch( "/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
-				method: 'POST',
-				mode: 'cors',
-				cache: 'default',
-				credentials: 'same-origin',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': sessionStorage.reportToken
-				},
-				body: JSON.stringify( payload )
-			} );
-		} )
-		.then( status )
-		.then( response => response.json() )
-		.then( metaresponse => {
-			return fetch( "/reportarchitect/rctdatacore/metaapi/v1" + metaresponse.location, {
-				method: 'GET',
-				mode: 'cors',
-				cache: 'no-cache',
-				credentials: 'same-origin',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': sessionStorage.reportToken,
-				},
-			} );
-		} )
-		.then( status )
-		.then( reportdata => reportdata.json() )
-		.then( finalData => {
-			return [ finalData, rptDataSet ];
-		} )
-		.catch( error => {
-			console.error( "Error with fetchReport function - ", error );
-		} );
+function updateReportToken() {
+	return fetch( "/Analytics/ReportBuilder/index.aspx", {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'text/html'
+		}
+	} )
+	.then( response => response.text() )
+	.then( tokenStr => {
+		sessionStorage.reportToken = tokenStr.substring( tokenStr.indexOf( "accessToken:" ) + 14, tokenStr.indexOf( "',", tokenStr.indexOf( "accessToken" ) ) );
+		return sessionStorage.csToken;		
+	} )
+	.catch( error => {
+		console.error( "Function updateJWT failed: ", error );
+	} );
 }
-
 /* Get reporta meta */
 /**
  *
@@ -2917,6 +2857,7 @@ function fetchManagerReport( reportIDArg, filterArg, demoRoleArg ) {
  * @returns
  */
 function fetchReport( reportIDArg ) {
+	console.log("REPORTID: "+ reportIDArg);
 	var rptDataSet = {};
 	return fetch( "/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
 			method: 'GET',
@@ -2930,7 +2871,7 @@ function fetchReport( reportIDArg ) {
 		} )
 		//.then(response => response.json())
 		.then( function( response ) {
-			//		console.log(response.status);
+			console.log(response.status);
 			if ( !response.ok ) {
 				throw new Error( "HTTP status " + response.status );
 			}
@@ -3183,7 +3124,7 @@ async function buildDashboards( demoRoleArg ) {
 				credentials: 'same-origin',				
     			headers: {
     				'Content-Type': 'application/json',
-    				'Authorization': reportToken,
+    				'Authorization': sessionStorage.reportToken,
     			},
     		} );
     	} )
@@ -3231,85 +3172,85 @@ var getReportData = async ( reports, demoRoleArg ) => {
 	return Promise.all( requests )
 		.then( async function(reportResponseData) {
 
-			reportResponseData.forEach( function( reportResponse ) {
+			// reportResponseData.forEach( function( reportResponse ) {
 
-				var reportColumns = reportResponse[ 0 ];
-				var reportData = reportResponse[ 1 ];
-				var reportID = reportResponse[ 2 ];
-				//console.log(response);
+			// 	var reportColumns = reportResponse[ 0 ];
+			// 	var reportData = reportResponse[ 1 ];
+			// 	var reportID = reportResponse[ 2 ];
+			// 	//console.log(response);
 
-                // console.log("COLUMNS");
-                // console.log(reportColumns);
+            //     // console.log("COLUMNS");
+            //     // console.log(reportColumns);
 
-				var modalTbl = document.createElement( "div" );
-				modalTbl.setAttribute( "id", "modalTable_" + reportResponse[ 2 ] );
-				modalTbl.setAttribute( "tabindex", "-1" );
-				modalTbl.setAttribute( "role", "dialog" );
-				modalTbl.className = "modal fade reportModal";
+			// 	var modalTbl = document.createElement( "div" );
+			// 	modalTbl.setAttribute( "id", "modalTable_" + reportResponse[ 2 ] );
+			// 	modalTbl.setAttribute( "tabindex", "-1" );
+			// 	modalTbl.setAttribute( "role", "dialog" );
+			// 	modalTbl.className = "modal fade reportModal";
 
-				var modalDia = document.createElement( "div" );
-				modalDia.className = "modal-dialog modal-dialog-centered modal-lg modal-fullscreen-md-down";
+			// 	var modalDia = document.createElement( "div" );
+			// 	modalDia.className = "modal-dialog modal-dialog-centered modal-lg modal-fullscreen-md-down";
 
-				var modalCont = document.createElement( "div" );
-				modalCont.className = "modal-content";
+			// 	var modalCont = document.createElement( "div" );
+			// 	modalCont.className = "modal-content";
 
-				var modalHdr = document.createElement( "div" );
-				modalHdr.className = "modal-header";
+			// 	var modalHdr = document.createElement( "div" );
+			// 	modalHdr.className = "modal-header";
 
-				var modalHdrTitle = document.createElement( "h5" );
-				modalHdrTitle.className = "modal-title";
-				modalHdrTitle.innerHTML = reportResponse[ 3 ] + " (data)";
+			// 	var modalHdrTitle = document.createElement( "h5" );
+			// 	modalHdrTitle.className = "modal-title";
+			// 	modalHdrTitle.innerHTML = reportResponse[ 3 ] + " (data)";
 
-				var modalHdrCloseBtn = document.createElement( "button" );
-				modalHdrCloseBtn.setAttribute( "type", "button" );
-				modalHdrCloseBtn.className = "btn-close";
-				modalHdrCloseBtn.setAttribute( "data-bs-dismiss", "modal" );
-				//modalHdrCloseBtn.innerHTML = "Close";
+			// 	var modalHdrCloseBtn = document.createElement( "button" );
+			// 	modalHdrCloseBtn.setAttribute( "type", "button" );
+			// 	modalHdrCloseBtn.className = "btn-close";
+			// 	modalHdrCloseBtn.setAttribute( "data-bs-dismiss", "modal" );
+			// 	//modalHdrCloseBtn.innerHTML = "Close";
 
-				var modalContent = document.createElement( "div" );
-				modalContent.setAttribute( "id", "cs_reportModal_table" + reportResponse[ 2 ] );
-				modalContent.className = "modal-body";
+			// 	var modalContent = document.createElement( "div" );
+			// 	modalContent.setAttribute( "id", "cs_reportModal_table" + reportResponse[ 2 ] );
+			// 	modalContent.className = "modal-body";
 
-				modalHdr.appendChild( modalHdrTitle );
-				modalHdr.appendChild( modalHdrCloseBtn );
-				modalCont.appendChild( modalHdr );
-				modalCont.appendChild( modalContent );
-				modalDia.appendChild( modalCont );
-				modalTbl.appendChild( modalDia );
+			// 	modalHdr.appendChild( modalHdrTitle );
+			// 	modalHdr.appendChild( modalHdrCloseBtn );
+			// 	modalCont.appendChild( modalHdr );
+			// 	modalCont.appendChild( modalContent );
+			// 	modalDia.appendChild( modalCont );
+			// 	modalTbl.appendChild( modalDia );
 
-				// var divTemp = document.getElementById("cs_report_"+reportID);
-				var $table;
-				$table = $( "<table id='ReportTable" + reportResponse[ 2 ] + "'>" );
-				//$table = $("ReportTable"+reportResponse[2]);
-				$table.appendTo( modalContent );
-				$table.bootstrapTable( {
-					locale: sessionStorage.csCulture,
-					exportDataType: true,
-					exportTypes: [ 'json', 'xml', 'csv', 'txt', 'sql', 'excel' ],
-					pageSize: 25,
-					pagination: true, // Allow pagination
-					search: true, // Allow search
-					searchHighlight: true,
-					showColumns: true,
-					showColumnsSearch: true,
-					sortClass: "table-active",
-					height: "500",
-					checkboxHeader: true,
-					showToggle: false,
-					detailView: false,
-					showColumnsToggleAll: true,
-					columns: reportColumns,
-					data: reportData
-				} );
+			// 	// var divTemp = document.getElementById("cs_report_"+reportID);
+			// 	var $table;
+			// 	$table = $( "<table id='ReportTable" + reportResponse[ 2 ] + "'>" );
+			// 	//$table = $("ReportTable"+reportResponse[2]);
+			// 	$table.appendTo( modalContent );
+			// 	$table.bootstrapTable( {
+			// 		locale: sessionStorage.csCulture,
+			// 		exportDataType: true,
+			// 		exportTypes: [ 'json', 'xml', 'csv', 'txt', 'sql', 'excel' ],
+			// 		pageSize: 25,
+			// 		pagination: true, // Allow pagination
+			// 		search: true, // Allow search
+			// 		searchHighlight: true,
+			// 		showColumns: true,
+			// 		showColumnsSearch: true,
+			// 		sortClass: "table-active",
+			// 		height: "500",
+			// 		checkboxHeader: true,
+			// 		showToggle: false,
+			// 		detailView: false,
+			// 		showColumnsToggleAll: true,
+			// 		columns: reportColumns,
+			// 		data: reportData
+			// 	} );
 
-				var divTemp = document.getElementById( "cs_report_" + reportID );
-				divTemp.appendChild( modalTbl );
+			// 	var divTemp = document.getElementById( "cs_report_" + reportID );
+			// 	divTemp.appendChild( modalTbl );
 
-				$( "#cs_report_" + reportID + " .card-body" ).click( function() {
-					$( "#modalTable_" + reportID ).modal( "toggle" );
-					// $("[id*='cs_reportModal_table']").bootstrapTable('refreshOptions', {});
-				} );
-			} );
+			// 	$( "#cs_report_" + reportID + " .card-body" ).click( function() {
+			// 		$( "#modalTable_" + reportID ).modal( "toggle" );
+			// 		// $("[id*='cs_reportModal_table']").bootstrapTable('refreshOptions', {});
+			// 	} );
+			// } );
 			//						$("div[id='cs_report_"+reportIDresp+"'] .loader").css("display","none");
 			return "All done here with the dashboards";
 		} )

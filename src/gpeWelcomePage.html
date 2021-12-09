@@ -235,37 +235,37 @@ html {
     --trq-hamburger-menu-transform--closed: translateX(calc(-1 * var(--trq-hamburger-menu-width)));
 }
 
-@media (min-width:80em) {
+@media all and (min-width:80em) {
     :root {
         --gpewp-shell-max-width: 53.333333rem
     }
 }
 
-@media (min-width:35.5em) {
+@media all and (min-width:35.5em) {
     :root {
         --gpewp-shell__content-scale: 0.95
     }
 }
 
-@media (min-width:48em) {
+@media all and (min-width:48em) {
     :root {
         --gpewp-shell__content-scale: 0.9
     }
 }
 
-@media (min-width:64em) {
+@media all and (min-width:64em) {
     :root {
         --gpewp-shell__content-scale: 0.8
     }
 }
 
-@media (min-width:80em) {
+@media all and (min-width:80em) {
     :root {
         --gpewp-shell__content-scale: 0.75
     }
 }
 
-@media (min-width:48em) {
+@media all and (min-width:48em) {
     :root {
         --gpewp-banner-height: 15rem;
         --gpewp-error__msg-font-size: 1.333333rem;
@@ -273,6 +273,27 @@ html {
         --trq-header-height: 3rem;
         --trq-logo-maxheight: 1.666666rem;
     }
+}
+
+@media all and (min-width: 96em) {
+    :root {
+        --gpewp-shell-max-width: calc(64rem - 1.583333rem) !important;
+        --gpewp-shell__content-scale: 0.8 !important;
+    }
+}
+
+@media all and (min-width: 120em) {
+    :root {
+        --gpewp-shell-max-width: calc(80rem - 7.666666rem) !important;
+        --gpewp-shell__content-scale: 0.80625 !important;
+    }
+}
+
+.c-page-header > .logo img {
+    display: inline-flex !important;
+    max-width: 100%;
+    max-height: 2rem;
+    max-height: var(--trq-logo-maxheight,2rem);
 }
 
 #ctl00_masterPageBody {
@@ -618,7 +639,7 @@ p[_ngcontent-nml-c376] {
     grid-area: gpewp_content;
 }
 
-.gpewp_USR {
+/* .gpewp_USR {
     display: grid;
     grid-template-columns: 0.6fr 1.4fr;
     grid-template-rows: auto;
@@ -627,7 +648,19 @@ p[_ngcontent-nml-c376] {
     grid-template-areas:
         "gpewp_USR-left gpewp_USR-right";
     grid-area: gpewp_USR;
+} */
+
+.gpewp_USR {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "gpewp_USR-right";
+    grid-area: gpewp_USR;
 }
+
 
 .gpewp_USR-left {
     grid-area: gpewp_USR-left;
@@ -1239,6 +1272,7 @@ th.checkHeaderCol:not(:first-child) {
 
 #cs_main_check_ins .card-body {
     width: 100% !important;
+    min-height: 286.88px;
 }
 
 #cs_main_check_ins .card-body tr:hover {
@@ -1439,8 +1473,8 @@ a.c-search-icon {
         <div class="tab-content gpewp_content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-USR" role="tabpanel" aria-labelledby="nav-USR-tab">
                 <div class="gpewp_USR" id="USR-content">
-                    <div class="gpewp_USR-left" id="USR-left"></div>
-                    <div class="gpewp_USR-right" id="USR-right"></div>
+                    <!-- <div class="gpewp_USR-left" id="USR-left"></div> -->
+                    <div class="gpewp_USR-right row" id="USR-right"></div>
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-MGR" role="tabpanel" aria-labelledby="nav-MGR-tab">
@@ -1486,8 +1520,9 @@ a.c-search-icon {
 
 </div>
 <div id="demopersona" class="hidden" demopersona="{GPE.DEMOCONFIGPERSONA}"></div>
-<div id="demousername" class="hidden" demousername="{FIRSTNAME};{LASTNAME}"></div>
+<div id="demomodules" class="hidden" demopersona="{GPE.DEMOCONFIGMODULES}"></div>
 <div id="demovisuals" class="hidden" demovisuals="{GPE.WPBRANDING}"></div>
+<div id="demousername" class="hidden" demousername="{FIRSTNAME};{LASTNAME}"></div>
 
 <script type="text/javascript">
 /**
