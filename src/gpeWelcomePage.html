@@ -1301,14 +1301,16 @@ th.checkHeaderCol:not(:first-child) {
     text-decoration: none;
 }
 
-.card:hover {
+/* .card:hover {
     box-shadow: rgb(33 34 38 / 12%) 0px 0px 4px 0px, rgb(33 34 38 / 24%) 0px 4px 4px 0px !important;
-}
+} */
 
 .card {
     background-color: #ffffff !important;
-    box-shadow: rgb(33 34 38 / 12%) 0px 0px 2px 0px, rgb(33 34 38 / 24%) 0px 2px 2px 0px !important;
-    border-radius: 10px !important;
+    /* box-shadow: rgb(33 34 38 / 12%) 0px 0px 2px 0px, rgb(33 34 38 / 24%) 0px 2px 2px 0px !important; */
+    box-shadow: none;
+    /* border-radius: 10px !important; */
+    border-radius: 0px !important;
     min-height: 160px !important;
 }
 
@@ -1462,6 +1464,217 @@ a.c-search-icon {
     display: flex;
     justify-content: center;
 }
+/*********************************************************/
+/* CAROUSELS WIDGET CSS
+/*********************************************************/
+.carouselItemPanelTileLinkThmb {
+    background-position: Center Center;    
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.carouselItemPanelTileLink {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;    
+}
+
+.carouselItemPanelItem {
+    position: relative;
+    padding-top: 50%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: #e1e1e1;
+  width: 4vh;
+  height: 4vh;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/*********************************************************/
+/* LINKS ON WELCOME PAGE CSS
+/*********************************************************/
+.moduleLinkIcon {
+    width: 50px;
+    height: 50px;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+}
+
+.moduleLink  {
+    padding-top: 1rem;
+    background: #fff;
+}
+
+.moduleLink:hover  {
+    background: #fafafa !important;
+    color: #fff;
+    cursor: pointer;
+}
+
+.moduleLinkTitle {
+    text-align: center;
+}
+
+.moduleLinkContainer {
+  width: 100%;
+  background-color: #fff;
+  overflow: auto;
+}
+
+.moduleLinkContainer li {
+  float: left;
+  padding: 12px;
+  display: inline;
+  color: #000;
+  text-decoration: none;
+  font-size: 16px;
+  width: 16.6666666667%; /* Four links of equal widths */
+  text-align: center;
+}
+
+.carouselItemPanelCourseDescDivTitle,
+.modLinkItemLink {
+    font-size: 14px !important;
+    text-decoration: none;
+    color: #000 !important;
+}
+
+.carouselItemPanelCourseDescDivTitle:hover,
+.modLinkItemLink:hover {
+    text-decoration: underline;
+}
+
+#USR-right [class*='col-md-'] {
+    margin-bottom: .5rem !important;
+}
+.widgetData .card-header {
+    font-size: 16px !important;
+}
+.carouselItemPanelCourseDescDivTitle,
+.modLinkItemLink {
+    font-size: 14px !important;
+    text-decoration: none;
+    color: #000 !important;
+}
+
+.carouselItemPanelCourseDescDivTitle:hover,
+.modLinkItemLink:hover {
+    text-decoration: underline;
+}
+
+.moduleWidget .card {
+    border-radius: 0px !important;
+    border: 0px solid;
+}
+
+.moduleWidget .card-header {
+    border-bottom: 1px solid #dfdfdf;
+    border-radius: 0px !important;
+}
+.gpe-cap {
+    text-transform: uppercase;
+}
+
+.gpe-center {
+    text-align: center;
+}
+
+.gpe-bold {
+    font-weight: 700;
+}
+
+.gpe-text20 {
+    font-size: 25px !important;
+}
+
+.summaryItem a {
+    text-decoration: none;
+    color: #000;
+}
+
+.summaryItem a .gpe-desc {
+    text-decoration: none;
+    font-weight: 300 !important;
+    color: #777;
+}
+
+.summaryItem a:hover .gpe-desc {
+    text-decoration: none;
+    color: #000;
+}
+
+.summaryItem a:hover .gpe-bold {
+    text-decoration: underline;
+    color: #000;
+}
+
+.gpe-cap {
+    text-transform: uppercase;
+}
+
+.gpe-center {
+    text-align: center;
+}
+
+.gpe-bold {
+    font-weight: 700;
+}
+
+.gpe-text20 {
+    font-size: 25px !important;
+}
+
+.gpe-text40 {
+    font-size: 40px !important;
+}
+
+.summaryItem a {
+    text-decoration: none;
+    color: #000;
+}
+
+.summaryItem a .gpe-desc {
+    text-decoration: none;
+    font-weight: 300 !important;
+    color: #777;
+}
+
+.summaryItem a:hover .gpe-desc {
+    text-decoration: none;
+    color: #000;
+}
+
+.summaryItem a:hover .gpe-bold {
+    text-decoration: underline;
+    color: #000;
+}
+
+.card {
+    min-height: 320px !important;
+    max-height: 320px !important;
+}
+.card canvas {
+    width: 180px !important;
+    height: 180px !important;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.moduleWidget .card-header {
+    padding-left: 10px;
+}
+
+.moduleLinkWrapper  {
+    padding-bottom: 3rem;
+}
+
 </style>
 
 <div class="gpewp_container" id="gpewp">
@@ -1520,7 +1733,7 @@ a.c-search-icon {
 
 </div>
 <div id="demopersona" class="hidden" demopersona="{GPE.DEMOCONFIGPERSONA}"></div>
-<div id="demomodules" class="hidden" demopersona="{GPE.DEMOCONFIGMODULES}"></div>
+<div id="demomodules" class="hidden" demomodules="{GPE.DEMOCONFIGMODULES}"></div>
 <div id="demovisuals" class="hidden" demovisuals="{GPE.WPBRANDING}"></div>
 <div id="demousername" class="hidden" demousername="{FIRSTNAME};{LASTNAME}"></div>
 

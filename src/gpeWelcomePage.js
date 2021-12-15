@@ -10,9 +10,11 @@
  const gpeUSRCONTENTDIV 	= "USR-content";								// User Main div (overall)
  const gpeUSRLEFTDIV 		= "USR-left";									// User left div
  const gpeDEMOPERSONADIV 	= "demopersona";								// id of persona div (user record custom field)
+ const gpeDEMOMODULEDIV	 	= "demomodules";								// User name
  const gpeDEMONAMEDIV	 	= "demousername";								// User name
  const gpeTARGETNAVDIV 		= "gpewp_topcontainer_nav"; 					// where do we want to put the navigation menu?
  const gpeDEMOROLE 			= getDemoRole( document.getElementById( gpeDEMOPERSONADIV ).getAttribute( gpeDEMOPERSONADIV ) );
+ const gpeDEMMOMODULES		= getDemoModules(document.getElementById( gpeDEMOMODULEDIV ).getAttribute( gpeDEMOMODULEDIV ) );
  const gpeDEMOUNAME 		= document.getElementById( gpeDEMONAMEDIV ).getAttribute( gpeDEMONAMEDIV ).split(';');
  const gpePRIMARYBGCSS 		= $( '.c-nav-user' ).css( 'background-color' );	
  const gpeQUICKLINKSMAINDIV = "QLS-content";
@@ -471,12 +473,328 @@ const cs_customLocale = {
 
 /**
  * @const cs_widgetConfig
- * @desc Array of settings for each widget.
+ * @desc Array of settings for each module and widget.
  */
 const cs_widgetConfig = {
-	development_plans : {
-		width : 3,
-		targetdiv : gpeUSRMAINDIV,
+	EMPLOYEE : {
+		MODULEORDER : {
+			LMS : 1,
+			EPM : 2,
+			ATS : 3,
+		},
+		MODULES : {
+			LMS : {
+				MODULETITLE : {
+					"en-US" : "Learning & Development",
+					"en-UK" : "Learning & Development",
+				},
+				WIDGETS : {
+					INSPIRED_BY_SUBJECTS : {
+						ID : "INSPIRED_BY_SUBJECTS",
+						TITLE : {
+							"en-US" : "Inspired by Your Subjects123",
+							"en-UK" : "Inspired by Your Subjects",
+						},
+						WIDGETLINK : "/recommendedtraining?type=Subjects&pageSize=20&pageNum=1",
+						ORDER: 1,
+						COLUMNSIZE : 3,
+					},
+					TRENDING_FOR_JOB : {
+						ID : "TRENDING_FOR_JOB",
+						TITLE : {
+							"en-US" : "Trending for your Job",
+							"en-UK" : "Trending for your Job",
+						},
+						WIDGETLINK : "/recommendedtraining?type=Position&pageSize=20&pageNum=1",
+						ORDER: 2,
+						COLUMNSIZE : 3,
+					},
+					TRAINING_METRICS : {
+						ID : "TRAINING_METRICS",
+						TITLE : {
+							"en-US" : "Transcript Overview",
+							"en-UK" : "Training Record Overview",
+						},
+						WIDGETLINK : "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser="+ sessionStorage.csUser,
+						ORDER: 3,
+						COLUMNSIZE : 6,
+					},								
+				},
+				LINKS : {
+					LEARNER_HOME : {
+						TITLE : {
+							"en-US" : "Learner Home",
+							"en-UK" : "Learner Home",
+						},
+						URL : "/ui/lms-learner-home/home",
+						ICON : "lms_ql_learner_home.png",
+						COLUMNSIZE : 2,
+						ORDER: 1,
+					},
+					COMMUNITIES : {
+						TITLE : {
+							"en-US" : "Communities",
+							"en-UK" : "Communities",
+						},
+						URL : "/phnx/driver.aspx?routename=Social/Communities",
+						ICON : "lms_ql_communities.png",
+						COLUMNSIZE : 2,
+						ORDER: 2,
+					},
+					LEARNER_SEARCH : {
+						TITLE : {
+							"en-US" : "Learner Search",
+							"en-UK" : "Learner Search",
+						},
+						URL : "/ui/lms-learner-search/search?pageNumber=1",
+						ICON : "lms_ql_learner_search.png",
+						COLUMNSIZE : 2,
+						ORDER : 3,
+					},
+					TRAINING_HISTORY : {
+						TITLE : {
+							"en-US" : "Training history",
+							"en-UK" : "Training history",
+						},
+						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&preSelectedCategoryId=3",
+						ICON : "lms_ql_transcript.png",
+						COLUMNSIZE : 2,
+						ORDER: 4,
+					},
+					PLAYLISTS : {
+						TITLE : {
+							"en-US" : "Playlists",
+							"en-UK" : "Playlists",
+						},
+						URL : "/ui/lms-learner-playlist/UsersPlaylists",
+						ICON : "lms_ql_playlists.png",
+						COLUMNSIZE : 2,
+						ORDER: 5,
+					},
+					LEADERBOARD : {
+						TITLE : {
+							"en-US" : "Leaderboard",
+							"en-UK" : "Leaderboard",
+						},
+						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Leaderboard&TargetUser="+sessionStorage.csUser,
+						ICON : "lms_ql_leaderboard.png",
+						COLUMNSIZE : 2,
+						ORDER: 6,
+					},
+				},
+			},
+			EPM : {
+				MODULETITLE : {
+					"en-US" : "Performance & Career",
+					"en-UK" : "Performance & Career",
+				},
+				WIDGETS : {
+					CHECKINS : {
+						ID : "CHECKINS",
+						TITLE : {
+							"en-US" : "Check Ins",
+							"en-UK" : "Check Ins",
+						},
+						WIDGETLINK : "/ui/perf-check-ins/Check-Ins",
+						TARGETID : "EPM_widget_CHECKINS",
+						ORDER: 1,
+						COLUMNSIZE : 6,
+					},
+					DEVPLAN_PROGRESS : {
+						ID : "DEVPLAN_PROGRESS",
+						TITLE : {
+							"en-US" : "Development Plan Progress",
+							"en-UK" : "Development Plan Progress",
+						},
+						WIDGETLINK : "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew",
+						TARGETID : "EPM_widget_DEVPLAN_PROGRESS",
+						ORDER: 1,
+						COLUMNSIZE : 3,
+					},
+					GOAL_PROGRESS : {
+						ID : "GOAL_PROGRESS",
+						TITLE : {
+							"en-US" : "Goal Progress",
+							"en-UK" : "Objective Progress",
+						},
+						WIDGETLINK : "/phnx/driver.aspx?routename=Goals/GoalList&tab_page_id=-200159402",
+						TARGETID : "EPM_widget_GOAL_PROGRESS",
+						ORDER: 1,
+						COLUMNSIZE : 3,
+					},			
+				},
+				LINKS : {
+					SURVEYS : {
+						TITLE : {
+							"en-US" : "Surveys",
+							"en-UK" : "Surveys",
+						},
+						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=16&sort=0",
+						ICON : "epm_ql_surveys.png",
+						COLUMNSIZE : 2,
+						ORDER : 1,
+					},
+					FEEDBACK : {
+						TITLE : {
+							"en-US" : "Feedback",
+							"en-UK" : "Feedback",
+						},
+						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Feedback",
+						ICON : "epm_ql_feedback.png",
+						COLUMNSIZE : 2,
+						ORDER: 2,
+					},
+					PERF_REVIEWS : {
+						TITLE : {
+							"en-US" : "Performance Reviews",
+							"en-UK" : "Performance Reviews",
+						},
+						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=6&sort=0",
+						ICON : "epm_ql_compensation.png",
+						COLUMNSIZE : 2,
+						ORDER: 3,
+					},
+					CHECKINS : {
+						TITLE : {
+							"en-US" : "Check Ins",
+							"en-UK" : "Check Ins",
+						},
+						URL : "/ui/perf-check-ins/Check-Ins/",
+						ICON : "epm_ql_succession.png",
+						COLUMNSIZE : 2,
+						ORDER: 4,
+					},
+					CHECKLISTS : {
+						TITLE : {
+							"en-US" : "Checklists",
+							"en-UK" : "Checklists",
+						},
+						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=14",
+						ICON : "epm_ql_checklists.png",
+						COLUMNSIZE : 2,
+						ORDER: 5,
+					},
+					SKILLSMATRIX : {
+						TITLE : {
+							"en-US" : "Skills Matrix",
+							"en-UK" : "Skills Matrix",
+						},
+						URL : "/EPM/SkillsMatrix/User/SkillsMatrixPage.aspx",
+						ICON : "epm_ql_skillsmatrix.png",
+						COLUMNSIZE : 2,
+						ORDER: 6,
+					},			
+				},
+			},
+			ATS : {
+				MODULETITLE : {
+					"en-US" : "Recruit & Onboarding",
+					"en-UK" : "Recruit & Onboarding",
+				},
+				WIDGETS : {
+					TOTALCANDIDATES : {
+						ID : "TOTALCANDIDATES",
+						TITLE : {
+							"en-US" : "Total Candidates",
+							"en-UK" : "Total Candidates",
+						},
+						WIDGETLINK : "/ui/perf-check-ins/Check-Ins",
+						TARGETID : "ATS_widget_TOTALCANDIDATES",
+						ORDER: 1,
+						COLUMNSIZE : 2,
+					},
+					NEWSUBMISSIONS : {
+						ID : "NEWSUBMISSIONS",
+						TITLE : {
+							"en-US" : "New Submissions",
+							"en-UK" : "New Submissions",
+						},
+						WIDGETLINK : "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew",
+						TARGETID : "ATS_widget_NEWSUBMISSIONS",
+						ORDER: 1,
+						COLUMNSIZE : 2,
+					},
+					NEWHIRES : {
+						ID : "NEWHIRES",
+						TITLE : {
+							"en-US" : "New Hires",
+							"en-UK" : "New Hires",
+						},
+						WIDGETLINK : "/phnx/driver.aspx?routename=Goals/GoalList&tab_page_id=-200159402",
+						TARGETID : "ATS_widget_NEWHIRES",
+						ORDER: 1,
+						COLUMNSIZE : 8,
+					},			
+				},
+				LINKS : {
+					REQREQUESTS : {
+						TITLE : {
+							"en-US" : "Requisition Requests",
+							"en-UK" : "Requisition Requests",
+						},
+						URL : "/ATS/JobRequisitionRequest/RequisitionRequests.aspx",
+						ICON : "ats_ql_requisition_requests.png",
+						COLUMNSIZE : 2,
+						ORDER : 1,
+					},
+					MANAGEREQ : {
+						TITLE : {
+							"en-US" : "Manage Requisitions",
+							"en-UK" : "Manage Requisitions",
+						},
+						URL : "/phnx/driver.aspx?routename=ATS/RecruitingManagement/ManageRequisitions",
+						ICON : "ats_ql_manage_requisitions.png",
+						COLUMNSIZE : 2,
+						ORDER: 2,
+					},
+					MANAGECANDIDATES: {
+						TITLE : {
+							"en-US" : "Manage Candidates",
+							"en-UK" : "Manage Candidates",
+						},
+						URL : "/ui/ats-manage-candidates/managecandidates",
+						ICON : "ats_ql_manage_candidates.png",
+						COLUMNSIZE : 2,
+						ORDER: 3,
+					},
+					INTERVIEWS : {
+						TITLE : {
+							"en-US" : "Interviews",
+							"en-UK" : "Interviews",
+						},
+						URL : "/ATS/Interview/ScheduledInterviews.aspx",
+						ICON : "ats_ql_interviews.png",
+						COLUMNSIZE : 2,
+						ORDER: 4,
+					},
+					HIRINGDASHBOARD : {
+						TITLE : {
+							"en-US" : "Hiring Dashboard",
+							"en-UK" : "Hiring Dashboard",
+						},
+						URL : "/phnx/driver.aspx?routename=ATS/Dashboard/HiringDashboard",
+						ICON : "ats_ql_hiring_dashboard.png",
+						COLUMNSIZE : 2,
+						ORDER: 5,
+					},
+					CANDIDATESEARCH : {
+						TITLE : {
+							"en-US" : "Candidate Search",
+							"en-UK" : "Candidate Search",
+						},
+						URL : "/phnx/driver.aspx?routename=ATS/Search/CandidateSearch",
+						ICON : "ats_ql_candidate_search.png",
+						COLUMNSIZE : 2,
+						ORDER: 6,
+					},			
+				},
+			},
+		},
+	},
+	"EPM-DEVPLAN_PROGRESS" : {
+		width : 12,
+		targetdiv : "EPM-DEVPLAN_PROGRESS",
+		url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew",
 		title : {
 			"en-US" : "Devplan Progress",
 			"en-UK" : "My development Plan progress",
@@ -489,9 +807,10 @@ const cs_widgetConfig = {
 		},
 		getstartedurl : "/ui/devplans/blueprints/add"
 	},
-	goals : {
-		width : 3,
-		targetdiv : gpeUSRMAINDIV,
+	"EPM-GOAL_PROGRESS" : {
+		width : 12,
+		targetdiv : "EPM-GOAL_PROGRESS",
+		url : "/phnx/driver.aspx?routename=Goals/GoalList",
 		title : {
 			"en-US" : "Goal Progress",
 			"en-UK" : "Goal Progress",
@@ -504,9 +823,10 @@ const cs_widgetConfig = {
 		},
 		getstartedurl : "/phnx/driver.aspx?routename=Goals/GoalEdit"
 	},
-	check_ins : {
-		width : 6,
-		targetdiv : gpeUSRMAINDIV,
+	"EPM-CHECKINS" : {
+		width : 12,
+		targetdiv : "EPM-CHECKINS",
+		url : "/ui/perf-check-ins/Check-Ins",
 		title : {
 			"en-US" : "Check ins",
 			"en-UK" : "Check ins",
@@ -519,87 +839,149 @@ const cs_widgetConfig = {
 		},
 		getstartedurl : "/ui/perf-check-ins/Check-Ins/create/select-participant"
 	},
-	view_your_transcript : {
-		width : 6,
-		targetdiv : gpeUSRMAINDIV,
+	"LMS-INSPIRED_BY_SUBJECTS" : {
+		width : 12,
+		targetdiv : "LMS-INSPIRED_BY_SUBJECTS",
+		url : "/ui/lms-learner-home/home",
 		title : {
-			"en-US" : "Transcript",
-			"en-UK" : "Training Record",
-			"de-DE" : "Schulungsübersicht",
+			"en-US" : "Inspired by your Subjects",
+			"en-UK" : "Inspired by your Subjects",
+			"de-DE" : "",
 		},
 		nocontenttitle: {
-			"en-US" : "empty",
-			"en-UK" : "empty",
-			"de-DE" : "leer",
+			"en-US" : "",
+			"en-UK" : "",
+			"de-DE" : "",
 		},
-        tablecolumns : {
-            title : {
-                "en-US" : "Title",
-                "en-UK" : "Title",
-				"de-DE" : "Titel",
-                "fr-FR" : "Le Title",
-            },
-            duedate : {
-                "en-US" : "Due Date",
-                "en-UK" : "Due Date",
-				"de-DE" : "Geburtstermin",
-                "fr-FR" : "Le Due Date",
-            },
-            status : {
-                "en-US" : "Status",
-                "en-UK" : "Status",
-				"de-DE" : "Status",
-                "fr-FR" : "Le Status",
-            },
-            action : {
-                "en-US" : "Action",
-                "en-UK" : "Action",
-				"de-DE" : "Handlung",
-                "fr-FR" : "Le Action",
-            }        
-		}
+		getstartedurl : "#"
 	},
-	live_feed : {
-		width : 6,
-		targetdiv : gpeUSRMAINDIV,
+	"LMS-TRAINING_METRICS" : {
+		width : 12,
+		targetdiv : "LMS-TRAINING_METRICS",
+		url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser="+ sessionStorage.csUser,
 		title : {
-			"en-US" : "Live Feed",
-			"en-UK" : "Live Feed",
-			"de-DE" : "Live-Feed",
+			"en-US" : "Transcript Overview",
+			"en-UK" : "Training Record Overview",
+			"de-DE" : "",
+		},
+		pastdueDesc : {
+			"en-US" : "Past Due Trainings",
+			"en-UK" : "Past Due Trainings",
+			"de-DE" : "",
+		},
+		dueSoonDesc : {
+			"en-US" : "Trainings Due Soon",
+			"en-UK" : "Trainings Due Soon",
+			"de-DE" : "",
+		},		
+		assignedNoDueDateDesc : {
+			"en-US" : "Training Assigned / No Due Date",
+			"en-UK" : "Training Assigned / No Due Date",
+			"de-DE" : "",
+		},
+		playlists : {
+			createdDesc : {
+				"en-US" : "Playlists created",
+				"en-UK" : "Playlists created",
+				"de-DE" : "",	
+			},
+			followersDesc : {
+				"en-US" : "Playlist followers",
+				"en-UK" : "Playlist followers",
+				"de-DE" : "",
+			},
+			followedDesc : {
+				"en-US" : "Playlists followed",
+				"en-UK" : "Playlists followed",
+				"de-DE" : "",	
+			}
 		},
 		nocontenttitle: {
-			"en-US" : "empty",
-			"en-UK" : "empty",
-			"de-DE" : "leer",
+			"en-US" : "",
+			"en-UK" : "",
+			"de-DE" : "",
 		},
+		getstartedurl : "#"
 	},
-	performance_reviews : {
-		width : 6,
-		targetdiv : gpeUSRMAINDIV,
+	"LMS-TRENDING_FOR_JOB" : {
+		width : 12,
+		targetdiv : "LMS-TRENDING_FOR_JOB",
+		url : "/ui/lms-learner-home/home",
 		title : {
-			"en-US" : "Actions",
-			"en-UK" : "Actions",
-			"de-DE" : "Aktionen",
+			"en-US" : "Trending for your job",
+			"en-UK" : "Trending for your job",
+			"de-DE" : "",
 		},
 		nocontenttitle: {
-			"en-US" : "empty",
-			"en-UK" : "empty",
-			"de-DE" : "leer",
+			"en-US" : "Get Started!",
+			"en-UK" : "Get Started!",
+			"de-DE" : "Loslegen!",
 		},
-        tablecolumns : {
-            url : {
-                "en-US" : "Action",
-                "en-UK" : "Action",
-				"de-DE" : "Aktionen",
-                "fr-FR" : "Le Action",
-            },
-            duedate : {
-                "en-US" : "Due Date",
-                "en-UK" : "Due Date",
-				"de-DE" : "Geburtstermin",
-                "fr-FR" : "Le Due Date",
-            }
-        }
+		getstartedurl : "#"
+	},	
+	"LMS-ASSIGNED_TRAINING" : {
+		width : 12,
+		targetdiv : "LMS-ASSIGNED_TRAINING",
+		url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript",
+		title : {
+			"en-US" : "Assigned Training",
+			"en-UK" : "Assigned Training",
+			"de-DE" : "",
+		},
+		nocontenttitle: {
+			"en-US" : "Get Started!",
+			"en-UK" : "Get Started!",
+			"de-DE" : "Loslegen!",
+		},
+		getstartedurl : "#"
+	},	
+	"ATS-TOTALCANDIDATES" : {
+		width : 12,
+		targetdiv : "ATS-TOTALCANDIDATES",
+		url : "/ui/ats-manage-candidates/managecandidates",
+		title : {
+			"en-US" : "Total Candidates",
+			"en-UK" : "Total Candidates",
+			"de-DE" : "",
+		},
+		nocontenttitle: {
+			"en-US" : "",
+			"en-UK" : "",
+			"de-DE" : "",
+		},
+		getstartedurl : "#"
+	},	
+	"ATS-NEWSUBMISSIONS" : {
+		width : 12,
+		targetdiv : "ATS-NEWSUBMISSIONS",
+		url : "/ui/ats-manage-candidates/managecandidates?pageSize=20&statusCategories=-1",
+		title : {
+			"en-US" : "New Submissions",
+			"en-UK" : "New Submissions",
+			"de-DE" : "",
+		},
+		nocontenttitle: {
+			"en-US" : "",
+			"en-UK" : "",
+			"de-DE" : "",
+		},
+		getstartedurl : "#"
+	},		
+	"ATS-NEWHIRES" : {
+		width : 12,
+		targetdiv : "ATS-NEWHIRES",
+		url : "/phnx/driver.aspx?routename=ONB/Dashboard",
+		title : {
+			"en-US" : "New Hires",
+			"en-UK" : "New Hires",
+			"de-DE" : "",
+		},
+		nocontenttitle: {
+			"en-US" : "",
+			"en-UK" : "",
+			"de-DE" : "",
+		},
+		getstartedurl : "#"
 	},
 	managerwidget : {
 		title : {
@@ -916,6 +1298,15 @@ function getDemoRole( elementArg ) {
 }
 
 /**
+ * Returns all modules included in the demo.
+ * @param {String} elementArg - div/element holding the required value
+ * @returns {array} The first three characters from argument (USR/HRD/ADM/INS/REC/MGR)
+ */
+ function getDemoModules( elementArg ) {
+	 return elementArg.match(/.{1,3}/g);
+}
+
+/**
  * Gets details of user's navmenu (titles & urls)
  * @param {Array} accessURLsArg - The array of possible access items a user might/could have.
  * @returns {Array} An array filtered on access items user has.
@@ -1060,36 +1451,37 @@ function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
 				break;
 		}
 
-		let topNavItmQLS = document.createElement( "li" );
-		topNavItmQLS.className = "trq-tab-group-item ng-star-inserted";
-		topNavItmQLS.setAttribute( "role", "presentation" );
-		topNavItmQLS.setAttribute( "_ngcontent-nml-c325", "" );
-		topNavItmQLS.setAttribute( "trqid", "group-item" );
-		topNavItmQLS.setAttribute( "trqiduseparent", "true" );
+		// let topNavItmQLS = document.createElement( "li" );
+		// topNavItmQLS.className = "trq-tab-group-item ng-star-inserted";
+		// topNavItmQLS.setAttribute( "role", "presentation" );
+		// topNavItmQLS.setAttribute( "_ngcontent-nml-c325", "" );
+		// topNavItmQLS.setAttribute( "trqid", "group-item" );
+		// topNavItmQLS.setAttribute( "trqiduseparent", "true" );
 
-		if ( demoRoleArg != "ONB") {
+		// if ( demoRoleArg != "ONB") {
 
-			let topNavBtnQLS = document.createElement( "a" );
-			topNavBtnQLS.className = "trq-tab-link--flat ng-star-inserted";
-			topNavBtnQLS.setAttribute( "id", "nav-QLS-tab" );
-			topNavBtnQLS.setAttribute( "data-bs-toggle", "tab" );
-			topNavBtnQLS.setAttribute( "data-bs-target", "#nav-QLS" );
-			topNavBtnQLS.setAttribute( "type", "button" );
-			topNavBtnQLS.setAttribute( "role", "tab" );
-			topNavBtnQLS.setAttribute( "aria-controls", "nav-QLS" );
-			topNavBtnQLS.setAttribute( "aria-selected", "true" );
-			topNavBtnQLS.setAttribute( "_ngcontent-nml-c376", "" );
-			topNavBtnQLS.innerHTML = cs_customLocale.topNavigationTitle.QLS[ cultureArg ]; // sessionStorage["csCulture"]
+		// 	let topNavBtnQLS = document.createElement( "a" );
+		// 	topNavBtnQLS.className = "trq-tab-link--flat ng-star-inserted";
+		// 	topNavBtnQLS.setAttribute( "id", "nav-QLS-tab" );
+		// 	topNavBtnQLS.setAttribute( "data-bs-toggle", "tab" );
+		// 	topNavBtnQLS.setAttribute( "data-bs-target", "#nav-QLS" );
+		// 	topNavBtnQLS.setAttribute( "type", "button" );
+		// 	topNavBtnQLS.setAttribute( "role", "tab" );
+		// 	topNavBtnQLS.setAttribute( "aria-controls", "nav-QLS" );
+		// 	topNavBtnQLS.setAttribute( "aria-selected", "true" );
+		// 	topNavBtnQLS.setAttribute( "_ngcontent-nml-c376", "" );
+		// 	topNavBtnQLS.innerHTML = cs_customLocale.topNavigationTitle.QLS[ cultureArg ]; // sessionStorage["csCulture"]
 
-			topNavItmQLS.appendChild( topNavBtnQLS );
-		}
+		// 	topNavItmQLS.appendChild( topNavBtnQLS );
+		// }
 		
+
+		// topNavUL.appendChild( topNavItmQLS );
+
 		topNavUL.appendChild( topNavItmUSR );
 		if ( topNavItmRole != 0 ) {
 			topNavUL.appendChild( topNavItmRole );
 		}
-		topNavUL.appendChild( topNavItmQLS );
-
 
 		let w1 = document.createElement( "nav" );
 		w1.className = "profile-nav trq-mb-3 trq-bg-white trq-shadow-bottom-lg ng-star-inserted";
@@ -1296,37 +1688,138 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 	}
 }
 
+async function buildModuleWidget(moduleArg) {
 
-/*
+	modulesDiv = document.createElement( "div" );
+	modulesDiv.className = "gpeWelcomePageModules";
+	modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
 
-		// Wrapper
-		let onbHeader = document.createElement( "div" );
-		onbHeader.className = "onbheader";
-		// Get header
-		let onbHeaderTitle = document.createElement( "h5" );
-		onbHeaderTitle.innerHTML = cs_customLocale.onboarding[cultureArg].headertitle;
-		// Get text
-		let onbHeaderText = document.createElement( "p" );
-		onbHeaderText.innerHTML = cs_customLocale.onboarding[cultureArg].headertext;
-		// Get video
-		let onbHeaderVideoObj = document.createElement( "object" );
-		onbHeaderVideoObj.setAttribute("width", "100%");
-		onbHeaderVideoObj.setAttribute("height", "330");
-		let onbHeaderVideoPar = document.createElement( "param" );
-		onbHeaderVideoPar.setAttribute("name", "onboarding_video");
-		onbHeaderVideoPar.setAttribute("value", cs_customLocale.onboarding[cultureArg].videourl);
-		let onbHeaderVideoSrc = document.createElement( "embed" );
-		onbHeaderVideoSrc.setAttribute("src", cs_customLocale.onboarding[cultureArg].videourl);
-		onbHeaderVideoSrc.setAttribute("width", "100%");
-		onbHeaderVideoSrc.setAttribute("height", "330");
+	for(let module in moduleArg){
+		switch ( moduleArg[module] ) {
+			case "ATS":
+			case "LMS":
+			case "EPM":
+				let modContainer = document.createElement( "div" );
+				modContainer.className = "moduleContainer";
+				modContainer.setAttribute("id", "module_"+moduleArg[module]);
+				modContainer.setAttribute("style", "order:"+cs_widgetConfig.EMPLOYEE.MODULEORDER[moduleArg[module]]+";");
 
-		onbHeaderVideoObj.appendChild(onbHeaderVideoPar);
-		onbHeaderVideoObj.appendChild(onbHeaderVideoSrc);
+				let modContainerTitleDiv = document.createElement( "div" );
+				modContainerTitleDiv.className = "moduleTitleDiv";
 
-		onbHeader.appendChild(onbHeaderTitle).appendChild(onbHeaderText);
-		onbHeader.appendChild(onbHeaderVideoObj);
+				let modContainerTitle = document.createElement( "h3" );
+				modContainerTitle.className = "moduleTitle";
+				modContainerTitle.innerHTML = cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].MODULETITLE[sessionStorage.csCulture];
 
-*/
+				let modWidgetContainer = document.createElement( "div" );
+				modWidgetContainer.className = "moduleWidgetContainer row";
+
+				for(let widget in cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].WIDGETS) {
+					let modWidget = document.createElement( "div" );
+					modWidget.className = "moduleWidget col-md-"+cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].WIDGETS[widget].COLUMNSIZE;
+					modWidget.setAttribute("id", moduleArg[module]+"-"+widget);
+
+					modWidgetContainer.appendChild(modWidget);
+				}
+
+				let moduleLinkWrapper = document.createElement( "div" );
+				moduleLinkWrapper.className = "moduleLinkWrapper row";
+
+				let moduleLinkWrapperCol = document.createElement( "div" );
+				moduleLinkWrapperCol.className = "moduleLinkWrapperCol col-md-12";
+			
+				let modLinkContainer = document.createElement( "ul" );
+				modLinkContainer.className = "moduleLinkContainer";
+
+				// BUILD QUICKLINKS
+				for(let link in cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].LINKS) {
+					let modLink = document.createElement( "li" );
+					modLink.className = "moduleLink";
+					modLink.setAttribute("id", moduleArg[module]+"-"+link);
+
+					let modLinkItemLink = document.createElement( "a" );
+					modLinkItemLink.className = "modLinkItemLink";
+					modLinkItemLink.href = cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].URL;
+
+					let modLinkItem = document.createElement( "div" );
+					modLinkItem.className = "modLinkItem";
+
+					let modLinkIcon = document.createElement( "div" );
+					modLinkIcon.className = "moduleLinkIcon";
+					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/"+cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].ICON +"')";
+
+					let modLinkTitle = document.createElement( "div" );
+					modLinkTitle.className = "moduleLinkTitle";
+					modLinkTitle.innerHTML = cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].TITLE[sessionStorage.csCulture];
+					
+					modLinkItem.appendChild(modLinkIcon);
+					modLinkItem.appendChild(modLinkTitle);
+					modLinkItemLink.appendChild(modLinkItem);
+					modLink.appendChild(modLinkItemLink);
+
+					modLinkContainer.appendChild(modLink);
+				}
+
+
+				modContainerTitleDiv.appendChild(modContainerTitle);
+				modContainer.appendChild(modContainerTitleDiv);
+				modContainer.appendChild(modWidgetContainer);
+				moduleLinkWrapperCol.appendChild(modLinkContainer);
+				moduleLinkWrapper.appendChild(moduleLinkWrapperCol);
+				modContainer.appendChild(moduleLinkWrapper);
+
+				modulesDiv.appendChild(modContainer);
+			break;
+		}
+	}
+
+	let gpewpMain = document.getElementById(gpeUSRMAINDIV);
+	gpewpMain.appendChild(modulesDiv);
+}
+
+
+/**
+ *
+ * @param
+ * @param
+ * @returns
+ */
+async function buildWidgets_v2( accessArrArg) {
+	setPreloader(gpeUSRCONTENTDIV, "on");
+
+	let widgetPromisesArray = [];
+	accessArrArg.forEach(function(widget) {
+		widgetPromisesArray.push(getWidgetData_v2(widget));
+	});
+
+	return await Promise.all( widgetPromisesArray )
+	.then(async function(widgetPromisesArrayComplete) {
+		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
+			if(widgetData != null){
+				widgetData.forEach(function(widget){
+					console.log(widget);
+					return generateHTMLWidget(
+						widget.id, 
+						"12", 
+						"widgetCard_"+ widget.id, 
+						"widgetWrapper_"+ widget.id,
+						widget.id,
+						"cs_"+ widget.id, 
+						widget);					
+				});
+			}
+		});
+	})
+	.then(async function(renderedWidgetsResp) {
+		setPreloader(gpeUSRCONTENTDIV, "off");
+		$("canvas").each(function() {
+			var chart = Chart.getChart($(this).attr("id"));
+			chart.update();
+		});
+		return renderedWidgetsResp;
+	})
+	.catch( error => console.error( "Error in getting widget data: " + error ) );
+}
 
 /**
  *
@@ -1383,6 +1876,35 @@ async function buildWidgets( accessArrArg, cultureArg ) {
  * @param {array} widgetIDArg - Array 
  * @returns Content from function
  */
+ async function getWidgetData_v2( moduleArg ) {
+	switch ( moduleArg ) {
+		case "LMS":
+			const lmsWidget_InspiredBySubjects = getInspiredBySubjects(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.INSPIRED_BY_SUBJECTS.ID, moduleArg);
+			const lmsWidget_TrendingforJob = getTrendingForJob(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.TRENDING_FOR_JOB.ID, moduleArg);
+//			const lmsWidget_AssignedTraining = getAssignedTraining(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.ASSIGNED_TRAINING.ID, moduleArg);
+			const lmsWidget_TranscriptMetics = getTranscriptMetrics(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.TRAINING_METRICS.ID, moduleArg);
+			
+			return await Promise.all([lmsWidget_InspiredBySubjects, lmsWidget_TrendingforJob, lmsWidget_TranscriptMetics]);
+		case "EPM":
+			const checkinWidget 	= await getCheckinsDetails( cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.CHECKINS.ID, moduleArg );
+			const goalWidget 		= await Promise.resolve(getDonutDetails( cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.GOAL_PROGRESS.ID,  "/phnx/driver.aspx?routename=Goals/GoalList", moduleArg));
+			const devplanWidget 	= await Promise.resolve(getDonutDetails( cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.DEVPLAN_PROGRESS.ID,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot", moduleArg));
+			
+			return await Promise.all([checkinWidget, goalWidget, devplanWidget]);
+		case "ATS":
+			const atsWidget_AllCandidates 	= getAllCandidates(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.TOTALCANDIDATES.ID, moduleArg);
+			const atsWidget_NewSubmissions 	= getNewSubmissions(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.NEWSUBMISSIONS.ID, moduleArg);
+			const atsWidget_NewHires 		= getNewHires(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.NEWHIRES.ID, moduleArg);
+			
+			return await Promise.all([atsWidget_AllCandidates,atsWidget_NewSubmissions,atsWidget_NewHires]);
+	}
+}
+
+/**
+ * getWidgetData - Executes different functions based on widget availability
+ * @param {array} widgetIDArg - Array 
+ * @returns Content from function
+ */
 async function getWidgetData( widgetIDArg ) {
 	switch ( widgetIDArg.id ) {
 		case "view_your_transcript":
@@ -1402,14 +1924,14 @@ async function getWidgetData( widgetIDArg ) {
 
 /**
  * generateHTMLWidget - Builds a bootstrap card dynamically based on arguments given.
- * @param {string} cardTitleArg - Title of the card.
- * @param {string} cardTitleHrefArg - URL on the card title.
- * @param {integer} colArg - Bootstrap column width. Max 12.
- * @param {string} colIDArg - ID of the card column.
+ * @param {string} widgetIDArg - Title of the card.
+ * @param {string} columnWidthArg - URL on the card title.
+ * @param {integer1} columnIDArg - Bootstrap column width. Max 12.
+ * @param {string} rowIDArg - ID of the card column.
  * @param {string} rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
  * @param {string} targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
  * @param {string} contentDivClassArg - css class name of the content. This in order to be able to further style the card.
- * @param {object} contentArg - main content of the card.
+ * @param {object} widgetContentArg - main content of the card.
  * @returns
  */
 function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg ) {
@@ -1424,14 +1946,14 @@ function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg,
 	} else {
 		tmpRowDiv = document.createElement( "div" );
 		tmpRowDiv.setAttribute( "id", rowIDArg ); //"cs_main_transcript"
-		tmpRowDiv.setAttribute( "data-position", widgetData.widgetPrio ); //"cs_main_transcript"
+//		tmpRowDiv.setAttribute( "data-position", widgetData.widgetPrio ); //"cs_main_transcript"
 		//		tmpRowDiv.className = "widgetData";
 		tmpRowDiv.className = "widgetData col-md-" + columnWidthArg; //"col-md-12";
 	}
 
 	var tmpColDiv = document.createElement( "div" );
 	//	tmpColDiv.className = "col-md-"+ colArg; //"col-md-12";
-	tmpColDiv.setAttribute( "id", columnIDArg ); //"cs_main_transcript"
+	tmpColDiv.setAttribute( "id", columnIDArg +"widget"); //"cs_main_transcript"
 
 	var tmpCardParent = document.createElement( "div" );
 	tmpCardParent.className = "card";
@@ -1439,14 +1961,14 @@ function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg,
 	var tmpCardHeader = document.createElement( "a" );
 	tmpCardHeader.className = "card-header";
 	tmpCardHeader.innerHTML = cs_widgetConfig[widgetIDArg].title[sessionStorage.csCulture]; //accessArr[accessItem]["title"];
-	tmpCardHeader.setAttribute( 'href', widgetData.widgeturl );
+	tmpCardHeader.setAttribute( 'href', cs_widgetConfig[widgetIDArg].url );
 
 	var tmpCardBody = document.createElement( "div" );
 	tmpCardBody.className = "card-body";
 
 	var tmpCardContent = document.createElement( "div" );
 	tmpCardContent.className = contentDivClassArg;
-
+	
 	tmpCardContent = widgetContentArg;
 
 	tmpCardBody.appendChild( tmpCardContent );
@@ -1900,7 +2422,7 @@ async function getActionsDetails( contentDivClassArg ) {
  * @param
  * @returns
  */
-async function getDonutDetails( widgetIDArg, urlArg) {
+async function getDonutDetails( widgetIDArg, urlArg, moduleArg) {
 	return await Promise.resolve( await fetch( urlArg ) )
 		.then( async function( data) {
 		    // console.log("%cDONUT DATA LOAD: "+ data, "color:#ccaa00;");
@@ -1909,9 +2431,9 @@ async function getDonutDetails( widgetIDArg, urlArg) {
 		.then( async function( dataResponse ) {
 			// console.log("%cDONUT CHECK: "+ contentDivClassArg, "color:#ccaa00;");
 			switch(widgetIDArg) {
-				case "goals":
+				case cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.GOAL_PROGRESS.ID:
 					return await $( dataResponse ).find( '.percentage' ).attr( "data-percent" );
-				case "development_plans":
+				case cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.DEVPLAN_PROGRESS.ID:
 					return await $( dataResponse ).find( "a[href*='/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew']" ).closest( "div[class*='dashboard-widget-content']" ).find(".percentage span").text();
 			}
 		})
@@ -1920,7 +2442,7 @@ async function getDonutDetails( widgetIDArg, urlArg) {
 			// IF ACHIEVED == 0 DO SOMETHING ELSE
 			let tmpContentDiv = document.createElement( "div" );
 			tmpContentDiv.className = widgetIDArg;
-			tmpContentDiv.setAttribute( "id", widgetIDArg);
+			tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetIDArg);
 			if(achievedData != 0) {
 				return await Promise.resolve(await drawDonut( achievedData, widgetIDArg, tmpContentDiv));
 			}else {
@@ -2015,24 +2537,13 @@ async function drawDonut(completeArg, contentDivClassArg, tmpContentDivArg) {
 
 	const tmpCanvas = document.createElement( "canvas" );
 	tmpCanvas.id = contentDivClassArg+"_chart";
-	tmpCanvas.setAttribute( "style", "height: 250px, width: 100%" );
+	tmpCanvas.setAttribute( "style", "height: 120px, width: 100%" );
 	tmpContentDivArg.appendChild(tmpCanvas);
 
-	// console.log("%cDONUT DETAILS - CREATE CTX: ", "color:#ccaa00;");
 	let ctx = tmpCanvas.getContext("2d");
-	// console.log(contentDivClassArg);
-	// console.log("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
-	// console.log(ctx);
 	let myChart = new Chart(ctx, config);
 
-
 	return await tmpContentDivArg;
-	//
-	// let ctx = tmpContentDivArg.getContext("2d");
-	// let myChart = new Chart(ctx, config);
-	// console.log("%cdrawDonut: RETURN DONUT - "+ contentDivClassArg, "color:#0000cc;");
-	// console.log(myChart);
-	// return Promise.resolve(myChart);
 }
 
 /* Update JWT */
@@ -2289,11 +2800,15 @@ async function getTranscriptsStats(userIDArrayArg){
 function play() {
 	checkJWT()
 	.then( async function() {
-		///transcript?isCompleted=false&isArchived=false&isRemoved=false&isStandAlone=true&sortCriteria=StatusChangeDate&pageSize=20&pageNum=1
-		let rptURL = "/services/api/lms/user/47/transcript?hasDueDate=true&isCompleted=false&isArchived=false&isRemoved=false&page=1&pageSize=20&sortCriteria=DueDate&sortDirection=Ascending";
+		// transcript?isCompleted=false&isArchived=false&isRemoved=false&isStandAlone=true&sortCriteria=StatusChangeDate&pageSize=20&pageNum=1
+		 //let rptURL = "/services/api/lms/user/47/transcript?hasDueDate=true&isCompleted=false&isArchived=false&isRemoved=false&page=1&pageSize=20&sortCriteria=DueDate&sortDirection=Ascending";
 		// let rptURL = "/services/api/lms/user/49/recommendedtraining?type=Position&pageSize=20&pageNum=1";
 		// let rptURL = "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId=rjones@CS_en-US";
 		// let rptURL = "/v1/users/47/default-password";
+		//let rptURL = "/services/api/LMS/user/47/transcript/metrics";
+		//let rptURL = "/services/api/bff/learnerhome/user/47/stats";
+		//let rptURL = "https://us-demo.api.csod.com/rec-manage-candidates/v1/candidates";
+		let rptURL = "/services/api/x/users/v2/employees";
 
 		return await fetch( rptURL, {
 			method: 'GET',
@@ -2301,6 +2816,34 @@ function play() {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + sessionStorage.csToken,
 			},
+		} );
+	} )
+	.then( response => response.json() )
+	.then( async function( userData ) {
+		console.dir(userData);
+	} );
+}
+
+function playPost() {
+	checkJWT()
+	.then( async function() {
+		// transcript?isCompleted=false&isArchived=false&isRemoved=false&isStandAlone=true&sortCriteria=StatusChangeDate&pageSize=20&pageNum=1
+		 //let rptURL = "/services/api/lms/user/47/transcript?hasDueDate=true&isCompleted=false&isArchived=false&isRemoved=false&page=1&pageSize=20&sortCriteria=DueDate&sortDirection=Ascending";
+		// let rptURL = "/services/api/lms/user/49/recommendedtraining?type=Position&pageSize=20&pageNum=1";
+		// let rptURL = "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId=rjones@CS_en-US";
+		// let rptURL = "/v1/users/47/default-password";
+		//let rptURL = "/services/api/LMS/user/47/transcript/metrics";
+		//let rptURL = "/services/api/bff/learnerhome/user/47/stats";
+		let rptURL = "https://us-demo.api.csod.com/rec-manage-candidates/v1/candidates";
+
+		var payload = 	{"filters":{"statusIds":[],"flagIds":[],"sourceIds":[],"requisitionIds":[],"candidateIds":[],"onlyOpenRequisitions":true,"onlyActiveCandidates":true,"keywords":"","onlyMyRequisitions":true,"requisitionNameSearchTerm":""},"paging":{"pageSize":20,"pageNumber":1,"sortOrder":"SubmissionDateDescending"},"include":["Candidates","AvailableFilters","StatusCategories"]};
+		return await fetch( rptURL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+			body: JSON.stringify( payload )
 		} );
 	} )
 	.then( response => response.json() )
@@ -2578,16 +3121,794 @@ function detailFormatter(index, row) {
 	return html.join('');
    }
 
+   let htmlStr = "";
+async function getNewHires(widgetArg, moduleArg) {
+	let jsonDiv = moduleArg+"-"+widgetArg;
+	const tmpContentDiv = document.createElement( "div" );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
+
+	return fetch( "/phnx/driver.aspx?routename=ONB/Dashboard", {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'text/html'
+		}
+	})
+	.then( response => response.text() )
+	.then( response => {
+	
+		var editor = jQuery("<div>").append(response);
+		editor.find("div[rel='dropDownButton']").remove();
+		var newHtml = editor.html();
+
+		htmlStr = $(newHtml).find(".content > div[ct='HBoxLayout'] ");
+		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
+		htmlStr.each(function(index, newhireItem){
+			summaryStr += "<div class='summaryItem col-md-6'>";
+			summaryStr += "<div class='gpe-left'>";
+			
+			summaryStr += "<div class='newHires '>"+newhireItem.outerHTML+"</div>";
+			summaryStr += "</div>";
+			summaryStr += "</div>";		
+		});
+		summaryStr += "</div>";		
+		
+		tmpContentDiv.innerHTML = summaryStr;	
+		return tmpContentDiv;
+	})
+	.catch( error => {
+		console.error( "Function getNewHires failed: ", error );
+	} );
+
+}
+
+async function getNewSubmissions(widgetArg, moduleArg){
+	let jsonDiv = moduleArg+"-"+widgetArg;
+	const tmpContentDiv = document.createElement( "div" );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
+
+	return await checkJWT()
+	.then( async function() {
+		let rptURL = sessionStorage.csCloud+"rec-manage-candidates/v1/candidates";
+
+		var payload = 	{"filters":{"statusIds":[],"flagIds":[],"sourceIds":[],"requisitionIds":[],"candidateIds":[],"onlyOpenRequisitions":true,"onlyActiveCandidates":true,"keywords":"","onlyMyRequisitions":true,"requisitionNameSearchTerm":""},"paging":{"pageSize":20,"pageNumber":1,"sortOrder":"SubmissionDateDescending"},"include":["Candidates","AvailableFilters","StatusCategories"]};
+		return await fetch( rptURL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+			body: JSON.stringify( payload )
+		} );
+	} )
+	.then( response => response.json() )
+	.then( async function( localStr ) {
+		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
+		summaryStr += "<div class='summaryItem col-md-12'>";
+		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<a href='/ui/ats-manage-candidates/managecandidates'>";
+		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.statusCategories[1].count+"</div>";
+//		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].pastdueDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "</a>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";		
+		summaryStr += "</div>";		
+		tmpContentDiv.innerHTML = summaryStr;
+
+		return tmpContentDiv;		
+	})
+	.catch( error => {
+		console.error( "Error building getNewSubmissions - ", error );
+	});
+}
+
+async function getAllCandidates(widgetArg, moduleArg){
+	let jsonDiv = moduleArg+"-"+widgetArg;
+	const tmpContentDiv = document.createElement( "div" );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
+
+	return await checkJWT()
+	.then( async function() {
+		let rptURL = sessionStorage.csCloud+"rec-manage-candidates/v1/candidates";
+
+		var payload = 	{"filters":{"statusIds":[],"flagIds":[],"sourceIds":[],"requisitionIds":[],"candidateIds":[],"onlyOpenRequisitions":true,"onlyActiveCandidates":true,"keywords":"","onlyMyRequisitions":true,"requisitionNameSearchTerm":""},"paging":{"pageSize":20,"pageNumber":1,"sortOrder":"SubmissionDateDescending"},"include":["Candidates","AvailableFilters","StatusCategories"]};
+		return await fetch( rptURL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+			body: JSON.stringify( payload )
+		} );
+	} )
+	.then( response => response.json() )
+	.then( async function( localStr ) {
+		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
+		summaryStr += "<div class='summaryItem col-md-12'>";
+		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<a href='/ui/ats-manage-candidates/managecandidates'>";
+		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.totalItems+"</div>";
+//		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].pastdueDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "</a>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";		
+		summaryStr += "</div>";		
+		tmpContentDiv.innerHTML = summaryStr;
+
+		return tmpContentDiv;		
+	})
+	.catch( error => {
+		console.error( "Error building getAllCandidates - ", error );
+	});
+}
+
+async function getTranscriptMetrics(widgetArg, moduleArg) {
+	let jsonDiv = moduleArg+"-"+widgetArg;
+	const tmpContentDiv = document.createElement( "div" );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
+	
+	return await checkJWT()
+	.then( async function() {
+		return await fetch( "/services/api/bff/learnerhome/user/"+sessionStorage.csUser+"/stats", {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+
+		let summaryStr = "<div class='summaryPanel gpe-cap row'>";
+		summaryStr += "<div class='summaryItem col-md-4'>";
+		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
+		summaryStr += "<div class='pastDueCount gpe-bold gpe-text20'>"+localStr.data[0].metrics.pastDueCount+"</div>";
+		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].pastdueDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "</a>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";
+		summaryStr += "<div class='summaryItem col-md-4'>";
+		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
+		summaryStr += "<div class='dueSoonCount gpe-bold gpe-text20'>"+localStr.data[0].metrics.dueSoonCount+"</div>";
+		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].dueSoonDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "</a>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";
+		summaryStr += "<div class='summaryItem col-md-4'>";
+		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
+		summaryStr += "<div class='noDueDateCount gpe-bold gpe-text20'>"+localStr.data[0].metrics.noDueDateCount+"</div>";
+		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].assignedNoDueDateDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "</a>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";
+
+		summaryStr += "<div class='summaryPanel gpe-cap row'>";
+		summaryStr += "<div class='summaryItem col-md-4'>";
+		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
+		summaryStr += "<div class='pastDueCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numPlaylists+"</div>";
+		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].playlists.createdDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "</a>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";
+		summaryStr += "<div class='summaryItem col-md-4'>";
+		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
+		summaryStr += "<div class='dueSoonCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowers+"</div>";
+		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].playlists.followersDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "</a>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";
+		summaryStr += "<div class='summaryItem col-md-4'>";
+		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists?section=followed'>";
+		summaryStr += "<div class='noDueDateCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowed+"</div>";
+		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].playlists.followedDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "</a>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";
+
+		tmpContentDiv.innerHTML = summaryStr;
+
+		return tmpContentDiv;		
+	})
+	.catch( error => {
+		console.error( "Error building getTranscriptMetrics - ", error );
+	});		
+}
+
+async function getAssignedTraining(widgetArg, moduleArg) {
+	const tmpContentDiv = document.createElement( "div" );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
+	
+	return await checkJWT()
+	.then( async function() {
+		return await fetch( "/services/api/lms/user/"+sessionStorage.csUser+"/transcript?isCompleted=false&isArchived=false&isRemoved=false&isStandAlone=true&sortCriteria=StatusChangeDate&pageSize=20&pageNum=1", {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+
+		let carouselMain = document.createElement( "div" );
+		carouselMain.className = "carousel slide";
+		carouselMain.setAttribute( "id", widgetArg+"Carousel");
+		carouselMain.setAttribute( "data-bs-ride", "carousel");
+		carouselMain.setAttribute( "data-bs-interval", "false");
+		carouselMain.setAttribute( "data-pause", "hover");
+
+		let carouselIndicators = document.createElement("div");
+		carouselIndicators.className = "carousel-indicators";
+		
+		let activeCarousel = "";
+		localStr.data.forEach(function(subjectItem, index){
+			let carouselIndicator = document.createElement("button");
+			carouselIndicator.setAttribute("type", "button");
+			carouselIndicator.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+			carouselIndicator.setAttribute("data-bs-slide-to", index);
+			if(activeCarousel == "") {
+				carouselIndicator.className = "active";
+				activeCarousel = "active";
+			}
+			carouselIndicators.appendChild(carouselIndicator);
+		});
+		
+		carouselMain.appendChild(carouselIndicators);
+
+		let carouselItems = document.createElement("div");
+		carouselItems.className = "carousel-inner";
+
+		let activeItem = "";
+		localStr.data.forEach(function(subjectItem, index){
+			let carouselItem = document.createElement("div");
+			carouselItem.className = "carousel-item";
+			if(activeItem == "") {
+				carouselItem.className += " active";
+				activeItem = "active";
+			}
+
+			let carouselItemTile = document.createElement("div");
+			carouselItemTile.className = "carouselItemTile";
+			carouselItemTile.setAttribute("data-tag", subjectItem.id);
+			carouselItemTile.style.height = "225px";
+
+				let carouselItemPanel = document.createElement("div");
+				carouselItemPanel.className = "carouselItemPanel";
+				carouselItemPanel.setAttribute("data-tag", subjectItem.id);
+				carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
+
+					let carouselItemPanelC = document.createElement("div");
+
+						let carouselItemPanelItem = document.createElement("div");
+						carouselItemPanelItem.className = "carouselItemPanelItem";
+
+							let carouselItemPanelBody = document.createElement("div");
+							carouselItemPanelBody.className = "carouselItemPanelBody";
+
+								let carouselItemPanelD = document.createElement("div");
+
+									let carouselItemPanelTileBody = document.createElement("div");
+									carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
+
+										let carouselItemPanelTileLink = document.createElement("a");
+										carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
+										carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
+										carouselItemPanelTileLink.title = subjectItem.title;
+
+											let carouselItemPanelTileLinkThmb = document.createElement("div");
+											carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
+											carouselItemPanelTileLinkThmb.style.backgroundImage = "url('"+subjectItem.thumbnailImage+"')";
+											carouselItemPanelTileLinkThmb.style.height = "100%";
+											carouselItemPanelTileLinkThmb.style.overflow = "hidden";
+										
+										carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
+									carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
+								carouselItemPanelD.appendChild(carouselItemPanelTileBody);
+							carouselItemPanelBody.appendChild(carouselItemPanelD);
+						carouselItemPanelItem.appendChild(carouselItemPanelBody);
+
+						carouselItemPanelCourseDesc = document.createElement("div");
+						carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
+
+							carouselItemPanelCourseDescDiv = document.createElement("div");
+							carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
+
+								carouselItemPanelCourseDescDivType = document.createElement("span");
+								carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
+								carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
+								carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
+
+								carouselItemPanelCourseDescDivTitle = document.createElement("a");
+								carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
+								carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
+								carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
+
+									carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+									carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
+									carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
+
+										carouselItemPanelCourseDescD = document.createElement("div");
+										carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
+
+											carouselItemPanelCourseDescTitleText = document.createElement("div");
+											carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
+											carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
+
+												carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+												carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
+
+											// carouselItemPanelCourseDescDuration
+											carouselItemPanelCourseDescDueDate = document.createElement("div");
+											carouselItemPanelCourseDescDueDate.className = "carouselItemPanelCourseDescDueDate";
+											carouselItemPanelCourseDescDueDate.innerHTML = subjectItem.dueDateString;
+
+											carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
+										carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
+									carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
+								carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
+							
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDueDate);
+						
+						carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
+
+					carouselItemPanelC.appendChild(carouselItemPanelItem);
+					carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
+
+				carouselItemPanel.appendChild(carouselItemPanelC);
+			
+			carouselItemTile.appendChild(carouselItemPanel);
+		
+			carouselItem.appendChild(carouselItemTile);
+			carouselItems.appendChild(carouselItem);
+
+		});		
+		carouselMain.appendChild(carouselItems);
+
+		let controlPrev = document.createElement("button");
+		controlPrev.className = "carousel-control-prev";
+		controlPrev.setAttribute("type", "button");
+		controlPrev.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		controlPrev.setAttribute("data-bs-slide", "prev");
+
+		let controlPrevIcon = document.createElement("span");
+		controlPrevIcon.className = "carousel-control-prev-icon";
+
+		let controlNext = document.createElement("button");
+		controlNext.className = "carousel-control-next";
+		controlNext.setAttribute("type", "button");
+		controlNext.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		controlNext.setAttribute("data-bs-slide", "next");
+
+		let controlNextIcon = document.createElement("span");
+		controlNextIcon.className = "carousel-control-next-icon";
+
+
+		controlPrev.appendChild(controlPrevIcon);
+		carouselMain.appendChild(controlPrev);
+
+		controlNext.appendChild(controlNextIcon);
+		carouselMain.appendChild(controlNext);
+
+		tmpContentDiv.appendChild(carouselMain);
+		return tmpContentDiv;		
+	})
+	.catch( error => {
+		console.error( "Error building getAssignedTraining - ", error );
+	});		
+}
+
+async function getTrendingForJob(widgetArg, moduleArg){
+	const tmpContentDiv = document.createElement( "div" );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
+	
+	return await checkJWT()
+	.then( async function() {
+		return await fetch( "/services/api/lms/user/"+sessionStorage.csUser+"/recommendedtraining?type=Position&pageSize=20&pageNum=1", {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+
+		let carouselMain = document.createElement( "div" );
+		carouselMain.className = "carousel slide";
+		carouselMain.setAttribute( "id", widgetArg+"Carousel");
+		carouselMain.setAttribute( "data-bs-ride", "carousel");
+		carouselMain.setAttribute( "data-bs-interval", "false");
+		carouselMain.setAttribute( "data-pause", "hover");
+
+		// let carouselIndicators = document.createElement("div");
+		// carouselIndicators.className = "carousel-indicators";
+		
+		// let activeCarousel = "";
+		// localStr.data.forEach(function(subjectItem, index){
+		// 	let carouselIndicator = document.createElement("button");
+		// 	carouselIndicator.setAttribute("type", "button");
+		// 	carouselIndicator.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		// 	carouselIndicator.setAttribute("data-bs-slide-to", index);
+		// 	if(activeCarousel == "") {
+		// 		carouselIndicator.className = "active";
+		// 		activeCarousel = "active";
+		// 	}
+		// 	carouselIndicators.appendChild(carouselIndicator);
+		// });
+		
+		// carouselMain.appendChild(carouselIndicators);
+
+		let carouselItems = document.createElement("div");
+		carouselItems.className = "carousel-inner";
+
+		let activeItem = "";
+		localStr.data.forEach(function(subjectItem, index){
+			let carouselItem = document.createElement("div");
+			carouselItem.className = "carousel-item";
+			if(activeItem == "") {
+				carouselItem.className += " active";
+				activeItem = "active";
+			}
+
+			let carouselItemTile = document.createElement("div");
+			carouselItemTile.className = "carouselItemTile";
+			carouselItemTile.setAttribute("data-tag", subjectItem.id);
+			carouselItemTile.style.height = "225px";
+
+				let carouselItemPanel = document.createElement("div");
+				carouselItemPanel.className = "carouselItemPanel";
+				carouselItemPanel.setAttribute("data-tag", subjectItem.id);
+				carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
+
+					let carouselItemPanelC = document.createElement("div");
+
+						let carouselItemPanelItem = document.createElement("div");
+						carouselItemPanelItem.className = "carouselItemPanelItem";
+
+							let carouselItemPanelBody = document.createElement("div");
+							carouselItemPanelBody.className = "carouselItemPanelBody";
+
+								let carouselItemPanelD = document.createElement("div");
+
+									let carouselItemPanelTileBody = document.createElement("div");
+									carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
+
+										let carouselItemPanelTileLink = document.createElement("a");
+										carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
+										carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
+										carouselItemPanelTileLink.title = subjectItem.title;
+
+											let carouselItemPanelTileLinkThmb = document.createElement("div");
+											carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
+											carouselItemPanelTileLinkThmb.style.backgroundImage = "url('"+subjectItem.thumbnailImage+"')";
+											carouselItemPanelTileLinkThmb.style.height = "100%";
+											carouselItemPanelTileLinkThmb.style.overflow = "hidden";
+										
+										carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
+									carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
+								carouselItemPanelD.appendChild(carouselItemPanelTileBody);
+							carouselItemPanelBody.appendChild(carouselItemPanelD);
+						carouselItemPanelItem.appendChild(carouselItemPanelBody);
+
+						carouselItemPanelCourseDesc = document.createElement("div");
+						carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
+
+							carouselItemPanelCourseDescDiv = document.createElement("div");
+							carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
+
+								carouselItemPanelCourseDescDivType = document.createElement("span");
+								carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
+								carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
+								carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
+
+								carouselItemPanelCourseDescDivTitle = document.createElement("a");
+								carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
+								carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
+								carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
+
+									carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+									carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
+									carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
+
+										carouselItemPanelCourseDescD = document.createElement("div");
+										carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
+
+											carouselItemPanelCourseDescTitleText = document.createElement("div");
+											carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
+											carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
+
+												carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+												carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
+
+											carouselItemPanelCourseDescDuration = document.createElement("div");
+											carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
+											carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
+													
+
+											carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
+										carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
+									carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
+								carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
+							
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
+						
+						carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
+
+					carouselItemPanelC.appendChild(carouselItemPanelItem);
+					carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
+
+				carouselItemPanel.appendChild(carouselItemPanelC);
+			
+			carouselItemTile.appendChild(carouselItemPanel);
+		
+			carouselItem.appendChild(carouselItemTile);
+			carouselItems.appendChild(carouselItem);
+
+		});		
+		carouselMain.appendChild(carouselItems);
+
+		let controlPrev = document.createElement("button");
+		controlPrev.className = "carousel-control-prev";
+		controlPrev.setAttribute("type", "button");
+		controlPrev.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		controlPrev.setAttribute("data-bs-slide", "prev");
+
+		let controlPrevIcon = document.createElement("span");
+		controlPrevIcon.className = "carousel-control-prev-icon";
+
+		let controlNext = document.createElement("button");
+		controlNext.className = "carousel-control-next";
+		controlNext.setAttribute("type", "button");
+		controlNext.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		controlNext.setAttribute("data-bs-slide", "next");
+
+		let controlNextIcon = document.createElement("span");
+		controlNextIcon.className = "carousel-control-next-icon";
+
+
+		controlPrev.appendChild(controlPrevIcon);
+		carouselMain.appendChild(controlPrev);
+
+		controlNext.appendChild(controlNextIcon);
+		carouselMain.appendChild(controlNext);
+
+		tmpContentDiv.appendChild(carouselMain);
+		return tmpContentDiv;
+	})
+	.catch( error => {
+		console.error( "Error building getTrendingForJob - ", error );
+	});	
+}
+
+async function getInspiredBySubjects(widgetArg, moduleArg){
+	const tmpContentDiv = document.createElement( "div" );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
+
+	return await checkJWT()
+	.then( async function() {
+		return await fetch( "/services/api/lms/user/"+sessionStorage.csUser+"/recommendedtraining?type=Subjects&pageSize=20&pageNum=1", {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+
+		let carouselMain = document.createElement( "div" );
+		carouselMain.className = "carousel slide";
+		carouselMain.setAttribute( "id", widgetArg+"Carousel");
+		carouselMain.setAttribute( "data-bs-ride", "carousel");
+		carouselMain.setAttribute( "data-bs-interval", "false");
+		carouselMain.setAttribute( "data-pause", "hover");
+
+		// let carouselIndicators = document.createElement("div");
+		// carouselIndicators.className = "carousel-indicators";
+		
+		// let activeCarousel = "";
+		// localStr.data.forEach(function(subjectItem, index){
+		// 	let carouselIndicator = document.createElement("button");
+		// 	carouselIndicator.setAttribute("type", "button");
+		// 	carouselIndicator.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		// 	carouselIndicator.setAttribute("data-bs-slide-to", index);
+		// 	if(activeCarousel == "") {
+		// 		carouselIndicator.className = "active";
+		// 		activeCarousel = "active";
+		// 	}
+		// 	carouselIndicators.appendChild(carouselIndicator);
+		// });
+		
+		// carouselMain.appendChild(carouselIndicators);
+
+		let carouselItems = document.createElement("div");
+		carouselItems.className = "carousel-inner";
+
+		let activeItem = "";
+		localStr.data.forEach(function(subjectItem, index){
+			let carouselItem = document.createElement("div");
+			carouselItem.className = "carousel-item";
+			if(activeItem == "") {
+				carouselItem.className += " active";
+				activeItem = "active";
+			}
+
+			let carouselItemTile = document.createElement("div");
+			carouselItemTile.className = "carouselItemTile";
+			carouselItemTile.setAttribute("data-tag", subjectItem.id);
+			carouselItemTile.style.height = "225px";
+
+				let carouselItemPanel = document.createElement("div");
+				carouselItemPanel.className = "carouselItemPanel";
+				carouselItemPanel.setAttribute("data-tag", subjectItem.id);
+				carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
+
+					let carouselItemPanelC = document.createElement("div");
+
+						let carouselItemPanelItem = document.createElement("div");
+						carouselItemPanelItem.className = "carouselItemPanelItem";
+
+							let carouselItemPanelBody = document.createElement("div");
+							carouselItemPanelBody.className = "carouselItemPanelBody";
+
+								let carouselItemPanelD = document.createElement("div");
+
+									let carouselItemPanelTileBody = document.createElement("div");
+									carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
+
+										let carouselItemPanelTileLink = document.createElement("a");
+										carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
+										carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
+										carouselItemPanelTileLink.title = subjectItem.title;
+
+											let carouselItemPanelTileLinkThmb = document.createElement("div");
+											carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
+											carouselItemPanelTileLinkThmb.style.backgroundImage = "url('"+subjectItem.thumbnailImage+"')";
+											carouselItemPanelTileLinkThmb.style.height = "100%";
+											carouselItemPanelTileLinkThmb.style.overflow = "hidden";
+										
+										carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
+									carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
+								carouselItemPanelD.appendChild(carouselItemPanelTileBody);
+							carouselItemPanelBody.appendChild(carouselItemPanelD);
+						carouselItemPanelItem.appendChild(carouselItemPanelBody);
+
+						carouselItemPanelCourseDesc = document.createElement("div");
+						carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
+
+							carouselItemPanelCourseDescDiv = document.createElement("div");
+							carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
+
+								carouselItemPanelCourseDescDivType = document.createElement("span");
+								carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
+								carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
+								carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
+
+								carouselItemPanelCourseDescDivTitle = document.createElement("a");
+								carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
+								carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
+								carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
+
+									carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+									carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
+									carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
+
+										carouselItemPanelCourseDescD = document.createElement("div");
+										carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
+
+											carouselItemPanelCourseDescTitleText = document.createElement("div");
+											carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
+											carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
+
+												carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+												carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
+
+											carouselItemPanelCourseDescDuration = document.createElement("div");
+											carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
+											carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
+													
+
+											carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
+										carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
+									carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
+								carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
+							
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
+						
+						carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
+
+					carouselItemPanelC.appendChild(carouselItemPanelItem);
+					carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
+
+				carouselItemPanel.appendChild(carouselItemPanelC);
+			
+			carouselItemTile.appendChild(carouselItemPanel);
+		
+			carouselItem.appendChild(carouselItemTile);
+			carouselItems.appendChild(carouselItem);
+
+		});		
+		carouselMain.appendChild(carouselItems);
+
+		let controlPrev = document.createElement("button");
+		controlPrev.className = "carousel-control-prev";
+		controlPrev.setAttribute("type", "button");
+		controlPrev.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		controlPrev.setAttribute("data-bs-slide", "prev");
+
+		let controlPrevIcon = document.createElement("span");
+		controlPrevIcon.className = "carousel-control-prev-icon";
+
+		let controlNext = document.createElement("button");
+		controlNext.className = "carousel-control-next";
+		controlNext.setAttribute("type", "button");
+		controlNext.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		controlNext.setAttribute("data-bs-slide", "next");
+
+		let controlNextIcon = document.createElement("span");
+		controlNextIcon.className = "carousel-control-next-icon";
+
+
+		controlPrev.appendChild(controlPrevIcon);
+		carouselMain.appendChild(controlPrev);
+
+		controlNext.appendChild(controlNextIcon);
+		carouselMain.appendChild(controlNext);
+
+		tmpContentDiv.appendChild(carouselMain);
+		return tmpContentDiv;
+	})
+	.catch( error => {
+		console.error( "Error building getInspiredBySubjects - ", error );
+	});	
+}
+
 /**
  *
  * @param
  * @param
  * @returns
  */
-async function getCheckinsDetails( contentDivClassArg ) {
+async function getCheckinsDetails( widgetArg, moduleArg ) {
 	const tmpContentDiv = document.createElement( "div" );
-	tmpContentDiv.className = contentDivClassArg;
-	tmpContentDiv.setAttribute( "id", contentDivClassArg );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
 
 	let localResponse = {};
 	return await checkJWT()
@@ -2685,7 +4006,7 @@ async function getCheckinsDetails( contentDivClassArg ) {
 
 		} else {
 			checkinStr = "<div class='checkins nocontent'>";
-			checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='"+cs_widgetConfig[contentDivClassArg].getstartedurl+"'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
+			checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='"+cs_widgetConfig[widgetArg].getstartedurl+"'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
 			checkinStr += "</div>";
 		}
 		//		console.log("checkinStr : "+ checkinStr);
@@ -3327,16 +4648,18 @@ function setPreloader(mainDivArg, visibleArg) {
 			sessionStorage.setItem("csAccessURLs", JSON.stringify(accessURLs));
 			const gpeNav = await buildNav(gpeDEMOROLE, sessionStorage.csCulture, getAccessDetails(accessURLs));
 			const gpeAboutCard = await buildAboutCard();
-			const gpeQuickLinks = await buildQuickLinksCard(accessURLs, sessionStorage.csCulture);
+//			const gpeQuickLinks = await buildQuickLinksCard(accessURLs, sessionStorage.csCulture);
 			const gpeApprovals = await getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
 			const gpeOnboarding = await buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture);
+			const gpeModuleLayout = await buildModuleWidget(gpeDEMMOMODULES);
 
-			return await Promise.all([gpeNav, gpeAboutCard, gpeQuickLinks, gpeApprovals, accessURLs, gpeOnboarding]);
+//			return await Promise.all([gpeNav, gpeAboutCard, gpeQuickLinks, gpeApprovals, accessURLs, gpeOnboarding, gpeModuleLayout]);
+			return await Promise.all([gpeNav, gpeAboutCard, gpeApprovals, accessURLs, gpeOnboarding, gpeModuleLayout]);
 		})
 		.then(async function([gpeNav, gpeAbt, gpeQLS, gpeAppr, accessURLs]) {
             console.log("NAV/ABT/QLS/APPROVALS DONE");
-            const gpeWidgets = await buildWidgets(getAccessDetails(accessURLs), sessionStorage.csCulture);
-            return await Promise.resolve(gpeWidgets);
+			const gpeWidgets = await buildWidgets_v2(gpeDEMMOMODULES);
+            return await Promise.resolve(gpeWidgets);			
         })
         .then(async function(data) {
             console.log("WIDGETS DONE");
