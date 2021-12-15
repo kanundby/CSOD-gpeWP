@@ -96,999 +96,6 @@ const approvalURLs = {
 };
 
 /**
- * @const cs_customLocale
- * @desc Array of translated welcome page data points.
- */
-const cs_customLocale = {
-	ManagerWidgetTitle: {
-		"en-US": "Team widget",
-	},
-	topNavigationTitle: {
-		USR: {
-			"en-US": "My Development",
-			"en-UK": "My Development",
-			"de-DE": "Meine Entwicklung",
-		},
-		MGR: {
-			"en-US": "My team",
-			"en-UK": "My team",
-			"de-DE": "Meine Mannschaft",
-		},
-		HRD: {
-			"en-US": "HR Dashboard",
-			"en-UK": "HR Dashboard",
-			"de-DE": "HR-Dashboard",
-		},
-		ADM: {
-			"en-US": "Admin Dashboard",
-			"en-UK": "Administrator",
-			"de-DE": "Admin-Dashboard",
-		},
-		REC: {
-			"en-US": "Recruiter Dashboard",
-			"en-UK": "Recruiter Dashboard",
-			"de-DE": "Recruiter-Dashboard",			
-		},
-		INS: {
-			"en-US": "Instructor Dashboard",
-			"en-UK": "Instructor Dashboard",
-			"de-DE": "Lehrer-Dashboard",			
-		},
-		QLS: {
-			"en-US": "Quick links",
-			"en-UK": "Quick links",
-			"de-DE": "Schnelllinks",
-		},
-	},
-	moduleTitle: {
-		"ats": {
-			"en-US": "Recruiting",
-			"en-UK": "Recruiting",
-			"de-DE": "Rekrutierung",
-		},
-		"chr": {
-			"en-US": "Core HR",
-			"en-UK": "Core HR",
-			"de-DE": "Core HR-Plattform",
-		},
-		"core": {
-			"en-US": "Core",
-			"en-UK": "Core",
-			"de-DE": "Core",
-		},
-		"lms": {
-			"en-US": "Learning",
-			"en-UK": "Learning",
-			"de-DE": "Lernen",
-		},
-		"epm": {
-			"en-US": "Performance",
-			"en-UK": "Performance",
-			"de-DE": "Performance",
-		},
-		"epm-careers": {
-			"en-US": "Careers",
-			"en-UK": "Careers",
-			"de-DE": "Careers",
-		},
-		"careers": {
-			"en-US": "Careers",
-			"en-UK": "Careers",
-			"de-DE": "Careers",
-		},
-		"reporting": {
-			"en-US": "Reports",
-			"en-UK": "Reports",
-			"de-DE": "Berichte",
-		},
-	},
-	onboarding : {
-		"en-US" : {
-			headertitle : gpeDEMOUNAME[0] +", your onboarding journey starts here!",
-			headertext : "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!" ,
-			videourl : "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
-			onbprocess : {
-				title : "What's next on the onboarding",
-				resourceTitle : "Further resources and/or activities:",
-				imgurl : "url(/clientimg/demogpe/welcome/onb_wp_process.png)",	
-				text : {
-					nextstepstext1 : {
-						headline : "First day",
-						text : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
-						resources : {
-							res1 : {
-								text : "Read more about is on our Company website",
-								url : "https://www.cornerstoneondemand.com/company/",
-								type: "url",
-							},
-							res2 : {
-								text : "Follow us on LinkedIn",
-								url : "https://www.linkedin.com/company/cornerstone-ondemand",
-								type: "url",
-							},
-							res3 : {
-								text : "Fill out form - Personal Contact Details",
-								url : "/phnx/driver.aspx?routename=CustomForm/Create_Change_Contact_Details_001_frm_Edit_1&cfqs=%5e%5e%5ecsAJl9tGgheNnOyu8GlE8K6r80OhoI17mYrdxw86mqqyfExbEIrnU5YTbP2Svv8FgSnRkmhgXTrOE2Vd2J4C48aqSGGgD1Cc954k1FiWNcKwYrNZCkBr%2fm18odFjDYs1Z4IAcqcoia8N%2fvWUbFTIUqTaCUKFX4rcGsnSasW%2fyWcbQKxao12LMJ5qYkoW4wAi9Z7DN3BuO93jek0KZ1CQWw%3d%3d",
-								type: "url",
-							},
-							res4 : {
-								text : "Update your Bio page in Universal Profile",
-								url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Bio",
-								type: "url",
-							}
-						}
-					},
-					nextstepstext2 : { 
-						headline : "First week",
-						text : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
-						resources : {
-							res1 : {
-								text : "Go through your Onboarding Curriculum",
-								url : "/DeepLink/ProcessRedirect.aspx?module=loRegisterAndLaunch&lo=0ffd0bdc-e67a-4283-bdb1-79b4ab25189e",
-								type: "url",
-							},
-							res2 : {
-								text : "Be recommended training for your role",
-								url : "/ui/lms-learner-home/home",
-								type: "url",
-							},
-							res3 : {
-								text : "Create your own playlist together with your manager",
-								url : "/ui/lms-learner-playlist/UsersPlaylists",
-								type: "url",
-							}
-						}
-					},
-					nextstepstext3 : { 
-						headline : "First month",
-						text : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
-						resources : {
-							res1 : {
-								text : "Schedule regular check-in meetings with your manager",
-								type: "text",
-							},
-							res2 : {
-								text : "Create goals",
-								type: "text",
-							},
-							res3 : {
-								text : "Have fun!",
-								type: "text",
-							}
-						}
-					},
-					nextstepstext4 : {
-						headline : "First 6 months",
-						text : "When you succeed - we succeed! We're a group. We're a team. From the CEO  and on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
-						resources : {
-							res1 : {
-								text : "Create your Personal Development Plan",
-								type: "text",
-							},
-							res2 : {
-								text : "Get Certified",
-								type: "text",
-							},
-							res3 : {
-								text : "Receive and give badges",
-								type: "text",
-							},
-						}
-					},
-				},
-			},
-		},
-		"en-UK" : {
-			headertitle : gpeDEMOUNAME[0] +", your onboarding journey starts here!",
-			headertext : "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!" ,
-			videourl : "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
-			onbprocess : {
-				title : "What's next on the onboarding",
-				resourceTitle : "Further resources and/or activities:",
-				imgurl : "url(/clientimg/demogpe/welcome/onb_wp_process.png)",	
-				text : {
-					nextstepstext1 : {
-						headline : "First day",
-						text : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
-						resources : {
-							res1 : {
-								text : "Read more about is on our Company website",
-								url : "https://www.cornerstoneondemand.com/company/",
-								type: "url",
-							},
-							res2 : {
-								text : "Follow us on LinkedIn",
-								url : "https://www.linkedin.com/company/cornerstone-ondemand",
-								type: "url",
-							},
-							res3 : {
-								text : "Fill out form - Personal Contact Details",
-								url : "/phnx/driver.aspx?routename=CustomForm/Create_Change_Contact_Details_001_frm_Edit_1&cfqs=%5e%5e%5ecsAJl9tGgheNnOyu8GlE8K6r80OhoI17mYrdxw86mqqyfExbEIrnU5YTbP2Svv8FgSnRkmhgXTrOE2Vd2J4C48aqSGGgD1Cc954k1FiWNcKwYrNZCkBr%2fm18odFjDYs1Z4IAcqcoia8N%2fvWUbFTIUqTaCUKFX4rcGsnSasW%2fyWcbQKxao12LMJ5qYkoW4wAi9Z7DN3BuO93jek0KZ1CQWw%3d%3d",
-								type: "url",
-							},
-							res4 : {
-								text : "Update your Bio page in Universal Profile",
-								url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Bio",
-								type: "url",
-							}
-						}
-					},
-					nextstepstext2 : { 
-						headline : "First week",
-						text : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
-						resources : {
-							res1 : {
-								text : "Go through your Onboarding Curriculum",
-								url : "/DeepLink/ProcessRedirect.aspx?module=loRegisterAndLaunch&lo=0ffd0bdc-e67a-4283-bdb1-79b4ab25189e",
-								type: "url",
-							},
-							res2 : {
-								text : "Be recommended training for your role",
-								url : "/ui/lms-learner-home/home",
-								type: "url",
-							},
-							res3 : {
-								text : "Create your own playlist together with your manager",
-								url : "/ui/lms-learner-playlist/UsersPlaylists",
-								type: "url",
-							}
-						}
-					},
-					nextstepstext3 : { 
-						headline : "First month",
-						text : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
-						resources : {
-							res1 : {
-								text : "Schedule regular check-in meetings with your manager",
-								type: "text",
-							},
-							res2 : {
-								text : "Create goals",
-								type: "text",
-							},
-							res3 : {
-								text : "Have fun!",
-								type: "text",
-							}
-						}
-					},
-					nextstepstext4 : {
-						headline : "First 6 months",
-						text : "When you succeed - we succeed! We're a group. We're a team. From the CEO  and on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
-						resources : {
-							res1 : {
-								text : "Create your Personal Development Plan",
-								type: "text",
-							},
-							res2 : {
-								text : "Get Certified",
-								type: "text",
-							},
-							res3 : {
-								text : "Receive and give badges",
-								type: "text",
-							},
-						}
-					},
-				},
-			},
-		},
-		"de-DE" : {
-			headertitle : gpeDEMOUNAME[0] +", your onboarding journey starts here!",
-			headertext : "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!" ,
-			videourl : "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
-			onbprocess : {
-				title : "What's next on the onboarding",
-				resourceTitle : "Further resources and/or activities:",
-				imgurl : "url(/clientimg/demogpe/welcome/onb_wp_process.png)",	
-				text : {
-					nextstepstext1 : {
-						headline : "First day",
-						text : "As a new member of team you will initially be introduced to your new colleagues by your manager. Your manager will also help you understand our processes and systems to get started. You can already now start to familiarize yourself by opening up the New Hire Curriculum below.",
-						resources : {
-							res1 : {
-								text : "Read more about is on our Company website",
-								url : "https://www.cornerstoneondemand.com/company/",
-								type: "url",
-							},
-							res2 : {
-								text : "Follow us on LinkedIn",
-								url : "https://www.linkedin.com/company/cornerstone-ondemand",
-								type: "url",
-							},
-							res3 : {
-								text : "Fill out form - Personal Contact Details",
-								url : "/phnx/driver.aspx?routename=CustomForm/Create_Change_Contact_Details_001_frm_Edit_1&cfqs=%5e%5e%5ecsAJl9tGgheNnOyu8GlE8K6r80OhoI17mYrdxw86mqqyfExbEIrnU5YTbP2Svv8FgSnRkmhgXTrOE2Vd2J4C48aqSGGgD1Cc954k1FiWNcKwYrNZCkBr%2fm18odFjDYs1Z4IAcqcoia8N%2fvWUbFTIUqTaCUKFX4rcGsnSasW%2fyWcbQKxao12LMJ5qYkoW4wAi9Z7DN3BuO93jek0KZ1CQWw%3d%3d",
-								type: "url",
-							},
-							res4 : {
-								text : "Update your Bio page in Universal Profile",
-								url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Bio",
-								type: "url",
-							}
-						}
-					},
-					nextstepstext2 : { 
-						headline : "First week",
-						text : "Being new at the job can be stressfull, we want you to clearly understand the expectations of the job as well as the company culture. We believe it will help you and your performance. You manager and/or mentor will support you in getting up to speed.",
-						resources : {
-							res1 : {
-								text : "Go through your Onboarding Curriculum",
-								url : "/DeepLink/ProcessRedirect.aspx?module=loRegisterAndLaunch&lo=0ffd0bdc-e67a-4283-bdb1-79b4ab25189e",
-								type: "url",
-							},
-							res2 : {
-								text : "Be recommended training for your role",
-								url : "/ui/lms-learner-home/home",
-								type: "url",
-							},
-							res3 : {
-								text : "Create your own playlist together with your manager",
-								url : "/ui/lms-learner-playlist/UsersPlaylists",
-								type: "url",
-							}
-						}
-					},
-					nextstepstext3 : { 
-						headline : "First month",
-						text : "By spending time together with your manager and/or mentor you will shortly be able to set valuable goals supporting our company vision/strategy. We will also be having a social get together for all new hires where you will be able to connect with the entire team!",
-						resources : {
-							res1 : {
-								text : "Schedule regular check-in meetings with your manager",
-								type: "text",
-							},
-							res2 : {
-								text : "Create goals",
-								type: "text",
-							},
-							res3 : {
-								text : "Have fun!",
-								type: "text",
-							}
-						}
-					},
-					nextstepstext4 : {
-						headline : "First 6 months",
-						text : "When you succeed - we succeed! We're a group. We're a team. From the CEO  and on through, we're a team. We win together, we lose together. We celebrate and we mourn together. And defeats are softened and victories sweeter because we did them together. At the end of the day - staying healthy and motivated is key for us all.",	
-						resources : {
-							res1 : {
-								text : "Create your Personal Development Plan",
-								type: "text",
-							},
-							res2 : {
-								text : "Get Certified",
-								type: "text",
-							},
-							res3 : {
-								text : "Receive and give badges",
-								type: "text",
-							},
-						}
-					},
-				},
-			},
-		},
-	}
-};
-
-/**
- * @const cs_widgetConfig
- * @desc Array of settings for each module and widget.
- */
-const cs_widgetConfig = {
-	EMPLOYEE : {
-		MODULEORDER : {
-			LMS : 1,
-			EPM : 2,
-			ATS : 3,
-		},
-		MODULES : {
-			LMS : {
-				MODULETITLE : {
-					"en-US" : "Learning & Development",
-					"en-UK" : "Learning & Development",
-				},
-				WIDGETS : {
-					INSPIRED_BY_SUBJECTS : {
-						ID : "INSPIRED_BY_SUBJECTS",
-						TITLE : {
-							"en-US" : "Inspired by Your Subjects123",
-							"en-UK" : "Inspired by Your Subjects",
-						},
-						WIDGETLINK : "/recommendedtraining?type=Subjects&pageSize=20&pageNum=1",
-						ORDER: 1,
-						COLUMNSIZE : 3,
-					},
-					TRENDING_FOR_JOB : {
-						ID : "TRENDING_FOR_JOB",
-						TITLE : {
-							"en-US" : "Trending for your Job",
-							"en-UK" : "Trending for your Job",
-						},
-						WIDGETLINK : "/recommendedtraining?type=Position&pageSize=20&pageNum=1",
-						ORDER: 2,
-						COLUMNSIZE : 3,
-					},
-					TRAINING_METRICS : {
-						ID : "TRAINING_METRICS",
-						TITLE : {
-							"en-US" : "Transcript Overview",
-							"en-UK" : "Training Record Overview",
-						},
-						WIDGETLINK : "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser="+ sessionStorage.csUser,
-						ORDER: 3,
-						COLUMNSIZE : 6,
-					},								
-				},
-				LINKS : {
-					LEARNER_HOME : {
-						TITLE : {
-							"en-US" : "Learner Home",
-							"en-UK" : "Learner Home",
-						},
-						URL : "/ui/lms-learner-home/home",
-						ICON : "lms_ql_learner_home.png",
-						COLUMNSIZE : 2,
-						ORDER: 1,
-					},
-					COMMUNITIES : {
-						TITLE : {
-							"en-US" : "Communities",
-							"en-UK" : "Communities",
-						},
-						URL : "/phnx/driver.aspx?routename=Social/Communities",
-						ICON : "lms_ql_communities.png",
-						COLUMNSIZE : 2,
-						ORDER: 2,
-					},
-					LEARNER_SEARCH : {
-						TITLE : {
-							"en-US" : "Learner Search",
-							"en-UK" : "Learner Search",
-						},
-						URL : "/ui/lms-learner-search/search?pageNumber=1",
-						ICON : "lms_ql_learner_search.png",
-						COLUMNSIZE : 2,
-						ORDER : 3,
-					},
-					TRAINING_HISTORY : {
-						TITLE : {
-							"en-US" : "Training history",
-							"en-UK" : "Training history",
-						},
-						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&preSelectedCategoryId=3",
-						ICON : "lms_ql_transcript.png",
-						COLUMNSIZE : 2,
-						ORDER: 4,
-					},
-					PLAYLISTS : {
-						TITLE : {
-							"en-US" : "Playlists",
-							"en-UK" : "Playlists",
-						},
-						URL : "/ui/lms-learner-playlist/UsersPlaylists",
-						ICON : "lms_ql_playlists.png",
-						COLUMNSIZE : 2,
-						ORDER: 5,
-					},
-					LEADERBOARD : {
-						TITLE : {
-							"en-US" : "Leaderboard",
-							"en-UK" : "Leaderboard",
-						},
-						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Leaderboard&TargetUser="+sessionStorage.csUser,
-						ICON : "lms_ql_leaderboard.png",
-						COLUMNSIZE : 2,
-						ORDER: 6,
-					},
-				},
-			},
-			EPM : {
-				MODULETITLE : {
-					"en-US" : "Performance & Career",
-					"en-UK" : "Performance & Career",
-				},
-				WIDGETS : {
-					CHECKINS : {
-						ID : "CHECKINS",
-						TITLE : {
-							"en-US" : "Check Ins",
-							"en-UK" : "Check Ins",
-						},
-						WIDGETLINK : "/ui/perf-check-ins/Check-Ins",
-						TARGETID : "EPM_widget_CHECKINS",
-						ORDER: 1,
-						COLUMNSIZE : 6,
-					},
-					DEVPLAN_PROGRESS : {
-						ID : "DEVPLAN_PROGRESS",
-						TITLE : {
-							"en-US" : "Development Plan Progress",
-							"en-UK" : "Development Plan Progress",
-						},
-						WIDGETLINK : "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew",
-						TARGETID : "EPM_widget_DEVPLAN_PROGRESS",
-						ORDER: 1,
-						COLUMNSIZE : 3,
-					},
-					GOAL_PROGRESS : {
-						ID : "GOAL_PROGRESS",
-						TITLE : {
-							"en-US" : "Goal Progress",
-							"en-UK" : "Objective Progress",
-						},
-						WIDGETLINK : "/phnx/driver.aspx?routename=Goals/GoalList&tab_page_id=-200159402",
-						TARGETID : "EPM_widget_GOAL_PROGRESS",
-						ORDER: 1,
-						COLUMNSIZE : 3,
-					},			
-				},
-				LINKS : {
-					SURVEYS : {
-						TITLE : {
-							"en-US" : "Surveys",
-							"en-UK" : "Surveys",
-						},
-						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=16&sort=0",
-						ICON : "epm_ql_surveys.png",
-						COLUMNSIZE : 2,
-						ORDER : 1,
-					},
-					FEEDBACK : {
-						TITLE : {
-							"en-US" : "Feedback",
-							"en-UK" : "Feedback",
-						},
-						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Feedback",
-						ICON : "epm_ql_feedback.png",
-						COLUMNSIZE : 2,
-						ORDER: 2,
-					},
-					PERF_REVIEWS : {
-						TITLE : {
-							"en-US" : "Performance Reviews",
-							"en-UK" : "Performance Reviews",
-						},
-						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=6&sort=0",
-						ICON : "epm_ql_compensation.png",
-						COLUMNSIZE : 2,
-						ORDER: 3,
-					},
-					CHECKINS : {
-						TITLE : {
-							"en-US" : "Check Ins",
-							"en-UK" : "Check Ins",
-						},
-						URL : "/ui/perf-check-ins/Check-Ins/",
-						ICON : "epm_ql_succession.png",
-						COLUMNSIZE : 2,
-						ORDER: 4,
-					},
-					CHECKLISTS : {
-						TITLE : {
-							"en-US" : "Checklists",
-							"en-UK" : "Checklists",
-						},
-						URL : "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=14",
-						ICON : "epm_ql_checklists.png",
-						COLUMNSIZE : 2,
-						ORDER: 5,
-					},
-					SKILLSMATRIX : {
-						TITLE : {
-							"en-US" : "Skills Matrix",
-							"en-UK" : "Skills Matrix",
-						},
-						URL : "/EPM/SkillsMatrix/User/SkillsMatrixPage.aspx",
-						ICON : "epm_ql_skillsmatrix.png",
-						COLUMNSIZE : 2,
-						ORDER: 6,
-					},			
-				},
-			},
-			ATS : {
-				MODULETITLE : {
-					"en-US" : "Recruit & Onboarding",
-					"en-UK" : "Recruit & Onboarding",
-				},
-				WIDGETS : {
-					TOTALCANDIDATES : {
-						ID : "TOTALCANDIDATES",
-						TITLE : {
-							"en-US" : "Total Candidates",
-							"en-UK" : "Total Candidates",
-						},
-						WIDGETLINK : "/ui/perf-check-ins/Check-Ins",
-						TARGETID : "ATS_widget_TOTALCANDIDATES",
-						ORDER: 1,
-						COLUMNSIZE : 2,
-					},
-					NEWSUBMISSIONS : {
-						ID : "NEWSUBMISSIONS",
-						TITLE : {
-							"en-US" : "New Submissions",
-							"en-UK" : "New Submissions",
-						},
-						WIDGETLINK : "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew",
-						TARGETID : "ATS_widget_NEWSUBMISSIONS",
-						ORDER: 1,
-						COLUMNSIZE : 2,
-					},
-					NEWHIRES : {
-						ID : "NEWHIRES",
-						TITLE : {
-							"en-US" : "New Hires",
-							"en-UK" : "New Hires",
-						},
-						WIDGETLINK : "/phnx/driver.aspx?routename=Goals/GoalList&tab_page_id=-200159402",
-						TARGETID : "ATS_widget_NEWHIRES",
-						ORDER: 1,
-						COLUMNSIZE : 8,
-					},			
-				},
-				LINKS : {
-					REQREQUESTS : {
-						TITLE : {
-							"en-US" : "Requisition Requests",
-							"en-UK" : "Requisition Requests",
-						},
-						URL : "/ATS/JobRequisitionRequest/RequisitionRequests.aspx",
-						ICON : "ats_ql_requisition_requests.png",
-						COLUMNSIZE : 2,
-						ORDER : 1,
-					},
-					MANAGEREQ : {
-						TITLE : {
-							"en-US" : "Manage Requisitions",
-							"en-UK" : "Manage Requisitions",
-						},
-						URL : "/phnx/driver.aspx?routename=ATS/RecruitingManagement/ManageRequisitions",
-						ICON : "ats_ql_manage_requisitions.png",
-						COLUMNSIZE : 2,
-						ORDER: 2,
-					},
-					MANAGECANDIDATES: {
-						TITLE : {
-							"en-US" : "Manage Candidates",
-							"en-UK" : "Manage Candidates",
-						},
-						URL : "/ui/ats-manage-candidates/managecandidates",
-						ICON : "ats_ql_manage_candidates.png",
-						COLUMNSIZE : 2,
-						ORDER: 3,
-					},
-					INTERVIEWS : {
-						TITLE : {
-							"en-US" : "Interviews",
-							"en-UK" : "Interviews",
-						},
-						URL : "/ATS/Interview/ScheduledInterviews.aspx",
-						ICON : "ats_ql_interviews.png",
-						COLUMNSIZE : 2,
-						ORDER: 4,
-					},
-					HIRINGDASHBOARD : {
-						TITLE : {
-							"en-US" : "Hiring Dashboard",
-							"en-UK" : "Hiring Dashboard",
-						},
-						URL : "/phnx/driver.aspx?routename=ATS/Dashboard/HiringDashboard",
-						ICON : "ats_ql_hiring_dashboard.png",
-						COLUMNSIZE : 2,
-						ORDER: 5,
-					},
-					CANDIDATESEARCH : {
-						TITLE : {
-							"en-US" : "Candidate Search",
-							"en-UK" : "Candidate Search",
-						},
-						URL : "/phnx/driver.aspx?routename=ATS/Search/CandidateSearch",
-						ICON : "ats_ql_candidate_search.png",
-						COLUMNSIZE : 2,
-						ORDER: 6,
-					},			
-				},
-			},
-		},
-	},
-	"EPM-DEVPLAN_PROGRESS" : {
-		width : 12,
-		targetdiv : "EPM-DEVPLAN_PROGRESS",
-		url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew",
-		title : {
-			"en-US" : "Devplan Progress",
-			"en-UK" : "My development Plan progress",
-			"de-DE" : "Fortschritt meines Entwicklungsplans",
-		},
-		nocontenttitle: {
-			"en-US" : "Create a new plan!",
-			"en-UK" : "Create a new plan!",
-			"de-DE" : "Erstellen Sie einen neuen Plan!",
-		},
-		getstartedurl : "/ui/devplans/blueprints/add"
-	},
-	"EPM-GOAL_PROGRESS" : {
-		width : 12,
-		targetdiv : "EPM-GOAL_PROGRESS",
-		url : "/phnx/driver.aspx?routename=Goals/GoalList",
-		title : {
-			"en-US" : "Goal Progress",
-			"en-UK" : "Goal Progress",
-			"de-DE" : "Zielfortschritt",
-		},
-		nocontenttitle: {
-			"en-US" : "Create goals!",
-			"en-UK" : "Create goals!",
-			"de-DE" : "Ziele schaffen!",
-		},
-		getstartedurl : "/phnx/driver.aspx?routename=Goals/GoalEdit"
-	},
-	"EPM-CHECKINS" : {
-		width : 12,
-		targetdiv : "EPM-CHECKINS",
-		url : "/ui/perf-check-ins/Check-Ins",
-		title : {
-			"en-US" : "Check ins",
-			"en-UK" : "Check ins",
-			"de-DE" : "Einchecken",
-		},
-		nocontenttitle: {
-			"en-US" : "Get Started!",
-			"en-UK" : "Get Started!",
-			"de-DE" : "Loslegen!",
-		},
-		getstartedurl : "/ui/perf-check-ins/Check-Ins/create/select-participant"
-	},
-	"LMS-INSPIRED_BY_SUBJECTS" : {
-		width : 12,
-		targetdiv : "LMS-INSPIRED_BY_SUBJECTS",
-		url : "/ui/lms-learner-home/home",
-		title : {
-			"en-US" : "Inspired by your Subjects",
-			"en-UK" : "Inspired by your Subjects",
-			"de-DE" : "",
-		},
-		nocontenttitle: {
-			"en-US" : "",
-			"en-UK" : "",
-			"de-DE" : "",
-		},
-		getstartedurl : "#"
-	},
-	"LMS-TRAINING_METRICS" : {
-		width : 12,
-		targetdiv : "LMS-TRAINING_METRICS",
-		url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser="+ sessionStorage.csUser,
-		title : {
-			"en-US" : "Transcript Overview",
-			"en-UK" : "Training Record Overview",
-			"de-DE" : "",
-		},
-		pastdueDesc : {
-			"en-US" : "Past Due Trainings",
-			"en-UK" : "Past Due Trainings",
-			"de-DE" : "",
-		},
-		dueSoonDesc : {
-			"en-US" : "Trainings Due Soon",
-			"en-UK" : "Trainings Due Soon",
-			"de-DE" : "",
-		},		
-		assignedNoDueDateDesc : {
-			"en-US" : "Training Assigned / No Due Date",
-			"en-UK" : "Training Assigned / No Due Date",
-			"de-DE" : "",
-		},
-		playlists : {
-			createdDesc : {
-				"en-US" : "Playlists created",
-				"en-UK" : "Playlists created",
-				"de-DE" : "",	
-			},
-			followersDesc : {
-				"en-US" : "Playlist followers",
-				"en-UK" : "Playlist followers",
-				"de-DE" : "",
-			},
-			followedDesc : {
-				"en-US" : "Playlists followed",
-				"en-UK" : "Playlists followed",
-				"de-DE" : "",	
-			}
-		},
-		nocontenttitle: {
-			"en-US" : "",
-			"en-UK" : "",
-			"de-DE" : "",
-		},
-		getstartedurl : "#"
-	},
-	"LMS-TRENDING_FOR_JOB" : {
-		width : 12,
-		targetdiv : "LMS-TRENDING_FOR_JOB",
-		url : "/ui/lms-learner-home/home",
-		title : {
-			"en-US" : "Trending for your job",
-			"en-UK" : "Trending for your job",
-			"de-DE" : "",
-		},
-		nocontenttitle: {
-			"en-US" : "Get Started!",
-			"en-UK" : "Get Started!",
-			"de-DE" : "Loslegen!",
-		},
-		getstartedurl : "#"
-	},	
-	"LMS-ASSIGNED_TRAINING" : {
-		width : 12,
-		targetdiv : "LMS-ASSIGNED_TRAINING",
-		url : "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript",
-		title : {
-			"en-US" : "Assigned Training",
-			"en-UK" : "Assigned Training",
-			"de-DE" : "",
-		},
-		nocontenttitle: {
-			"en-US" : "Get Started!",
-			"en-UK" : "Get Started!",
-			"de-DE" : "Loslegen!",
-		},
-		getstartedurl : "#"
-	},	
-	"ATS-TOTALCANDIDATES" : {
-		width : 12,
-		targetdiv : "ATS-TOTALCANDIDATES",
-		url : "/ui/ats-manage-candidates/managecandidates",
-		title : {
-			"en-US" : "Total Candidates",
-			"en-UK" : "Total Candidates",
-			"de-DE" : "",
-		},
-		nocontenttitle: {
-			"en-US" : "",
-			"en-UK" : "",
-			"de-DE" : "",
-		},
-		getstartedurl : "#"
-	},	
-	"ATS-NEWSUBMISSIONS" : {
-		width : 12,
-		targetdiv : "ATS-NEWSUBMISSIONS",
-		url : "/ui/ats-manage-candidates/managecandidates?pageSize=20&statusCategories=-1",
-		title : {
-			"en-US" : "New Submissions",
-			"en-UK" : "New Submissions",
-			"de-DE" : "",
-		},
-		nocontenttitle: {
-			"en-US" : "",
-			"en-UK" : "",
-			"de-DE" : "",
-		},
-		getstartedurl : "#"
-	},		
-	"ATS-NEWHIRES" : {
-		width : 12,
-		targetdiv : "ATS-NEWHIRES",
-		url : "/phnx/driver.aspx?routename=ONB/Dashboard",
-		title : {
-			"en-US" : "New Hires",
-			"en-UK" : "New Hires",
-			"de-DE" : "",
-		},
-		nocontenttitle: {
-			"en-US" : "",
-			"en-UK" : "",
-			"de-DE" : "",
-		},
-		getstartedurl : "#"
-	},
-	managerwidget : {
-		title : {
-			"en-US" : "My team",
-			"en-UK" : "My team",
-			"de-DE" : "Meine team"
-		},
-		tableheader : {
-			name : {
-				"en-US" : "Name",
-				"en-UK" : "Name",
-				"de-DE" : "Name"
-			},
-			hiredate : {
-				"en-US" : "Hire Date",
-				"en-UK" : "Hire Date",
-				"de-DE" : "Anstellungsdatum"
-			},
-			actions : {
-				"en-US" : "Actions",
-				"en-UK" : "Actions",
-				"de-DE" : "Aktionen"
-			},
-		},
-		actionsitems : {
-			openup : {
-				"en-US" : "Open Universal Profile",
-				"en-UK" : "Open Universal Profile",
-				"de-DE" : "Universelles Profil öffnen"
-			},
-			viewtranscript : {
-				"en-US" : "View Transcript",
-				"en-UK" : "View Training Record",
-				"de-DE" : "Trainingsaufzeichnung anzeigen"
-			},
-			viewsnapshot : {
-				"en-US" : "View Snapshot",
-				"en-UK" : "View Snapshot",
-				"de-DE" : "Schnappschuss ansehen"
-			},
-			viewgoals : {
-				"en-US" : "View Goals",
-				"en-UK" : "View Objectives",
-				"de-DE" : "Ziele anzeigen"
-			},
-			viewdevplan : {
-				"en-US" : "View Development Plan",
-				"en-UK" : "View Development Plan",
-				"de-DE" : "Entwicklungsplan anzeigen"
-			},
-		},
-		detailtable : {
-			firstname : {
-				"en-US" : "First name",
-				"en-UK" : "First name",
-				"de-DE" : "Vorname"
-			},
-			lastname : {
-				"en-US" : "Last name",
-				"en-UK" : "Last name",
-				"de-DE" : "Nachname"
-			},
-			email : {
-				"en-US" : "Email",
-				"en-UK" : "Email",
-				"de-DE" : "Email"
-			},
-			phone : {
-				"en-US" : "Phone",
-				"en-UK" : "Phone",
-				"de-DE" : "Telefon"
-			},
-			hiredate : {
-				"en-US" : "Hire Date",
-				"en-UK" : "Hire Date",
-				"de-DE" : "Anstellungsdatum"
-			},
-			addressdetails : {
-				"en-US" : "Address Details",
-				"en-UK" : "Address Details",
-				"de-DE" : "Adressen Details"
-			},
-			address : {
-				"en-US" : "Address",
-				"en-UK" : "Address",
-				"de-DE" : "Die Anschrift"
-			},
-			city : {
-				"en-US" : "City",
-				"en-UK" : "City",
-				"de-DE" : "Stadt"
-			},
-			state : {
-				"en-US" : "State",
-				"en-UK" : "State",
-				"de-DE" : "Bundesland"
-			},
-			country : {
-				"en-US" : "Country",
-				"en-UK" : "Country",
-				"de-DE" : "Land"
-			},
-		}
-	}
-};
-
-/**
  * @var cs_DashboardArray
  * @desc This array outlines which the Report IDs to be used by the demouser (Role).
  *
@@ -1393,6 +400,8 @@ function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
 	/* Set top menu space  START */
 	if ( !document.getElementById( "framework-oldnav-home" ) ) {
 
+		const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+
 		let tmpNav = document.createElement( "nav" );
 		tmpNav.className = "header__nav header__nav--custom";
 
@@ -1435,7 +444,7 @@ function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
 		topNavBtnUSR.setAttribute( "aria-controls", "nav-USR" );
 		topNavBtnUSR.setAttribute( "aria-selected", "true" );
 		topNavBtnUSR.setAttribute( "_ngcontent-nml-c376", "" );
-		topNavBtnUSR.innerHTML = cs_customLocale.topNavigationTitle.USR[ cultureArg ]; //sessionStorage["csCulture"]
+		topNavBtnUSR.innerHTML = cs_customLocale[0].topNavigationTitle.USR[ cultureArg ]; //sessionStorage["csCulture"]
 
 		topNavItmUSR.appendChild( topNavBtnUSR );
 		let topNavItmRole = 0;
@@ -1534,6 +543,8 @@ function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
  * @returns
  */
 function buildExtraNavItem( demoRoleArg, cultureArg ) {
+	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+
 	var topNavItmRole = document.createElement( "li" );
 	topNavItmRole.className = "trq-tab-group-item ng-star-inserted";
 	topNavItmRole.setAttribute( "role", "presentation" );
@@ -1551,7 +562,7 @@ function buildExtraNavItem( demoRoleArg, cultureArg ) {
 	topNavBtnRole.setAttribute( "aria-controls", "nav-" + demoRoleArg );
 	topNavBtnRole.setAttribute( "aria-selected", "true" );
 	topNavBtnRole.setAttribute( "_ngcontent-nml-c376", "" );
-	topNavBtnRole.innerHTML = cs_customLocale.topNavigationTitle[ demoRoleArg ][ cultureArg ]; //sessionStorage["csCulture"]
+	topNavBtnRole.innerHTML = cs_customLocale[0].topNavigationTitle[ demoRoleArg ][ cultureArg ]; //sessionStorage["csCulture"]
 	test = 2;
 	topNavItmRole.appendChild( topNavBtnRole );
 
@@ -1567,6 +578,8 @@ function buildExtraNavItem( demoRoleArg, cultureArg ) {
 async function buildOnbWidget(demoRoleArg, cultureArg){
 	if(demoRoleArg == "ONB") {
 
+		const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+
 		// Remove left column
 		$(".gpewp_USR").css("grid-template-columns", "1fr");
 		$(".gpewp_USR").css("grid-template-areas", "gpewp_USR-right");
@@ -1580,10 +593,10 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 		onbHeader.className = "onbheader";
 		// Get header
 		let onbHeaderTitle = document.createElement( "h5" );
-		onbHeaderTitle.innerHTML = cs_customLocale.onboarding[cultureArg].headertitle;
+		onbHeaderTitle.innerHTML = cs_customLocale[0].onboarding[cultureArg].headertitle;
 		// Get text
 		let onbHeaderText = document.createElement( "p" );
-		onbHeaderText.innerHTML = cs_customLocale.onboarding[cultureArg].headertext;
+		onbHeaderText.innerHTML = cs_customLocale[0].onboarding[cultureArg].headertext;
 
 		// Get video
 		let onbHeaderVideoDiv = document.createElement( "div" );
@@ -1594,7 +607,7 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 		onbHeaderVideoObj.setAttribute("height", "420");
 		onbHeaderVideoObj.setAttribute("controls", "");
 		let onbHeaderVideoSrc = document.createElement( "source" );
-		onbHeaderVideoSrc.setAttribute("src", cs_customLocale.onboarding[cultureArg].videourl);
+		onbHeaderVideoSrc.setAttribute("src", cs_customLocale[0].onboarding[cultureArg].videourl);
 		onbHeaderVideoSrc.setAttribute("type", "video/mp4");
 		onbHeaderVideoObj.appendChild(onbHeaderVideoSrc);
 		onbHeaderVideoDiv.appendChild(onbHeaderVideoObj);
@@ -1610,7 +623,7 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 
 		let onbProcessTitle = document.createElement('h5');
 		onbProcessTitle.className = "processtitle";
-		onbProcessTitle.innerHTML = cs_customLocale.onboarding[cultureArg].onbprocess.title;
+		onbProcessTitle.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.title;
 
 		let onbProcessDesc = document.createElement('div');
 		onbProcessDesc.className = "processdesc";
@@ -1618,30 +631,30 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 		let tmpOnbProcessTextOl = document.createElement('ol');
 		tmpOnbProcessTextOl.className = "list";
 
-		for(let textItem in cs_customLocale.onboarding[cultureArg].onbprocess.text) {
+		for(let textItem in cs_customLocale[0].onboarding[cultureArg].onbprocess.text) {
 			let tmpOnbProcessTextLi = document.createElement('li');
 			tmpOnbProcessTextLi.className = "item";
 
 			let tmpOnbProcessTextLiHeadline = document.createElement('h2');
 			tmpOnbProcessTextLiHeadline.className = "headline";
-			tmpOnbProcessTextLiHeadline.innerHTML = cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].headline;
+			tmpOnbProcessTextLiHeadline.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].headline;
 
 			let tmpOnbProcessTextLiText = document.createElement('span');
-			tmpOnbProcessTextLiText.innerHTML = cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].text;
+			tmpOnbProcessTextLiText.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].text;
 
 			let tmpOnbResourceDiv = document.createElement('div');
 			tmpOnbResourceDiv.className = "resourceTitle";
-			tmpOnbResourceDiv.innerHTML = "<br>"+cs_customLocale.onboarding[cultureArg].onbprocess.resourceTitle;
+			tmpOnbResourceDiv.innerHTML = "<br>"+cs_customLocale[0].onboarding[cultureArg].onbprocess.resourceTitle;
 
 			let tmpOnbResourceUl = document.createElement('ul');
 			tmpOnbResourceUl.className = "resList";
-			for(let resItem in cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources) {
+			for(let resItem in cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources) {
 				let tmpOnbResourceLi = document.createElement("li");
 				tmpOnbResourceLi.className = "resItem";
-				if(cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].type == "url"){
-					tmpOnbResourceLi.innerHTML = "<a href='"+cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].url+"' target='_blank'>"+cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text+"</a>";
+				if(cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].type == "url"){
+					tmpOnbResourceLi.innerHTML = "<a href='"+cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].url+"' target='_blank'>"+cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text+"</a>";
 				}else {
-					tmpOnbResourceLi.innerHTML = cs_customLocale.onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text;
+					tmpOnbResourceLi.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text;
 				}
 				tmpOnbResourceUl.appendChild(tmpOnbResourceLi);
 			}
@@ -1659,7 +672,7 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 		
 		let onbProcessImg = document.createElement('div');
 		onbProcessImg.className = "processimg";
-		onbProcessImg.style.backgroundImage = cs_customLocale.onboarding[cultureArg].onbprocess.imgurl;
+		onbProcessImg.style.backgroundImage = cs_customLocale[0].onboarding[cultureArg].onbprocess.imgurl;
 		onbProcessImg.style.backgroundRepeat = "no-repeat";
 		onbProcessImg.style.backgroundPosition = "center";
 		onbProcessImg.style.width = "100%";
@@ -1690,6 +703,8 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 
 async function buildModuleWidget(moduleArg) {
 
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+
 	modulesDiv = document.createElement( "div" );
 	modulesDiv.className = "gpeWelcomePageModules";
 	modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
@@ -1702,22 +717,23 @@ async function buildModuleWidget(moduleArg) {
 				let modContainer = document.createElement( "div" );
 				modContainer.className = "moduleContainer";
 				modContainer.setAttribute("id", "module_"+moduleArg[module]);
-				modContainer.setAttribute("style", "order:"+cs_widgetConfig.EMPLOYEE.MODULEORDER[moduleArg[module]]+";");
+				modContainer.setAttribute("style", "order:"+cs_widgetConfig[0].EMPLOYEE.MODULEORDER[moduleArg[module]]+";");
 
 				let modContainerTitleDiv = document.createElement( "div" );
 				modContainerTitleDiv.className = "moduleTitleDiv";
 
 				let modContainerTitle = document.createElement( "h3" );
 				modContainerTitle.className = "moduleTitle";
-				modContainerTitle.innerHTML = cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].MODULETITLE[sessionStorage.csCulture];
+				modContainerTitle.innerHTML = cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].MODULETITLE[sessionStorage.csCulture];
 
 				let modWidgetContainer = document.createElement( "div" );
 				modWidgetContainer.className = "moduleWidgetContainer row";
 
-				for(let widget in cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].WIDGETS) {
+				for(let widget in cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].WIDGETS) {
 					let modWidget = document.createElement( "div" );
-					modWidget.className = "moduleWidget col-md-"+cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].WIDGETS[widget].COLUMNSIZE;
-					modWidget.setAttribute("id", moduleArg[module]+"-"+widget);
+					modWidget.className = "moduleWidget col-md-"+cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].WIDGETS[widget].COLUMNSIZE;
+					modWidget.setAttribute("id", moduleArg[module]+"-"+widget); /* IMPORTANT ID - This is used to target the widget card */
+					modWidget.setAttribute("style", "order:"+cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].WIDGETS[widget].ORDER+";");
 
 					modWidgetContainer.appendChild(modWidget);
 				}
@@ -1732,25 +748,26 @@ async function buildModuleWidget(moduleArg) {
 				modLinkContainer.className = "moduleLinkContainer";
 
 				// BUILD QUICKLINKS
-				for(let link in cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].LINKS) {
+				for(let link in cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS) {
 					let modLink = document.createElement( "li" );
 					modLink.className = "moduleLink";
 					modLink.setAttribute("id", moduleArg[module]+"-"+link);
+					modLink.setAttribute("style", "order:"+cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].ORDER+";");
 
 					let modLinkItemLink = document.createElement( "a" );
 					modLinkItemLink.className = "modLinkItemLink";
-					modLinkItemLink.href = cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].URL;
+					modLinkItemLink.href = cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].URL;
 
 					let modLinkItem = document.createElement( "div" );
 					modLinkItem.className = "modLinkItem";
 
 					let modLinkIcon = document.createElement( "div" );
 					modLinkIcon.className = "moduleLinkIcon";
-					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/"+cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].ICON +"')";
+					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/"+cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].ICON +"')";
 
 					let modLinkTitle = document.createElement( "div" );
 					modLinkTitle.className = "moduleLinkTitle";
-					modLinkTitle.innerHTML = cs_widgetConfig.EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].TITLE[sessionStorage.csCulture];
+					modLinkTitle.innerHTML = cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].TITLE[sessionStorage.csCulture];
 					
 					modLinkItem.appendChild(modLinkIcon);
 					modLinkItem.appendChild(modLinkTitle);
@@ -1785,118 +802,44 @@ async function buildModuleWidget(moduleArg) {
  * @returns
  */
 async function buildWidgets_v2( accessArrArg) {
-	setPreloader(gpeUSRCONTENTDIV, "on");
+	if (Array.isArray(accessArrArg) && arr.length) {
+		setPreloader(gpeUSRCONTENTDIV, "on");
 
-	let widgetPromisesArray = [];
-	accessArrArg.forEach(function(widget) {
-		widgetPromisesArray.push(getWidgetData_v2(widget));
-	});
-
-	return await Promise.all( widgetPromisesArray )
-	.then(async function(widgetPromisesArrayComplete) {
-		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
-			if(widgetData != null){
-				widgetData.forEach(function(widget){
-					console.log(widget);
-					return generateHTMLWidget(
-						widget.id, 
-						"12", 
-						"widgetCard_"+ widget.id, 
-						"widgetWrapper_"+ widget.id,
-						widget.id,
-						"cs_"+ widget.id, 
-						widget);					
-				});
-			}
-		});
-	})
-	.then(async function(renderedWidgetsResp) {
-		setPreloader(gpeUSRCONTENTDIV, "off");
-		$("canvas").each(function() {
-			var chart = Chart.getChart($(this).attr("id"));
-			chart.update();
-		});
-		return renderedWidgetsResp;
-	})
-	.catch( error => console.error( "Error in getting widget data: " + error ) );
-}
-
-/**
- *
- * @param
- * @param
- * @returns
- */
-async function buildWidgets( accessArrArg, cultureArg ) {
-	// Sort array on widgetPrio column
-	let widgetOrderedArr = accessArrArg.sort( ( a, b ) => a.widgetPrio - b.widgetPrio );
-	// Get all widgets (widgetPrio = 99 means it is not a widget and should not be used)
-	let widgetIDArr = widgetOrderedArr.filter( v => +v.widgetPrio < 99 );
-
-	setPreloader(gpeUSRCONTENTDIV, "on");
-	let widgetPromisesArray = [];
-	widgetIDArr.forEach(function(widget) {
-		widgetPromisesArray.push(getWidgetData( widget ) );
-	});
-
-	return await Promise.all( widgetPromisesArray )
-	.then(async function(widgetPromisesArrayComplete) {
-		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
-			// console.log(widgetData);
-			if(widgetData) {
-				return await generateHTMLWidget(
-				 	widgetData.id,
-				 	cs_widgetConfig[widgetData.id].width,
-				 	"cs_main_"+ widgetData.id,
-				 	"widgetData_"+ index,
-				 	cs_widgetConfig[widgetData.id].targetdiv,
-				 	"cs_"+ widgetData.id,
-				 	widgetData);
-				//return await Promise.resolve(widgetData);
-			}
-		});
-		//return Promise.resolve(renderedWidgets);
-	})
-	.then(async function(renderedWidgetsResp) {
-		// console.log("%cbuildWidgets WIDGETS DISPLAYED", "color:#00ffff;");
-		// console.log(renderedWidgetsResp);
-		setPreloader(gpeUSRCONTENTDIV, "off");
-		$("canvas").each(function() {
-			var chart = Chart.getChart($(this).attr("id"));
-			chart.update();
+		let widgetPromisesArray = [];
+		accessArrArg.forEach(function(widget) {
+			widgetPromisesArray.push(getWidgetData_v2(widget));
 		});
 
-		return renderedWidgetsResp;
-	})
-	.catch( error => console.error( "Error in getting widget data: " + error ) );
-}
-
-/**
- * getWidgetData - Executes different functions based on widget availability
- * @param {array} widgetIDArg - Array 
- * @returns Content from function
- */
- async function getWidgetData_v2( moduleArg ) {
-	switch ( moduleArg ) {
-		case "LMS":
-			const lmsWidget_InspiredBySubjects = getInspiredBySubjects(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.INSPIRED_BY_SUBJECTS.ID, moduleArg);
-			const lmsWidget_TrendingforJob = getTrendingForJob(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.TRENDING_FOR_JOB.ID, moduleArg);
-//			const lmsWidget_AssignedTraining = getAssignedTraining(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.ASSIGNED_TRAINING.ID, moduleArg);
-			const lmsWidget_TranscriptMetics = getTranscriptMetrics(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.TRAINING_METRICS.ID, moduleArg);
-			
-			return await Promise.all([lmsWidget_InspiredBySubjects, lmsWidget_TrendingforJob, lmsWidget_TranscriptMetics]);
-		case "EPM":
-			const checkinWidget 	= await getCheckinsDetails( cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.CHECKINS.ID, moduleArg );
-			const goalWidget 		= await Promise.resolve(getDonutDetails( cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.GOAL_PROGRESS.ID,  "/phnx/driver.aspx?routename=Goals/GoalList", moduleArg));
-			const devplanWidget 	= await Promise.resolve(getDonutDetails( cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.DEVPLAN_PROGRESS.ID,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot", moduleArg));
-			
-			return await Promise.all([checkinWidget, goalWidget, devplanWidget]);
-		case "ATS":
-			const atsWidget_AllCandidates 	= getAllCandidates(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.TOTALCANDIDATES.ID, moduleArg);
-			const atsWidget_NewSubmissions 	= getNewSubmissions(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.NEWSUBMISSIONS.ID, moduleArg);
-			const atsWidget_NewHires 		= getNewHires(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.NEWHIRES.ID, moduleArg);
-			
-			return await Promise.all([atsWidget_AllCandidates,atsWidget_NewSubmissions,atsWidget_NewHires]);
+		return await Promise.all( widgetPromisesArray )
+		.then(async function(widgetPromisesArrayComplete) {
+			return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
+				if(widgetData != null){
+					widgetData.forEach(function(widget){
+						console.log(widget);
+						return generateHTMLWidget(
+							widget.id, 
+							"12", 
+							"widgetCard_"+ widget.id, 
+							"widgetWrapper_"+ widget.id,
+							widget.id,
+							"cs_"+ widget.id, 
+							widget);					
+					});
+				}
+			});
+		})
+		.then(async function(renderedWidgetsResp) {
+			setPreloader(gpeUSRCONTENTDIV, "off");
+			$("canvas").each(function() {
+				var chart = Chart.getChart($(this).attr("id"));
+				chart.update();
+			});
+			return renderedWidgetsResp;
+		})
+		.catch( error => console.error( "Error in getting widget data: " + error ) );
+	}
+	else {
+		console.log("accessArrArg is empty - cannot build widgets.");
 	}
 }
 
@@ -1905,20 +848,29 @@ async function buildWidgets( accessArrArg, cultureArg ) {
  * @param {array} widgetIDArg - Array 
  * @returns Content from function
  */
-async function getWidgetData( widgetIDArg ) {
-	switch ( widgetIDArg.id ) {
-		case "view_your_transcript":
-			return await getTranscriptDetails( widgetIDArg.id );
-		case "performance_reviews":
-			return await getActionsDetails( widgetIDArg.id );
-		case "check_ins":
-			return await getCheckinsDetails( widgetIDArg.id );
-		case "goals":
-			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Goals/GoalList"));
-		case "development_plans":
-			return await Promise.resolve(getDonutDetails( widgetIDArg.id,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot"));
-		case "live_feed":
-			return await getFeedDetails( widgetIDArg.id );
+ async function getWidgetData_v2( moduleArg ) {
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+
+	switch ( moduleArg ) {
+		case "LMS":
+			const lmsWidget_InspiredBySubjects = getInspiredBySubjects(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.INSPIRED_BY_SUBJECTS.ID, moduleArg);
+			const lmsWidget_TrendingforJob = getTrendingForJob(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.TRENDING_FOR_JOB.ID, moduleArg);
+//			const lmsWidget_AssignedTraining = getAssignedTraining(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.ASSIGNED_TRAINING.ID, moduleArg);
+			const lmsWidget_TranscriptMetics = getTranscriptMetrics(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.TRAINING_METRICS.ID, moduleArg);
+			
+			return await Promise.all([lmsWidget_InspiredBySubjects, lmsWidget_TrendingforJob, lmsWidget_TranscriptMetics]);
+		case "EPM":
+			const checkinWidget 	= await getCheckinsDetails( cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.CHECKINS.ID, moduleArg );
+			const goalWidget 		= await Promise.resolve(getDonutDetails( cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.GOAL_PROGRESS.ID,  "/phnx/driver.aspx?routename=Goals/GoalList", moduleArg));
+			const devplanWidget 	= await Promise.resolve(getDonutDetails( cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.DEVPLAN_PROGRESS.ID,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot", moduleArg));
+			
+			return await Promise.all([checkinWidget, goalWidget, devplanWidget]);
+		case "ATS":
+			const atsWidget_AllCandidates 	= getAllCandidates(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.TOTALCANDIDATES.ID, moduleArg);
+			const atsWidget_NewSubmissions 	= getNewSubmissions(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.NEWSUBMISSIONS.ID, moduleArg);
+			const atsWidget_NewHires 		= getNewHires(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.NEWHIRES.ID, moduleArg);
+			
+			return await Promise.all([atsWidget_AllCandidates,atsWidget_NewSubmissions,atsWidget_NewHires]);
 	}
 }
 
@@ -1935,7 +887,9 @@ async function getWidgetData( widgetIDArg ) {
  * @returns
  */
 function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg ) {
-	const accessURLs = JSON.parse(sessionStorage.csAccessURLs);
+
+	const cs_widgetConfig 	= JSON.parse(sessionStorage.csWidgetConfig);
+	const accessURLs 		= JSON.parse(sessionStorage.csAccessURLs);
 	let widgetData = accessURLs.find(widgetDetails => {
 		return widgetDetails.title === widgetIDArg;
 	});
@@ -1945,23 +899,21 @@ function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg,
 		tmpRowDiv = document.getElementById( rowIDArg );
 	} else {
 		tmpRowDiv = document.createElement( "div" );
-		tmpRowDiv.setAttribute( "id", rowIDArg ); //"cs_main_transcript"
-//		tmpRowDiv.setAttribute( "data-position", widgetData.widgetPrio ); //"cs_main_transcript"
-		//		tmpRowDiv.className = "widgetData";
-		tmpRowDiv.className = "widgetData col-md-" + columnWidthArg; //"col-md-12";
+		tmpRowDiv.setAttribute( "id", rowIDArg );
+
+		tmpRowDiv.className = "widgetData col-md-" + columnWidthArg;
 	}
 
 	var tmpColDiv = document.createElement( "div" );
-	//	tmpColDiv.className = "col-md-"+ colArg; //"col-md-12";
-	tmpColDiv.setAttribute( "id", columnIDArg +"widget"); //"cs_main_transcript"
+	tmpColDiv.setAttribute( "id", columnIDArg +"widget");
 
 	var tmpCardParent = document.createElement( "div" );
 	tmpCardParent.className = "card";
 
 	var tmpCardHeader = document.createElement( "a" );
 	tmpCardHeader.className = "card-header";
-	tmpCardHeader.innerHTML = cs_widgetConfig[widgetIDArg].title[sessionStorage.csCulture]; //accessArr[accessItem]["title"];
-	tmpCardHeader.setAttribute( 'href', cs_widgetConfig[widgetIDArg].url );
+	tmpCardHeader.innerHTML = cs_widgetConfig[0][widgetIDArg].title[sessionStorage.csCulture];
+	tmpCardHeader.setAttribute( 'href', cs_widgetConfig[0][widgetIDArg].url );
 
 	var tmpCardBody = document.createElement( "div" );
 	tmpCardBody.className = "card-body";
@@ -1977,7 +929,7 @@ function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg,
 	tmpColDiv.appendChild( tmpCardParent );
 	tmpRowDiv.appendChild( tmpColDiv );
 
-	var mainContent = document.getElementById( targetColDivIDArg ); // "cs_main_center"
+	var mainContent = document.getElementById( targetColDivIDArg );
 	mainContent.appendChild( tmpRowDiv );
 
 	return tmpRowDiv;
@@ -2001,20 +953,20 @@ async function generateHTMLCard( cardTitleArg, cardTitleHrefArg, colArg, colIDAr
 		tmpRowDiv = document.getElementById( rowIDArg );
 	} else {
 		tmpRowDiv = document.createElement( "div" );
-		tmpRowDiv.setAttribute( "id", rowIDArg ); //"cs_main_transcript"
+		tmpRowDiv.setAttribute( "id", rowIDArg );
 		tmpRowDiv.className = "row";
 	}
 
 	var tmpColDiv = document.createElement( "div" );
-	tmpColDiv.className = "col-md-" + colArg; //"col-md-12";
-	tmpColDiv.setAttribute( "id", colIDArg ); //"cs_main_transcript"
+	tmpColDiv.className = "col-md-" + colArg;
+	tmpColDiv.setAttribute( "id", colIDArg );
 
 	var tmpCardParent = document.createElement( "div" );
 	tmpCardParent.className = "card";
 
 	var tmpCardHeader = document.createElement( "a" );
 	tmpCardHeader.className = "card-header";
-	tmpCardHeader.innerHTML = cardTitleArg; //accessArr[accessItem]["title"];
+	tmpCardHeader.innerHTML = cardTitleArg;
 	tmpCardHeader.setAttribute( 'href', cardTitleHrefArg );
 
 	var tmpCardBody = document.createElement( "div" );
@@ -2022,10 +974,6 @@ async function generateHTMLCard( cardTitleArg, cardTitleHrefArg, colArg, colIDAr
 
 	var tmpCardContent = document.createElement( "div" );
 	tmpCardContent.className = contentDivClassArg;
-
-	// var preLoader = document.createElement( "div" );
-	// preLoader.className = "loader";
-	// tmpCardBody.appendChild( preLoader );
 
 	tmpCardContent = contentArg;
 
@@ -2035,103 +983,10 @@ async function generateHTMLCard( cardTitleArg, cardTitleHrefArg, colArg, colIDAr
 	tmpColDiv.appendChild( tmpCardParent );
 	tmpRowDiv.appendChild( tmpColDiv );
 
-	var mainContent = document.getElementById( targetColDivIDArg ); // "cs_main_center"
+	var mainContent = document.getElementById( targetColDivIDArg );
 	mainContent.appendChild( tmpRowDiv );
 
-	//	$("div[class='"+contentDivClassArg+"'] .loader").css("display","none");
-	//	console.log("------------------ - - - - - -"+ rowIDArg);
 	return rowIDArg;
-}
-
-/*
- * Build Quick Links page
- */
-/**
- *
- * @param
- * @param
- * @returns
- */
-async function buildQuickLinksCard( accessArrArg, cultureArg ) {
-	if ( !document.getElementById( "gpeQLSMain" ) ) {
-		let tmpRowDivQLS = document.createElement( "div" );
-		tmpRowDivQLS.setAttribute( "id", "gpeQLSMain" ); //"cs_main_transcript"
-		tmpRowDivQLS.className = "row";
-
-		/* BTN START */
-		let qlArrTmp = multiSort( getAccessDetails( accessArrArg ), {
-			module: 'asc',
-			quicklinkPrio: 'asc'
-		} );
-		let qlArr = {};
-
-		let counter = 0;
-		qlArrTmp.forEach( function( o ) {
-			var k = o.module;
-			if ( !qlArr[ k ] ) {
-				qlArr[ k ] = [];
-				counter = 0;
-			}
-			if ( counter < 10 ) qlArr[ k ].push( o );
-			counter++;
-		} );
-
-		$.each( qlArr, function( e, i, a ) {
-			let tmpColDiv = document.createElement( "div" );
-			tmpColDiv.className = "col-md-6";
-			tmpColDiv.setAttribute( "id", "cs_main_quicklinks" ); //"cs_main_transcript"
-
-			let tmpCardParent = document.createElement( "div" );
-			tmpCardParent.className = "card";
-
-			let tmpCardHeader = document.createElement( "a" );
-			tmpCardHeader.className = "card-header";
-			tmpCardHeader.innerHTML = cs_customLocale.moduleTitle[ e ][ cultureArg ]; //accessArr[accessItem]["title"];
-
-			let tmpCardBody = document.createElement( "div" );
-			tmpCardBody.className = "card-body";
-
-			let tmpContentDiv = document.createElement( "div" );
-			tmpContentDiv.className = "quicklinks";
-
-			$.each( i.slice( 0, 5 ), function( e1, i1, a1 ) {
-				if ( i1.quicklinkPrio != 99 ) {
-					const tmpQLS_Div = document.createElement( "div" );
-					tmpQLS_Div.className = "qls_btn_"+i1.module+"-"+i1.id;
-					tmpQLS_Div.setAttribute( "priority", i1.quicklinkPrio );
-
-					const tmpQLS_Href = document.createElement( "div" );
-					tmpQLS_Href.className = "position-relative ";
-					// tmpQLS_Href.setAttribute( "href", i1.url );
-
-					const tmpQLS_Button = document.createElement( "button" );
-					tmpQLS_Button.setAttribute("data-href", i1.url);
-					tmpQLS_Button.setAttribute("type", "button");
-					tmpQLS_Button.setAttribute( "content", i1.title);
-					tmpQLS_Button.className = "quicklinks_button";
-					tmpQLS_Button.textContent = i1.title;
-
-					tmpQLS_Href.appendChild( tmpQLS_Button );
-					tmpQLS_Div.appendChild( tmpQLS_Href );
-					tmpContentDiv.appendChild( tmpQLS_Div );
-				}
-			} );
-
-			tmpCardBody.appendChild( tmpContentDiv );
-
-			tmpCardParent.append( tmpCardHeader, tmpCardBody );
-			tmpColDiv.appendChild( tmpCardParent );
-			tmpRowDivQLS.appendChild( tmpColDiv );
-		} );
-
-		/* BTN END */
-
-		let mainContent = document.getElementById( gpeQUICKLINKSMAINDIV );
-		mainContent.appendChild( tmpRowDivQLS );
-		return mainContent;
-	} else {
-		return true;
-	}
 }
 
 /**
@@ -2266,155 +1121,6 @@ function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
 	return aprvlDiv;
 }
 
-/**
- * getTranscriptDetails - Takes data from Transcript widget and displays on page in a different way (in a table). There's a limit on only display the top 10...
- * @param {string} contentDivClassArg - HTML Div where to put the widget.
-  * @returns {array} tmpContentDiv - finalized HTML div with all content.
- */
-async function getTranscriptDetails( contentDivClassArg ) {
-		var tmpContentDiv = document.createElement( "div" );
-		tmpContentDiv.className = contentDivClassArg;
-		tmpContentDiv.setAttribute( "id", contentDivClassArg );
-
-		var tmpContent = document.querySelector( "div[data-tag='pnlMyTraining'] div[id$='_widgetContainer_ctl00_upnlList'] table" );
-		let data = [];
-		if(tmpContent.rows.length >= 1){
-			data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
-				return td.innerHTML.replace( /\s+/g, ' ' ).trim();
-			} ) );
-			data.shift();
-		}
-
-		var columns = [ {
-				title: cs_widgetConfig[contentDivClassArg].tablecolumns.title[sessionStorage.csCulture],
-				sortable: true
-		},
-			{
-				title: cs_widgetConfig[contentDivClassArg].tablecolumns.duedate[sessionStorage.csCulture],
-				sortable: true
-		},
-			{
-				title: cs_widgetConfig[contentDivClassArg].tablecolumns.status[sessionStorage.csCulture],
-				sortable: true
-		},
-			{
-				title: cs_widgetConfig[contentDivClassArg].tablecolumns.action[sessionStorage.csCulture],
-				sortable: false
-		}
-	];
-
-		var $table;
-		$table = $( '<table>' );
-		$table.appendTo( tmpContentDiv );
-		$table.bootstrapTable( {
-			locale: sessionStorage.csCulture,
-			pageSize: 10,
-			pagination: false, // Allow pagination
-			search: true, // Allow search
-			checkboxHeader: false,
-			showToggle: false,
-			detailView: false,
-			columns: columns,
-			data: data
-		} );
-		return await tmpContentDiv;
-}
-
-/**
- * getTranscriptDetailsV2 - Takes data via API and displays on page in a different way (in a table)
- * @param {string} contentDivClassArg - HTML Div where to put the widget.
-  * @returns {array} tmpContentDiv - finalized HTML div with all content.
- */
- async function getTranscriptDetailsV2( contentDivClassArg ) {
-    return await checkJWT()
-    	.then( async function() {
-			let params = {
-				"UserId": "csanders@CS_en-US"
-			};
-			  
-			  let query = Object.keys(params)
-						   .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-						   .join('&');
-			  
-			  let url = '/services/api/TranscriptAndTask/Transcript?' + query;
-
-    		// let rptURL = "/services/api/lms/user/"+ sessionStorage.csUser +"/transcript?isCompleted=false&isArchived=false&isRemoved=false&isStandAlone=true&sortCriteria=StatusChangeDate&pageSize=20&pageNum=1";
-    		let rptURL = "/services/api/TranscriptAndTask/Transcript?UserId=48";
-    		return await fetch( url, {
-    			method: 'GET',
-    			headers: {
-    				'Content-Type': 'application/json',
-    				'Authorization': 'Bearer ' + sessionStorage.csToken,
-    			},
-    		} );
-    	} )
-    	.then( response => response.json() )
-    	.then( async function( userTranscript ) {
-			console.log( userTranscript.data );
-		} );
-
- }
-/**
- *
- * @param
- * @param
- * @returns
- */
-async function getActionsDetails( contentDivClassArg ) {
-	
-	var tmpContentDiv = document.createElement( "div" );
-	tmpContentDiv.className = contentDivClassArg;
-	tmpContentDiv.setAttribute( "id", contentDivClassArg );
-
-	var tmpContent = document.querySelector( "div[data-tag='pnlActionItems'] table[id*='_pnlActionItems_content'] table tbody" );
-	var columns = [];
-	var data = [];
-	let actionData = [];
-	if(tmpContent != null ){
-		data = [ ...tmpContent.rows ].map( row => [ ...row.cells ].map( td => {
-			return td.innerHTML.replace( /\s+/g, ' ' ).trim();
-		} ) );
-
-		data.shift();
-		actionData = data.map(function(actionItem){
-			return {
-				url: actionItem[0],
-				duedate: actionItem[1]
-			};
-		});
-		
-		columns = [ {
-			title: cs_widgetConfig[contentDivClassArg].tablecolumns.url[sessionStorage.csCulture],
-			field: "url",
-			sortable: false,
-			visible: true
-
-		},
-		{
-			title: cs_widgetConfig[contentDivClassArg].tablecolumns.duedate[sessionStorage.csCulture],
-			field: "duedate",
-			sortable: true,
-			visible: true
-		}];
-	}	
-
-	var $table;
-	$table = $( '<table>' );
-	$table.appendTo( tmpContentDiv );
-	$table.bootstrapTable( {
-		locale: sessionStorage.csCulture,
-		pageSize: 10,
-		pagination: false, // Allow pagination
-		search: true, // Allow search
-		checkboxHeader: false,
-		showToggle: false,
-		detailView: false,
-		columns: columns,
-		data: actionData
-	} );
-
-	return await tmpContentDiv;
-}
 
 /**
  *
@@ -2423,6 +1129,10 @@ async function getActionsDetails( contentDivClassArg ) {
  * @returns
  */
 async function getDonutDetails( widgetIDArg, urlArg, moduleArg) {
+	
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	let csConfigModuleWidget = moduleArg+"-"+widgetIDArg;
+
 	return await Promise.resolve( await fetch( urlArg ) )
 		.then( async function( data) {
 		    // console.log("%cDONUT DATA LOAD: "+ data, "color:#ccaa00;");
@@ -2431,9 +1141,9 @@ async function getDonutDetails( widgetIDArg, urlArg, moduleArg) {
 		.then( async function( dataResponse ) {
 			// console.log("%cDONUT CHECK: "+ contentDivClassArg, "color:#ccaa00;");
 			switch(widgetIDArg) {
-				case cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.GOAL_PROGRESS.ID:
+				case cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.GOAL_PROGRESS.ID:
 					return await $( dataResponse ).find( '.percentage' ).attr( "data-percent" );
-				case cs_widgetConfig.EMPLOYEE.MODULES.EPM.WIDGETS.DEVPLAN_PROGRESS.ID:
+				case cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.DEVPLAN_PROGRESS.ID:
 					return await $( dataResponse ).find( "a[href*='/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew']" ).closest( "div[class*='dashboard-widget-content']" ).find(".percentage span").text();
 			}
 		})
@@ -2446,9 +1156,9 @@ async function getDonutDetails( widgetIDArg, urlArg, moduleArg) {
 			if(achievedData != 0) {
 				return await Promise.resolve(await drawDonut( achievedData, widgetIDArg, tmpContentDiv));
 			}else {
-				let tempTitle = cs_widgetConfig[widgetIDArg].nocontenttitle[ sessionStorage.csCulture ];
+				let tempTitle = cs_widgetConfig[0][csConfigModuleWidget].nocontenttitle[ sessionStorage.csCulture ];
 				let noContentStr = "<div class='nocontent donut'>";
-				noContentStr += "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button' data-href='"+cs_widgetConfig[widgetIDArg].getstartedurl+"'>" + tempTitle + "</button>";
+				noContentStr += "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button' data-href='"+cs_widgetConfig[0][csConfigModuleWidget].getstartedurl+"'>" + tempTitle + "</button>";
 				noContentStr += "</div>";
 				tmpContentDiv.innerHTML = noContentStr; 
 				return await tmpContentDiv;
@@ -2625,6 +1335,7 @@ function checkJWT() {
  * @returns HTML table to be put on the welcome page
  */
 async function buildExtendedWidget( accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg ) {
+	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
 	const userName = usernameArg[ 0 ][ 0 ].concat( usernameArg[ 1 ] );
 	var rowID = "";
 	let reportToken = checkReportToken();
@@ -2635,7 +1346,7 @@ async function buildExtendedWidget( accessArrArg, appendDivArg, reportIDArg, use
 			reportContentDiv.setAttribute( "id", "userReport" + reportIDArg );
 			reportContentDiv.className = "user_table";
 
-			var cardTitle = cs_customLocale.ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
+			var cardTitle = cs_customLocale[0].ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
 			var cardLink = ""; // cardTitleHrefArg - URL on the card title.
 			var cardWidth = 12; // colArg - Bootstrap column width. Max 12.
 			var cardColID = "userReport_Col_" + reportIDArg; // colIDArg - ID of the card column.
@@ -2767,91 +1478,6 @@ async function getTranscriptsStats(userIDArrayArg){
     return await Promise.all(promiseArray);
 }
 
-		// Use this for approval widget, instead of page scraping (as-is)
-		//let rptURL = "/services/api/TranscriptAndTask/Inbox?UserId=csanders@CS_en-US&Language=de-DE";
-
-		// Possibly use this instead of action widget
-		//let rptURL = "/services/api/TranscriptAndTask/Task?UserId=csanders@CS_en-US&Language={LANGUAGE}";
-
-		// Get transcript
-		//let rptURL = "/services/api/TranscriptAndTask/Transcript?UserId=csanders@CS_en-US&InprogressOnly=true&Language=de-DE"
-
-		// Get certifications
-		// let rptURL = "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId=rjones@CS_en-US"
-		
-		// Get Goal details
-		// let rptURL = "/services/api/Goals/GetDetails?UserId=rjones@CS_en-US&StartDate=2021-01-01&EndDate=2021-12-31";
-
-		// Get team... does include user's manager.
-		// let rptURL = "/services/api/Search/Team/47?page=1&amp;pageSize=10";
-
-		// Get overall details (URLS + image)	
-		// let rptURL = "/services/api/LMS/user/47";
-
-		// LMS Metrics (own user only)
-		// let rptURL = "/services/api/LMS/user/47/transcript/metrics";
-
-		// Get recommended training (own user only)
-		// let rptURL = "/services/api/LMS/user/47/recommendedtraining";
-
-		// Learner Home details (own users)
-		// let rptURL = "/services/api/bff/learnerhome/user/47/stats";
-
-function play() {
-	checkJWT()
-	.then( async function() {
-		// transcript?isCompleted=false&isArchived=false&isRemoved=false&isStandAlone=true&sortCriteria=StatusChangeDate&pageSize=20&pageNum=1
-		 //let rptURL = "/services/api/lms/user/47/transcript?hasDueDate=true&isCompleted=false&isArchived=false&isRemoved=false&page=1&pageSize=20&sortCriteria=DueDate&sortDirection=Ascending";
-		// let rptURL = "/services/api/lms/user/49/recommendedtraining?type=Position&pageSize=20&pageNum=1";
-		// let rptURL = "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId=rjones@CS_en-US";
-		// let rptURL = "/v1/users/47/default-password";
-		//let rptURL = "/services/api/LMS/user/47/transcript/metrics";
-		//let rptURL = "/services/api/bff/learnerhome/user/47/stats";
-		//let rptURL = "https://us-demo.api.csod.com/rec-manage-candidates/v1/candidates";
-		let rptURL = "/services/api/x/users/v2/employees";
-
-		return await fetch( rptURL, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-		} );
-	} )
-	.then( response => response.json() )
-	.then( async function( userData ) {
-		console.dir(userData);
-	} );
-}
-
-function playPost() {
-	checkJWT()
-	.then( async function() {
-		// transcript?isCompleted=false&isArchived=false&isRemoved=false&isStandAlone=true&sortCriteria=StatusChangeDate&pageSize=20&pageNum=1
-		 //let rptURL = "/services/api/lms/user/47/transcript?hasDueDate=true&isCompleted=false&isArchived=false&isRemoved=false&page=1&pageSize=20&sortCriteria=DueDate&sortDirection=Ascending";
-		// let rptURL = "/services/api/lms/user/49/recommendedtraining?type=Position&pageSize=20&pageNum=1";
-		// let rptURL = "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId=rjones@CS_en-US";
-		// let rptURL = "/v1/users/47/default-password";
-		//let rptURL = "/services/api/LMS/user/47/transcript/metrics";
-		//let rptURL = "/services/api/bff/learnerhome/user/47/stats";
-		let rptURL = "https://us-demo.api.csod.com/rec-manage-candidates/v1/candidates";
-
-		var payload = 	{"filters":{"statusIds":[],"flagIds":[],"sourceIds":[],"requisitionIds":[],"candidateIds":[],"onlyOpenRequisitions":true,"onlyActiveCandidates":true,"keywords":"","onlyMyRequisitions":true,"requisitionNameSearchTerm":""},"paging":{"pageSize":20,"pageNumber":1,"sortOrder":"SubmissionDateDescending"},"include":["Candidates","AvailableFilters","StatusCategories"]};
-		return await fetch( rptURL, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-			body: JSON.stringify( payload )
-		} );
-	} )
-	.then( response => response.json() )
-	.then( async function( userData ) {
-		console.dir(userData);
-	} );
-}
-
 /**
  * buildExtendedWidgetV2 - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
  * @param {array} accessArrArg - Array of available navigation items which is based on user's security role (permissions).
@@ -2859,6 +1485,10 @@ function playPost() {
  * @returns HTML table to be put on the welcome page
  */
 async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+
     return await checkJWT()
     	.then( async function() {
 //			let rptUrl = "/services/api/Search/Team/"+ sessionStorage.csUser;
@@ -2966,14 +1596,14 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
                 field: "id",
                 visible: false
                 }, {
-                    title: cs_widgetConfig.managerwidget.tableheader.name[sessionStorage.csCulture],
+                    title: cs_widgetConfig[0].managerwidget.tableheader.name[sessionStorage.csCulture],
                     field: "fullName"
                 }, {
-                    title: cs_widgetConfig.managerwidget.tableheader.hiredate[sessionStorage.csCulture],
+                    title: cs_widgetConfig[0].managerwidget.tableheader.hiredate[sessionStorage.csCulture],
                     field: "hiredate"
                 },
                 {
-                    title: cs_widgetConfig.managerwidget.tableheader.actions[sessionStorage.csCulture],
+                    title: cs_widgetConfig[0].managerwidget.tableheader.actions[sessionStorage.csCulture],
                     field: "action",
                     align: "center",
                     clickToSelect: false,
@@ -3012,7 +1642,7 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
 				data: emplData
 			} );
 
-			var cardTitle = cs_customLocale.ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
+			var cardTitle = cs_customLocale[0].ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
 			var cardLink = "#"; // cardTitleHrefArg - URL on the card title.
 			var cardWidth = 12; // colArg - Bootstrap column width. Max 12.
 			var cardColID = "userReport_Col"; // colIDArg - ID of the card column.
@@ -3036,20 +1666,22 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
  * @returns html array to put inside the right cell within the table
  */
 function operateFormatter(value, row, index) {
-  return [
-      '<div class="dropdown">',
-        '<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">',
-        cs_widgetConfig.managerwidget.tableheader.actions[sessionStorage.csCulture],
-        '</a>',
-        '<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.openup[sessionStorage.csCulture] +'</a></li>',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.viewtranscript[sessionStorage.csCulture] +'</a></li>',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.viewsnapshot[sessionStorage.csCulture] +'</a></li>',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.viewgoals[sessionStorage.csCulture] +'</a></li>',
-          '<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser='+ row.id +'">'+ cs_widgetConfig.managerwidget.actionsitems.viewdevplan[sessionStorage.csCulture] +'</a></li>',
-        '</ul>',
-      '</div>'
-    ].join('');
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+
+	return [
+		'<div class="dropdown">',
+		'<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">',
+		cs_widgetConfig[0].managerwidget.tableheader.actions[sessionStorage.csCulture],
+		'</a>',
+		'<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">',
+			'<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser='+ row.id +'">'+ cs_widgetConfig[0].managerwidget.actionsitems.openup[sessionStorage.csCulture] +'</a></li>',
+			'<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser='+ row.id +'">'+ cs_widgetConfig[0].managerwidget.actionsitems.viewtranscript[sessionStorage.csCulture] +'</a></li>',
+			'<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser='+ row.id +'">'+ cs_widgetConfig[0].managerwidget.actionsitems.viewsnapshot[sessionStorage.csCulture] +'</a></li>',
+			'<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser='+ row.id +'">'+ cs_widgetConfig[0].managerwidget.actionsitems.viewgoals[sessionStorage.csCulture] +'</a></li>',
+			'<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser='+ row.id +'">'+ cs_widgetConfig[0].managerwidget.actionsitems.viewdevplan[sessionStorage.csCulture] +'</a></li>',
+		'</ul>',
+		'</div>'
+	].join('');
 }
 
 /**
@@ -3059,6 +1691,9 @@ function operateFormatter(value, row, index) {
  * @returns html array to put inside the right cell within the table
  */
 function detailFormatter(index, row) {
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+
 	let html = [];
 
 	html.push('<div class="col-xs-12 col-sm-12 col-md-12">');
@@ -3070,23 +1705,23 @@ function detailFormatter(index, row) {
 	// html.push('<b>'+ row.fullName  +'</b></h5>');
 	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
 	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.firstname[sessionStorage.csCulture] +'</td>');
+	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.firstname[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.firstName +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.lastname[sessionStorage.csCulture] +'</td>');
+	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.lastname[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.lastName +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.email[sessionStorage.csCulture] +'</td>');
+	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.email[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.primaryEmail +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.phone[sessionStorage.csCulture] +'</td>');
+	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.phone[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.workPhone +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.hiredate[sessionStorage.csCulture] +'</td>');
+	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.hiredate[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.hiredate +'</td>');
 	html.push('</tr>');
 	html.push('</table>');
@@ -3096,19 +1731,19 @@ function detailFormatter(index, row) {
 	// html.push('<h5><b>'+ cs_widgetConfig.managerwidget.detailtable.addressdetails[sessionStorage.csCulture] +'</b></h5>');
 	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
 	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.address[sessionStorage.csCulture] +'</td>');
+	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.address[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.address.line1 +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.city[sessionStorage.csCulture] +'</td>');
+	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.city[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.address.city +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.state[sessionStorage.csCulture] +'</td>');
+	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.state[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.address.state +'</td>');
 	html.push('</tr>');
 	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig.managerwidget.detailtable.country[sessionStorage.csCulture] +'</td>');
+	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.country[sessionStorage.csCulture] +'</td>');
 	html.push('<td>'+ row.address.country +'</td>');
 	html.push('</tr>');
 	html.push('</table>');
@@ -3121,9 +1756,7 @@ function detailFormatter(index, row) {
 	return html.join('');
    }
 
-   let htmlStr = "";
 async function getNewHires(widgetArg, moduleArg) {
-	let jsonDiv = moduleArg+"-"+widgetArg;
 	const tmpContentDiv = document.createElement( "div" );
 	tmpContentDiv.className = widgetArg;
 	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
@@ -3141,7 +1774,7 @@ async function getNewHires(widgetArg, moduleArg) {
 		editor.find("div[rel='dropDownButton']").remove();
 		var newHtml = editor.html();
 
-		htmlStr = $(newHtml).find(".content > div[ct='HBoxLayout'] ");
+		let	htmlStr = $(newHtml).find(".content > div[ct='HBoxLayout'] ");
 		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 		htmlStr.each(function(index, newhireItem){
 			summaryStr += "<div class='summaryItem col-md-6'>";
@@ -3163,7 +1796,10 @@ async function getNewHires(widgetArg, moduleArg) {
 }
 
 async function getNewSubmissions(widgetArg, moduleArg){
-	let jsonDiv = moduleArg+"-"+widgetArg;
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	let csConfigModuleWidget = moduleArg+"-"+widgetArg;
+
 	const tmpContentDiv = document.createElement( "div" );
 	tmpContentDiv.className = widgetArg;
 	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
@@ -3187,9 +1823,8 @@ async function getNewSubmissions(widgetArg, moduleArg){
 		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 		summaryStr += "<div class='summaryItem col-md-12'>";
 		summaryStr += "<div class='gpe-center'>";
-		summaryStr += "<a href='/ui/ats-manage-candidates/managecandidates'>";
+		summaryStr += "<a href='"+cs_widgetConfig[0][csConfigModuleWidget].url+"'>";
 		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.statusCategories[1].count+"</div>";
-//		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].pastdueDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";		
@@ -3204,10 +1839,13 @@ async function getNewSubmissions(widgetArg, moduleArg){
 }
 
 async function getAllCandidates(widgetArg, moduleArg){
-	let jsonDiv = moduleArg+"-"+widgetArg;
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	let csConfigModuleWidget = moduleArg+"-"+widgetArg;
+
 	const tmpContentDiv = document.createElement( "div" );
 	tmpContentDiv.className = widgetArg;
-	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
+	tmpContentDiv.setAttribute( "id", csConfigModuleWidget );
 
 	return await checkJWT()
 	.then( async function() {
@@ -3228,9 +1866,8 @@ async function getAllCandidates(widgetArg, moduleArg){
 		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 		summaryStr += "<div class='summaryItem col-md-12'>";
 		summaryStr += "<div class='gpe-center'>";
-		summaryStr += "<a href='/ui/ats-manage-candidates/managecandidates'>";
+		summaryStr += "<a href='"+cs_widgetConfig[0][csConfigModuleWidget].url+"'>";
 		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.totalItems+"</div>";
-//		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].pastdueDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";		
@@ -3245,7 +1882,10 @@ async function getAllCandidates(widgetArg, moduleArg){
 }
 
 async function getTranscriptMetrics(widgetArg, moduleArg) {
-	let jsonDiv = moduleArg+"-"+widgetArg;
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	let csConfigModuleWidget = moduleArg+"-"+widgetArg;
+
 	const tmpContentDiv = document.createElement( "div" );
 	tmpContentDiv.className = widgetArg;
 	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
@@ -3271,7 +1911,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 		summaryStr += "<div class='pastDueCount gpe-bold gpe-text20'>"+localStr.data[0].metrics.pastDueCount+"</div>";
-		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].pastdueDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].pastdueDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -3279,7 +1919,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 		summaryStr += "<div class='dueSoonCount gpe-bold gpe-text20'>"+localStr.data[0].metrics.dueSoonCount+"</div>";
-		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].dueSoonDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].dueSoonDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -3287,7 +1927,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 		summaryStr += "<div class='noDueDateCount gpe-bold gpe-text20'>"+localStr.data[0].metrics.noDueDateCount+"</div>";
-		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].assignedNoDueDateDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].assignedNoDueDateDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -3298,7 +1938,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
 		summaryStr += "<div class='pastDueCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numPlaylists+"</div>";
-		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].playlists.createdDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].playlists.createdDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -3306,7 +1946,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
 		summaryStr += "<div class='dueSoonCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowers+"</div>";
-		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].playlists.followersDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].playlists.followersDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -3314,7 +1954,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists?section=followed'>";
 		summaryStr += "<div class='noDueDateCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowed+"</div>";
-		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[jsonDiv].playlists.followedDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].playlists.followedDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -3906,6 +2546,10 @@ async function getInspiredBySubjects(widgetArg, moduleArg){
  * @returns
  */
 async function getCheckinsDetails( widgetArg, moduleArg ) {
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	let csConfigModuleWidget = moduleArg+"-"+widgetArg;
+
 	const tmpContentDiv = document.createElement( "div" );
 	tmpContentDiv.className = widgetArg;
 	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
@@ -4006,7 +2650,7 @@ async function getCheckinsDetails( widgetArg, moduleArg ) {
 
 		} else {
 			checkinStr = "<div class='checkins nocontent'>";
-			checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='"+cs_widgetConfig[widgetArg].getstartedurl+"'>" + cs_widgetConfig[contentDivClassArg].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
+			checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='"+cs_widgetConfig[0][csConfigModuleWidget].getstartedurl+"'>" + cs_widgetConfig[0][csConfigModuleWidget].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
 			checkinStr += "</div>";
 		}
 		//		console.log("checkinStr : "+ checkinStr);
@@ -4016,83 +2660,6 @@ async function getCheckinsDetails( widgetArg, moduleArg ) {
 	.catch( error => {
 		console.error( "Error building Checkins - ", error );
 	} );
-}
-
-/**
- *
- * @param
- * @param
- * @returns
- */
-async function getFeedDetails( contentDivClassArg ) {
-	tmpFeedContentDiv = document.createElement( "div" );
-	tmpFeedContentDiv.className = contentDivClassArg;
-	tmpFeedContentDiv.setAttribute( "id", contentDivClassArg );
-
-	let feedStr = "<table border='0' cellspacing='0' cellpadding='0' width='100%' class='table table-hover'>";
-	var feedArr = {};
-	$( "tr[id^='ctl00_ContentPlaceHolder1_widgetLayout_rptWidgets_'][id*='widgetContainer_ctl00_rChatter_']" ).each( function( index, value ) {
-
-		feedArr[ index ] = {
-			avatarimg: $( this ).find( "img[id$='_imgActorImage']" ).attr( 'src' ),
-			avatarurl: $( this ).find( "a[id$='_aActorImage']" ).attr( 'href' ),
-			name: $( this ).find( ".csod-sf-wplist-message p[id$='pLine1'] a:first" ).text(),
-			action: $.trim( $( this ).find( ".csod-sf-wplist-message p[id$='pLine1'] span" ).text() ),
-			recipient: $( this ).find( ".csod-sf-wplist-message p[id$='pLine1'] a:nth-of-type(2)" ).text(),
-			actiontitle: $.trim( $( this ).find( ".csod-sf-wplist-message p[id$='pLine2']" ).text() ),
-			actionurl: $( this ).find( ".csod-sf-wplist-message p[id$='pLine2'] a" ).attr( 'href' ),
-			actiondate: $( this ).find( ".csod-sf-wplist-message p[id$='pLine3'] span.csod-sf-wplist-ts:first" ).text(),
-			commenturl: $( this ).find( ".csod-sf-wplist-message p[id$='pLine3'] a:first" ).attr( 'href' ),
-			commenttext: $( this ).find( ".csod-sf-wplist-message p[id$='pLine3'] a:first" ).text(),
-		};
-
-		feedStr += "<tr id='feedItem-" + index + "' class='feedItem clickable-row' data-href='" + feedArr[ index ].avatarurl + "'>";
-
-		feedStr += "<td class='checkItemCol'>";
-		feedStr += "<div class='cellContent'>";
-		feedStr += "<div class='upcoming-conversations-list--desktop__title-cell' role='button' tabindex='0'>";
-		feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-avatar' aria-hidden='true'>";
-		feedStr += "<div class='chkAvatarImage' style='background-image:url(" + feedArr[ index ].avatarimg + ")'></div>";
-		feedStr += "</div>";
-		feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail'>";
-
-		var actionDate = "";
-		var theDate = new Date( feedArr[ index ].actiondate ); //.toLocaleDateString('en-GB', { month : 'short', day : 'long'}).split(' ');
-		if ( isNaN( theDate.getTime() ) ) {
-			actionDate = $( this ).find( ".csod-sf-wplist-message p[id$='pLine3'] span.csod-sf-wplist-ts:first" ).text();
-
-		} else {
-			var actionDay = theDate.toLocaleDateString( 'en-GB', {
-				day: 'numeric'
-			} ).split( ' ' );
-			var actionMonth = theDate.toLocaleDateString( 'en-GB', {
-				month: 'short'
-			} ).split( ' ' );
-			actionDate = actionMonth + " " + actionDay;
-
-		}
-		actionDate = "<div class='feedDate'>" + actionDate + "</div>";
-
-		feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__user-name'>" + actionDate + " " + feedArr[ index ].name + " " + feedArr[ index ].action + " " + feedArr[ index ].recipient + "</div>";
-
-
-		if ( feedArr[ index ].actionurl == null ) {
-			feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'><i>" + feedArr[ index ].actiontitle + "</i></div>";
-		} else {
-			feedStr += "<div class='upcoming-conversations-list--desktop__title-cell-detail__title'><a href='" + feedArr[ index ].actionurl + "'>" + feedArr[ index ].actiontitle + "</a></div>";
-		}
-		feedStr += "</div>";
-		feedStr += "</div>";
-		feedStr += "</div>";
-		feedStr += "</td>";
-
-		feedStr += "</tr>";
-	} );
-	feedStr += "</table>";
-
-	tmpFeedContentDiv.innerHTML = feedStr;
-
-	return await tmpFeedContentDiv;
 }
 
 /* Status function - used to pause 202 responses */
@@ -4129,25 +2696,6 @@ async function checkReportToken() {
 	} else {
 		return await updateReportToken();
 	}
-}
-
-/**
- * Updates sessionStorage with refreshed token details
- * @returns
- */
-function updateReportToken_old() {
-	return fetch( "/Analytics/ReportBuilder/index.aspx/GetNewToken", {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		} )
-		.then( response => response.json() )
-		.then( token => {
-			sessionStorage.reportToken = token.d;
-			sessionStorage.reportTokenDate = Date.now();
-			return token.d;
-		} );
 }
 
 /**
@@ -4640,21 +3188,29 @@ function setPreloader(mainDivArg, visibleArg) {
 
  (async function() {
  	await checkJWT()
- 		.then(tokenResponse => {
-			return fetch("https://scfiles.csod.com/Baseline/Config/json/accessURLs.json");
-		})
-		.then(accessURLs => accessURLs.json())
-		.then(async function(accessURLs) {
-			sessionStorage.setItem("csAccessURLs", JSON.stringify(accessURLs));
-			const gpeNav = await buildNav(gpeDEMOROLE, sessionStorage.csCulture, getAccessDetails(accessURLs));
-			const gpeAboutCard = await buildAboutCard();
-//			const gpeQuickLinks = await buildQuickLinksCard(accessURLs, sessionStorage.csCulture);
-			const gpeApprovals = await getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
-			const gpeOnboarding = await buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture);
-			const gpeModuleLayout = await buildModuleWidget(gpeDEMMOMODULES);
+ 		.then(async function(tokenResponse) {
+			const gpe_widgetConfig_v2 = await fetch("https://scfiles.csod.com/Baseline/Config/json/gpe_widgetConfig.json").then(jsonData => jsonData.json());
+			const gpe_customLocale_v2 = await fetch("https://scfiles.csod.com/Baseline/Config/json/gpe_customLocale.json").then(jsonData => jsonData.json());
+			const gpe_accessURLs = await fetch("https://scfiles.csod.com/Baseline/Config/json/accessURLs.json").then(jsonData => jsonData.json());
 
-//			return await Promise.all([gpeNav, gpeAboutCard, gpeQuickLinks, gpeApprovals, accessURLs, gpeOnboarding, gpeModuleLayout]);
-			return await Promise.all([gpeNav, gpeAboutCard, gpeApprovals, accessURLs, gpeOnboarding, gpeModuleLayout]);
+			return await Promise.all([gpe_widgetConfig_v2, gpe_customLocale_v2, gpe_accessURLs]);
+		})
+		.then(async function(gpeJson) {
+			let gpe_widgetConfig_v2 	= gpeJson[0];
+			let gpe_customLocale_v2 	= gpeJson[1];
+			let gpe_accessURLs 			= gpeJson[2];
+
+			sessionStorage.setItem("csWidgetConfig", JSON.stringify(gpe_widgetConfig_v2));
+			sessionStorage.setItem("csCustomLocale", JSON.stringify(gpe_customLocale_v2));
+			sessionStorage.setItem("csAccessURLs", JSON.stringify(gpe_accessURLs));
+
+			const gpeNav 			= await buildNav(gpeDEMOROLE, sessionStorage.csCulture, getAccessDetails(gpe_accessURLs));
+			const gpeAboutCard 		= await buildAboutCard();
+			const gpeApprovals 		= await getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
+			const gpeOnboarding 	= await buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture);
+			const gpeModuleLayout 	= await buildModuleWidget(gpeDEMMOMODULES);
+
+			return await Promise.all([gpeNav, gpeAboutCard, gpeApprovals, gpe_accessURLs, gpeOnboarding, gpeModuleLayout]);
 		})
 		.then(async function([gpeNav, gpeAbt, gpeQLS, gpeAppr, accessURLs]) {
             console.log("NAV/ABT/QLS/APPROVALS DONE");
@@ -4667,12 +3223,12 @@ function setPreloader(mainDivArg, visibleArg) {
             // console.log("READY WITH BASIC WIDGETS!");
 
 			// Fix NiceScroll on feed widget
-			$("#live_feed").niceScroll({
-				cursorborder: "",
-				cursorcolor: "var(--gpewp-banner-bg-color--light)",
-				autohidemode: false,
-				boxzoom: false
-			});
+			// $("#live_feed").niceScroll({
+			// 	cursorborder: "",
+			// 	cursorcolor: "var(--gpewp-banner-bg-color--light)",
+			// 	autohidemode: false,
+			// 	boxzoom: false
+			// });
 
 			// Set event on logout to delete sessionStorage.
 			var logoutLink = document.querySelector("a[id*='header_headerResponsive_responsiveNav_lnkLogout']");
@@ -4681,14 +3237,14 @@ function setPreloader(mainDivArg, visibleArg) {
 				});
 
             // Clean up niceScroll
-            const btns = document.querySelectorAll('a.trq-tab-link--flat');
-            btns.forEach(btn => {
-               btn.addEventListener('click', event => {
-                   setTimeout(function(){
-                        $("#live_feed").niceScroll().resize();
-       			    }, 200);
-               });
-            });
+            // const btns = document.querySelectorAll('a.trq-tab-link--flat');
+            // btns.forEach(btn => {
+            //    btn.addEventListener('click', event => {
+            //        setTimeout(function(){
+            //             $("#live_feed").niceScroll().resize();
+       		// 	    }, 200);
+            //    });
+            // });
 
             // Checkins click events
 			$(".clickable-row").click(function() {
