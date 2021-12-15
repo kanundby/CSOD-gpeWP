@@ -5,6 +5,8 @@ The two files (html & js) are to be used together but in different HTML widgets.
 
 The script will check what access the logged in user has and will automatically display the widgets based on access and also what has been added in *accessURLs*.
 
+![2021-12-08_Welcome Page - IC](https://user-images.githubusercontent.com/56861994/145351840-1be9a34c-b156-4d5a-8eb9-5c88f1e374df.jpg)
+
 ## gpeWelcomePage.html
 This file should be included in the **first** widget on the page (type HTML Widget).
 
@@ -26,3 +28,4 @@ You will need to add <script> </script> in the widget.
 - Goal progress
 - DevPlan progress
 - Connect Feed
+
