@@ -38,6 +38,11 @@
           "en-US": "Quick links",
           "en-UK": "Quick links",
           "de-DE": "Schnelllinks"
+        },
+        "APPROVALS": {
+          "en-US": "Pending Approvals",
+          "en-UK": "Pending Approvals",
+          "de-DE": "Zulassungen"
         }
       },
       "onboarding": {

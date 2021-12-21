@@ -14,6 +14,7 @@
             "MGR": {
                 "AVAILABILITY": 1,
                 "ORDER": 3,
+                "TARGETDIV" : "MGR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "TOTALCANDIDATES",
@@ -61,6 +62,7 @@
             "HRD": {
                 "AVAILABILITY": 1,
                 "ORDER": 1,
+                "TARGETDIV" : "HRD",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "TOTALCANDIDATES",
@@ -112,6 +114,7 @@
             "REC": {
                 "AVAILABILITY": 1,
                 "ORDER": 1,
+                "TARGETDIV" : "REC",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "TOTALCANDIDATES",
@@ -171,6 +174,7 @@
             "USR": {
                 "AVAILABILITY": 1,
                 "ORDER": 2,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "CHECKINS",
@@ -218,6 +222,7 @@
             "MGR": {
                 "AVAILABILITY": 1,
                 "ORDER": 2,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "CHECKINS",
@@ -265,6 +270,7 @@
             "HRD": {
                 "AVAILABILITY": 1,
                 "ORDER": 3,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "CHECKINS",
@@ -312,6 +318,7 @@
             "ADM": {
                 "AVAILABILITY": 1,
                 "ORDER": 2,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "CHECKINS",
@@ -359,6 +366,7 @@
             "REC": {
                 "AVAILABILITY": 1,
                 "ORDER": 2,
+                "TARGETDIV" : "USR",                
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "CHECKINS",
@@ -406,6 +414,7 @@
             "INS": {
                 "AVAILABILITY": 1,
                 "ORDER": 2,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "CHECKINS",
@@ -461,6 +470,7 @@
             "USR": {
                 "AVAILABILITY": 1,
                 "ORDER": 1,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -508,6 +518,7 @@
             "MGR": {
                 "AVAILABILITY": 1,
                 "ORDER": 1,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -555,6 +566,7 @@
             "HRD": {
                 "AVAILABILITY": 1,
                 "ORDER": 2,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -602,6 +614,7 @@
             "ADM": {
                 "AVAILABILITY": 1,
                 "ORDER": 1,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -649,6 +662,7 @@
             "REC": {
                 "AVAILABILITY": 1,
                 "ORDER": 3,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -696,6 +710,7 @@
             "INS": {
                 "AVAILABILITY": 1,
                 "ORDER": 1,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -741,7 +756,7 @@
                 }
             }
         },
-        "CHR": {
+        "EXT": {
             "settings": {
                 "moduletitle": {
                     "en-US": "Core HR",
@@ -751,6 +766,7 @@
             "USR": {
                 "AVAILABILITY": 0,
                 "ORDER": 1,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "",
@@ -798,6 +814,7 @@
             "MGR": {
                 "AVAILABILITY": 0,
                 "ORDER": 1,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -845,6 +862,7 @@
             "HRD": {
                 "AVAILABILITY": 0,
                 "ORDER": 3,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -892,6 +910,7 @@
             "ADM": {
                 "AVAILABILITY": 0,
                 "ORDER": 1,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "LMS_ADMINWIDGET",
@@ -939,6 +958,7 @@
             "REC": {
                 "AVAILABILITY": 0,
                 "ORDER": 3,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -986,6 +1006,7 @@
             "INS": {
                 "AVAILABILITY": 0,
                 "ORDER": 1,
+                "TARGETDIV" : "USR",
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "INSPIRED_BY_SUBJECTS",
@@ -1235,7 +1256,7 @@
             "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=16&sort=0",
             "ICON": "epm_ql_surveys.png",
             "COLUMNSIZE": 2,
-            "MODULE": ["EPM","CAR"]
+            "MODULE": ["EPM", "CAR"]
         },
         "FEEDBACK": {
             "TITLE": {
@@ -1245,7 +1266,7 @@
             "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Feedback",
             "ICON": "epm_ql_feedback.png",
             "COLUMNSIZE": 2,
-            "MODULE": ["EPM","CAR"]
+            "MODULE": ["EPM", "CAR"]
         },
         "PERF_REVIEWS": {
             "TITLE": {
@@ -1629,6 +1650,22 @@
                 "de-DE": ""
             },
             "getstartedurl": "#"
+        },
+        "MGR-DIRECT_REPORTS": {
+            "width": 12,
+            "targetdiv": "MGR-DIRECT_REPORTS",
+            "url": "#",
+            "title": {
+                "en-US": "My Team",
+                "en-UK": "My Team",
+                "de-DE": ""
+            },
+            "nocontenttitle": {
+                "en-US": "",
+                "en-UK": "",
+                "de-DE": ""
+            },
+            "getstartedurl": "#"
         }
     },
     "managerwidget": {
@@ -1731,6 +1768,51 @@
                 "en-US": "Country",
                 "en-UK": "Country",
                 "de-DE": "Land"
+            }
+        }
+    },
+    "ROLESPECIFIC": {
+        "MGR" : {
+            "SETTINGS" : {
+                "MODULETITLE" : {
+                    "en-US" : "My team details",
+                    "en-UK" : "My team details"
+                },
+                "ORDER" : 1,
+                "TARGETDIV" : "MGR-right"
+            },
+            "WIDGETS" : {
+                "WIDGET_1" : {
+                    "ID" : "DIRECT_REPORTS",
+                    "ORDER" : 1,
+                    "COLUMNSIZE" : 12
+                }            
+            },
+            "LINKS" : {
+                "LINK_1" : {
+                    "ID" : "REQREQUESTS",
+                    "ORDER" : 1
+                },
+                "LINK_2" : {
+                    "ID" : "REQREQUESTS",
+                    "ORDER" : 2
+                },
+                "LINK_3" : {
+                    "ID" : "REQREQUESTS",
+                    "ORDER" : 3
+                },
+                "LINK_4" : {
+                    "ID" : "REQREQUESTS",
+                    "ORDER" : 4
+                },
+                "LINK_5" : {
+                    "ID" : "REQREQUESTS",
+                    "ORDER" : 5
+                },
+                "LINK_6" : {
+                    "ID" : "REQREQUESTS",
+                    "ORDER" : 6
+                }
             }
         }
     }
