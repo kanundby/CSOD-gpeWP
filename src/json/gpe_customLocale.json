@@ -40,51 +40,9 @@
           "de-DE": "Schnelllinks"
         }
       },
-      "moduleTitle": {
-        "ats": {
-          "en-US": "Recruiting",
-          "en-UK": "Recruiting",
-          "de-DE": "Rekrutierung"
-        },
-        "chr": {
-          "en-US": "Core HR",
-          "en-UK": "Core HR",
-          "de-DE": "Core HR-Plattform"
-        },
-        "core": {
-          "en-US": "Core",
-          "en-UK": "Core",
-          "de-DE": "Core"
-        },
-        "lms": {
-          "en-US": "Learning",
-          "en-UK": "Learning",
-          "de-DE": "Lernen"
-        },
-        "epm": {
-          "en-US": "Performance",
-          "en-UK": "Performance",
-          "de-DE": "Performance"
-        },
-        "epm-careers": {
-          "en-US": "Careers",
-          "en-UK": "Careers",
-          "de-DE": "Careers"
-        },
-        "careers": {
-          "en-US": "Careers",
-          "en-UK": "Careers",
-          "de-DE": "Careers"
-        },
-        "reporting": {
-          "en-US": "Reports",
-          "en-UK": "Reports",
-          "de-DE": "Berichte"
-        }
-      },
       "onboarding": {
         "en-US": {
-          "headertitle": "{{gpeDEMOUNAME[0]}} , your onboarding journey starts here!",
+          "headertitle": "${csName}, your onboarding journey starts here!",
           "headertext": "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!",
           "videourl": "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
           "onbprocess": {
@@ -179,7 +137,7 @@
           }
         },
         "en-UK": {
-          "headertitle": "{{gpeDEMOUNAME[0]}}, your onboarding journey starts here!",
+          "headertitle": "${csName}, your onboarding journey starts here!",
           "headertext": "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!",
           "videourl": "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
           "onbprocess": {
@@ -274,7 +232,7 @@
           }
         },
         "de-DE": {
-          "headertitle": "{{gpeDEMOUNAME[0]}}, your onboarding journey starts here!",
+          "headertitle": "${csName}, your onboarding journey starts here!",
           "headertext": "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!",
           "videourl": "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
           "onbprocess": {

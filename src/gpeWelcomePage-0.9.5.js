@@ -2,7 +2,7 @@
  * Dynamic Welcome Page for Cornerstone OnDemand
  * @desc Dynamic welcome page engine for Cornerstone OnDemand. The script is using the navigation menu as base to generate the page.
  * @author 		kanundby@csod.com	-	Klas Anundby
- * @version 	0.9
+ * @version 	0.9.5
  */
 
  const gpeABOUTCARDDIV 		= "gpewp_topcontainer_upper"; 					// where do we want to put the user photo name/job?
@@ -16,10 +16,8 @@
  const gpeDEMOROLE 			= getDemoRole( document.getElementById( gpeDEMOPERSONADIV ).getAttribute( gpeDEMOPERSONADIV ) );
  const gpeDEMMOMODULES		= getDemoModules(document.getElementById( gpeDEMOMODULEDIV ).getAttribute( gpeDEMOMODULEDIV ) );
  const gpeDEMOUNAME 		= document.getElementById( gpeDEMONAMEDIV ).getAttribute( gpeDEMONAMEDIV ).split(';');
- const gpePRIMARYBGCSS 		= $( '.c-nav-user' ).css( 'background-color' );	
- const gpeQUICKLINKSMAINDIV = "QLS-content";
-
-
+ const gpePRIMARYBGCSS 		= $( '.c-nav-user' ).css( 'background-color' );
+ 
  /**
   * @desc Viewport definition for mobile devices
   */
@@ -286,11 +284,6 @@ const gpeUSERREPORTID = {
 		filterid: -2,
 		showcolumns: [ "User Full Name_70", "user_hire_dt_orig_70", "user_pos_70" ]
 	},
-	// HRD: {
-	// 	reportid: 51,
-	// 	filterid: 774,
-	// 	showcolumns: [ "User Full Name_70", "user_hire_dt_orig_70", "user_pos_70" ]
-	// }
 };
 
 /**
@@ -337,6 +330,22 @@ function getAccessDetails( accessURLsArg ) {
 	}
 	return accessArr;
 }
+
+/**
+ * Replaces details from JSON variable
+ * @param {Array} replacements - array used to check what to replace.
+ * @param {String} input - string 
+ * @returns {String} Updated string with variables instead of template variables.
+ */
+function injectVariables( replacements, input ) {
+    const entries = Object.entries(replacements);
+    const result = entries.reduce( (output, entry) => {
+        const [key, value] = entry;
+        const regex = new RegExp( `\\$\{${key}\}`, 'g');
+    return output.replace( regex, value );
+    }, input );
+    return result;
+} 
 
 /**
  * Sorts an array of objects by column/property.
@@ -396,7 +405,8 @@ function multiSort( array, sortObject = {} ) {
  * @param {array} accessURLsArg -
  * @returns a promise
  */
-function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
+// function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
+function buildNav( demoRoleArg, cultureArg) {
 	/* Set top menu space  START */
 	if ( !document.getElementById( "framework-oldnav-home" ) ) {
 
@@ -455,37 +465,11 @@ function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
 			case "HRD":
 			case "INS":
 			case "ADM":
-				if ( gpeUSERREPORTID[ demoRoleArg ] ) buildExtendedWidgetV2( getAccessDetails( accessURLsArg ), demoRoleArg + "-right");
+				// if ( gpeUSERREPORTID[ demoRoleArg ] ) buildExtendedWidgetV2( getAccessDetails( accessURLsArg ), demoRoleArg + "-right");
+				if ( gpeUSERREPORTID[ demoRoleArg ] ) buildExtendedWidgetV2( demoRoleArg + "-right");
 				topNavItmRole = buildExtraNavItem( demoRoleArg, cultureArg );
 				break;
 		}
-
-		// let topNavItmQLS = document.createElement( "li" );
-		// topNavItmQLS.className = "trq-tab-group-item ng-star-inserted";
-		// topNavItmQLS.setAttribute( "role", "presentation" );
-		// topNavItmQLS.setAttribute( "_ngcontent-nml-c325", "" );
-		// topNavItmQLS.setAttribute( "trqid", "group-item" );
-		// topNavItmQLS.setAttribute( "trqiduseparent", "true" );
-
-		// if ( demoRoleArg != "ONB") {
-
-		// 	let topNavBtnQLS = document.createElement( "a" );
-		// 	topNavBtnQLS.className = "trq-tab-link--flat ng-star-inserted";
-		// 	topNavBtnQLS.setAttribute( "id", "nav-QLS-tab" );
-		// 	topNavBtnQLS.setAttribute( "data-bs-toggle", "tab" );
-		// 	topNavBtnQLS.setAttribute( "data-bs-target", "#nav-QLS" );
-		// 	topNavBtnQLS.setAttribute( "type", "button" );
-		// 	topNavBtnQLS.setAttribute( "role", "tab" );
-		// 	topNavBtnQLS.setAttribute( "aria-controls", "nav-QLS" );
-		// 	topNavBtnQLS.setAttribute( "aria-selected", "true" );
-		// 	topNavBtnQLS.setAttribute( "_ngcontent-nml-c376", "" );
-		// 	topNavBtnQLS.innerHTML = cs_customLocale.topNavigationTitle.QLS[ cultureArg ]; // sessionStorage["csCulture"]
-
-		// 	topNavItmQLS.appendChild( topNavBtnQLS );
-		// }
-		
-
-		// topNavUL.appendChild( topNavItmQLS );
 
 		topNavUL.appendChild( topNavItmUSR );
 		if ( topNavItmRole != 0 ) {
@@ -631,16 +615,16 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 		let tmpOnbProcessTextOl = document.createElement('ol');
 		tmpOnbProcessTextOl.className = "list";
 
-		for(let textItem in cs_customLocale[0].onboarding[cultureArg].onbprocess.text) {
+		for(let textItem in cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem) {
 			let tmpOnbProcessTextLi = document.createElement('li');
 			tmpOnbProcessTextLi.className = "item";
 
 			let tmpOnbProcessTextLiHeadline = document.createElement('h2');
 			tmpOnbProcessTextLiHeadline.className = "headline";
-			tmpOnbProcessTextLiHeadline.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].headline;
+			tmpOnbProcessTextLiHeadline.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].headline;
 
 			let tmpOnbProcessTextLiText = document.createElement('span');
-			tmpOnbProcessTextLiText.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].text;
+			tmpOnbProcessTextLiText.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].text;
 
 			let tmpOnbResourceDiv = document.createElement('div');
 			tmpOnbResourceDiv.className = "resourceTitle";
@@ -648,13 +632,13 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 
 			let tmpOnbResourceUl = document.createElement('ul');
 			tmpOnbResourceUl.className = "resList";
-			for(let resItem in cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources) {
+			for(let resItem in cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources) {
 				let tmpOnbResourceLi = document.createElement("li");
 				tmpOnbResourceLi.className = "resItem";
-				if(cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].type == "url"){
-					tmpOnbResourceLi.innerHTML = "<a href='"+cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].url+"' target='_blank'>"+cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text+"</a>";
+				if(cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].type == "url"){
+					tmpOnbResourceLi.innerHTML = "<a href='"+cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].url+"' target='_blank'>"+cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].text+"</a>";
 				}else {
-					tmpOnbResourceLi.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.text[textItem].resources[resItem].text;
+					tmpOnbResourceLi.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].text;
 				}
 				tmpOnbResourceUl.appendChild(tmpOnbResourceLi);
 			}
@@ -701,39 +685,48 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 	}
 }
 
-async function buildModuleWidget(moduleArg) {
+async function buildModuleWidget(moduleArg, demoRoleArg) {
 
 	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const inputs = { csUser: sessionStorage.csUser};
 
 	modulesDiv = document.createElement( "div" );
 	modulesDiv.className = "gpeWelcomePageModules";
 	modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
 
 	for(let module in moduleArg){
+		//console.log(moduleArg[module]);
 		switch ( moduleArg[module] ) {
+			case "CHR":
 			case "ATS":
 			case "LMS":
 			case "EPM":
+				// check if module should be displayed... USR, MGR, HRD, ADM, REC, INS
+				//console.log("Demorole "+ demoRoleArg +" for module "+ moduleArg[module] +" is having the following availability:  "+ cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].AVAILABILITY);
+				if(cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].AVAILABILITY == 0) break;
+
 				let modContainer = document.createElement( "div" );
 				modContainer.className = "moduleContainer";
 				modContainer.setAttribute("id", "module_"+moduleArg[module]);
-				modContainer.setAttribute("style", "order:"+cs_widgetConfig[0].EMPLOYEE.MODULEORDER[moduleArg[module]]+";");
+				modContainer.setAttribute("style", "order:"+cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].ORDER+";");
 
 				let modContainerTitleDiv = document.createElement( "div" );
 				modContainerTitleDiv.className = "moduleTitleDiv";
 
 				let modContainerTitle = document.createElement( "h3" );
 				modContainerTitle.className = "moduleTitle";
-				modContainerTitle.innerHTML = cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].MODULETITLE[sessionStorage.csCulture];
+				modContainerTitle.innerHTML = cs_widgetConfig[0].MODULECONFIG[moduleArg[module]].settings.moduletitle[sessionStorage.csCulture];
 
 				let modWidgetContainer = document.createElement( "div" );
 				modWidgetContainer.className = "moduleWidgetContainer row";
 
-				for(let widget in cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].WIDGETS) {
+				for(let widget in cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS) {
+					let tempWidgetID = cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS[widget].ID;
+
 					let modWidget = document.createElement( "div" );
-					modWidget.className = "moduleWidget col-md-"+cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].WIDGETS[widget].COLUMNSIZE;
-					modWidget.setAttribute("id", moduleArg[module]+"-"+widget); /* IMPORTANT ID - This is used to target the widget card */
-					modWidget.setAttribute("style", "order:"+cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].WIDGETS[widget].ORDER+";");
+					modWidget.className = "moduleWidget col-md-"+cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS[widget].COLUMNSIZE;
+					modWidget.setAttribute("id", moduleArg[module]+"-"+tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
+					modWidget.setAttribute("style", "order:"+cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS[widget].ORDER+";");
 
 					modWidgetContainer.appendChild(modWidget);
 				}
@@ -748,26 +741,29 @@ async function buildModuleWidget(moduleArg) {
 				modLinkContainer.className = "moduleLinkContainer";
 
 				// BUILD QUICKLINKS
-				for(let link in cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS) {
+				for(let link in cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].LINKS) {
+					
+					let tempLinkID = cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].LINKS[link].ID;
+					
 					let modLink = document.createElement( "li" );
 					modLink.className = "moduleLink";
-					modLink.setAttribute("id", moduleArg[module]+"-"+link);
-					modLink.setAttribute("style", "order:"+cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].ORDER+";");
+					modLink.setAttribute("id", moduleArg[module]+"-"+tempLinkID);
+					 modLink.setAttribute("style", "order:"+cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].LINKS[link].ORDER+";");
 
 					let modLinkItemLink = document.createElement( "a" );
 					modLinkItemLink.className = "modLinkItemLink";
-					modLinkItemLink.href = cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].URL;
+					modLinkItemLink.href = injectVariables(inputs, cs_widgetConfig[0].LINKS[tempLinkID].URL);
 
 					let modLinkItem = document.createElement( "div" );
 					modLinkItem.className = "modLinkItem";
 
 					let modLinkIcon = document.createElement( "div" );
 					modLinkIcon.className = "moduleLinkIcon";
-					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/"+cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].ICON +"')";
+					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/"+cs_widgetConfig[0].LINKS[tempLinkID].ICON +"')";
 
 					let modLinkTitle = document.createElement( "div" );
 					modLinkTitle.className = "moduleLinkTitle";
-					modLinkTitle.innerHTML = cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg[module]].LINKS[link].TITLE[sessionStorage.csCulture];
+					modLinkTitle.innerHTML = cs_widgetConfig[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture];
 					
 					modLinkItem.appendChild(modLinkIcon);
 					modLinkItem.appendChild(modLinkTitle);
@@ -794,28 +790,25 @@ async function buildModuleWidget(moduleArg) {
 	gpewpMain.appendChild(modulesDiv);
 }
 
-
 /**
  *
  * @param
  * @param
  * @returns
  */
-async function buildWidgets_v2( accessArrArg) {
-	if (Array.isArray(accessArrArg) && arr.length) {
-		setPreloader(gpeUSRCONTENTDIV, "on");
+async function buildWidgets_v2(moduleArg, demoRoleArg) {
 
-		let widgetPromisesArray = [];
-		accessArrArg.forEach(function(widget) {
-			widgetPromisesArray.push(getWidgetData_v2(widget));
-		});
-
-		return await Promise.all( widgetPromisesArray )
-		.then(async function(widgetPromisesArrayComplete) {
-			return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
-				if(widgetData != null){
-					widgetData.forEach(function(widget){
-						console.log(widget);
+	let widgetPromisesArray = [];
+	moduleArg.forEach(function(widget) {
+		widgetPromisesArray.push(getWidgetData_v2(widget, demoRoleArg));
+	});
+	return await Promise.all( widgetPromisesArray )
+	.then(async function(widgetPromisesArrayComplete) {
+		console.log(widgetPromisesArrayComplete);
+		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
+			if(widgetData != null){
+				widgetData.forEach(function(widget){
+					if(widget != false) {
 						return generateHTMLWidget(
 							widget.id, 
 							"12", 
@@ -823,24 +816,21 @@ async function buildWidgets_v2( accessArrArg) {
 							"widgetWrapper_"+ widget.id,
 							widget.id,
 							"cs_"+ widget.id, 
-							widget);					
-					});
-				}
-			});
-		})
-		.then(async function(renderedWidgetsResp) {
-			setPreloader(gpeUSRCONTENTDIV, "off");
-			$("canvas").each(function() {
-				var chart = Chart.getChart($(this).attr("id"));
-				chart.update();
-			});
-			return renderedWidgetsResp;
-		})
-		.catch( error => console.error( "Error in getting widget data: " + error ) );
-	}
-	else {
-		console.log("accessArrArg is empty - cannot build widgets.");
-	}
+							widget);
+					}
+				});
+			}
+		});
+	})
+	.then(async function(renderedWidgetsResp) {
+//		setPreloader(gpeUSRCONTENTDIV, "off");
+		$("canvas").each(function() {
+			var chart = Chart.getChart($(this).attr("id"));
+			chart.update();
+		});
+		return renderedWidgetsResp;
+	})
+	.catch( error => console.error( "Error in getting widget data: " + error ) );
 }
 
 /**
@@ -848,29 +838,52 @@ async function buildWidgets_v2( accessArrArg) {
  * @param {array} widgetIDArg - Array 
  * @returns Content from function
  */
- async function getWidgetData_v2( moduleArg ) {
+ async function getWidgetData_v2(moduleArg, demoRoleArg) {
 	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
 
 	switch ( moduleArg ) {
-		case "LMS":
-			const lmsWidget_InspiredBySubjects = getInspiredBySubjects(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.INSPIRED_BY_SUBJECTS.ID, moduleArg);
-			const lmsWidget_TrendingforJob = getTrendingForJob(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.TRENDING_FOR_JOB.ID, moduleArg);
-//			const lmsWidget_AssignedTraining = getAssignedTraining(cs_widgetConfig.EMPLOYEE.MODULES[moduleArg].WIDGETS.ASSIGNED_TRAINING.ID, moduleArg);
-			const lmsWidget_TranscriptMetics = getTranscriptMetrics(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.TRAINING_METRICS.ID, moduleArg);
-			
-			return await Promise.all([lmsWidget_InspiredBySubjects, lmsWidget_TrendingforJob, lmsWidget_TranscriptMetics]);
-		case "EPM":
-			const checkinWidget 	= await getCheckinsDetails( cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.CHECKINS.ID, moduleArg );
-			const goalWidget 		= await Promise.resolve(getDonutDetails( cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.GOAL_PROGRESS.ID,  "/phnx/driver.aspx?routename=Goals/GoalList", moduleArg));
-			const devplanWidget 	= await Promise.resolve(getDonutDetails( cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.DEVPLAN_PROGRESS.ID,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot", moduleArg));
-			
-			return await Promise.all([checkinWidget, goalWidget, devplanWidget]);
 		case "ATS":
-			const atsWidget_AllCandidates 	= getAllCandidates(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.TOTALCANDIDATES.ID, moduleArg);
-			const atsWidget_NewSubmissions 	= getNewSubmissions(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.NEWSUBMISSIONS.ID, moduleArg);
-			const atsWidget_NewHires 		= getNewHires(cs_widgetConfig[0].EMPLOYEE.MODULES[moduleArg].WIDGETS.NEWHIRES.ID, moduleArg);
-			
-			return await Promise.all([atsWidget_AllCandidates,atsWidget_NewSubmissions,atsWidget_NewHires]);
+		case "EPM":
+		case "LMS":
+			if(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].AVAILABILITY == 0) break;
+
+			let widgetPromisesArray = [];
+
+			for(let widget in cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS) {
+				switch(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID) {
+					case "TOP_PICKS" :
+						widgetPromisesArray.push( getTopPicks(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) ); 
+					break;					
+					case "INSPIRED_BY_SUBJECTS" :
+						widgetPromisesArray.push( getInspiredBySubjects(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) ); 
+					break;
+					case "TRENDING_FOR_JOB" :
+						widgetPromisesArray.push( getTrendingForJob(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) );
+					break;
+					case "TRAINING_METRICS" :
+						widgetPromisesArray.push( getTranscriptMetrics(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) );
+					break;
+					case "CHECKINS" :
+						widgetPromisesArray.push( getCheckinsDetails(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) );
+					break;
+					case "GOAL_PROGRESS" :
+						widgetPromisesArray.push( getDonutDetails(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID,  "/phnx/driver.aspx?routename=Goals/GoalList", moduleArg) );
+					break;
+					case "DEVPLAN_PROGRESS" : 
+						widgetPromisesArray.push( getDonutDetails(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID,  "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot", moduleArg) );
+					break;
+					case "TOTALCANDIDATES" :
+						widgetPromisesArray.push( getAllCandidates(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) );
+					break;
+					case "NEWSUBMISSIONS" :
+						widgetPromisesArray.push( getNewSubmissions(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) );
+					break;
+					case "NEWHIRES":
+						widgetPromisesArray.push( getNewHires(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) );
+					break;
+				}
+			}
+		return await Promise.all(widgetPromisesArray);
 	}
 }
 
@@ -889,10 +902,7 @@ async function buildWidgets_v2( accessArrArg) {
 function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg ) {
 
 	const cs_widgetConfig 	= JSON.parse(sessionStorage.csWidgetConfig);
-	const accessURLs 		= JSON.parse(sessionStorage.csAccessURLs);
-	let widgetData = accessURLs.find(widgetDetails => {
-		return widgetDetails.title === widgetIDArg;
-	});
+	const inputs = { csUser: sessionStorage.csUser};
 
 	var tmpRowDiv = "";
 	if ( document.getElementById( rowIDArg ) ) {
@@ -912,8 +922,8 @@ function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg,
 
 	var tmpCardHeader = document.createElement( "a" );
 	tmpCardHeader.className = "card-header";
-	tmpCardHeader.innerHTML = cs_widgetConfig[0][widgetIDArg].title[sessionStorage.csCulture];
-	tmpCardHeader.setAttribute( 'href', cs_widgetConfig[0][widgetIDArg].url );
+	tmpCardHeader.innerHTML = cs_widgetConfig[0].WIDGETS[widgetIDArg].title[sessionStorage.csCulture];
+	tmpCardHeader.setAttribute( 'href', injectVariables(inputs,cs_widgetConfig[0].WIDGETS[widgetIDArg].url));
 
 	var tmpCardBody = document.createElement( "div" );
 	tmpCardBody.className = "card-body";
@@ -997,6 +1007,10 @@ async function generateHTMLCard( cardTitleArg, cardTitleHrefArg, colArg, colIDAr
  */
 async function buildAboutCard() {
 	if ( !document.getElementById( "gpeAboutCard" ) ) {
+
+		const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+		const inputs = { csUser: sessionStorage.csUser};
+
 		var tmpContainerDiv = document.createElement( "div" );
 		tmpContainerDiv.className = "container-fluid topcontent";
 		tmpContainerDiv.setAttribute( "id", "gpeAboutCard" );
@@ -1019,7 +1033,7 @@ async function buildAboutCard() {
 		tmpColImageDiv.appendChild( tmpCardAboutImageLink );
 
 		var tmpColNameDiv = document.createElement( "div" );
-		tmpColNameDiv.className = "col-md-10";
+		tmpColNameDiv.className = "col-md-4";
 
 		var tmpAboutDiv = document.createElement( "div" );
 		tmpAboutDiv.className = "abt";
@@ -1041,6 +1055,47 @@ async function buildAboutCard() {
 		tmpUserJobSpan.innerHTML = document.querySelector( "[id*='header_headerResponsive_responsiveNav_lblPosition']" ).innerHTML;
 		tmpUserJobDiv.appendChild( tmpUserJobSpan );
 
+/* ------------------- */ 
+		var tmpCoreLinksWrapper = document.createElement( "div" );
+		tmpCoreLinksWrapper.className = "tmpCoreLinksWrapper col-md-6";
+
+		var topLinkContainer = document.createElement( "ul" );
+		topLinkContainer.className = "topLinkContainer d-flex justify-content-center";
+
+		for(let link in cs_widgetConfig[0].TOPNAVLINKS[gpeDEMOROLE]){
+			let userTopLinkID_tmp = cs_widgetConfig[0].TOPNAVLINKS[gpeDEMOROLE][link].ID;
+			if((gpeDEMMOMODULES.includes(cs_widgetConfig[0].LINKS[userTopLinkID_tmp].MODULE)) || (cs_widgetConfig[0].LINKS[userTopLinkID_tmp].MODULE == "CORE")) {
+
+				let topLink = document.createElement( "li" );
+				topLink.className = "moduleLink";
+				// topLink.setAttribute("style", "order:"+cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].LINKS[link].ORDER+";");
+
+				let topLinkItemLink = document.createElement( "a" );
+				topLinkItemLink.className = "modLinkItemLink";
+				topLinkItemLink.href = injectVariables(inputs, cs_widgetConfig[0].LINKS[userTopLinkID_tmp].URL);
+
+				let topLinkItem = document.createElement( "div" );
+				topLinkItem.className = "modLinkItem";
+
+				let topLinkIcon = document.createElement( "div" );
+				topLinkIcon.className = "moduleLinkIcon";
+				topLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/"+cs_widgetConfig[0].LINKS[userTopLinkID_tmp].ICON +"')";
+
+				let topLinkTitle = document.createElement( "div" );
+				topLinkTitle.className = "moduleLinkTitle";
+				topLinkTitle.innerHTML = cs_widgetConfig[0].LINKS[userTopLinkID_tmp].TITLE[sessionStorage.csCulture];
+				
+				topLinkItem.appendChild(topLinkIcon);
+				topLinkItem.appendChild(topLinkTitle);
+				topLinkItemLink.appendChild(topLinkItem);
+				topLink.appendChild(topLinkItemLink);
+
+				topLinkContainer.appendChild(topLink);
+			}
+		}				
+
+		tmpCoreLinksWrapper.appendChild(topLinkContainer);
+
 		tmpUserNameDiv.appendChild( tmpUserNameSpan );
 
 		tmpAboutDiv.appendChild( tmpUserNameDiv );
@@ -1050,6 +1105,7 @@ async function buildAboutCard() {
 
 		tmpRowDiv.appendChild( tmpColImageDiv );
 		tmpRowDiv.appendChild( tmpColNameDiv );
+		tmpRowDiv.appendChild( tmpCoreLinksWrapper );
 		tmpContainerDiv.appendChild( tmpRowDiv );
 
 		var mainContent = document.getElementById( gpeABOUTCARDDIV );
@@ -1080,14 +1136,14 @@ function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
 			let tmpAprvlDiv = document.createElement( "div" );
 			tmpAprvlDiv.className = "approval-item approval-" + item + " app" + count;
 
-			let tmpAprvlDivHref = document.createElement( "div" );
+			let tmpAprvlDivHref = document.createElement( "a" );
 			tmpAprvlDivHref.className = "position-relative " + item;
-			// tmpAprvlDivHref.setAttribute( "href", $( this ).attr( 'href' ) );
+			tmpAprvlDivHref.setAttribute( "href", $( this ).attr( 'href' ) );
 
-			let tmpAprvlButton = document.createElement( "button" );
+			let tmpAprvlButton = document.createElement( "div" );
             tmpAprvlButton.setAttribute( "content", approvalURLsArg[ item ].title[ cultureArg ]);
-            tmpAprvlButton.setAttribute("data-href", $( this ).attr( 'href' ));
-            tmpAprvlButton.setAttribute("type", "button");
+//            tmpAprvlButton.setAttribute("href", $( this ).attr( 'href' ));
+            //tmpAprvlButton.setAttribute("type", "button");
 			tmpAprvlButton.className = "approval_button";
             tmpAprvlButton.textContent = approvalURLsArg[ item ].title[ cultureArg ];
 
@@ -1129,9 +1185,10 @@ function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
  * @returns
  */
 async function getDonutDetails( widgetIDArg, urlArg, moduleArg) {
-	
 	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
 	let csConfigModuleWidget = moduleArg+"-"+widgetIDArg;
+
+	//console.log("GO DONUT csConfigModuleWidget: "+ csConfigModuleWidget);
 
 	return await Promise.resolve( await fetch( urlArg ) )
 		.then( async function( data) {
@@ -1140,10 +1197,10 @@ async function getDonutDetails( widgetIDArg, urlArg, moduleArg) {
 		})
 		.then( async function( dataResponse ) {
 			// console.log("%cDONUT CHECK: "+ contentDivClassArg, "color:#ccaa00;");
-			switch(widgetIDArg) {
-				case cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.GOAL_PROGRESS.ID:
+			switch(csConfigModuleWidget) {
+				case cs_widgetConfig[0].WIDGETS["EPM-GOAL_PROGRESS"].targetdiv:
 					return await $( dataResponse ).find( '.percentage' ).attr( "data-percent" );
-				case cs_widgetConfig[0].EMPLOYEE.MODULES.EPM.WIDGETS.DEVPLAN_PROGRESS.ID:
+				case cs_widgetConfig[0].WIDGETS["EPM-DEVPLAN_PROGRESS"].targetdiv:
 					return await $( dataResponse ).find( "a[href*='/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew']" ).closest( "div[class*='dashboard-widget-content']" ).find(".percentage span").text();
 			}
 		})
@@ -1156,9 +1213,9 @@ async function getDonutDetails( widgetIDArg, urlArg, moduleArg) {
 			if(achievedData != 0) {
 				return await Promise.resolve(await drawDonut( achievedData, widgetIDArg, tmpContentDiv));
 			}else {
-				let tempTitle = cs_widgetConfig[0][csConfigModuleWidget].nocontenttitle[ sessionStorage.csCulture ];
+				let tempTitle = cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].nocontenttitle[ sessionStorage.csCulture ];
 				let noContentStr = "<div class='nocontent donut'>";
-				noContentStr += "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button' data-href='"+cs_widgetConfig[0][csConfigModuleWidget].getstartedurl+"'>" + tempTitle + "</button>";
+				noContentStr += "<button type='button' id='"+widgetIDArg+"_nodata' class='getstarted_button' data-href='"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].getstartedurl+"'>" + tempTitle + "</button>";
 				noContentStr += "</div>";
 				tmpContentDiv.innerHTML = noContentStr; 
 				return await tmpContentDiv;
@@ -1326,89 +1383,48 @@ function checkJWT() {
 	} );
 }
 
-/**
- * !!! NOT IN USE !!!! buildExtendedWidget - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
- * @param {array} accessArrArg -
- * @param {string} appendDivArg -
- * @param {array} usernameArg -
- * @param {string} demoRoleArg -
- * @returns HTML table to be put on the welcome page
- */
-async function buildExtendedWidget( accessArrArg, appendDivArg, reportIDArg, usernameArg, demoRoleArg ) {
-	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
-	const userName = usernameArg[ 0 ][ 0 ].concat( usernameArg[ 1 ] );
-	var rowID = "";
-	let reportToken = checkReportToken();
-	$.when( reportToken )
-		.then( ( data ) => {
-
-			var reportContentDiv = document.createElement( "div" );
-			reportContentDiv.setAttribute( "id", "userReport" + reportIDArg );
-			reportContentDiv.className = "user_table";
-
-			var cardTitle = cs_customLocale[0].ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
-			var cardLink = ""; // cardTitleHrefArg - URL on the card title.
-			var cardWidth = 12; // colArg - Bootstrap column width. Max 12.
-			var cardColID = "userReport_Col_" + reportIDArg; // colIDArg - ID of the card column.
-			var cardRowID = "userReport_Row_" + reportIDArg; // rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
-			var targetColDivID = appendDivArg; // targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
-			var contentDivClass = "userReport"; // contentDivClassArg - css class name of the content. This in order to be able to further style the card.
-			var content = reportContentDiv; // contentArg - main content of the card.
-
-			generateHTMLCard( cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content );
-
-			return fetchManagerReport( reportIDArg, userName, demoRoleArg );
-		} )
-		.then( reportresp => {
-			const userArr = reportresp[ 0 ].data;
-			const userMetaArr = reportresp[ 1 ];
-			const [ , ...userData ] = [ ...new Set( userArr.map( x => x ) ) ];
-
-			// Fix columns array for the table
-			var tempCol = userMetaArr.columns.map( ( e ) => {
-				return {
-					field: e.name + "_" + e.entityId,
-					title: e.title,
-					visible: gpeUSERREPORTID[ demoRoleArg ].showcolumns.includes( e.name + "_" + e.entityId ),
-					sortable: true
-				};
-			} );
-
-			// Fix data array for the table
-			var tempData = userData.map( function( row ) {
-				return row.reduce( function( result, field, index ) {
-					result[ tempCol[ index ].field ] = field;
-					return result;
-				}, {} );
-			} );
-
-			var reportContentDiv = document.getElementById( "userReport" + reportIDArg );
-			var $table;
-			$table = $( "<table id='extReport" + reportIDArg + "'>" );
-			//$table = $("ReportTable"+reportResponse[2]);
-			$table.appendTo( reportContentDiv );
-			$table.bootstrapTable( {
-				locale: sessionStorage.csCulture,
-				exportDataType: true,
-				exportTypes: [ 'json', 'xml', 'csv', 'txt', 'sql', 'excel' ],
-				pageSize: 25,
-				pagination: true, // Allow pagination
-				search: true, // Allow search
-				searchHighlight: true,
-				showColumns: true,
-				showColumnsSearch: true,
-				sortClass: "table-active",
-				checkboxHeader: true,
-				showToggle: false,
-				detailView: false,
-				showColumnsToggleAll: true,
-				columns: tempCol,
-				data: tempData
-			} );
-            // console.log(reportContentDiv);
-			return reportContentDiv;
-		} )
-		.catch( error => console.error( "error with building manager page: " + error ) );
+async function setUserModulesDetails() {
+	let url = "/services/api/x/users/v2/employees/"+sessionStorage.csUser;
+	return checkJWT()
+	.then( async function() {
+		return await fetch( url, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+			//body: JSON.stringify( payload )
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+		let ouId = localStr.data.ous[3].id;
+		let typeId = localStr.data.ous[3].typeId;
+		let url = "/services/api/x/odata/api/views/vw_rpt_ou?$filter=ou_id eq "+ouId+" and type_id eq "+typeId;
+		return await fetch( url, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+		var demoModules = localStr.value[0].title.substring(3); // Remove ROLE info
+		sessionStorage.setItem("csDemoModules", demoModules);
+		//console.log(sessionStorage.csDemoModules);
+		return demoModules;
+	})	
+	.catch(error => {
+		console.error(error);
+	});	
 }
 
 /**
@@ -1484,7 +1500,8 @@ async function getTranscriptsStats(userIDArrayArg){
  * @param {string} appendDivArg - Where to put the card...
  * @returns HTML table to be put on the welcome page
  */
-async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
+// async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
+async function buildExtendedWidgetV2(appendDivArg ) {
 
 	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
 	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
@@ -1522,23 +1539,12 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
 			// Get goal
             let userArr = userData.data;
 
-			// let lmsCheck = accessArrArg.some(function(accessItem) { 
-			// 	return accessItem.module == "lms";
-			// });
-			// if(lmsCheck) {
-			// 	let transcriptData = await Promise.resolve(getTranscriptsStats(userData));
-			// 	transcriptDataArr = transcriptData.map(function(transcriptArr, index){
-			// 		console.log(index);
-			// 		console.log(transcriptArr);
-			// 	});
-			// }
-
 			//If user has access to Goal then go ahead and get the data.
-			let goalCheck = accessArrArg.some(function(accessItem) { 
-				return accessItem.module == "epm-careers";
-			});
+			// let goalCheck = accessArrArg.some(function(accessItem) { 
+			// 	return accessItem.module == "epm-careers";
+			// });
 
-			if(goalCheck){
+			// if(goalCheck){
 				let goalData = await Promise.resolve(getGoalProgress(userData));
 				let goalDataArr = [];
 				let goalSummaryArr = [];
@@ -1552,7 +1558,7 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
 						goalProgress += goalDataArr[goalArr][goalItem].Weight * goalDataArr[goalArr][goalItem].Progress;
 						goalWeight += goalDataArr[goalArr][goalItem].Weight;
 					}
-					console.log(goalDataArr[goalArr]);
+					//console.log(goalDataArr[goalArr]);
 					if(goalDataArr[goalArr].length !== 0) {
 					 	goalSummaryArr[goalArr] = {
 					 		id: goalDataArr[goalArr][0].User.Id,
@@ -1560,12 +1566,11 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
 					 	};
 					}
 				}
-				console.log(goalSummaryArr);
 				const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
 				return await finalArr;
-			}else {
-				return userArr;
-			}			
+			// }else {
+			// 	return userArr;
+			// }			
         })
         .then(async function(userData) {
     		let emplData = await userData.map( function( user ) {
@@ -1612,15 +1617,15 @@ async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
             ];
 
 			//If user has access to Goal then add this as a column on manager widget.
-			let goalCheck = accessArrArg.some(function(accessItem){ return accessItem.id == "Goals";});
-			if(goalCheck) {
+			// let goalCheck = accessArrArg.some(function(accessItem){ return accessItem.id == "Goals";});
+			// if(goalCheck) {
 
 				emplCols.splice(3, 0, {
                     title: "Goal Progress",
                     field: "goalProgress",
                     align: "center",
                 });
-			}
+			// }
 
             var reportContentDiv = document.createElement( "div" );
 			// reportContentDiv.setAttribute( "id", "userReport" + reportIDArg ); // userReport51
@@ -1696,13 +1701,11 @@ function detailFormatter(index, row) {
 
 	let html = [];
 
-	html.push('<div class="col-xs-12 col-sm-12 col-md-12">');
+	html.push('<div class="col-xs-12 col-sm-12 col-md-12 extended-details collapse" id="accordion">');
 	html.push('<div class="well well-sm">');
 	html.push('<div class="row">');
 
 	html.push('<div class="col-sm-6 col-md-6">');
-	// html.push('<h5>');
-	// html.push('<b>'+ row.fullName  +'</b></h5>');
 	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
 	html.push('<tr>');
 	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.firstname[sessionStorage.csCulture] +'</td>');
@@ -1728,7 +1731,6 @@ function detailFormatter(index, row) {
 	html.push('</div>');
    
 	html.push('<div class="col-sm-6 col-md-6">');
-	// html.push('<h5><b>'+ cs_widgetConfig.managerwidget.detailtable.addressdetails[sessionStorage.csCulture] +'</b></h5>');
 	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
 	html.push('<tr>');
 	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.address[sessionStorage.csCulture] +'</td>');
@@ -1775,18 +1777,19 @@ async function getNewHires(widgetArg, moduleArg) {
 		var newHtml = editor.html();
 
 		let	htmlStr = $(newHtml).find(".content > div[ct='HBoxLayout'] ");
-		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
+		let summaryStr = "";
 		htmlStr.each(function(index, newhireItem){
-			summaryStr += "<div class='summaryItem col-md-6'>";
+			summaryStr += "<div class='ATS totalCandidates gpe-cap row'>";
+			summaryStr += "<div class='summaryItem col-md-12'>";
 			summaryStr += "<div class='gpe-left'>";
 			
 			summaryStr += "<div class='newHires '>"+newhireItem.outerHTML+"</div>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";		
+			summaryStr += "</div>";		
 		});
-		summaryStr += "</div>";		
-		
 		tmpContentDiv.innerHTML = summaryStr;	
+		
 		return tmpContentDiv;
 	})
 	.catch( error => {
@@ -1820,11 +1823,16 @@ async function getNewSubmissions(widgetArg, moduleArg){
 	} )
 	.then( response => response.json() )
 	.then( async function( localStr ) {
+
+		var newSubmissionCount = $.map(localStr.data.statusCategories, function(val) {
+			return val.id == -1 ? val.count : null;
+		});
+
 		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 		summaryStr += "<div class='summaryItem col-md-12'>";
 		summaryStr += "<div class='gpe-center'>";
-		summaryStr += "<a href='"+cs_widgetConfig[0][csConfigModuleWidget].url+"'>";
-		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.statusCategories[1].count+"</div>";
+		summaryStr += "<a href='"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url+"'>";
+		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+newSubmissionCount+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";		
@@ -1863,10 +1871,56 @@ async function getAllCandidates(widgetArg, moduleArg){
 	} )
 	.then( response => response.json() )
 	.then( async function( localStr ) {
+		
 		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 		summaryStr += "<div class='summaryItem col-md-12'>";
 		summaryStr += "<div class='gpe-center'>";
-		summaryStr += "<a href='"+cs_widgetConfig[0][csConfigModuleWidget].url+"'>";
+		summaryStr += "<a href='"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url+"'>";
+		summaryStr += "<div class='flex-column min-vh-50 justify-content-center align-items-center'>";
+		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.totalItems+"</div>";
+		summaryStr += "</div>";
+		summaryStr += "</a>";
+		summaryStr += "</div>";
+		summaryStr += "</div>";		
+		summaryStr += "</div>";		
+		tmpContentDiv.innerHTML = summaryStr;
+
+		return tmpContentDiv;		
+	})
+	.catch( error => {
+		console.error( "Error building getAllCandidates - ", error );
+	});
+}
+
+async function getCandidateMetrics(widgetArg, moduleArg){
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	let csConfigModuleWidget = moduleArg+"-"+widgetArg;
+
+	const tmpContentDiv = document.createElement( "div" );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", csConfigModuleWidget );
+
+	return await checkJWT()
+	.then( async function() {
+		let rptURL = sessionStorage.csCloud+"rec-manage-candidates/v1/candidates";
+
+		var payload = 	{"filters":{"statusIds":[],"flagIds":[],"sourceIds":[],"requisitionIds":[],"candidateIds":[],"onlyOpenRequisitions":true,"onlyActiveCandidates":true,"keywords":"","onlyMyRequisitions":true,"requisitionNameSearchTerm":""},"paging":{"pageSize":20,"pageNumber":1,"sortOrder":"SubmissionDateDescending"},"include":["Candidates","AvailableFilters","StatusCategories"]};
+		return await fetch( rptURL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+			body: JSON.stringify( payload )
+		} );
+	} )
+	.then( response => response.json() )
+	.then( async function( localStr ) {
+		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
+		summaryStr += "<div class='summaryItem col-md-12'>";
+		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<a href='"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url+"'>";
 		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.totalItems+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
@@ -1880,6 +1934,7 @@ async function getAllCandidates(widgetArg, moduleArg){
 		console.error( "Error building getAllCandidates - ", error );
 	});
 }
+
 
 async function getTranscriptMetrics(widgetArg, moduleArg) {
 
@@ -1911,7 +1966,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 		summaryStr += "<div class='pastDueCount gpe-bold gpe-text20'>"+localStr.data[0].metrics.pastDueCount+"</div>";
-		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].pastdueDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].pastdueDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -1919,7 +1974,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 		summaryStr += "<div class='dueSoonCount gpe-bold gpe-text20'>"+localStr.data[0].metrics.dueSoonCount+"</div>";
-		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].dueSoonDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].dueSoonDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -1927,7 +1982,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 		summaryStr += "<div class='noDueDateCount gpe-bold gpe-text20'>"+localStr.data[0].metrics.noDueDateCount+"</div>";
-		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].assignedNoDueDateDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].assignedNoDueDateDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -1938,7 +1993,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
 		summaryStr += "<div class='pastDueCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numPlaylists+"</div>";
-		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].playlists.createdDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.createdDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -1946,7 +2001,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
 		summaryStr += "<div class='dueSoonCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowers+"</div>";
-		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].playlists.followersDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.followersDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -1954,7 +2009,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists?section=followed'>";
 		summaryStr += "<div class='noDueDateCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowed+"</div>";
-		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[0][csConfigModuleWidget].playlists.followedDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.followedDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
@@ -2539,6 +2594,198 @@ async function getInspiredBySubjects(widgetArg, moduleArg){
 	});	
 }
 
+async function getTopPicks(widgetArg, moduleArg){
+	const tmpContentDiv = document.createElement( "div" );
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute( "id", moduleArg+"-"+widgetArg );
+
+	return await checkJWT()
+	.then( async function() {
+		return await fetch( "/services/api/lms/user/"+sessionStorage.csUser+"/recommendedtraining?type=TopPicks&pageSize=20&pageNum=1", {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+
+		let carouselMain = document.createElement( "div" );
+		carouselMain.className = "carousel slide";
+		carouselMain.setAttribute( "id", widgetArg+"Carousel");
+		carouselMain.setAttribute( "data-bs-ride", "carousel");
+		carouselMain.setAttribute( "data-bs-interval", "false");
+		carouselMain.setAttribute( "data-pause", "hover");
+
+		// let carouselIndicators = document.createElement("div");
+		// carouselIndicators.className = "carousel-indicators";
+		
+		// let activeCarousel = "";
+		// localStr.data.forEach(function(subjectItem, index){
+		// 	let carouselIndicator = document.createElement("button");
+		// 	carouselIndicator.setAttribute("type", "button");
+		// 	carouselIndicator.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		// 	carouselIndicator.setAttribute("data-bs-slide-to", index);
+		// 	if(activeCarousel == "") {
+		// 		carouselIndicator.className = "active";
+		// 		activeCarousel = "active";
+		// 	}
+		// 	carouselIndicators.appendChild(carouselIndicator);
+		// });
+		
+		// carouselMain.appendChild(carouselIndicators);
+
+		let carouselItems = document.createElement("div");
+		carouselItems.className = "carousel-inner";
+
+		let activeItem = "";
+		localStr.data.forEach(function(subjectItem, index){
+			let carouselItem = document.createElement("div");
+			carouselItem.className = "carousel-item";
+			if(activeItem == "") {
+				carouselItem.className += " active";
+				activeItem = "active";
+			}
+
+			let carouselItemTile = document.createElement("div");
+			carouselItemTile.className = "carouselItemTile";
+			carouselItemTile.setAttribute("data-tag", subjectItem.id);
+			carouselItemTile.style.height = "225px";
+
+				let carouselItemPanel = document.createElement("div");
+				carouselItemPanel.className = "carouselItemPanel";
+				carouselItemPanel.setAttribute("data-tag", subjectItem.id);
+				carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
+
+					let carouselItemPanelC = document.createElement("div");
+
+						let carouselItemPanelItem = document.createElement("div");
+						carouselItemPanelItem.className = "carouselItemPanelItem";
+
+							let carouselItemPanelBody = document.createElement("div");
+							carouselItemPanelBody.className = "carouselItemPanelBody";
+
+								let carouselItemPanelD = document.createElement("div");
+
+									let carouselItemPanelTileBody = document.createElement("div");
+									carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
+
+										let carouselItemPanelTileLink = document.createElement("a");
+										carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
+										carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
+										carouselItemPanelTileLink.title = subjectItem.title;
+
+											let carouselItemPanelTileLinkThmb = document.createElement("div");
+											carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
+											carouselItemPanelTileLinkThmb.style.backgroundImage = "url('"+subjectItem.thumbnailImage+"')";
+											carouselItemPanelTileLinkThmb.style.height = "100%";
+											carouselItemPanelTileLinkThmb.style.overflow = "hidden";
+										
+										carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
+									carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
+								carouselItemPanelD.appendChild(carouselItemPanelTileBody);
+							carouselItemPanelBody.appendChild(carouselItemPanelD);
+						carouselItemPanelItem.appendChild(carouselItemPanelBody);
+
+						carouselItemPanelCourseDesc = document.createElement("div");
+						carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
+
+							carouselItemPanelCourseDescDiv = document.createElement("div");
+							carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
+
+								carouselItemPanelCourseDescDivType = document.createElement("span");
+								carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
+								carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
+								carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
+
+								carouselItemPanelCourseDescDivTitle = document.createElement("a");
+								carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
+								carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
+								carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
+
+									carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+									carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
+									carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
+
+										carouselItemPanelCourseDescD = document.createElement("div");
+										carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
+
+											carouselItemPanelCourseDescTitleText = document.createElement("div");
+											carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
+											carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
+
+												carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+												carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
+
+											carouselItemPanelCourseDescDuration = document.createElement("div");
+											carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
+											carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
+													
+
+											carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
+										carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
+									carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
+								carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
+							
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
+							carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
+						
+						carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
+
+					carouselItemPanelC.appendChild(carouselItemPanelItem);
+					carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
+
+				carouselItemPanel.appendChild(carouselItemPanelC);
+			
+			carouselItemTile.appendChild(carouselItemPanel);
+		
+			carouselItem.appendChild(carouselItemTile);
+			carouselItems.appendChild(carouselItem);
+
+		});		
+		carouselMain.appendChild(carouselItems);
+
+		let controlPrev = document.createElement("button");
+		controlPrev.className = "carousel-control-prev";
+		controlPrev.setAttribute("type", "button");
+		controlPrev.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		controlPrev.setAttribute("data-bs-slide", "prev");
+
+		let controlPrevIcon = document.createElement("span");
+		controlPrevIcon.className = "carousel-control-prev-icon";
+
+		let controlNext = document.createElement("button");
+		controlNext.className = "carousel-control-next";
+		controlNext.setAttribute("type", "button");
+		controlNext.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
+		controlNext.setAttribute("data-bs-slide", "next");
+
+		let controlNextIcon = document.createElement("span");
+		controlNextIcon.className = "carousel-control-next-icon";
+
+
+		controlPrev.appendChild(controlPrevIcon);
+		carouselMain.appendChild(controlPrev);
+
+		controlNext.appendChild(controlNextIcon);
+		carouselMain.appendChild(controlNext);
+
+		tmpContentDiv.appendChild(carouselMain);
+		return tmpContentDiv;
+	})
+	.catch( error => {
+		console.error( "Error building getInspiredBySubjects - ", error );
+	});	
+}
+
+
+
 /**
  *
  * @param
@@ -2650,7 +2897,7 @@ async function getCheckinsDetails( widgetArg, moduleArg ) {
 
 		} else {
 			checkinStr = "<div class='checkins nocontent'>";
-			checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='"+cs_widgetConfig[0][csConfigModuleWidget].getstartedurl+"'>" + cs_widgetConfig[0][csConfigModuleWidget].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
+			checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].getstartedurl+"'>" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].nocontenttitle[ sessionStorage.csCulture ] + "</button>";
 			checkinStr += "</div>";
 		}
 		//		console.log("checkinStr : "+ checkinStr);
@@ -2726,7 +2973,7 @@ function updateReportToken() {
  * @returns
  */
 function fetchReport( reportIDArg ) {
-	console.log("REPORTID: "+ reportIDArg);
+	//console.log("REPORTID: "+ reportIDArg);
 	var rptDataSet = {};
 	return fetch( "/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
 			method: 'GET',
@@ -2740,7 +2987,7 @@ function fetchReport( reportIDArg ) {
 		} )
 		//.then(response => response.json())
 		.then( function( response ) {
-			console.log(response.status);
+			//console.log(response.status);
 			if ( !response.ok ) {
 				throw new Error( "HTTP status " + response.status );
 			}
@@ -3027,8 +3274,6 @@ var getReportData = async ( reports, demoRoleArg ) => {
 
 		var tmpCanvas = document.createElement( "canvas" );
 		tmpCanvas.setAttribute( "id", "report" + reportID );
-		// tmpCanvas.setAttribute( "style", "height: 250px, width: 100%" );
-//		tmpCanvas.setAttribute( "style", "height: 250px !important, width: 100% !important" );
 
 		generateHTMLCard( "", "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/" + reportID, cs_DashboardDetailsArray.reports[ reportID ].width, "cs_report_" + reportID, "cs_report", demoRoleArg + "-dashboards", "reportContents", tmpCanvas );
 
@@ -3039,91 +3284,10 @@ var getReportData = async ( reports, demoRoleArg ) => {
 			} );
 	} );
 	return Promise.all( requests )
-		.then( async function(reportResponseData) {
-
-			// reportResponseData.forEach( function( reportResponse ) {
-
-			// 	var reportColumns = reportResponse[ 0 ];
-			// 	var reportData = reportResponse[ 1 ];
-			// 	var reportID = reportResponse[ 2 ];
-			// 	//console.log(response);
-
-            //     // console.log("COLUMNS");
-            //     // console.log(reportColumns);
-
-			// 	var modalTbl = document.createElement( "div" );
-			// 	modalTbl.setAttribute( "id", "modalTable_" + reportResponse[ 2 ] );
-			// 	modalTbl.setAttribute( "tabindex", "-1" );
-			// 	modalTbl.setAttribute( "role", "dialog" );
-			// 	modalTbl.className = "modal fade reportModal";
-
-			// 	var modalDia = document.createElement( "div" );
-			// 	modalDia.className = "modal-dialog modal-dialog-centered modal-lg modal-fullscreen-md-down";
-
-			// 	var modalCont = document.createElement( "div" );
-			// 	modalCont.className = "modal-content";
-
-			// 	var modalHdr = document.createElement( "div" );
-			// 	modalHdr.className = "modal-header";
-
-			// 	var modalHdrTitle = document.createElement( "h5" );
-			// 	modalHdrTitle.className = "modal-title";
-			// 	modalHdrTitle.innerHTML = reportResponse[ 3 ] + " (data)";
-
-			// 	var modalHdrCloseBtn = document.createElement( "button" );
-			// 	modalHdrCloseBtn.setAttribute( "type", "button" );
-			// 	modalHdrCloseBtn.className = "btn-close";
-			// 	modalHdrCloseBtn.setAttribute( "data-bs-dismiss", "modal" );
-			// 	//modalHdrCloseBtn.innerHTML = "Close";
-
-			// 	var modalContent = document.createElement( "div" );
-			// 	modalContent.setAttribute( "id", "cs_reportModal_table" + reportResponse[ 2 ] );
-			// 	modalContent.className = "modal-body";
-
-			// 	modalHdr.appendChild( modalHdrTitle );
-			// 	modalHdr.appendChild( modalHdrCloseBtn );
-			// 	modalCont.appendChild( modalHdr );
-			// 	modalCont.appendChild( modalContent );
-			// 	modalDia.appendChild( modalCont );
-			// 	modalTbl.appendChild( modalDia );
-
-			// 	// var divTemp = document.getElementById("cs_report_"+reportID);
-			// 	var $table;
-			// 	$table = $( "<table id='ReportTable" + reportResponse[ 2 ] + "'>" );
-			// 	//$table = $("ReportTable"+reportResponse[2]);
-			// 	$table.appendTo( modalContent );
-			// 	$table.bootstrapTable( {
-			// 		locale: sessionStorage.csCulture,
-			// 		exportDataType: true,
-			// 		exportTypes: [ 'json', 'xml', 'csv', 'txt', 'sql', 'excel' ],
-			// 		pageSize: 25,
-			// 		pagination: true, // Allow pagination
-			// 		search: true, // Allow search
-			// 		searchHighlight: true,
-			// 		showColumns: true,
-			// 		showColumnsSearch: true,
-			// 		sortClass: "table-active",
-			// 		height: "500",
-			// 		checkboxHeader: true,
-			// 		showToggle: false,
-			// 		detailView: false,
-			// 		showColumnsToggleAll: true,
-			// 		columns: reportColumns,
-			// 		data: reportData
-			// 	} );
-
-			// 	var divTemp = document.getElementById( "cs_report_" + reportID );
-			// 	divTemp.appendChild( modalTbl );
-
-			// 	$( "#cs_report_" + reportID + " .card-body" ).click( function() {
-			// 		$( "#modalTable_" + reportID ).modal( "toggle" );
-			// 		// $("[id*='cs_reportModal_table']").bootstrapTable('refreshOptions', {});
-			// 	} );
-			// } );
-			//						$("div[id='cs_report_"+reportIDresp+"'] .loader").css("display","none");
-			return "All done here with the dashboards";
-		} )
-		.catch( error => console.error( "Error in getting report data: " + error ) );
+	.then( async function(reportResponseData) {
+		return "All done here with the dashboards";
+	} )
+	.catch( error => console.error( "Error in getting report data: " + error ) );
 };
 
 /**
@@ -3145,6 +3309,50 @@ function lastinline(printStrArg) {
 	lastinline += horns +" "+ flame +" "+ mad +" "+ flame +" "+ horns;
 	return lastinline;
 }
+
+function play() {
+	let url = "/services/api/x/users/v2/employees/"+sessionStorage.csUser;
+	checkJWT()
+	.then( async function() {
+		return await fetch( url, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+			//body: JSON.stringify( payload )
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+		let ouId = localStr.data.ous[3].id;
+		let typeId = localStr.data.ous[3].typeId;
+		let url = "/services/api/x/odata/api/views/vw_rpt_ou?$filter=ou_id eq "+ouId+" and type_id eq "+typeId;
+		return await fetch( url, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+		var demoModules = localStr.value[0].title.substring(3); // Remove ROLE info
+		sessionStorage.setItem("csDemoModules", demoModules);
+		console.log(sessionStorage.csDemoModules);
+	})	
+	.catch(error => {
+		console.error(error);
+	});	
+}
+
 
 function setPreloader(mainDivArg, visibleArg) {
 
@@ -3187,39 +3395,37 @@ function setPreloader(mainDivArg, visibleArg) {
  */
 
  (async function() {
- 	await checkJWT()
+	setPreloader(gpeUSRCONTENTDIV, "on");
+	await checkJWT()
  		.then(async function(tokenResponse) {
-			const gpe_widgetConfig_v2 = await fetch("https://scfiles.csod.com/Baseline/Config/json/gpe_widgetConfig.json").then(jsonData => jsonData.json());
-			const gpe_customLocale_v2 = await fetch("https://scfiles.csod.com/Baseline/Config/json/gpe_customLocale.json").then(jsonData => jsonData.json());
-			const gpe_accessURLs = await fetch("https://scfiles.csod.com/Baseline/Config/json/accessURLs.json").then(jsonData => jsonData.json());
 
-			return await Promise.all([gpe_widgetConfig_v2, gpe_customLocale_v2, gpe_accessURLs]);
+			const gpe_widgetConfig_v2 = fetch("https://scfiles.csod.com/Baseline/Config/json/gpe_widgetConfig-min.json", {cache: "no-store"}).then(jsonData => jsonData.json());
+			const gpe_customLocale_v2 = fetch("https://scfiles.csod.com/Baseline/Config/json/gpe_customLocale-min.json", {cache: "no-store"}).then(jsonData => jsonData.json());
+			return await Promise.all([gpe_widgetConfig_v2, gpe_customLocale_v2]);
 		})
 		.then(async function(gpeJson) {
 			let gpe_widgetConfig_v2 	= gpeJson[0];
 			let gpe_customLocale_v2 	= gpeJson[1];
-			let gpe_accessURLs 			= gpeJson[2];
 
 			sessionStorage.setItem("csWidgetConfig", JSON.stringify(gpe_widgetConfig_v2));
 			sessionStorage.setItem("csCustomLocale", JSON.stringify(gpe_customLocale_v2));
-			sessionStorage.setItem("csAccessURLs", JSON.stringify(gpe_accessURLs));
+			const gpeNav 			= buildNav(gpeDEMOROLE, sessionStorage.csCulture);
+			const gpeAboutCard 		= buildAboutCard();
+			const gpeApprovals 		= getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
+			const gpeOnboarding 	= buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture);
+			const gpeModuleLayout 	= buildModuleWidget(gpeDEMMOMODULES, gpeDEMOROLE);
 
-			const gpeNav 			= await buildNav(gpeDEMOROLE, sessionStorage.csCulture, getAccessDetails(gpe_accessURLs));
-			const gpeAboutCard 		= await buildAboutCard();
-			const gpeApprovals 		= await getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
-			const gpeOnboarding 	= await buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture);
-			const gpeModuleLayout 	= await buildModuleWidget(gpeDEMMOMODULES);
-
-			return await Promise.all([gpeNav, gpeAboutCard, gpeApprovals, gpe_accessURLs, gpeOnboarding, gpeModuleLayout]);
+			return await Promise.all([gpeNav, gpeAboutCard, gpeApprovals, gpeOnboarding, gpeModuleLayout]);
 		})
-		.then(async function([gpeNav, gpeAbt, gpeQLS, gpeAppr, accessURLs]) {
-            console.log("NAV/ABT/QLS/APPROVALS DONE");
-			const gpeWidgets = await buildWidgets_v2(gpeDEMMOMODULES);
+		.then(async function([gpeNav, gpeAboutCard, gpeApprovals, gpeOnboarding, gpeModuleLayout]) {
+            console.log("NAV/ABOUT/APPROVALS/ACCESS/ONB/MODULE COMPLETE!");
+			const gpeWidgets = (gpeDEMOROLE !== "ONB") ? await buildWidgets_v2(gpeDEMMOMODULES, gpeDEMOROLE) : "false";
             return await Promise.resolve(gpeWidgets);			
         })
         .then(async function(data) {
+			setPreloader(gpeUSRCONTENTDIV, "off");
             console.log("WIDGETS DONE");
-			console.log(data);
+			//console.log(data);
             // console.log("READY WITH BASIC WIDGETS!");
 
 			// Fix NiceScroll on feed widget

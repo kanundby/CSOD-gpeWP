@@ -1,4 +1,4 @@
-[{
+const cs_widgetConfig = [{
     "MODULECONFIG": {
         "ATS": {
             "settings": {
@@ -60,7 +60,7 @@
             },
             "HRD": {
                 "AVAILABILITY": 1,
-                "ORDER": 1,
+                "ORDER": 2,
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "TOTALCANDIDATES",
@@ -264,7 +264,7 @@
             },
             "HRD": {
                 "AVAILABILITY": 1,
-                "ORDER": 3,
+                "ORDER": 1,
                 "WIDGETS": {
                     "WIDGET_1": {
                         "ID": "CHECKINS",
@@ -554,296 +554,6 @@
             },
             "HRD": {
                 "AVAILABILITY": 1,
-                "ORDER": 2,
-                "WIDGETS": {
-                    "WIDGET_1": {
-                        "ID": "INSPIRED_BY_SUBJECTS",
-                        "ORDER": 1,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_2": {
-                        "ID": "TOP_PICKS",
-                        "ORDER": 2,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_3": {
-                        "ID": "TRAINING_METRICS",
-                        "ORDER": 3,
-                        "COLUMNSIZE": 6
-                    }
-                },
-                "LINKS": {
-                    "LINK_1": {
-                        "ID": "LEARNER_HOME",
-                        "ORDER": 1
-                    },
-                    "LINK_2": {
-                        "ID": "COMMUNITIES",
-                        "ORDER": 2
-                    },
-                    "LINK_3": {
-                        "ID": "LEARNER_SEARCH",
-                        "ORDER": 3
-                    },
-                    "LINK_4": {
-                        "ID": "TRAINING_HISTORY",
-                        "ORDER": 4
-                    },
-                    "LINK_5": {
-                        "ID": "PLAYLISTS",
-                        "ORDER": 5
-                    },
-                    "LINK_6": {
-                        "ID": "LEADERBOARD",
-                        "ORDER": 6
-                    }
-                }
-            },
-            "ADM": {
-                "AVAILABILITY": 1,
-                "ORDER": 1,
-                "WIDGETS": {
-                    "WIDGET_1": {
-                        "ID": "INSPIRED_BY_SUBJECTS",
-                        "ORDER": 1,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_2": {
-                        "ID": "TOP_PICKS",
-                        "ORDER": 2,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_3": {
-                        "ID": "TRAINING_METRICS",
-                        "ORDER": 3,
-                        "COLUMNSIZE": 6
-                    }
-                },
-                "LINKS": {
-                    "LINK_1": {
-                        "ID": "LEARNER_HOME",
-                        "ORDER": 1
-                    },
-                    "LINK_2": {
-                        "ID": "COMMUNITIES",
-                        "ORDER": 2
-                    },
-                    "LINK_3": {
-                        "ID": "LEARNER_SEARCH",
-                        "ORDER": 3
-                    },
-                    "LINK_4": {
-                        "ID": "TRAINING_HISTORY",
-                        "ORDER": 4
-                    },
-                    "LINK_5": {
-                        "ID": "PLAYLISTS",
-                        "ORDER": 5
-                    },
-                    "LINK_6": {
-                        "ID": "LEADERBOARD",
-                        "ORDER": 6
-                    }
-                }
-            },
-            "REC": {
-                "AVAILABILITY": 1,
-                "ORDER": 3,
-                "WIDGETS": {
-                    "WIDGET_1": {
-                        "ID": "INSPIRED_BY_SUBJECTS",
-                        "ORDER": 1,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_2": {
-                        "ID": "TRENDING_FOR_JOB",
-                        "ORDER": 2,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_3": {
-                        "ID": "TRAINING_METRICS",
-                        "ORDER": 3,
-                        "COLUMNSIZE": 6
-                    }
-                },
-                "LINKS": {
-                    "LINK_1": {
-                        "ID": "LEARNER_HOME",
-                        "ORDER": 1
-                    },
-                    "LINK_2": {
-                        "ID": "COMMUNITIES",
-                        "ORDER": 2
-                    },
-                    "LINK_3": {
-                        "ID": "LEARNER_SEARCH",
-                        "ORDER": 3
-                    },
-                    "LINK_4": {
-                        "ID": "TRAINING_HISTORY",
-                        "ORDER": 4
-                    },
-                    "LINK_5": {
-                        "ID": "PLAYLISTS",
-                        "ORDER": 5
-                    },
-                    "LINK_6": {
-                        "ID": "LEADERBOARD",
-                        "ORDER": 6
-                    }
-                }
-            },
-            "INS": {
-                "AVAILABILITY": 1,
-                "ORDER": 1,
-                "WIDGETS": {
-                    "WIDGET_1": {
-                        "ID": "INSPIRED_BY_SUBJECTS",
-                        "ORDER": 1,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_2": {
-                        "ID": "TOP_PICKS",
-                        "ORDER": 2,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_3": {
-                        "ID": "TRAINING_METRICS",
-                        "ORDER": 3,
-                        "COLUMNSIZE": 6
-                    }
-                },
-                "LINKS": {
-                    "LINK_1": {
-                        "ID": "LEARNER_HOME",
-                        "ORDER": 1
-                    },
-                    "LINK_2": {
-                        "ID": "COMMUNITIES",
-                        "ORDER": 2
-                    },
-                    "LINK_3": {
-                        "ID": "LEARNER_SEARCH",
-                        "ORDER": 3
-                    },
-                    "LINK_4": {
-                        "ID": "TRAINING_HISTORY",
-                        "ORDER": 4
-                    },
-                    "LINK_5": {
-                        "ID": "PLAYLISTS",
-                        "ORDER": 5
-                    },
-                    "LINK_6": {
-                        "ID": "LEADERBOARD",
-                        "ORDER": 6
-                    }
-                }
-            }
-        },
-        "CHR": {
-            "settings": {
-                "moduletitle": {
-                    "en-US": "Core HR",
-                    "en-UK": "Core HR"
-                }
-            },
-            "USR": {
-                "AVAILABILITY": 0,
-                "ORDER": 1,
-                "WIDGETS": {
-                    "WIDGET_1": {
-                        "ID": "",
-                        "ORDER": 1,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_2": {
-                        "ID": "",
-                        "ORDER": 2,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_3": {
-                        "ID": "",
-                        "ORDER": 3,
-                        "COLUMNSIZE": 6
-                    }
-                },
-                "LINKS": {
-                    "LINK_1": {
-                        "ID": "LEARNER_HOME",
-                        "ORDER": 1
-                    },
-                    "LINK_2": {
-                        "ID": "COMMUNITIES",
-                        "ORDER": 2
-                    },
-                    "LINK_3": {
-                        "ID": "LEARNER_SEARCH",
-                        "ORDER": 3
-                    },
-                    "LINK_4": {
-                        "ID": "TRAINING_HISTORY",
-                        "ORDER": 4
-                    },
-                    "LINK_5": {
-                        "ID": "PLAYLISTS",
-                        "ORDER": 5
-                    },
-                    "LINK_6": {
-                        "ID": "LEADERBOARD",
-                        "ORDER": 6
-                    }
-                }
-            },
-            "MGR": {
-                "AVAILABILITY": 0,
-                "ORDER": 1,
-                "WIDGETS": {
-                    "WIDGET_1": {
-                        "ID": "INSPIRED_BY_SUBJECTS",
-                        "ORDER": 1,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_2": {
-                        "ID": "TRENDING_FOR_JOB",
-                        "ORDER": 2,
-                        "COLUMNSIZE": 3
-                    },
-                    "WIDGET_3": {
-                        "ID": "TRAINING_METRICS",
-                        "ORDER": 3,
-                        "COLUMNSIZE": 6
-                    }
-                },
-                "LINKS": {
-                    "LINK_1": {
-                        "ID": "LEARNER_HOME",
-                        "ORDER": 1
-                    },
-                    "LINK_2": {
-                        "ID": "COMMUNITIES",
-                        "ORDER": 2
-                    },
-                    "LINK_3": {
-                        "ID": "LEARNER_SEARCH",
-                        "ORDER": 3
-                    },
-                    "LINK_4": {
-                        "ID": "TRAINING_HISTORY",
-                        "ORDER": 4
-                    },
-                    "LINK_5": {
-                        "ID": "PLAYLISTS",
-                        "ORDER": 5
-                    },
-                    "LINK_6": {
-                        "ID": "LEADERBOARD",
-                        "ORDER": 6
-                    }
-                }
-            },
-            "HRD": {
-                "AVAILABILITY": 0,
                 "ORDER": 3,
                 "WIDGETS": {
                     "WIDGET_1": {
@@ -890,7 +600,7 @@
                 }
             },
             "ADM": {
-                "AVAILABILITY": 0,
+                "AVAILABILITY": 1,
                 "ORDER": 1,
                 "WIDGETS": {
                     "WIDGET_1": {
@@ -937,7 +647,7 @@
                 }
             },
             "REC": {
-                "AVAILABILITY": 0,
+                "AVAILABILITY": 1,
                 "ORDER": 3,
                 "WIDGETS": {
                     "WIDGET_1": {
@@ -984,7 +694,7 @@
                 }
             },
             "INS": {
-                "AVAILABILITY": 0,
+                "AVAILABILITY": 1,
                 "ORDER": 1,
                 "WIDGETS": {
                     "WIDGET_1": {
@@ -1047,11 +757,11 @@
                 "ORDER": 3
             },
             "LINK_4": {
-                "ID": "CORELINK-LIVEFEED",
+                "ID": "CORELINK-ORGCHART",
                 "ORDER": 4
             },
             "LINK_5": {
-                "ID": "CORELINK-CAREER_SITE",
+                "ID": "CORELINK-LIVEFEED",
                 "ORDER": 5
             }
         },
@@ -1174,8 +884,7 @@
             },
             "URL": "/ui/lms-learner-home/home",
             "ICON": "lms_ql_learner_home.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["LMS"]
+            "COLUMNSIZE": 2
         },
         "COMMUNITIES": {
             "TITLE": {
@@ -1184,8 +893,7 @@
             },
             "URL": "/phnx/driver.aspx?routename=Social/Communities",
             "ICON": "lms_ql_communities.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["LMS"]
+            "COLUMNSIZE": 2
         },
         "LEARNER_SEARCH": {
             "TITLE": {
@@ -1194,8 +902,7 @@
             },
             "URL": "/ui/lms-learner-search/search?pageNumber=1",
             "ICON": "lms_ql_learner_search.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["LMS"]
+            "COLUMNSIZE": 2
         },
         "TRAINING_HISTORY": {
             "TITLE": {
@@ -1204,8 +911,7 @@
             },
             "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&preSelectedCategoryId=3",
             "ICON": "lms_ql_transcript.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["LMS"]
+            "COLUMNSIZE": 2
         },
         "PLAYLISTS": {
             "TITLE": {
@@ -1214,8 +920,7 @@
             },
             "URL": "/ui/lms-learner-playlist/UsersPlaylists",
             "ICON": "lms_ql_playlists.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["LMS"]
+            "COLUMNSIZE": 2
         },
         "LEADERBOARD": {
             "TITLE": {
@@ -1224,8 +929,7 @@
             },
             "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Leaderboard&TargetUser=",
             "ICON": "lms_ql_leaderboard.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["LMS"]
+            "COLUMNSIZE": 2
         },
         "SURVEYS": {
             "TITLE": {
@@ -1234,8 +938,7 @@
             },
             "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=16&sort=0",
             "ICON": "epm_ql_surveys.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["EPM","CAR"]
+            "COLUMNSIZE": 2
         },
         "FEEDBACK": {
             "TITLE": {
@@ -1244,8 +947,7 @@
             },
             "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Feedback",
             "ICON": "epm_ql_feedback.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["EPM","CAR"]
+            "COLUMNSIZE": 2
         },
         "PERF_REVIEWS": {
             "TITLE": {
@@ -1254,8 +956,7 @@
             },
             "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=6&sort=0",
             "ICON": "epm_ql_compensation.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["EPM"]
+            "COLUMNSIZE": 2
         },
         "CHECKINS": {
             "TITLE": {
@@ -1264,8 +965,7 @@
             },
             "URL": "/ui/perf-check-ins/Check-Ins/",
             "ICON": "epm_ql_succession.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["CAR"]
+            "COLUMNSIZE": 2
         },
         "CHECKLISTS": {
             "TITLE": {
@@ -1274,8 +974,7 @@
             },
             "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=14",
             "ICON": "epm_ql_checklists.png",
-            "COLUMNSIZE": 2,
-            "MODULE": ["EPM"]
+            "COLUMNSIZE": 2
         },
         "SKILLSMATRIX": {
             "TITLE": {
@@ -1372,8 +1071,8 @@
         },
         "CORELINK-ORGCHART": {
             "TITLE": {
-                "en-US": "Org Chart",
-                "en-UK": "Org Chart"
+                "en-US": "Forms",
+                "en-UK": "Forms"
             },
             "URL": "/phnx/driver.aspx?routename=Organization/OrgChart",
             "ICON": "chr_ql_orgchart.png",
@@ -1409,19 +1108,9 @@
             "ICON": "lms_ql_learner_admin_console.png",
             "COLUMNSIZE": 2,
             "MODULE": "LMS"
-        },
-        "CORELINK-CAREER_SITE": {
-            "TITLE": {
-                "en-US": "Career Site",
-                "en-UK": "Career Site"
-            },
-            "URL": "/ui/internal-career-site/app/search-jobs",
-            "ICON": "lms_ql_learner_admin_console.png",
-            "COLUMNSIZE": 2,
-            "MODULE": "ATS"
         }
     },
-    "WIDGETS": {
+    "MODULES": {
         "EPM-DEVPLAN_PROGRESS": {
             "width": 12,
             "targetdiv": "EPM-DEVPLAN_PROGRESS",
@@ -1544,25 +1233,9 @@
                 "de-DE": ""
             },
             "nocontenttitle": {
-                "en-US": "",
-                "en-UK": "",
-                "de-DE": ""
-            },
-            "getstartedurl": "#"
-        },
-        "LMS-TOP_PICKS": {
-            "width": 12,
-            "targetdiv": "LMS-TOP_PICKS",
-            "url": "/ui/lms-learner-home/home",
-            "title": {
-                "en-US": "Your top picks",
-                "en-UK": "Your top picks",
-                "de-DE": ""
-            },
-            "nocontenttitle": {
-                "en-US": "",
-                "en-UK": "",
-                "de-DE": ""
+                "en-US": "Get Started!",
+                "en-UK": "Get Started!",
+                "de-DE": "Loslegen!"
             },
             "getstartedurl": "#"
         },
@@ -1576,9 +1249,9 @@
                 "de-DE": ""
             },
             "nocontenttitle": {
-                "en-US": "",
-                "en-UK": "",
-                "de-DE": ""
+                "en-US": "Get Started!",
+                "en-UK": "Get Started!",
+                "de-DE": "Loslegen!"
             },
             "getstartedurl": "#"
         },
@@ -1734,4 +1407,4 @@
             }
         }
     }
-}]
+}];

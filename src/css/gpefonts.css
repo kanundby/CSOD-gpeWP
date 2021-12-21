@@ -7,7 +7,7 @@
 
 @font-face {
     font-family: Beatrice;
-    font-style: italic;
+    font-style: italic; 
     font-weight: 100;
     src: url(/fonts/Beatrice-ThinItalic.otf) format("otf"),url(/fonts/Beatrice-ThinItalic.ttf) format("truetype")
 }
