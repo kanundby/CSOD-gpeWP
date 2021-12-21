@@ -2,7 +2,7 @@
  * Dynamic Welcome Page for Cornerstone OnDemand
  * @desc Dynamic welcome page engine for Cornerstone OnDemand. The script is using the navigation menu as base to generate the page.
  * @author 		kanundby@csod.com	-	Klas Anundby
- * @version 	0.9.5
+ * @version 	0.9.6
  */
 
  const gpeABOUTCARDDIV 		= "gpewp_topcontainer_upper"; 					// where do we want to put the user photo name/job?
@@ -100,10 +100,7 @@ const approvalURLs = {
  */
 var cs_DashboardArray = {
 	"MGR": {
-		//          "reports": [],
-		// "reports": [ 2, 3, 14, 19, 46, 47, 48 ],
 		"reports": [ 2, 3, 14, 19, 46, 48 ],
-		//		"reports": [3],
 	},
 	"HRD": {
 		//    "reports": [],
@@ -276,14 +273,6 @@ var cs_DashboardDetailsArray = {
 			"width": 3
 		}
 	}
-};
-
-const gpeUSERREPORTID = {
-	MGR: {
-		reportid: 51,
-		filterid: -2,
-		showcolumns: [ "User Full Name_70", "user_hire_dt_orig_70", "user_pos_70" ]
-	},
 };
 
 /**
@@ -465,15 +454,20 @@ function buildNav( demoRoleArg, cultureArg) {
 			case "HRD":
 			case "INS":
 			case "ADM":
-				// if ( gpeUSERREPORTID[ demoRoleArg ] ) buildExtendedWidgetV2( getAccessDetails( accessURLsArg ), demoRoleArg + "-right");
-				if ( gpeUSERREPORTID[ demoRoleArg ] ) buildExtendedWidgetV2( demoRoleArg + "-right");
-				topNavItmRole = buildExtraNavItem( demoRoleArg, cultureArg );
+				buildExtendedModuleWidget(demoRoleArg);
+				topNavItmRole = buildExtraNavItem( demoRoleArg, cultureArg, "tab" );
 				break;
 		}
 
 		topNavUL.appendChild( topNavItmUSR );
 		if ( topNavItmRole != 0 ) {
 			topNavUL.appendChild( topNavItmRole );
+		}
+
+		let approvalCheck = getApprovalDetails_v2(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
+		if(approvalCheck == "ok") {
+			topNavApprovalItem = buildExtraNavItem( "APPROVALS", cultureArg, "modal" );
+			topNavUL.appendChild( topNavApprovalItem );
 		}
 
 		let w1 = document.createElement( "nav" );
@@ -526,7 +520,7 @@ function buildNav( demoRoleArg, cultureArg) {
  * @param {string} cultureArg - Sessionstorage value (EN-us, EN-uk, DE-de, ... )
  * @returns
  */
-function buildExtraNavItem( demoRoleArg, cultureArg ) {
+function buildExtraNavItem( demoRoleArg, cultureArg, toogleTypeArg) {
 	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
 
 	var topNavItmRole = document.createElement( "li" );
@@ -539,15 +533,14 @@ function buildExtraNavItem( demoRoleArg, cultureArg ) {
 	var topNavBtnRole = document.createElement( "a" );
 	topNavBtnRole.className = "trq-tab-link--flat ng-star-inserted";
 	topNavBtnRole.setAttribute( "id", "nav-" + demoRoleArg + "-tab" );
-	topNavBtnRole.setAttribute( "data-bs-toggle", "tab" );
+	topNavBtnRole.setAttribute( "data-bs-toggle", toogleTypeArg );
 	topNavBtnRole.setAttribute( "data-bs-target", "#nav-" + demoRoleArg );
 	topNavBtnRole.setAttribute( "type", "button" );
 	topNavBtnRole.setAttribute( "role", "tab" );
 	topNavBtnRole.setAttribute( "aria-controls", "nav-" + demoRoleArg );
-	topNavBtnRole.setAttribute( "aria-selected", "true" );
+	topNavBtnRole.setAttribute( "aria-selected", "false" );
 	topNavBtnRole.setAttribute( "_ngcontent-nml-c376", "" );
 	topNavBtnRole.innerHTML = cs_customLocale[0].topNavigationTitle[ demoRoleArg ][ cultureArg ]; //sessionStorage["csCulture"]
-	test = 2;
 	topNavItmRole.appendChild( topNavBtnRole );
 
 	return topNavItmRole;
@@ -690,14 +683,12 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
 	const inputs = { csUser: sessionStorage.csUser};
 
-	modulesDiv = document.createElement( "div" );
-	modulesDiv.className = "gpeWelcomePageModules";
-	modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
-
 	for(let module in moduleArg){
+		modulesDiv = document.createElement( "div" );
+		modulesDiv.className = "gpeWelcomePageModules";
+		modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
 		//console.log(moduleArg[module]);
 		switch ( moduleArg[module] ) {
-			case "CHR":
 			case "ATS":
 			case "LMS":
 			case "EPM":
@@ -782,12 +773,116 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 				modContainer.appendChild(moduleLinkWrapper);
 
 				modulesDiv.appendChild(modContainer);
+
+				// console.log(cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg]);
+				let gpewpMain = document.getElementById(cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].TARGETDIV+"-right");
+				gpewpMain.appendChild(modulesDiv);
+		
 			break;
 		}
 	}
+}
 
-	let gpewpMain = document.getElementById(gpeUSRMAINDIV);
-	gpewpMain.appendChild(modulesDiv);
+async function buildExtendedModuleWidget(demoRoleArg) {
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const inputs = { csUser: sessionStorage.csUser};
+
+	switch ( demoRoleArg ) {
+		case "MGR":
+
+			let modContainer = document.createElement( "div" );
+			modContainer.className = "moduleContainer";
+			modContainer.setAttribute("id", "module_"+demoRoleArg);
+			modContainer.setAttribute("style", "order:"+cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].SETTINGS.ORDER+";");
+
+			let modContainerTitleDiv = document.createElement( "div" );
+			modContainerTitleDiv.className = "moduleTitleDiv";
+
+			let modContainerTitle = document.createElement( "h3" );
+			modContainerTitle.className = "moduleTitle";
+			modContainerTitle.innerHTML = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].SETTINGS.MODULETITLE[sessionStorage.csCulture];
+
+			let modWidgetContainer = document.createElement( "div" );
+			modWidgetContainer.className = "moduleWidgetContainer row";
+
+			for(let widget in cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS) {
+				let tempWidgetID = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID;
+
+				let modWidget = document.createElement( "div" );
+				modWidget.className = "moduleWidget col-md-"+cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].COLUMNSIZE;
+				modWidget.setAttribute("id", demoRoleArg+"-"+tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
+				modWidget.setAttribute("style", "order:"+cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ORDER+";");
+
+				modWidgetContainer.appendChild(modWidget);
+			}
+
+			let moduleLinkWrapper = document.createElement( "div" );
+			moduleLinkWrapper.className = "moduleLinkWrapper row";
+
+			let moduleLinkWrapperCol = document.createElement( "div" );
+			moduleLinkWrapperCol.className = "moduleLinkWrapperCol col-md-12";
+		
+			let modLinkContainer = document.createElement( "ul" );
+			modLinkContainer.className = "moduleLinkContainer";
+
+			// BUILD QUICKLINKS
+			for(let link in cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS) {
+				
+				let tempLinkID = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ID;
+				
+				let modLink = document.createElement( "li" );
+				modLink.className = "moduleLink";
+				modLink.setAttribute("id", demoRoleArg+"-"+tempLinkID);
+					modLink.setAttribute("style", "order:"+cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ORDER+";");
+
+				let modLinkItemLink = document.createElement( "a" );
+				modLinkItemLink.className = "modLinkItemLink";
+				modLinkItemLink.href = injectVariables(inputs, cs_widgetConfig[0].LINKS[tempLinkID].URL);
+
+				let modLinkItem = document.createElement( "div" );
+				modLinkItem.className = "modLinkItem";
+
+				let modLinkIcon = document.createElement( "div" );
+				modLinkIcon.className = "moduleLinkIcon";
+				modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/"+cs_widgetConfig[0].LINKS[tempLinkID].ICON +"')";
+
+				let modLinkTitle = document.createElement( "div" );
+				modLinkTitle.className = "moduleLinkTitle";
+				modLinkTitle.innerHTML = cs_widgetConfig[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture];
+				
+				modLinkItem.appendChild(modLinkIcon);
+				modLinkItem.appendChild(modLinkTitle);
+				modLinkItemLink.appendChild(modLinkItem);
+				modLink.appendChild(modLinkItemLink);
+
+				modLinkContainer.appendChild(modLink);
+			}
+
+			modContainerTitleDiv.appendChild(modContainerTitle);
+			modContainer.appendChild(modContainerTitleDiv);
+			modContainer.appendChild(modWidgetContainer);
+			moduleLinkWrapperCol.appendChild(modLinkContainer);
+			moduleLinkWrapper.appendChild(moduleLinkWrapperCol);
+			modContainer.appendChild(moduleLinkWrapper);
+
+
+			let checkModule = document.getElementById( cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].SETTINGS.TARGETDIV ).getElementsByClassName("gpeWelcomePageModules")[0] ;
+			if ( checkModule ) {
+				modulesDiv = checkModule.getElementsByClassName("gpeWelcomePageModules");
+				modulesDiv[0].appendChild(modContainer);
+			} else {
+				modulesDiv = document.createElement( "div" );
+				modulesDiv.className = "gpeWelcomePageModules";
+				modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
+				modulesDiv.appendChild(modContainer);
+
+				let gpewpMain = document.getElementById(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].SETTINGS.TARGETDIV);
+				gpewpMain.appendChild(modulesDiv);				
+			}
+	
+		break;
+	}
 }
 
 /**
@@ -804,7 +899,7 @@ async function buildWidgets_v2(moduleArg, demoRoleArg) {
 	});
 	return await Promise.all( widgetPromisesArray )
 	.then(async function(widgetPromisesArrayComplete) {
-		console.log(widgetPromisesArrayComplete);
+		// console.log(widgetPromisesArrayComplete);
 		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
 			if(widgetData != null){
 				widgetData.forEach(function(widget){
@@ -834,6 +929,57 @@ async function buildWidgets_v2(moduleArg, demoRoleArg) {
 }
 
 /**
+ *
+ * @param
+ * @param
+ * @returns
+ */
+ async function buildExtendedWidgets(demoRoleArg) {
+
+	return getExtendedWidgetData(demoRoleArg)
+	.then(async function(widgetPromisesArrayComplete) {
+		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
+			if(widgetData != null){
+				return generateHTMLWidget(
+					widgetData.id, 
+					"12", 
+					"widgetCard_"+ widgetData.id, 
+					"widgetWrapper_"+ widgetData.id,
+					widgetData.id,
+					"cs_"+ widgetData.id, 
+					widgetData);
+			}
+		});
+	})
+	.then(async function(renderedWidgetsResp) {
+
+		return renderedWidgetsResp;
+	})
+	.catch( error => console.error( "Error in getting extended widget data: " + error ) );
+}
+
+/**
+ *
+ * @param
+ * @param
+ * @returns
+ */
+// buildWidgets_v2(gpeDEMMOMODULES, gpeDEMOROLE)
+async function getExtendedWidgetData(demoRoleArg) {
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	let widgetPromisesArray = [];
+
+	for(let widget in cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS) {
+		switch(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID) {
+			case "DIRECT_REPORTS" :
+				widgetPromisesArray.push( buildExtendedWidget_v3(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, demoRoleArg) ); 
+			break;			
+		}
+	}
+	return await Promise.all(widgetPromisesArray);
+}
+
+/**
  * getWidgetData - Executes different functions based on widget availability
  * @param {array} widgetIDArg - Array 
  * @returns Content from function
@@ -851,9 +997,12 @@ async function buildWidgets_v2(moduleArg, demoRoleArg) {
 
 			for(let widget in cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS) {
 				switch(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID) {
+					case "DIRECT_REPORTS" :
+						widgetPromisesArray.push( buildExtendedWidget_v3(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) ); 
+					break;			
 					case "TOP_PICKS" :
 						widgetPromisesArray.push( getTopPicks(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) ); 
-					break;					
+					break;			
 					case "INSPIRED_BY_SUBJECTS" :
 						widgetPromisesArray.push( getInspiredBySubjects(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg) ); 
 					break;
@@ -1123,12 +1272,15 @@ async function buildAboutCard() {
  * @param
  * @returns
  */
-function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
-	let aprvlDiv = document.createElement( "div" );
-	aprvlDiv.className = "gpewp_approvals";
+
+
+function getApprovalDetails_v2( approvalURLsArg, cultureArg, demoRoleArg ) {
 
 	let count = 0;
 	let check;
+	let aprvlContentDiv = document.createElement( "div" );
+	aprvlContentDiv.className = "gpeApprovals";
+
 	for ( let item in approvalURLsArg ) {
 		count += 1;
 		$( "table[id*='plnInbox_content'] a[href*='" + approvalURLsArg[ item ].url + "']" ).text( function() {
@@ -1156,27 +1308,58 @@ function getApprovalDetails( approvalURLsArg, cultureArg, demoRoleArg ) {
 			tmpAprvlDivHref.appendChild( tmpAprvlDivBadge );
 			tmpAprvlDiv.appendChild( tmpAprvlDivHref );
 
-			aprvlDiv.appendChild( tmpAprvlDiv );
+			aprvlContentDiv.appendChild( tmpAprvlDiv );
 			check = "ok";
 		} );
 	}
 	//console.log(aprvlDiv);
 	if ( check == "ok" ) {
 
-		generateHTMLCard(
-			$( "td[id$='_ctl00_plnInbox_titleMiddle'] h2" ).text(),
-			"#",
-			12,
-			"gpe_approvalswidget",
-			"row_left_1",
-			demoRoleArg + "-left",
-			"approvalContent",
-			aprvlDiv
-		);
-	}
-	return aprvlDiv;
-}
+		let aprvlDiv = document.createElement( "div" );
+			aprvlDiv.className = "gpewp_approvals modal fade";
+			aprvlDiv.setAttribute("id", "nav-APPROVALS");
+			aprvlDiv.setAttribute("tabindex", "-1");
+			aprvlDiv.setAttribute("aria-labelledby", "ApprovalModal");
+			aprvlDiv.setAttribute("aria-hidden", "true");
 
+		let aprvlDivModalDialog = document.createElement( "div" );
+			aprvlDivModalDialog.className = "modal-dialog modal-dialog-centered";
+			aprvlDivModalDialog.setAttribute("role", "document");
+
+		let aprvlDivModalContent = document.createElement( "div" );
+			aprvlDivModalContent.className = "modal-content";
+
+		let aprvlDivModalHeader = document.createElement( "div" );
+			aprvlDivModalHeader.className = "modal-header";
+		
+		let aprvlDivModalHeaderTitle = document.createElement( "h5" );
+			aprvlDivModalHeaderTitle.className = "modal-title";		
+			aprvlDivModalHeaderTitle.setAttribute("id", "modalTitle");
+
+		let aprvlDivModalHeaderTitleCloseBtn = document.createElement( "button" );
+			aprvlDivModalHeaderTitleCloseBtn.className = "btn-close";		
+			aprvlDivModalHeaderTitleCloseBtn.setAttribute("type", "button");
+			aprvlDivModalHeaderTitleCloseBtn.setAttribute("data-bs-dismiss", "modal");
+			aprvlDivModalHeaderTitleCloseBtn.setAttribute("aria-label", "Close");
+
+			aprvlDivModalHeader.appendChild(aprvlDivModalHeaderTitle);							// wrap header title to header modal
+			aprvlDivModalHeader.appendChild(aprvlDivModalHeaderTitleCloseBtn);					// wrap close button to header modal
+			aprvlDivModalContent.appendChild(aprvlDivModalHeader);
+
+		let aprvlDivModalBody = document.createElement( "div" );
+			aprvlDivModalBody.className = "modal-body";
+			aprvlDivModalBody.appendChild(aprvlContentDiv);
+
+		aprvlDivModalContent.appendChild(aprvlDivModalBody);
+		aprvlDivModalDialog.appendChild(aprvlDivModalContent);
+		aprvlDiv.appendChild(aprvlDivModalDialog);
+
+		// let gpeMainContent = document.getElementById(gpeABOUTCARDDIV);
+		// gpeMainContent.appendChild(aprvlDiv);
+		document.body.appendChild(aprvlDiv);
+	}
+	return check;
+}
 
 /**
  *
@@ -1492,6 +1675,171 @@ async function getTranscriptsStats(userIDArrayArg){
     });
 
     return await Promise.all(promiseArray);
+}
+
+/**
+ * buildExtendedWidget_v3 - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
+ * @param {array} accessArrArg - Array of available navigation items which is based on user's security role (permissions).
+ * @param {string} appendDivArg - Where to put the card...
+ * @returns HTML table to be put on the welcome page
+ */
+async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+
+	return await checkJWT()
+		.then( async function() {
+//			let rptUrl = "/services/api/Search/Team/"+ sessionStorage.csUser;
+			let rptUrl = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser + "&$select=user_id";
+			return await fetch( rptUrl, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + sessionStorage.csToken,
+				},
+			} );
+		} )
+		.then( response => response.json() )
+		.then( async function( userData ) {
+			return await userData.value.map( function( user ) {
+				return user.user_id;
+			} );
+		} )
+		.then( async function( userIDs ) {
+			let empURL = "/services/api/x/users/v2/employees?ids=" + userIDs.join();
+			return await Promise.resolve(fetch( empURL, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + sessionStorage.csToken,
+				},
+			} ));
+		} )
+		.then( response => response.json() )
+		.then( async function( userData ) {
+			// Get goal
+			let userArr = userData.data;
+
+			//If user has access to Goal then go ahead and get the data.
+			// let goalCheck = accessArrArg.some(function(accessItem) { 
+			// 	return accessItem.module == "epm-careers";
+			// });
+
+			// if(goalCheck){
+				let goalData = await Promise.resolve(getGoalProgress(userData));
+				let goalDataArr = [];
+				let goalSummaryArr = [];
+				goalDataArr = goalData.map(function(goalArr){
+					return goalArr.data; 
+				});
+				for(let goalArr in goalDataArr){
+					let goalProgress = 0;
+					let goalWeight = 0;
+					for(let goalItem in goalDataArr[goalArr]){
+						goalProgress += goalDataArr[goalArr][goalItem].Weight * goalDataArr[goalArr][goalItem].Progress;
+						goalWeight += goalDataArr[goalArr][goalItem].Weight;
+					}
+					//console.log(goalDataArr[goalArr]);
+					if(goalDataArr[goalArr].length !== 0) {
+							goalSummaryArr[goalArr] = {
+								id: goalDataArr[goalArr][0].User.Id,
+								goalprogress: Math.round(goalProgress / goalWeight)+"%"
+							};
+					}
+				}
+				const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
+				return await finalArr;
+			// }else {
+			// 	return userArr;
+			// }			
+		})
+		.then(async function(userData) {
+			let emplData = await userData.map( function( user ) {
+				return {
+					id: user.id,
+					firstName: user.firstName,
+					lastName: user.lastName,
+					fullName: user.firstName + " "+ user.lastName,
+					username: user.userName,
+					primaryEmail: user.primaryEmail,
+					mobilPhone: user.mobilePhone,
+					workPhone: user.workPhone,
+					goalProgress: (user.goalprogress && user.goalprogress),
+					language: user.settings.displayLanguage,
+					timezone: user.settings.timeZone,
+					hiredate: (user.workerStatus.lastHireDate && user.workerStatus.lastHireDate.substring(0,10)),
+					address: {
+						line1: user.address.line1,
+						city: user.address.city,
+						country: user.address.country,
+						state: user.address.state
+					}
+				};
+			});
+
+			let emplCols = [{
+				title: "User ID",
+				field: "id",
+				visible: false
+				}, {
+					title: cs_widgetConfig[0].managerwidget.tableheader.name[sessionStorage.csCulture],
+					field: "fullName"
+				}, {
+					title: cs_widgetConfig[0].managerwidget.tableheader.hiredate[sessionStorage.csCulture],
+					field: "hiredate"
+				},
+				{
+					title: cs_widgetConfig[0].managerwidget.tableheader.actions[sessionStorage.csCulture],
+					field: "action",
+					align: "center",
+					clickToSelect: false,
+					formatter: operateFormatter
+				}
+			];
+
+			//If user has access to Goal then add this as a column on manager widget.
+			// let goalCheck = accessArrArg.some(function(accessItem){ return accessItem.id == "Goals";});
+			// if(goalCheck) {
+
+				emplCols.splice(3, 0, {
+					title: "Goal Progress",
+					field: "goalProgress",
+					align: "center",
+				});
+			// }
+
+			const tmpContentDiv = document.createElement( "div" );
+			tmpContentDiv.className = widgetArg;
+			tmpContentDiv.setAttribute( "id", demoRoleArg+"-"+widgetArg );
+
+			var reportContentDiv = document.createElement( "div" );
+			// reportContentDiv.setAttribute( "id", "userReport" + reportIDArg ); // userReport51
+			reportContentDiv.setAttribute( "id", "extendedUserWidget");
+			reportContentDiv.className = "user_table";
+
+			let $table;
+			$table = $( "<table id='extendedUserTable'>" );
+			$table.appendTo( reportContentDiv );
+			$table.bootstrapTable( {
+				locale: sessionStorage.csCulture,
+				showColumns: false,
+				showColumnsSearch: false,
+				checkboxHeader: false,
+				showToggle: false,
+				detailView: true,
+				detailFormatter: detailFormatter,
+				columns: emplCols,
+				data: emplData
+			} );
+
+			tmpContentDiv.appendChild(reportContentDiv);
+
+			return tmpContentDiv;	
+		} )
+		.catch( error => {
+			console.error( "Error building buildExtendedWidget_v3 - ", error );
+		} );
 }
 
 /**
@@ -3404,6 +3752,7 @@ function setPreloader(mainDivArg, visibleArg) {
 			return await Promise.all([gpe_widgetConfig_v2, gpe_customLocale_v2]);
 		})
 		.then(async function(gpeJson) {
+            console.log("JSON DATA : OK!");
 			let gpe_widgetConfig_v2 	= gpeJson[0];
 			let gpe_customLocale_v2 	= gpeJson[1];
 
@@ -3411,46 +3760,26 @@ function setPreloader(mainDivArg, visibleArg) {
 			sessionStorage.setItem("csCustomLocale", JSON.stringify(gpe_customLocale_v2));
 			const gpeNav 			= buildNav(gpeDEMOROLE, sessionStorage.csCulture);
 			const gpeAboutCard 		= buildAboutCard();
-			const gpeApprovals 		= getApprovalDetails(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
-			const gpeOnboarding 	= buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture);
-			const gpeModuleLayout 	= buildModuleWidget(gpeDEMMOMODULES, gpeDEMOROLE);
+			const gpeOnboarding 	= (gpeDEMOROLE === "ONB") ? buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture) : "false";
+			const gpeModuleLayout 	= (gpeDEMOROLE !== "ONB") ? buildModuleWidget(gpeDEMMOMODULES, gpeDEMOROLE) : "false";
 
-			return await Promise.all([gpeNav, gpeAboutCard, gpeApprovals, gpeOnboarding, gpeModuleLayout]);
+			return await Promise.all([gpeNav, gpeAboutCard, gpeOnboarding, gpeModuleLayout]);
 		})
 		.then(async function([gpeNav, gpeAboutCard, gpeApprovals, gpeOnboarding, gpeModuleLayout]) {
-            console.log("NAV/ABOUT/APPROVALS/ACCESS/ONB/MODULE COMPLETE!");
+            console.log("LAYOUT: OK!");
 			const gpeWidgets = (gpeDEMOROLE !== "ONB") ? await buildWidgets_v2(gpeDEMMOMODULES, gpeDEMOROLE) : "false";
+			const gpeExtendedWidgets = (gpeDEMOROLE !== "ONB") ? await buildExtendedWidgets(gpeDEMOROLE) : "false";
             return await Promise.resolve(gpeWidgets);			
         })
         .then(async function(data) {
 			setPreloader(gpeUSRCONTENTDIV, "off");
-            console.log("WIDGETS DONE");
-			//console.log(data);
-            // console.log("READY WITH BASIC WIDGETS!");
-
-			// Fix NiceScroll on feed widget
-			// $("#live_feed").niceScroll({
-			// 	cursorborder: "",
-			// 	cursorcolor: "var(--gpewp-banner-bg-color--light)",
-			// 	autohidemode: false,
-			// 	boxzoom: false
-			// });
+            console.log("WIDGETS: OK!");
 
 			// Set event on logout to delete sessionStorage.
 			var logoutLink = document.querySelector("a[id*='header_headerResponsive_responsiveNav_lnkLogout']");
 				logoutLink.addEventListener("click", function(event) {
 					sessionStorage.clear();
 				});
-
-            // Clean up niceScroll
-            // const btns = document.querySelectorAll('a.trq-tab-link--flat');
-            // btns.forEach(btn => {
-            //    btn.addEventListener('click', event => {
-            //        setTimeout(function(){
-            //             $("#live_feed").niceScroll().resize();
-       		// 	    }, 200);
-            //    });
-            // });
 
             // Checkins click events
 			$(".clickable-row").click(function() {
