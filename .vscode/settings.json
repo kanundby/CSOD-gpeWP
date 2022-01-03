@@ -1,6 +1,4 @@
 {
-    "es6-css-minify.minifyOnSave": "yes",
     "MinifyAll.minifyOnSaveToNewFile": true,
-    "MinifyAll.disableCss": true,
     "MinifyAll.disableHtml": true
 }

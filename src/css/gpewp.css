@@ -698,7 +698,7 @@ p[_ngcontent-nml-c376] {
     grid-template-columns: 1fr;
     gap: 0 0;
     grid-auto-flow: row;
-    grid-template-areas: "gpewp_USR""gpewp_MGR""gpewp_HRD""gpewp_INS""gpewp_ADM""gpewp_REC""gpewp_QLS";
+    grid-template-areas: "gpewp_USR""gpewp_MGR""gpewp_HRD""gpewp_INS""gpewp_ADM""gpewp_REC";
     grid-area: gpewp_content
 }
 
@@ -722,14 +722,12 @@ p[_ngcontent-nml-c376] {
 
 .gpewp_MGR {
     display: grid;
-    /* grid-template-columns: .6fr 1.4fr; */
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     grid-auto-columns: 1fr;
     gap: 0 0;
     grid-auto-flow: row;
     grid-template-areas: "gpewp_MGR-right""gpewp_MGR-dashboards";
-    /* grid-template-areas: "gpewp_MGR-left gpewp_MGR-right""gpewp_MGR-dashboards gpewp_MGR-dashboards"; */
     grid-area: gpewp_MGR
 }
 
@@ -747,11 +745,11 @@ p[_ngcontent-nml-c376] {
 
 .gpewp_HRD {
     display: grid;
-    grid-template-columns: .6fr 1.4fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
     gap: 0 0;
     grid-auto-flow: row;
-    grid-template-areas: "gpewp_HRD-left gpewp_HRD-right""gpewp_HRD-dashboards gpewp_HRD-dashboards";
+    grid-template-areas: "gpewp_HRD-right""gpewp_HRD-dashboards";
     grid-area: gpewp_HRD
 }
 
@@ -769,11 +767,11 @@ p[_ngcontent-nml-c376] {
 
 .gpewp_INS {
     display: grid;
-    grid-template-columns: .6fr 1.4fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
     gap: 0 0;
     grid-auto-flow: row;
-    grid-template-areas: "gpewp_INS-left gpewp_INS-right""gpewp_INS-dashboards gpewp_INS-dashboards";
+    grid-template-areas: "gpewp_INS-right""gpewp_INS-dashboards";
     grid-area: gpewp_INS
 }
 
@@ -791,11 +789,11 @@ p[_ngcontent-nml-c376] {
 
 .gpewp_ADM {
     display: grid;
-    grid-template-columns: .6fr 1.4fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
     gap: 0 0;
     grid-auto-flow: row;
-    grid-template-areas: "gpewp_ADM-left gpewp_ADM-right""gpewp_ADM-dashboards gpewp_ADM-dashboards";
+    grid-template-areas: "gpewp_ADM-right""gpewp_ADM-dashboards";
     grid-area: gpewp_ADM
 }
 
@@ -813,11 +811,11 @@ p[_ngcontent-nml-c376] {
 
 .gpewp_REC {
     display: grid;
-    grid-template-columns: .6fr 1.4fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
     gap: 0 0;
     grid-auto-flow: row;
-    grid-template-areas: "gpewp_REC-left gpewp_REC-right""gpewp_REC-dashboards gpewp_REC-dashboards";
+    grid-template-areas: "gpewp_REC-right""gpewp_REC-dashboards";
     grid-area: gpewp_REC
 }
 
@@ -831,16 +829,6 @@ p[_ngcontent-nml-c376] {
 
 .gpewp_REC-dashboards {
     grid-area: gpewp_REC-dashboards
-}
-
-.gpewp_QLS {
-    display: grid;
-    grid-template-columns: 1.5fr;
-    grid-template-rows: auto;
-    gap: 0 0;
-    grid-auto-flow: row;
-    grid-template-areas: ".";
-    grid-area: gpewp_QLS
 }
 
 div#gpewp-main div[class*=gpewp_] table a:not(.btn) {
@@ -862,66 +850,6 @@ div#gpewp-main div[class*=gpewp_] table a:not(.btn):hover {
 .bootstrap-table tr:hover {
     background-color: transparent !important;
     --bs-table-accent-bg: transparent !important
-}
-
-#cs_main_quicklinks .card-body {
-    min-height: 250px !important;
-    width: 100% !important
-}
-
-#cs_main_quicklinks .card-body .btn {
-    min-width: 100% !important;
-    text-align: left
-}
-
-.gpewp_QLS .card-body .btn-primary {
-    padding: .2rem !important;
-    margin: 3px 3px 3px 3px;
-    line-height: .8rem !important;
-    border-radius: .15rem !important
-}
-
-.gpewp_QLS .card-body a.btn.btn-primary span {
-    font-size: .6rem !important;
-    padding-left: 10px !important;
-    padding-right: 5px !important
-}
-
-.gpewp_QLS .card-body {
-    text-align: left;
-    margin: 0 auto;
-    overflow: hidden
-}
-
-.gpewp_QLS .card-body .fa {
-    font-size: .7rem !important;
-    padding-left: 5px
-}
-
-button.quicklinks_button {
-    border: none;
-    margin: 0;
-    appearance: none;
-    box-sizing: border-box;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: 600;
-    color: #fff;
-    background: linear-gradient(-180deg, rgba(255, 255, 255, .25) 0, rgba(255, 255, 255, 0) 100%) var(--gpewp-brand-color--primary);
-    box-shadow: rgb(0 0 0 / 4%) 0 1px 2px 0;
-    height: 40px;
-    padding: 2px 24px 0;
-    font-size: 14px;
-    font-family: Segoe UI, Arial, sans-serif;
-    width: 100% !important
-}
-
-button.quicklinks_button:hover:not(:disabled) {
-    background: linear-gradient(to right, rgba(0, 0, 0, .08) 0, rgba(0, 0, 0, .08) 100%), linear-gradient(-180deg, rgba(255, 255, 255, .25) 0, rgba(255, 255, 255, 0) 100%) var(--gpewp-banner-bg-color--light)
-}
-
-div[class*=qls_btn_] {
-    padding: 4px !important
 }
 
 .nav-tabs {
@@ -1271,8 +1199,8 @@ th.checkHeaderCol:not(:first-child) {
     --bs-table-accent-bg: none
 }
 
-#gpewp-main [class*=col-md-] {
-    margin-bottom: 1.3333333rem !important
+div[id*="-right"] div[class*=col-md-] {
+    margin-bottom: .5rem !important
 }
 
 .card-header {
@@ -1681,9 +1609,95 @@ h3.moduleTitle {
 
 div#cs_report .card {
     min-height: 350px !important;
+    max-height: 350px !important
+}
+
+div#cs_report .card canvas {
+    margin-top: 20px !important
+}
+
+.gpeWelcomePageModules .card .chart-container canvas {
+    width: 80% !important;
+    height: 80% !important;
+    margin-top: 0 !important  
+}
+
+div#cs_report .card {
+    min-height: 350px !important;
     max-height: 350px !important;
 }
 
 div#cs_report .card canvas {
     margin-top: 20px !important;
 }
+
+.gpeWelcomePageModules .card .chart-container canvas {
+    width: 80% !important;
+    height: 80% !important;
+    margin-top: 0px !important;
+}
+
+.pastDueCount {
+    color: #cc0000 !important;
+}
+
+.dueSoonCount {
+    color: #ffc300 !important;
+}
+
+.summaryItem:hover {
+    background: #fafafa;
+}
+
+.wrapper {
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .card-loader {
+    background-color: #fff;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.08), 0 -1px 3px 0 rgba(0, 0, 0, 0.06);
+    padding: 8px;
+    position: relative;
+    border-radius: 2px;
+    margin-bottom: 0;
+    min-height: 320px!important;
+    max-height: 320px!important;    
+    overflow: hidden;
+  }
+  .card-loader:only-child {
+    margin-top: 0;
+  }
+  .card-loader:before {
+    content: "";
+    height: 110px;
+    display: block;
+    background-color: #ededed;
+    box-shadow: -48px 78px 0 -48px #ededed, -51px 102px 0 -51px #ededed;
+  }
+  .card-loader:after {
+    content: "";
+    background-color: #333;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation-duration: 0.6s;
+    animation-iteration-count: infinite;
+    animation-name: loader-animate;
+    animation-timing-function: linear;
+    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 81%);
+    background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 81%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 81%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#00ffffff", endColorstr="#00ffffff",GradientType=1 );
+  }
+  
+  @keyframes loader-animate {
+    0% {
+      transform: translate3d(-100%, 0, 0);
+    }
+    100% {
+      transform: translate3d(100%, 0, 0);
+    }
+  }

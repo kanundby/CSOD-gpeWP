@@ -2,13 +2,14 @@
  * Dynamic Welcome Page for Cornerstone OnDemand
  * @desc Dynamic welcome page engine for Cornerstone OnDemand. The script is using the navigation menu as base to generate the page.
  * @author 		kanundby@csod.com	-	Klas Anundby
- * @version 	0.9.6
+ * @version 	0.9.7
  */
+
+"use strict";
 
  const gpeABOUTCARDDIV 		= "gpewp_topcontainer_upper"; 					// where do we want to put the user photo name/job?
  const gpeUSRMAINDIV 		= "USR-right";									// User Main div element ID (biggest area)
  const gpeUSRCONTENTDIV 	= "USR-content";								// User Main div (overall)
- const gpeUSRLEFTDIV 		= "USR-left";									// User left div
  const gpeDEMOPERSONADIV 	= "demopersona";								// id of persona div (user record custom field)
  const gpeDEMOMODULEDIV	 	= "demomodules";								// User name
  const gpeDEMONAMEDIV	 	= "demousername";								// User name
@@ -34,7 +35,7 @@ const approvalURLs = {
 	training: {
 		url: "/reports/trackemployee/TrackEmpRequest.aspx",
 		icon: "gpe-appr-training",
-		imgname: "appr_training_002.png",
+		imgname: "approval_training_req.png",
 		title: {
 			"en-US": "Training Request",
 			"en-UK": "Training Request",
@@ -44,7 +45,7 @@ const approvalURLs = {
 	goals: {
 		url: "/EPM/Goals/PendingGoals.aspx?tab_page_id=-580170",
 		icon: "gpe-appr-goals",
-		imgname: "appr_goals_002.png",
+		imgname: "approval_goal_req",
 		title: {
 			"en-US": "Goal Request",
 			"en-UK": "Goal Request",
@@ -54,7 +55,7 @@ const approvalURLs = {
 	feedback: {
 		url: "/Social/SocialFeedback/FeedbackRequests.aspx",
 		icon: "gpe-appr-feedback",
-		imgname: "appr_feedback_002.png",
+		imgname: "approval_feedback_req.png",
 		title: {
 			"en-US": "Feedback Request",
 			"en-UK": "Feedback Request",
@@ -64,7 +65,7 @@ const approvalURLs = {
 	connections: {
 		url: "/phnx/driver.aspx?routename=Social/UniversalProfile/PendingConnections",
 		icon: "gpe-appr-connection",
-		imgname: "appr_connection_002.png",
+		imgname: "approval_connection_req.png",
 		title: {
 			"en-US": "Connection Request",
 			"en-UK": "Connection Request",
@@ -74,7 +75,7 @@ const approvalURLs = {
 	formapproval: {
 		url: "../phnx/driver.aspx?routename=Social/UniversalProfile/Requests",
 		icon: "gpe-appr-form",
-		imgname: "appr_form_002.png",
+		imgname: "approval_form_req.png",
 		title: {
 			"en-US": "Form Approval",
 			"en-UK": "Form Approval",
@@ -84,42 +85,12 @@ const approvalURLs = {
 	compensation: {
 		url: "/EPM/Compensation/User/ApprovalsList.aspx",
 		icon: "gpe-appr-form",
-		imgname: "appr_comp_002.png",
+		imgname: "approval_comp_req.png",
 		title: {
 			"en-US": "Compensation Plan",
 			"en-UK": "Compensation Plan",
 			"de-DE": "Kompensationsplan",
 		},
-	}
-};
-
-/**
- * @var cs_DashboardArray
- * @desc This array outlines which the Report IDs to be used by the demouser (Role).
- *
- */
-var cs_DashboardArray = {
-	"MGR": {
-		"reports": [ 2, 3, 14, 19, 46, 48 ],
-	},
-	"HRD": {
-		//    "reports": [],
-		"reports": [ 2, 12, 13, 15, 16, 25, 32, 46 ],
-	},
-	"INS": {
-		"reports": [ 14, 28, 30, 42, 47 ],
-	},
-	"REC": {
-		"reports": [ 17, 23, 24, 27 ],
-	},
-	"ADM": {
-		"reports": [ 16, 28, 29, 43, 50 ],
-	},
-	"USR": {
-		"reports": [],
-	},
-	"ONB": {
-		"reports": [],
 	}
 };
 
@@ -395,7 +366,7 @@ function multiSort( array, sortObject = {} ) {
  * @returns a promise
  */
 // function buildNav( demoRoleArg, cultureArg, accessURLsArg ) {
-function buildNav( demoRoleArg, cultureArg) {
+function buildNav( demoRoleArg, cultureArg, moduleArg) {
 	/* Set top menu space  START */
 	if ( !document.getElementById( "framework-oldnav-home" ) ) {
 
@@ -434,7 +405,8 @@ function buildNav( demoRoleArg, cultureArg) {
 		topNavItmUSR.setAttribute( "trqiduseparent", "true" );
 
 		let topNavBtnUSR = document.createElement( "a" );
-		topNavBtnUSR.className = "trq-tab-link--flat ng-star-inserted active";
+		// 	topNavBtnUSR.className = "trq-tab-link--flat ng-star-inserted active";
+		topNavBtnUSR.className = "trq-tab-link--flat ng-star-inserted";
 		topNavBtnUSR.setAttribute( "id", "nav-USR-tab" );
 		topNavBtnUSR.setAttribute( "data-bs-toggle", "tab" );
 		topNavBtnUSR.setAttribute( "data-bs-target", "#nav-USR" );
@@ -449,13 +421,25 @@ function buildNav( demoRoleArg, cultureArg) {
 		let topNavItmRole = 0;
 		if ( demoRoleArg == "HRM" ) demoRoleArg = "HRD"; // Fix until we have update all the different areas from HRM to HRD
 		switch ( demoRoleArg ) {
+			case "ONB":
+			case "USR":
+				
+			let mainNavUserPage = document.getElementById("nav-USR");
+				mainNavUserPage.classList.add("show");
+				mainNavUserPage.classList.add("active");
+				topNavBtnUSR.classList.add("active");
+				break;
 			case "REC":
 			case "MGR":
 			case "HRD":
 			case "INS":
 			case "ADM":
-				buildExtendedModuleWidget(demoRoleArg);
+				buildExtendedModuleWidget(moduleArg, demoRoleArg);
 				topNavItmRole = buildExtraNavItem( demoRoleArg, cultureArg, "tab" );
+				//topNavBtnUSR.classList.remove("active");
+				let mainNavPage = document.getElementById("nav-"+ demoRoleArg);
+				mainNavPage.classList.add("show");
+				mainNavPage.classList.add("active");
 				break;
 		}
 
@@ -466,7 +450,7 @@ function buildNav( demoRoleArg, cultureArg) {
 
 		let approvalCheck = getApprovalDetails_v2(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
 		if(approvalCheck == "ok") {
-			topNavApprovalItem = buildExtraNavItem( "APPROVALS", cultureArg, "modal" );
+			let topNavApprovalItem = buildExtraNavItem( "APPROVALS", cultureArg, "modal" );
 			topNavUL.appendChild( topNavApprovalItem );
 		}
 
@@ -532,6 +516,9 @@ function buildExtraNavItem( demoRoleArg, cultureArg, toogleTypeArg) {
 
 	var topNavBtnRole = document.createElement( "a" );
 	topNavBtnRole.className = "trq-tab-link--flat ng-star-inserted";
+	if(toogleTypeArg == "tab") {
+		topNavBtnRole.classList.add("active");
+	}
 	topNavBtnRole.setAttribute( "id", "nav-" + demoRoleArg + "-tab" );
 	topNavBtnRole.setAttribute( "data-bs-toggle", toogleTypeArg );
 	topNavBtnRole.setAttribute( "data-bs-target", "#nav-" + demoRoleArg );
@@ -684,7 +671,7 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 	const inputs = { csUser: sessionStorage.csUser};
 
 	for(let module in moduleArg){
-		modulesDiv = document.createElement( "div" );
+		let modulesDiv = document.createElement( "div" );
 		modulesDiv.className = "gpeWelcomePageModules";
 		modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
 		//console.log(moduleArg[module]);
@@ -718,6 +705,13 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 					modWidget.className = "moduleWidget col-md-"+cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS[widget].COLUMNSIZE;
 					modWidget.setAttribute("id", moduleArg[module]+"-"+tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
 					modWidget.setAttribute("style", "order:"+cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS[widget].ORDER+";");
+
+					let preLoaderWrapper = document.createElement("div");
+					preLoaderWrapper.className = "wrapper widgetData col-md-12";
+					let preLoaderCard = document.createElement("div");
+					preLoaderCard.className ="card-loader card-loader--tabs";
+					preLoaderWrapper.appendChild(preLoaderCard);
+					modWidget.appendChild(preLoaderWrapper);
 
 					modWidgetContainer.appendChild(modWidget);
 				}
@@ -783,12 +777,15 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 	}
 }
 
-async function buildExtendedModuleWidget(demoRoleArg) {
+async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 
 	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
 	const inputs = { csUser: sessionStorage.csUser};
 
 	switch ( demoRoleArg ) {
+		case "INS":
+		case "ADM":
+		case "HRD":
 		case "MGR":
 
 			let modContainer = document.createElement( "div" );
@@ -811,8 +808,16 @@ async function buildExtendedModuleWidget(demoRoleArg) {
 
 				let modWidget = document.createElement( "div" );
 				modWidget.className = "moduleWidget col-md-"+cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].COLUMNSIZE;
-				modWidget.setAttribute("id", demoRoleArg+"-"+tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
+				// modWidget.setAttribute("id", demoRoleArg+"-"+tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
+				modWidget.setAttribute("id", tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
 				modWidget.setAttribute("style", "order:"+cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ORDER+";");
+
+				let preLoaderWrapper = document.createElement("div");
+				preLoaderWrapper.className = "wrapper widgetData col-md-12";
+				let preLoaderCard = document.createElement("div");
+				preLoaderCard.className ="card-loader card-loader--tabs";
+				preLoaderWrapper.appendChild(preLoaderCard);
+				modWidget.appendChild(preLoaderWrapper);
 
 				modWidgetContainer.appendChild(modWidget);
 			}
@@ -828,35 +833,38 @@ async function buildExtendedModuleWidget(demoRoleArg) {
 
 			// BUILD QUICKLINKS
 			for(let link in cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS) {
+				let userTopLinkID_tmp = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ID;
+				if((moduleArg.some(r=> cs_widgetConfig[0].LINKS[userTopLinkID_tmp].MODULE.includes(r))) || (cs_widgetConfig[0].LINKS[userTopLinkID_tmp].MODULE == "CORE")) {
 				
-				let tempLinkID = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ID;
-				
-				let modLink = document.createElement( "li" );
-				modLink.className = "moduleLink";
-				modLink.setAttribute("id", demoRoleArg+"-"+tempLinkID);
-					modLink.setAttribute("style", "order:"+cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ORDER+";");
+					let tempLinkID = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ID;
+					
+					let modLink = document.createElement( "li" );
+					modLink.className = "moduleLink";
+					modLink.setAttribute("id", demoRoleArg+"-"+tempLinkID);
+						modLink.setAttribute("style", "order:"+cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ORDER+";");
 
-				let modLinkItemLink = document.createElement( "a" );
-				modLinkItemLink.className = "modLinkItemLink";
-				modLinkItemLink.href = injectVariables(inputs, cs_widgetConfig[0].LINKS[tempLinkID].URL);
+					let modLinkItemLink = document.createElement( "a" );
+					modLinkItemLink.className = "modLinkItemLink";
+					modLinkItemLink.href = injectVariables(inputs, cs_widgetConfig[0].LINKS[tempLinkID].URL);
 
-				let modLinkItem = document.createElement( "div" );
-				modLinkItem.className = "modLinkItem";
+					let modLinkItem = document.createElement( "div" );
+					modLinkItem.className = "modLinkItem";
 
-				let modLinkIcon = document.createElement( "div" );
-				modLinkIcon.className = "moduleLinkIcon";
-				modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/"+cs_widgetConfig[0].LINKS[tempLinkID].ICON +"')";
+					let modLinkIcon = document.createElement( "div" );
+					modLinkIcon.className = "moduleLinkIcon";
+					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/"+cs_widgetConfig[0].LINKS[tempLinkID].ICON +"')";
 
-				let modLinkTitle = document.createElement( "div" );
-				modLinkTitle.className = "moduleLinkTitle";
-				modLinkTitle.innerHTML = cs_widgetConfig[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture];
-				
-				modLinkItem.appendChild(modLinkIcon);
-				modLinkItem.appendChild(modLinkTitle);
-				modLinkItemLink.appendChild(modLinkItem);
-				modLink.appendChild(modLinkItemLink);
+					let modLinkTitle = document.createElement( "div" );
+					modLinkTitle.className = "moduleLinkTitle";
+					modLinkTitle.innerHTML = cs_widgetConfig[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture];
+					
+					modLinkItem.appendChild(modLinkIcon);
+					modLinkItem.appendChild(modLinkTitle);
+					modLinkItemLink.appendChild(modLinkItem);
+					modLink.appendChild(modLinkItemLink);
 
-				modLinkContainer.appendChild(modLink);
+					modLinkContainer.appendChild(modLink);
+				}
 			}
 
 			modContainerTitleDiv.appendChild(modContainerTitle);
@@ -869,10 +877,10 @@ async function buildExtendedModuleWidget(demoRoleArg) {
 
 			let checkModule = document.getElementById( cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].SETTINGS.TARGETDIV ).getElementsByClassName("gpeWelcomePageModules")[0] ;
 			if ( checkModule ) {
-				modulesDiv = checkModule.getElementsByClassName("gpeWelcomePageModules");
+				let modulesDiv = checkModule.getElementsByClassName("gpeWelcomePageModules");
 				modulesDiv[0].appendChild(modContainer);
 			} else {
-				modulesDiv = document.createElement( "div" );
+				let modulesDiv = document.createElement( "div" );
 				modulesDiv.className = "gpeWelcomePageModules";
 				modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
 				modulesDiv.appendChild(modContainer);
@@ -935,7 +943,7 @@ async function buildWidgets_v2(moduleArg, demoRoleArg) {
  * @returns
  */
  async function buildExtendedWidgets(demoRoleArg) {
-
+	//setPreloader(demoRoleArg+"-content", "on");
 	return getExtendedWidgetData(demoRoleArg)
 	.then(async function(widgetPromisesArrayComplete) {
 		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
@@ -948,11 +956,17 @@ async function buildWidgets_v2(moduleArg, demoRoleArg) {
 					widgetData.id,
 					"cs_"+ widgetData.id, 
 					widgetData);
+			}else {
+				return false;
 			}
 		});
 	})
 	.then(async function(renderedWidgetsResp) {
-
+		$("canvas").each(function() {
+			var chart = Chart.getChart($(this).attr("id"));
+			chart.update();
+		});
+		// setPreloader(demoRoleArg+"-content", "off");
 		return renderedWidgetsResp;
 	})
 	.catch( error => console.error( "Error in getting extended widget data: " + error ) );
@@ -969,12 +983,33 @@ async function getExtendedWidgetData(demoRoleArg) {
 	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
 	let widgetPromisesArray = [];
 
-	for(let widget in cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS) {
-		switch(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID) {
-			case "DIRECT_REPORTS" :
-				widgetPromisesArray.push( buildExtendedWidget_v3(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, demoRoleArg) ); 
-			break;			
-		}
+	if(cs_widgetConfig[0].ROLESPECIFIC.hasOwnProperty(demoRoleArg)){
+		for(let widget in cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS) {
+			switch(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID) {
+				case "DIRECT_REPORTS" :
+					widgetPromisesArray.push( buildExtendedWidget_v3(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, demoRoleArg) ); 
+				break;
+
+				case "RPT_TRAININGWITHDRAWALS":
+				case "RPT_ASSIGNEDTRAININGSTATUS":
+				case "RPT_SESSIONSEATAVAILABILITY":
+				case "RPT_PASTDUE":
+				case "RPT_EMPLOYEESTATUS":
+				case "RPT_USERRECORDBYMGR":
+				case "RPT_BADGELEADERBOARD":
+				case "RPT_TRAININGPROGRESSSUMMARY" :
+				case "RPT_ORGGOALPROGRESS" :
+				case "RPT_HEADCOUNT" :
+					let reportID = cs_widgetConfig[0].WIDGETS[cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID].reportid;
+
+					let tmpContentDiv = document.createElement( "div" );
+					tmpContentDiv.className = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID +" chart-container";
+					tmpContentDiv.setAttribute( "id", cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID);
+
+					widgetPromisesArray.push( await createDashboard( reportID, cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, tmpContentDiv, demoRoleArg) ); 
+				break;
+			}
+		}	
 	}
 	return await Promise.all(widgetPromisesArray);
 }
@@ -1049,6 +1084,8 @@ async function getExtendedWidgetData(demoRoleArg) {
  * @returns
  */
 function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg ) {
+
+	$("#"+widgetIDArg+" .wrapper").hide();
 
 	const cs_widgetConfig 	= JSON.parse(sessionStorage.csWidgetConfig);
 	const inputs = { csUser: sessionStorage.csUser};
@@ -1296,7 +1333,7 @@ function getApprovalDetails_v2( approvalURLsArg, cultureArg, demoRoleArg ) {
             tmpAprvlButton.setAttribute( "content", approvalURLsArg[ item ].title[ cultureArg ]);
 //            tmpAprvlButton.setAttribute("href", $( this ).attr( 'href' ));
             //tmpAprvlButton.setAttribute("type", "button");
-			tmpAprvlButton.className = "approval_button";
+			tmpAprvlButton.className = "approval_button "+ approvalURLsArg[ item ].icon;
             tmpAprvlButton.textContent = approvalURLsArg[ item ].title[ cultureArg ];
 
 			let tmpAprvlDivBadge = document.createElement( "span" );
@@ -1314,6 +1351,7 @@ function getApprovalDetails_v2( approvalURLsArg, cultureArg, demoRoleArg ) {
 	}
 	//console.log(aprvlDiv);
 	if ( check == "ok" ) {
+		const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
 
 		let aprvlDiv = document.createElement( "div" );
 			aprvlDiv.className = "gpewp_approvals modal fade";
@@ -1335,6 +1373,7 @@ function getApprovalDetails_v2( approvalURLsArg, cultureArg, demoRoleArg ) {
 		let aprvlDivModalHeaderTitle = document.createElement( "h5" );
 			aprvlDivModalHeaderTitle.className = "modal-title";		
 			aprvlDivModalHeaderTitle.setAttribute("id", "modalTitle");
+			aprvlDivModalHeaderTitle.innerHTML = cs_customLocale[0].topNavigationTitle.APPROVALS[sessionStorage.csCulture];
 
 		let aprvlDivModalHeaderTitleCloseBtn = document.createElement( "button" );
 			aprvlDivModalHeaderTitleCloseBtn.className = "btn-close";		
@@ -1414,7 +1453,6 @@ async function getDonutDetails( widgetIDArg, urlArg, moduleArg) {
  * @returns
  */
 async function drawDonut(completeArg, contentDivClassArg, tmpContentDivArg) {
-	// console.log("%cdrawDonut: INIT DONUT ********************* "+contentDivClassArg, "color:#00cccc;");
 	let dataDonutArr = [completeArg, (100 - completeArg)];
 
 	let data = {
@@ -1482,17 +1520,15 @@ async function drawDonut(completeArg, contentDivClassArg, tmpContentDivArg) {
 		},
 		plugins: [counter],
 	};
-	// console.log(config);
-	// console.log("%cdrawDonut: RETURN DONUT CONFIG ********************* "+ contentDivClassArg, "color:#00cccc;");
 
 	const tmpCanvas = document.createElement( "canvas" );
 	tmpCanvas.id = contentDivClassArg+"_chart";
 	tmpCanvas.setAttribute( "style", "height: 120px, width: 100%" );
-	tmpContentDivArg.appendChild(tmpCanvas);
 
 	let ctx = tmpCanvas.getContext("2d");
 	let myChart = new Chart(ctx, config);
 
+	tmpContentDivArg.appendChild(tmpCanvas);
 	return await tmpContentDivArg;
 }
 
@@ -1686,7 +1722,10 @@ async function getTranscriptsStats(userIDArrayArg){
 async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 
 	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
-	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+	let modEPMCAR = ["EPM", "CAR"];
+	let modLMS = ["LMS"];
+	let modATS = ["ATS"];
+	let modCHR = ["CHR"];
 
 	return await checkJWT()
 		.then( async function() {
@@ -1727,6 +1766,7 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 			// });
 
 			// if(goalCheck){
+				// if((widgetArg.includes("EPM")) || )
 				let goalData = await Promise.resolve(getGoalProgress(userData));
 				let goalDataArr = [];
 				let goalSummaryArr = [];
@@ -1811,7 +1851,7 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 
 			const tmpContentDiv = document.createElement( "div" );
 			tmpContentDiv.className = widgetArg;
-			tmpContentDiv.setAttribute( "id", demoRoleArg+"-"+widgetArg );
+			tmpContentDiv.setAttribute( "id", widgetArg );
 
 			var reportContentDiv = document.createElement( "div" );
 			// reportContentDiv.setAttribute( "id", "userReport" + reportIDArg ); // userReport51
@@ -1827,8 +1867,9 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 				showColumnsSearch: false,
 				checkboxHeader: false,
 				showToggle: false,
-				detailView: true,
-				detailFormatter: detailFormatter,
+				// detailView: true,
+				detailView: false,
+				// detailFormatter: detailFormatter,
 				columns: emplCols,
 				data: emplData
 			} );
@@ -1840,175 +1881,6 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 		.catch( error => {
 			console.error( "Error building buildExtendedWidget_v3 - ", error );
 		} );
-}
-
-/**
- * buildExtendedWidgetV2 - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
- * @param {array} accessArrArg - Array of available navigation items which is based on user's security role (permissions).
- * @param {string} appendDivArg - Where to put the card...
- * @returns HTML table to be put on the welcome page
- */
-// async function buildExtendedWidgetV2( accessArrArg, appendDivArg ) {
-async function buildExtendedWidgetV2(appendDivArg ) {
-
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
-	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
-
-    return await checkJWT()
-    	.then( async function() {
-//			let rptUrl = "/services/api/Search/Team/"+ sessionStorage.csUser;
-    		let rptUrl = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser + "&$select=user_id";
-    		return await fetch( rptUrl, {
-    			method: 'GET',
-    			headers: {
-    				'Content-Type': 'application/json',
-    				'Authorization': 'Bearer ' + sessionStorage.csToken,
-    			},
-    		} );
-    	} )
-    	.then( response => response.json() )
-    	.then( async function( userData ) {
-			return await userData.value.map( function( user ) {
-				return user.user_id;
-    		} );
-    	} )
-    	.then( async function( userIDs ) {
-    		let empURL = "/services/api/x/users/v2/employees?ids=" + userIDs.join();
-    		return await Promise.resolve(fetch( empURL, {
-    			method: 'GET',
-    			headers: {
-    				'Content-Type': 'application/json',
-    				'Authorization': 'Bearer ' + sessionStorage.csToken,
-    			},
-    		} ));
-    	} )
-    	.then( response => response.json() )
-    	.then( async function( userData ) {
-			// Get goal
-            let userArr = userData.data;
-
-			//If user has access to Goal then go ahead and get the data.
-			// let goalCheck = accessArrArg.some(function(accessItem) { 
-			// 	return accessItem.module == "epm-careers";
-			// });
-
-			// if(goalCheck){
-				let goalData = await Promise.resolve(getGoalProgress(userData));
-				let goalDataArr = [];
-				let goalSummaryArr = [];
-				goalDataArr = goalData.map(function(goalArr){
-					return goalArr.data; 
-				});
-				for(let goalArr in goalDataArr){
-					let goalProgress = 0;
-					let goalWeight = 0;
-					for(let goalItem in goalDataArr[goalArr]){
-						goalProgress += goalDataArr[goalArr][goalItem].Weight * goalDataArr[goalArr][goalItem].Progress;
-						goalWeight += goalDataArr[goalArr][goalItem].Weight;
-					}
-					//console.log(goalDataArr[goalArr]);
-					if(goalDataArr[goalArr].length !== 0) {
-					 	goalSummaryArr[goalArr] = {
-					 		id: goalDataArr[goalArr][0].User.Id,
-					 		goalprogress: Math.round(goalProgress / goalWeight)+"%"
-					 	};
-					}
-				}
-				const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
-				return await finalArr;
-			// }else {
-			// 	return userArr;
-			// }			
-        })
-        .then(async function(userData) {
-    		let emplData = await userData.map( function( user ) {
-    			return {
-    				id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    fullName: user.firstName + " "+ user.lastName,
-    				username: user.userName,
-    				primaryEmail: user.primaryEmail,
-    				mobilPhone: user.mobilePhone,
-    				workPhone: user.workPhone,
-                    goalProgress: (user.goalprogress && user.goalprogress),
-    				language: user.settings.displayLanguage,
-    				timezone: user.settings.timeZone,
-    				hiredate: (user.workerStatus.lastHireDate && user.workerStatus.lastHireDate.substring(0,10)),
-    				address: {
-    					line1: user.address.line1,
-    					city: user.address.city,
-    					country: user.address.country,
-    					state: user.address.state
-    				}
-    			};
-    		});
-
-            let emplCols = [{
-                title: "User ID",
-                field: "id",
-                visible: false
-                }, {
-                    title: cs_widgetConfig[0].managerwidget.tableheader.name[sessionStorage.csCulture],
-                    field: "fullName"
-                }, {
-                    title: cs_widgetConfig[0].managerwidget.tableheader.hiredate[sessionStorage.csCulture],
-                    field: "hiredate"
-                },
-                {
-                    title: cs_widgetConfig[0].managerwidget.tableheader.actions[sessionStorage.csCulture],
-                    field: "action",
-                    align: "center",
-                    clickToSelect: false,
-                    formatter: operateFormatter
-                }
-            ];
-
-			//If user has access to Goal then add this as a column on manager widget.
-			// let goalCheck = accessArrArg.some(function(accessItem){ return accessItem.id == "Goals";});
-			// if(goalCheck) {
-
-				emplCols.splice(3, 0, {
-                    title: "Goal Progress",
-                    field: "goalProgress",
-                    align: "center",
-                });
-			// }
-
-            var reportContentDiv = document.createElement( "div" );
-			// reportContentDiv.setAttribute( "id", "userReport" + reportIDArg ); // userReport51
-			reportContentDiv.setAttribute( "id", "extendedUserWidget");
-			reportContentDiv.className = "user_table";
-
-			let $table;
-			$table = $( "<table id='extendedUserTable'>" );
-			$table.appendTo( reportContentDiv );
-			$table.bootstrapTable( {
-				locale: sessionStorage.csCulture,
-				showColumns: false,
-				showColumnsSearch: false,
-				checkboxHeader: false,
-				showToggle: false,
-				detailView: true,
-				detailFormatter: detailFormatter,
-				columns: emplCols,
-				data: emplData
-			} );
-
-			var cardTitle = cs_customLocale[0].ManagerWidgetTitle[ sessionStorage.csCulture ]; // cardTitleArg - Title of the card.
-			var cardLink = "#"; // cardTitleHrefArg - URL on the card title.
-			var cardWidth = 12; // colArg - Bootstrap column width. Max 12.
-			var cardColID = "userReport_Col"; // colIDArg - ID of the card column.
-			var cardRowID = "userReport_Row"; // rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
-			var targetColDivID = appendDivArg; // targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
-			var contentDivClass = "userReport"; // contentDivClassArg - css class name of the content. This in order to be able to further style the card.
-			var content = reportContentDiv; // contentArg - main content of the card.
-
-			return await generateHTMLCard( cardTitle, cardLink, cardWidth, cardColID, cardRowID, targetColDivID, contentDivClass, content );
-    	} )
-    	.catch( error => {
-    		console.error( "Error building buildExtendedWidgetV2 - ", error );
-    	} );
 }
 
 /**
@@ -2222,9 +2094,9 @@ async function getAllCandidates(widgetArg, moduleArg){
 		
 		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 		summaryStr += "<div class='summaryItem col-md-12'>";
-		summaryStr += "<div class='gpe-center'>";
+		summaryStr += "<div class='gpe-center' style='height:50vh;'>";
 		summaryStr += "<a href='"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url+"'>";
-		summaryStr += "<div class='flex-column min-vh-50 justify-content-center align-items-center'>";
+		summaryStr += "<div class='d-flex align-items-center justify-content-center'>";
 		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.totalItems+"</div>";
 		summaryStr += "</div>";
 		summaryStr += "</a>";
@@ -2337,30 +2209,34 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 		summaryStr += "</div>";
 
 		summaryStr += "<div class='summaryPanel gpe-cap row'>";
+
 		summaryStr += "<div class='summaryItem col-md-4'>";
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
-		summaryStr += "<div class='pastDueCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numPlaylists+"</div>";
-		summaryStr += "<div class='pastdueDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.createdDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='playlistCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numPlaylists+"</div>";
+		summaryStr += "<div class='playlistDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.createdDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
+
 		summaryStr += "<div class='summaryItem col-md-4'>";
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
-		summaryStr += "<div class='dueSoonCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowers+"</div>";
-		summaryStr += "<div class='dueSoonDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.followersDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='playlistnumFollowers gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowers+"</div>";
+		summaryStr += "<div class='playlistFollowersDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.followersDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
+
 		summaryStr += "<div class='summaryItem col-md-4'>";
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists?section=followed'>";
-		summaryStr += "<div class='noDueDateCount gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowed+"</div>";
-		summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.followedDesc[sessionStorage.csCulture]+"</div>";
+		summaryStr += "<div class='playlistnumFollowed gpe-bold gpe-text20'>"+localStr.data[0].playlists.numFollowed+"</div>";
+		summaryStr += "<div class='playlistFollowedDesc gpe-desc'>"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.followedDesc[sessionStorage.csCulture]+"</div>";
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";
+		
 		summaryStr += "</div>";
 
 		tmpContentDiv.innerHTML = summaryStr;
@@ -2470,38 +2346,38 @@ async function getAssignedTraining(widgetArg, moduleArg) {
 							carouselItemPanelBody.appendChild(carouselItemPanelD);
 						carouselItemPanelItem.appendChild(carouselItemPanelBody);
 
-						carouselItemPanelCourseDesc = document.createElement("div");
+						let carouselItemPanelCourseDesc = document.createElement("div");
 						carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
 
-							carouselItemPanelCourseDescDiv = document.createElement("div");
+							let carouselItemPanelCourseDescDiv = document.createElement("div");
 							carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
 
-								carouselItemPanelCourseDescDivType = document.createElement("span");
+								let carouselItemPanelCourseDescDivType = document.createElement("span");
 								carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
 								carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
 								carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
 
-								carouselItemPanelCourseDescDivTitle = document.createElement("a");
+								let carouselItemPanelCourseDescDivTitle = document.createElement("a");
 								carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
 								carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
 								carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
 
-									carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+									let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
 									carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
 									carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
 
-										carouselItemPanelCourseDescD = document.createElement("div");
+										let carouselItemPanelCourseDescD = document.createElement("div");
 										carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
 
-											carouselItemPanelCourseDescTitleText = document.createElement("div");
+											let carouselItemPanelCourseDescTitleText = document.createElement("div");
 											carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
 											carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
 
-												carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+												let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
 												carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
 
 											// carouselItemPanelCourseDescDuration
-											carouselItemPanelCourseDescDueDate = document.createElement("div");
+											let carouselItemPanelCourseDescDueDate = document.createElement("div");
 											carouselItemPanelCourseDescDueDate.className = "carouselItemPanelCourseDescDueDate";
 											carouselItemPanelCourseDescDueDate.innerHTML = subjectItem.dueDateString;
 
@@ -2660,37 +2536,37 @@ async function getTrendingForJob(widgetArg, moduleArg){
 							carouselItemPanelBody.appendChild(carouselItemPanelD);
 						carouselItemPanelItem.appendChild(carouselItemPanelBody);
 
-						carouselItemPanelCourseDesc = document.createElement("div");
+						let carouselItemPanelCourseDesc = document.createElement("div");
 						carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
 
-							carouselItemPanelCourseDescDiv = document.createElement("div");
+							let carouselItemPanelCourseDescDiv = document.createElement("div");
 							carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
 
-								carouselItemPanelCourseDescDivType = document.createElement("span");
+								let carouselItemPanelCourseDescDivType = document.createElement("span");
 								carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
 								carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
 								carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
 
-								carouselItemPanelCourseDescDivTitle = document.createElement("a");
+								let carouselItemPanelCourseDescDivTitle = document.createElement("a");
 								carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
 								carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
 								carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
 
-									carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+									let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
 									carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
 									carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
 
-										carouselItemPanelCourseDescD = document.createElement("div");
+										let carouselItemPanelCourseDescD = document.createElement("div");
 										carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
 
-											carouselItemPanelCourseDescTitleText = document.createElement("div");
+											let carouselItemPanelCourseDescTitleText = document.createElement("div");
 											carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
 											carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
 
-												carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+												let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
 												carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
 
-											carouselItemPanelCourseDescDuration = document.createElement("div");
+											let carouselItemPanelCourseDescDuration = document.createElement("div");
 											carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
 											carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
 													
@@ -2850,37 +2726,37 @@ async function getInspiredBySubjects(widgetArg, moduleArg){
 							carouselItemPanelBody.appendChild(carouselItemPanelD);
 						carouselItemPanelItem.appendChild(carouselItemPanelBody);
 
-						carouselItemPanelCourseDesc = document.createElement("div");
+						let carouselItemPanelCourseDesc = document.createElement("div");
 						carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
 
-							carouselItemPanelCourseDescDiv = document.createElement("div");
+							let carouselItemPanelCourseDescDiv = document.createElement("div");
 							carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
 
-								carouselItemPanelCourseDescDivType = document.createElement("span");
+								let carouselItemPanelCourseDescDivType = document.createElement("span");
 								carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
 								carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
 								carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
 
-								carouselItemPanelCourseDescDivTitle = document.createElement("a");
+								let carouselItemPanelCourseDescDivTitle = document.createElement("a");
 								carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
 								carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
 								carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
 
-									carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+									let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
 									carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
 									carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
 
-										carouselItemPanelCourseDescD = document.createElement("div");
+										let carouselItemPanelCourseDescD = document.createElement("div");
 										carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
 
-											carouselItemPanelCourseDescTitleText = document.createElement("div");
+											let carouselItemPanelCourseDescTitleText = document.createElement("div");
 											carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
 											carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
 
-												carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+												let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
 												carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
 
-											carouselItemPanelCourseDescDuration = document.createElement("div");
+											let carouselItemPanelCourseDescDuration = document.createElement("div");
 											carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
 											carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
 													
@@ -3040,37 +2916,37 @@ async function getTopPicks(widgetArg, moduleArg){
 							carouselItemPanelBody.appendChild(carouselItemPanelD);
 						carouselItemPanelItem.appendChild(carouselItemPanelBody);
 
-						carouselItemPanelCourseDesc = document.createElement("div");
+						let carouselItemPanelCourseDesc = document.createElement("div");
 						carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
 
-							carouselItemPanelCourseDescDiv = document.createElement("div");
+							let carouselItemPanelCourseDescDiv = document.createElement("div");
 							carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
 
-								carouselItemPanelCourseDescDivType = document.createElement("span");
+								let carouselItemPanelCourseDescDivType = document.createElement("span");
 								carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
 								carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
 								carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
 
-								carouselItemPanelCourseDescDivTitle = document.createElement("a");
+								let carouselItemPanelCourseDescDivTitle = document.createElement("a");
 								carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
 								carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
 								carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
 
-									carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+									let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
 									carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
 									carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
 
-										carouselItemPanelCourseDescD = document.createElement("div");
+										let carouselItemPanelCourseDescD = document.createElement("div");
 										carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
 
-											carouselItemPanelCourseDescTitleText = document.createElement("div");
+											let carouselItemPanelCourseDescTitleText = document.createElement("div");
 											carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
 											carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
 
-												carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+												let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
 												carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
 
-											carouselItemPanelCourseDescDuration = document.createElement("div");
+											let carouselItemPanelCourseDescDuration = document.createElement("div");
 											carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
 											carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
 													
@@ -3394,14 +3270,15 @@ function fetchReport( reportIDArg ) {
  * @param
  * @returns
  */
-async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, chartDivTargetArg ) {
-	return fetchReport( reportIDArg )
-		.then( function( reportJson ) {
-			// console.log("------------------------------ reportJson ------------------------------");
-			// console.log(reportJson);
-			// console.log("------------------------------------------------------------------------\n\n\n");
-			const reportData = reportJson[ 0 ];
-			const rptDataSet = reportJson[ 1 ];
+// createDashboard( reportID, cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, tmpContentDiv, demoRoleArg);
+async function createDashboard( reportIDArg, widgetIDArg, targetDivArg, demoRoleArg) {
+	return await checkReportToken()
+		.then(async function(){
+			return await fetchReport( reportIDArg );
+		})
+		.then(async function( reportJson ) {
+			let reportData = reportJson[ 0 ];
+			let rptDataSet = reportJson[ 1 ];
 
 			let [ , ...labels ] = [ ...new Set( reportData.chartData.map( x => x[ 0 ] ) ) ];
 
@@ -3415,8 +3292,6 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 			let legendFlag = "";
 
 			let dataSet = [];
-
-			// console.log("chartDimensions.length: "+ rptDataSet.charts[ 0 ].chartDimensions.length);
 
 			// If simple graph (one dimension)
 			if ( rptDataSet.charts[ 0 ].chartDimensions.length == 1 ) {
@@ -3444,8 +3319,6 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 				} );
 				legendFlag = false;
 				
-				// console.log("chartData ***************************");
-				// console.log(chartData);
 			// If advanced graph (two dimensions)
 			} else {
 				// console.log("Jag ska inte köras....");
@@ -3485,7 +3358,8 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 				type: cs_DashboardDetailsArray[ rptDataSet.charts[ 0 ].chartTypeId ].type,
 				data: chartData,
 				options: {
-					responsive: true,
+					maintainAspectRatio: "true",
+					responsive: "true",
 					plugins: {
 						legend: {
 							display: legendFlag,
@@ -3508,135 +3382,28 @@ async function createDashboard( reportIDArg, chartTitleArg, chartDivTitleArg, ch
 
 			};
 
-			// console.log("REPORT CONFIG"+ rptDataSet.charts[ 0 ].title);
-			// console.log(config);
+			var canv = document.createElement('canvas'); // creates new canvas element
+			canv.setAttribute( "style", "height: 140px, width: 100%" );
+			canv.id =  widgetIDArg+"_chart"; // gives canvas id
+			document.body.appendChild(canv); // adds the canvas to the body element
 
-			// Set the title of the chart (card-header)
-			$( "div[id='cs_report_" + reportIDArg + "'] .card-header" ).text( reportData.title );
-            // console.log("reportData.data[0]");
-            // console.log(reportData.data[0]);
-			let reportTBLColumns = [ ...reportData.data[ 0 ] ];
-			let [ , ...reportTBLData ] = reportData.data;
+			var canvas1 = document.getElementById(canv.id); //find new canvas we created
+			canvas1.setAttribute( "style", "height: 140px, width: 100%" );
+			var context = canvas1.getContext('2d');
+			let myChart = new Chart(context, config);
 
-			let canvas = document.getElementById( chartTitleArg );
+			document.body.removeChild(canv); // removes new canvas
 
-			// 2021-10-27
-			let ctx = canvas.getContext( "2d" );
-			let myChart = new Chart( ctx, config );
+			canvas1.width = "200px";
+			canvas1.height = "200px";
+			targetDivArg.appendChild(canvas1);
 
-            // console.log("reportTBLColumns");
-            // console.log(reportTBLColumns);
-			let tempCol = generateColumns( reportTBLColumns );
-			// console.log("tempCol");
-			// console.log(tempCol);
-			let tempData = generateReportData( reportTBLData, reportTBLColumns );
-			return Promise.all( [ tempCol, tempData ] )
-				.then( response => {
-					return [ response[ 0 ], response[ 1 ], reportIDArg, reportData.title ];
-				} )
-				.catch( error => console.error( "Error in createDashboard (Promise all) function: " + error ) );
+			return await targetDivArg;			
 		} )
 		.catch( error => console.error( "Error in createDashboard function: " + error ) );
 }
 
-/**
- *
- * @param
- * @param
- * @returns
- */
-async function generateColumns( colArg ) {
-	return colArg.map( ( e ) => {
-		return {
-			//field: e.replace(/ /g,"_"),
-			field: e.replace( /[/()\ \s-]+/g, '' ),
-			title: e,
-			sortable: true
-		};
-	} );
-}
 
-/**
- *
- * @param
- * @param
- * @returns
- */
-async function generateReportData( dataArg, colArg ) {
-	return dataArg.map( function( row ) {
-		return row.reduce( function( result, field, index ) {
-			result[ colArg[ index ].replace( /\s/g, '' ) ] = field;
-			return result;
-		}, {} );
-	} );
-	//	return result;
-}
-
-/**
- * buildDashboards - if the user (demorole) has reports which should be available to display it will match that against what reports actually being shared and then go ahead and fetch data for those reports.
- * @param {string} demoRoleArg - USR/MGR/ADM/HRD/INS/REC
- * @returns
- */
-async function buildDashboards( demoRoleArg ) {
-	if ( cs_DashboardArray[ demoRoleArg ].reports.length != 0 ) {
-		return await checkReportToken()
-    	.then( async function(reportToken) {
-			return await fetch( "/reportarchitect/rctmetacore/metaapi/v1/reports", {
-    			method: 'GET',
-				mode: 'cors',
-				cache: 'no-cache',
-				credentials: 'same-origin',				
-    			headers: {
-    				'Content-Type': 'application/json',
-    				'Authorization': sessionStorage.reportToken,
-    			},
-    		} );
-    	} )
-		.then(availreportresponse => availreportresponse.json())
-		.then(async function(availableReports){
-			return await availableReports.map(function(report, index){
-				if (cs_DashboardArray[demoRoleArg].reports.indexOf(report.id) != -1) {
-					return report.id;
-				}
-			}).filter(n => n);
-		})
-		.then(async function(availableReports) { 
-			return await getReportData( availableReports, demoRoleArg );
-		})
-		.catch( error => console.error( "Error bulding navigation menu: " + error ) );
-	} else {
-		//console.log("no reports");
-		return "No reports for user";
-	}
-}
-
-/**
- * Gathering ALL dashboards (report IDs) to be fetched
- * @param {array} - reports
- * @param
- * @returns
- */
-var getReportData = async ( reports, demoRoleArg ) => {
-	const requests = reports.map(async function( reportID ) {
-		//console.log("Building dashboard in element: " + demoRoleArg + "-right");
-
-		var tmpCanvas = document.createElement( "canvas" );
-		tmpCanvas.setAttribute( "id", "report" + reportID );
-
-		generateHTMLCard( "", "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/" + reportID, cs_DashboardDetailsArray.reports[ reportID ].width, "cs_report_" + reportID, "cs_report", demoRoleArg + "-dashboards", "reportContents", tmpCanvas );
-
-		return await createDashboard( reportID, "report" + reportID, 'reportData' + reportID, demoRoleArg + "-right" )
-			.catch( error => {
-				console.error( "Error in getting report data for Report ID: " + reports );
-				console.error( error );
-			} );
-	} );
-	return Promise.all( requests )
-	.then( async function(reportResponseData) {
-		return "All done here with the dashboards";
-	} )
-	.catch( error => console.error( "Error in getting report data: " + error ) );
-};
 
 /**
  * lastinline - message printed when all is done
@@ -3657,50 +3424,6 @@ function lastinline(printStrArg) {
 	lastinline += horns +" "+ flame +" "+ mad +" "+ flame +" "+ horns;
 	return lastinline;
 }
-
-function play() {
-	let url = "/services/api/x/users/v2/employees/"+sessionStorage.csUser;
-	checkJWT()
-	.then( async function() {
-		return await fetch( url, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-			//body: JSON.stringify( payload )
-		} );
-	})
-	.then( response => response.json() )
-	.then( async function(localStr)  {
-		let ouId = localStr.data.ous[3].id;
-		let typeId = localStr.data.ous[3].typeId;
-		let url = "/services/api/x/odata/api/views/vw_rpt_ou?$filter=ou_id eq "+ouId+" and type_id eq "+typeId;
-		return await fetch( url, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-		} );
-	})
-	.then( response => response.json() )
-	.then( async function(localStr)  {
-		var demoModules = localStr.value[0].title.substring(3); // Remove ROLE info
-		sessionStorage.setItem("csDemoModules", demoModules);
-		console.log(sessionStorage.csDemoModules);
-	})	
-	.catch(error => {
-		console.error(error);
-	});	
-}
-
 
 function setPreloader(mainDivArg, visibleArg) {
 
@@ -3743,7 +3466,7 @@ function setPreloader(mainDivArg, visibleArg) {
  */
 
  (async function() {
-	setPreloader(gpeUSRCONTENTDIV, "on");
+	//setPreloader(gpeUSRCONTENTDIV, "on");
 	await checkJWT()
  		.then(async function(tokenResponse) {
 
@@ -3758,21 +3481,17 @@ function setPreloader(mainDivArg, visibleArg) {
 
 			sessionStorage.setItem("csWidgetConfig", JSON.stringify(gpe_widgetConfig_v2));
 			sessionStorage.setItem("csCustomLocale", JSON.stringify(gpe_customLocale_v2));
-			const gpeNav 			= buildNav(gpeDEMOROLE, sessionStorage.csCulture);
-			const gpeAboutCard 		= buildAboutCard();
-			const gpeOnboarding 	= (gpeDEMOROLE === "ONB") ? buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture) : "false";
-			const gpeModuleLayout 	= (gpeDEMOROLE !== "ONB") ? buildModuleWidget(gpeDEMMOMODULES, gpeDEMOROLE) : "false";
+			const gpeNav 				= buildNav(gpeDEMOROLE, sessionStorage.csCulture, gpeDEMMOMODULES);
+			const gpeAboutCard 			= buildAboutCard();
+			const gpeOnboarding 		= (gpeDEMOROLE === "ONB") ? buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture) : "false";
+			const gpeModuleLayout 		= (gpeDEMOROLE !== "ONB") ? buildModuleWidget(gpeDEMMOMODULES, gpeDEMOROLE) : "false";
+			const gpeWidgets 			= (gpeDEMOROLE !== "ONB") ? buildWidgets_v2(gpeDEMMOMODULES, gpeDEMOROLE) : "false";
+			const gpeExtendedWidgets 	= (gpeDEMOROLE !== "ONB") ? buildExtendedWidgets(gpeDEMOROLE) : "false";
 
-			return await Promise.all([gpeNav, gpeAboutCard, gpeOnboarding, gpeModuleLayout]);
+			return await Promise.all([gpeNav, gpeAboutCard, gpeOnboarding, gpeModuleLayout, gpeWidgets, gpeExtendedWidgets]);
 		})
-		.then(async function([gpeNav, gpeAboutCard, gpeApprovals, gpeOnboarding, gpeModuleLayout]) {
-            console.log("LAYOUT: OK!");
-			const gpeWidgets = (gpeDEMOROLE !== "ONB") ? await buildWidgets_v2(gpeDEMMOMODULES, gpeDEMOROLE) : "false";
-			const gpeExtendedWidgets = (gpeDEMOROLE !== "ONB") ? await buildExtendedWidgets(gpeDEMOROLE) : "false";
-            return await Promise.resolve(gpeWidgets);			
-        })
         .then(async function(data) {
-			setPreloader(gpeUSRCONTENTDIV, "off");
+			//setPreloader(gpeUSRCONTENTDIV, "off");
             console.log("WIDGETS: OK!");
 
 			// Set event on logout to delete sessionStorage.
@@ -3800,23 +3519,8 @@ function setPreloader(mainDivArg, visibleArg) {
 			$(".quicklinks_button").click(function() {
 				window.location = $(this).data("href");
 			});			
-		
-			// Build report dashboards.
-			console.log("PROCESSING DASHBOARDS");
-			const gpeDashboards = await buildDashboards(gpeDEMOROLE);
-			return await Promise.resolve(gpeDashboards);
 		})
 		.then(async function(DashboardData) {
-			// Fix bootstrap table on chart click
-			var reportEvnt = document.querySelectorAll("[id*='cs_report_'] .card-body");
-			reportEvnt.forEach(function(element){
-				element.addEventListener("click", function(event) {
-					var $parentEl = $(this).closest("[class*='col-md-']");
-					setTimeout(function(){ $parentEl.find("[id*='ReportTable']").bootstrapTable('refreshOptions', {}); }, 200);
-				});
-			});
-
-			// console.log(data);
 			console.log(lastinline(DashboardData), "color:#00cc00;");
 		})
  		.catch(error => {

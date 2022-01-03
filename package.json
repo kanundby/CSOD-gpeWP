@@ -1,6 +1,6 @@
 {
   "name": "gpewpes5",
-  "version": "1.0.0",
+  "version": "0.9.8b",
   "description": "ES5 version of gpeWP",
   "main": "gpeWelcomePage.js",
   "scripts": {

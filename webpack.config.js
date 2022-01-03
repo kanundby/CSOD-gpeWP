@@ -1,11 +1,13 @@
 var path = require('path');
 var webpack = require('webpack');
+var PACKAGE = require('./package.json');
+var version = PACKAGE.version;
 
 module.exports = {
     entry: ["regenerator-runtime/runtime.js", "./src/gpeWelcomePage.js"], 
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'gpeWelcomePage_GTM.js',
+        filename: "gpeWelcomePage-"+version+".min.js",
         environment: {
             arrowFunction: false,
             bigIntLiteral: false,
