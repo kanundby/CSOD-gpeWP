@@ -130,119 +130,6 @@ var cs_DashboardDetailsArray = {
 			xdisplay: true,
 			ydisplay: true,
 		},
-	},
-	reports: {
-		"2": {
-			"width": 6
-		},
-		"3": {
-			"width": 3
-		},
-		"4": {
-			"width": 3
-		},
-		"7": {
-			"width": 3
-		},
-		"8": {
-			"width": 3
-		},
-		"10": {
-			"width": 3
-		},
-		"11": {
-			"width": 3
-		},
-		"12": {
-			"width": 3
-		},
-		"13": {
-			"width": 3
-		},
-		"14": {
-			"width": 3
-		},
-		"15": {
-			"width": 3
-		},
-		"16": {
-			"width": 3
-		},
-		"17": {
-			"width": 3
-		},
-		"18": {
-			"width": 3
-		},
-		"19": {
-			"width": 3
-		},
-		"22": {
-			"width": 3
-		},
-		"23": {
-			"width": 3
-		},
-		"24": {
-			"width": 3
-		},
-		"25": {
-			"width": 3
-		},
-		"26": {
-			"width": 3
-		},
-		"27": {
-			"width": 3
-		},
-		"28": {
-			"width": 3
-		},
-		"29": {
-			"width": 3
-		},
-		"30": {
-			"width": 3
-		},
-		"31": {
-			"width": 3
-		},
-		"32": {
-			"width": 3
-		},
-		"36": {
-			"width": 3
-		},
-		"38": {
-			"width": 3
-		},
-		"41": {
-			"width": 3
-		},
-		"42": {
-			"width": 3
-		},
-		"43": {
-			"width": 3
-		},
-		"44": {
-			"width": 3
-		},
-		"46": {
-			"width": 3
-		},
-		"47": {
-			"width": 6
-		},
-		"48": {
-			"width": 3
-		},
-		"49": {
-			"width": 3
-		},
-		"50": {
-			"width": 3
-		}
 	}
 };
 
@@ -267,31 +154,6 @@ function getDemoRole( elementArg ) {
 }
 
 /**
- * Gets details of user's navmenu (titles & urls)
- * @param {Array} accessURLsArg - The array of possible access items a user might/could have.
- * @returns {Array} An array filtered on access items user has.
- */
-function getAccessDetails( accessURLsArg ) {
-	let accessArr = [];
-	var urlData = [];
-	for ( var URL in accessURLsArg ) {
-		$( "a[id*='headerResponsive_responsiveNav_rptMenu_'][href*='" + accessURLsArg[ URL ].url + "']" ).text( function() {
-			urlData = {
-				"id": accessURLsArg[ URL ].title,
-				"title": $( this ).text(),
-				"url": $( this ).attr( 'href' ),
-				"icon": accessURLsArg[ URL ].icon,
-				"module": accessURLsArg[ URL ].module,
-				"quicklinkPrio": accessURLsArg[ URL ].quicklinkPrio,
-				"widgetPrio": accessURLsArg[ URL ].widgetPrio
-			};
-			accessArr[ URL ] = urlData;
-		} );
-	}
-	return accessArr;
-}
-
-/**
  * Replaces details from JSON variable
  * @param {Array} replacements - array used to check what to replace.
  * @param {String} input - string 
@@ -306,57 +168,6 @@ function injectVariables( replacements, input ) {
     }, input );
     return result;
 } 
-
-/**
- * Sorts an array of objects by column/property.
- * @param {Array} array - The array of objects.
- * @param {object} sortObject - The object that contains the sort order keys with directions (asc/desc). e.g. { age: 'desc', name: 'asc' }
- * @returns {Array} The sorted array.
- */
-function multiSort( array, sortObject = {} ) {
-	const sortKeys = Object.keys( sortObject );
-
-	// Return array if no sort object is supplied.
-	if ( !sortKeys.length ) {
-		return array;
-	}
-
-	// Change the values of the sortObject keys to -1, 0, or 1.
-	for ( let key in sortObject ) {
-		sortObject[ key ] = sortObject[ key ] === 'desc' || sortObject[ key ] === -1 ? -1 :
-			( sortObject[ key ] === 'skip' || sortObject[ key ] === 0 ? 0 : 1 );
-	}
-
-	const keySort = ( a, b, direction ) => {
-		direction = direction !== null ? direction : 1;
-
-		if ( a === b ) { // If the values are the same, do not switch positions.
-			return 0;
-		}
-
-		// If b > a, multiply by -1 to get the reverse direction.
-		return a > b ? direction : -1 * direction;
-	};
-
-	return array.sort( ( a, b ) => {
-		let sorted = 0;
-		let index = 0;
-
-		// Loop until sorted (-1 or 1) or until the sort keys have been processed.
-		while ( sorted === 0 && index < sortKeys.length ) {
-			const key = sortKeys[ index ];
-
-			if ( key ) {
-				const direction = sortObject[ key ];
-
-				sorted = keySort( a[ key ], b[ key ], direction );
-				index++;
-			}
-		}
-
-		return sorted;
-	} );
-}
 
 /**
  * Builds the navigation menu for the new welcome page.
@@ -543,6 +354,7 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 	if(demoRoleArg == "ONB") {
 
 		const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+		const inputs = { csFirstName: gpeDEMOUNAME[0] };
 
 		// Remove left column
 		$(".gpewp_USR").css("grid-template-columns", "1fr");
@@ -557,7 +369,9 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 		onbHeader.className = "onbheader";
 		// Get header
 		let onbHeaderTitle = document.createElement( "h5" );
-		onbHeaderTitle.innerHTML = cs_customLocale[0].onboarding[cultureArg].headertitle;
+		// onbHeaderTitle.innerHTML = cs_customLocale[0].onboarding[cultureArg].headertitle;
+		onbHeaderTitle.innerHTML = injectVariables(inputs, cs_customLocale[0].onboarding[cultureArg].headertitle);
+
 		// Get text
 		let onbHeaderText = document.createElement( "p" );
 		onbHeaderText.innerHTML = cs_customLocale[0].onboarding[cultureArg].headertext;
@@ -619,6 +433,7 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 					tmpOnbResourceLi.innerHTML = "<a href='"+cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].url+"' target='_blank'>"+cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].text+"</a>";
 				}else {
 					tmpOnbResourceLi.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].text;
+
 				}
 				tmpOnbResourceUl.appendChild(tmpOnbResourceLi);
 			}
@@ -709,8 +524,13 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 					let preLoaderWrapper = document.createElement("div");
 					preLoaderWrapper.className = "wrapper widgetData col-md-12";
 					let preLoaderCard = document.createElement("div");
-					preLoaderCard.className ="card-loader card-loader--tabs";
+					preLoaderCard.className ="skeleton-card";
+					let preLoaderType = document.createElement("div");
+					let widgetJSONtmp = moduleArg[module]+"-"+tempWidgetID;
+					preLoaderType.className = "skeleton "+ cs_widgetConfig[0].WIDGETS[widgetJSONtmp].skeletoncss;
+	
 					preLoaderWrapper.appendChild(preLoaderCard);
+					preLoaderWrapper.appendChild(preLoaderType);
 					modWidget.appendChild(preLoaderWrapper);
 
 					modWidgetContainer.appendChild(modWidget);
@@ -815,8 +635,12 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 				let preLoaderWrapper = document.createElement("div");
 				preLoaderWrapper.className = "wrapper widgetData col-md-12";
 				let preLoaderCard = document.createElement("div");
-				preLoaderCard.className ="card-loader card-loader--tabs";
+				preLoaderCard.className ="skeleton-card";
+				let preLoaderType = document.createElement("div");
+				preLoaderType.className = "skeleton "+ cs_widgetConfig[0].WIDGETS[tempWidgetID].skeletoncss;
+
 				preLoaderWrapper.appendChild(preLoaderCard);
+				preLoaderWrapper.appendChild(preLoaderType);
 				modWidget.appendChild(preLoaderWrapper);
 
 				modWidgetContainer.appendChild(modWidget);
@@ -926,7 +750,6 @@ async function buildWidgets_v2(moduleArg, demoRoleArg) {
 		});
 	})
 	.then(async function(renderedWidgetsResp) {
-//		setPreloader(gpeUSRCONTENTDIV, "off");
 		$("canvas").each(function() {
 			var chart = Chart.getChart($(this).attr("id"));
 			chart.update();
@@ -943,7 +766,6 @@ async function buildWidgets_v2(moduleArg, demoRoleArg) {
  * @returns
  */
  async function buildExtendedWidgets(demoRoleArg) {
-	//setPreloader(demoRoleArg+"-content", "on");
 	return getExtendedWidgetData(demoRoleArg)
 	.then(async function(widgetPromisesArrayComplete) {
 		return widgetPromisesArrayComplete.map( async function(widgetData, index)  {
@@ -966,7 +788,6 @@ async function buildWidgets_v2(moduleArg, demoRoleArg) {
 			var chart = Chart.getChart($(this).attr("id"));
 			chart.update();
 		});
-		// setPreloader(demoRoleArg+"-content", "off");
 		return renderedWidgetsResp;
 	})
 	.catch( error => console.error( "Error in getting extended widget data: " + error ) );
@@ -1085,7 +906,8 @@ async function getExtendedWidgetData(demoRoleArg) {
  */
 function generateHTMLWidget( widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg ) {
 
-	$("#"+widgetIDArg+" .wrapper").hide();
+//	console.log("WIDGET ID ARG: "+ widgetIDArg);
+	$("#"+widgetIDArg+" .wrapper").hide(); // Hide skeleton div
 
 	const cs_widgetConfig 	= JSON.parse(sessionStorage.csWidgetConfig);
 	const inputs = { csUser: sessionStorage.csUser};
@@ -1655,7 +1477,7 @@ async function setUserModulesDetails() {
 async function getGoalProgress(userIDArrayArg){
     let promiseArray = [];
     userIDArrayArg.data.map(async function(userID){
-        var urlStr = "/services/api/goalSummary/summary/" + userID.id +"?StartDate="+new Date().getFullYear()+"-01-01&EndDate="+new Date().getFullYear()+"-12-24";
+        var urlStr = "/services/api/goalSummary/summary/" + userID.id +"?StartDate="+new Date().getFullYear()+"-01-01&EndDate="+new Date().getFullYear()+"-12-31";
         promiseArray.push(fetch(urlStr, {
             method: 'GET',
             headers: {
@@ -2094,7 +1916,7 @@ async function getAllCandidates(widgetArg, moduleArg){
 		
 		let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 		summaryStr += "<div class='summaryItem col-md-12'>";
-		summaryStr += "<div class='gpe-center' style='height:50vh;'>";
+		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url+"'>";
 		summaryStr += "<div class='d-flex align-items-center justify-content-center'>";
 		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.totalItems+"</div>";
@@ -3425,39 +3247,6 @@ function lastinline(printStrArg) {
 	return lastinline;
 }
 
-function setPreloader(mainDivArg, visibleArg) {
-
-	switch(visibleArg) {
-		case "on":
-			let tmpInnerSpinner = document.createElement("span");
-			tmpInnerSpinner.className = "inner-spinner";
-
-			let tmpLoader = document.createElement( "span");
-			tmpLoader.className = "loader";
-
-			let preLoaderDiv = document.createElement( "div");
-			preLoaderDiv.setAttribute("id", "preloader_div");
-
-			let preLoader = document.createElement( "div");
-			preLoader.setAttribute( "id", "preloader");
-
-			tmpLoader.appendChild(tmpInnerSpinner);
-			preLoaderDiv.appendChild(tmpLoader);
-			preLoader.appendChild(preLoaderDiv);
-
-			var targetDiv = document.getElementById(mainDivArg);
-			targetDiv.appendChild(preLoader);
-		break;
-		case "off":
-			$("#"+mainDivArg +" #preloader").hide();
-			$("#"+mainDivArg +" .loader").hide();
-		break;
-		default:
-			$(mainDivArg).hide();
-		break;
-	}
-}
-
 /**
  *
  * @param
@@ -3466,13 +3255,12 @@ function setPreloader(mainDivArg, visibleArg) {
  */
 
  (async function() {
-	//setPreloader(gpeUSRCONTENTDIV, "on");
 	await checkJWT()
  		.then(async function(tokenResponse) {
 
 			const gpe_widgetConfig_v2 = fetch("https://scfiles.csod.com/Baseline/Config/json/gpe_widgetConfig-min.json", {cache: "no-store"}).then(jsonData => jsonData.json());
 			const gpe_customLocale_v2 = fetch("https://scfiles.csod.com/Baseline/Config/json/gpe_customLocale-min.json", {cache: "no-store"}).then(jsonData => jsonData.json());
-			return await Promise.all([gpe_widgetConfig_v2, gpe_customLocale_v2]);
+			return Promise.all([gpe_widgetConfig_v2, gpe_customLocale_v2]);
 		})
 		.then(async function(gpeJson) {
             console.log("JSON DATA : OK!");
@@ -3491,7 +3279,6 @@ function setPreloader(mainDivArg, visibleArg) {
 			return await Promise.all([gpeNav, gpeAboutCard, gpeOnboarding, gpeModuleLayout, gpeWidgets, gpeExtendedWidgets]);
 		})
         .then(async function(data) {
-			//setPreloader(gpeUSRCONTENTDIV, "off");
             console.log("WIDGETS: OK!");
 
 			// Set event on logout to delete sessionStorage.

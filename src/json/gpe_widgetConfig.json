@@ -1243,7 +1243,7 @@
                 "en-US": "Leaderboard",
                 "en-UK": "Leaderboard"
             },
-            "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Leaderboard&TargetUser=",
+            "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Leaderboard&TargetUser=${csUser}",
             "ICON": "lms_ql_leaderboard.png",
             "COLUMNSIZE": 2,
             "MODULE": ["LMS"]
@@ -1593,6 +1593,7 @@
         "EPM-DEVPLAN_PROGRESS": {
             "width": 12,
             "targetdiv": "EPM-DEVPLAN_PROGRESS",
+            "skeletoncss" : "skeleton-circle",
             "url": "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew",
             "title": {
                 "en-US": "Devplan Progress",
@@ -1610,6 +1611,7 @@
         "EPM-GOAL_PROGRESS": {
             "width": 12,
             "targetdiv": "EPM-GOAL_PROGRESS",
+            "skeletoncss" : "skeleton-circle",
             "url": "/phnx/driver.aspx?routename=Goals/GoalList",
             "title": {
                 "en-US": "Goal Progress",
@@ -1627,6 +1629,7 @@
         "EPM-CHECKINS": {
             "width": 12,
             "targetdiv": "EPM-CHECKINS",
+            "skeletoncss" : "skeleton-list",
             "url": "/ui/perf-check-ins/Check-Ins",
             "title": {
                 "en-US": "Check ins",
@@ -1644,6 +1647,7 @@
         "LMS-INSPIRED_BY_SUBJECTS": {
             "width": 12,
             "targetdiv": "LMS-INSPIRED_BY_SUBJECTS",
+            "skeletoncss" : "skeleton-rect",
             "url": "/ui/lms-learner-home/home",
             "title": {
                 "en-US": "Inspired by your Subjects",
@@ -1661,7 +1665,8 @@
         "LMS-TRAINING_METRICS": {
             "width": 12,
             "targetdiv": "LMS-TRAINING_METRICS",
-            "url": "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser=",
+            "skeletoncss" : "skeleton-rect",
+            "url": "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser=${csUser}",
             "title": {
                 "en-US": "Transcript Overview",
                 "en-UK": "Training Record Overview",
@@ -1710,6 +1715,7 @@
         "LMS-TRENDING_FOR_JOB": {
             "width": 12,
             "targetdiv": "LMS-TRENDING_FOR_JOB",
+            "skeletoncss" : "skeleton-rect",
             "url": "/ui/lms-learner-home/home",
             "title": {
                 "en-US": "Trending for your job",
@@ -1727,6 +1733,7 @@
         "LMS-TOP_PICKS": {
             "width": 12,
             "targetdiv": "LMS-TOP_PICKS",
+            "skeletoncss" : "skeleton-rect",
             "url": "/ui/lms-learner-home/home",
             "title": {
                 "en-US": "Your top picks",
@@ -1744,6 +1751,7 @@
         "LMS-ASSIGNED_TRAINING": {
             "width": 12,
             "targetdiv": "LMS-ASSIGNED_TRAINING",
+            "skeletoncss" : "skeleton-rect",
             "url": "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript",
             "title": {
                 "en-US": "Assigned Training",
@@ -1761,6 +1769,7 @@
         "ATS-TOTALCANDIDATES": {
             "width": 12,
             "targetdiv": "ATS-TOTALCANDIDATES",
+            "skeletoncss" : "skeleton-rect",
             "url": "/ui/ats-manage-candidates/managecandidates",
             "title": {
                 "en-US": "Total Candidates",
@@ -1778,6 +1787,7 @@
         "ATS-NEWSUBMISSIONS": {
             "width": 12,
             "targetdiv": "ATS-NEWSUBMISSIONS",
+            "skeletoncss" : "skeleton-rect",
             "url": "/ui/ats-manage-candidates/managecandidates?pageSize=20&statusCategories=-1",
             "title": {
                 "en-US": "New Submissions",
@@ -1795,6 +1805,7 @@
         "ATS-NEWHIRES": {
             "width": 12,
             "targetdiv": "ATS-NEWHIRES",
+            "skeletoncss" : "skeleton-list",
             "url": "/phnx/driver.aspx?routename=ONB/Dashboard",
             "title": {
                 "en-US": "New Hires",
@@ -1812,6 +1823,7 @@
         "DIRECT_REPORTS": {
             "width": 12,
             "targetdiv": "DIRECT_REPORTS",
+            "skeletoncss" : "skeleton-list",
             "url": "#",
             "title": {
                 "en-US": "My Team",
@@ -1829,6 +1841,7 @@
         "RPT_HEADCOUNT": {
             "width": 12,
             "targetdiv": "RPT_HEADCOUNT",
+            "skeletoncss" : "skeleton-chart-columns",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/29",
             "title": {
                 "en-US": "Headcount Report",
@@ -1847,6 +1860,7 @@
         "RPT_ORGGOALPROGRESS": {
             "width": 12,
             "targetdiv": "RPT_ORGGOALPROGRESS",
+            "skeletoncss" : "skeleton-circle",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/3",
             "title": {
                 "en-US": "Goal Progress Report",
@@ -1865,6 +1879,7 @@
         "RPT_TRAININGPROGRESSSUMMARY": {
             "width": 12,
             "targetdiv": "RPT_TRAININGPROGRESSSUMMARY",
+            "skeletoncss" : "skeleton-circle",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/46",
             "title": {
                 "en-US": "Training Progress Summary",
@@ -1883,6 +1898,7 @@
         "RPT_USERRECORDBYMGR": {
             "width": 12,
             "targetdiv": "RPT_USERRECORDBYMGR",
+            "skeletoncss" : "skeleton-circle",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/50",
             "title": {
                 "en-US": "User Record Report",
@@ -1901,6 +1917,7 @@
         "RPT_BADGELEADERBOARD": {
             "width": 12,
             "targetdiv": "RPT_BADGELEADERBOARD",
+            "skeletoncss" : "skeleton-chart-columns",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/12",
             "title": {
                 "en-US": "Badge Leaderboard",
@@ -1919,6 +1936,7 @@
         "RPT_EMPLOYEESTATUS": {
             "width": 12,
             "targetdiv": "RPT_EMPLOYEESTATUS",
+            "skeletoncss" : "skeleton-circle",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/59",
             "title": {
                 "en-US": "Employee Status Report",
@@ -1937,6 +1955,7 @@
         "RPT_PASTDUE": {
             "width": 12,
             "targetdiv": "RPT_PASTDUE",
+            "skeletoncss" : "skeleton-circle",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/47",
             "title": {
                 "en-US": "Past Due Report",
@@ -1955,6 +1974,7 @@
         "RPT_ASSIGNEDTRAININGSTATUS": {
             "width": 12,
             "targetdiv": "RPT_ASSIGNEDTRAININGSTATUS",
+            "skeletoncss" : "skeleton-circle",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/14",
             "title": {
                 "en-US": "Assigned Training status",
@@ -1973,6 +1993,7 @@
         "RPT_SESSIONSEATAVAILABILITY": {
             "width": 12,
             "targetdiv": "RPT_SESSIONSEATAVAILABILITY",
+            "skeletoncss" : "skeleton-circle",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/60",
             "title": {
                 "en-US": "Session Seat Availability Report",
@@ -1991,6 +2012,7 @@
         "RPT_TRAININGWITHDRAWALS": {
             "width": 12,
             "targetdiv": "RPT_TRAININGWITHDRAWALS",
+            "skeletoncss" : "skeleton-circle",
             "url": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/30",
             "title": {
                 "en-US": "Training Withdrawals",

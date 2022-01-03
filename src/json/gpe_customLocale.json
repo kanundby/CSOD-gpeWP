@@ -42,7 +42,7 @@
       },
       "onboarding": {
         "en-US": {
-          "headertitle": "${csName}, your onboarding journey starts here!",
+          "headertitle": "${csFirstName}, your onboarding journey starts here!",
           "headertext": "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!",
           "videourl": "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
           "onbprocess": {
@@ -137,7 +137,7 @@
           }
         },
         "en-UK": {
-          "headertitle": "${csName}, your onboarding journey starts here!",
+          "headertitle": "${csFirstName}, your onboarding journey starts here!",
           "headertext": "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!",
           "videourl": "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
           "onbprocess": {
@@ -232,7 +232,7 @@
           }
         },
         "de-DE": {
-          "headertitle": "${csName}, your onboarding journey starts here!",
+          "headertitle": "${csFirstName}, your onboarding journey starts here!",
           "headertext": "Congratulations, and welcome onboard!<br>We are excited that you are joining us and we have prepared for you some useful information before Day 1. Fasten your seatbelt and let the journey begin!",
           "videourl": "https://scfiles.csod.com/Baseline/common/welcome_to_cornerstone.mp4",
           "onbprocess": {

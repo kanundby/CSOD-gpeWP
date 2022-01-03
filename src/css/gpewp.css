@@ -916,6 +916,10 @@ span.abt-job-text {
     padding: 5px
 }
 
+#extendedUserTable tr {
+    border: 0px !important;
+}
+
 #extendedUserWidget .table-bordered>:not(caption)>*>* {
     border-width: 0 0 !important
 }
@@ -1652,52 +1656,101 @@ div#cs_report .card canvas {
 .wrapper {
     width: 100%;
     margin: 0 auto;
+    height: 320px !important;
+    background: #ffffff !important;
   }
-  
-  .card-loader {
-    background-color: #fff;
-    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.08), 0 -1px 3px 0 rgba(0, 0, 0, 0.06);
-    padding: 8px;
+
+.skeleton-card:empty {
     position: relative;
-    border-radius: 2px;
-    margin-bottom: 0;
-    min-height: 320px!important;
-    max-height: 320px!important;    
-    overflow: hidden;
+    box-sizing: content-box;
+    height: 50px;
+    width: 100% !important;
+    background-color: #ffffff;
+    border-radius: 0px 0px 0px 0px;
+    background-image: 
+      linear-gradient(#efefef 20px, transparent 1px),
+      linear-gradient(#efefef 1px, transparent 1px);
+    background-repeat: no-repeat;
+    background-size: 40% 40%, 100% 100%;
+    background-position: 20px 10px,0px 44px;
   }
-  .card-loader:only-child {
-    margin-top: 0;
-  }
-  .card-loader:before {
-    content: "";
-    height: 110px;
-    display: block;
-    background-color: #ededed;
-    box-shadow: -48px 78px 0 -48px #ededed, -51px 102px 0 -51px #ededed;
-  }
-  .card-loader:after {
-    content: "";
-    background-color: #333;
+
+.skeleton-card:empty:before {
+    content: " ";
+    position: absolute;
+    z-index: 1000;
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation-duration: 0.6s;
+    -webkit-mask-image: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 80%
+    );
+    -webkit-mask-repeat: repeat-y;
+    -webkit-mask-size: 50px 290px;
+    -webkit-mask-position: -20% 0;
+    background-image: 
+      linear-gradient(#ffffff 20px, transparent 1px),
+      linear-gradient(#ffffff 1px, transparent 1px),
+      -webkit-radial-gradient(center center, circle cover, #ffffff 50%, transparent 50%); 
+  
+    background-repeat: no-repeat;
+    background-size: 80% 80%, 100% 100%, 80% 80%;
+    background-position: 20px 10px,0px 44px, center;
+  /*  animation: shineForSkeleton-kugav3lu00f 4s infinite;*/
+    animation-duration: 1s;
     animation-iteration-count: infinite;
-    animation-name: loader-animate;
-    animation-timing-function: linear;
-    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 81%);
-    background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 81%);
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 81%);
+    animation-name: circleanim;
+    animation-timing-function: linear;  
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#00ffffff", endColorstr="#00ffffff",GradientType=1 );
   }
-  
-  @keyframes loader-animate {
-    0% {
-      transform: translate3d(-100%, 0, 0);
-    }
-    100% {
-      transform: translate3d(100%, 0, 0);
+
+  @keyframes circleanim {
+    to {
+      -webkit-mask-position: 100% 0;
     }
   }
+
+  .skeleton {
+    --c-w: 100% !important;
+    --c-bg: #ffffff !important;
+    --bg: #efefef !important;
+    --shine: #fefefe !important;
+    --t: 1s !important;
+}
+
+.skeleton-rect {
+    --lines: 3 !important;
+    --rect-h: 120px !important;
+}
+
+.skeleton-list {
+    --lines: 3 !important;
+    --l-h: 50px !important;
+}
+
+.skeleton-chart-columns {
+    --cols: 10 !important;
+    --col-w: 30px !important;
+    --col-gap: 20px !important;
+    margin: 0 auto !important;
+}
+
+.skeleton-circle-line {
+    --c-pos: center !important;
+    --c-s: 140px !important;
+}
+
+.skeleton-circle {
+    --c-p: 20px !important;
+    --c-s: 200px !important;
+    --c-pos: top !important;
+    margin: 0 auto !important;
+}
+
+.skeleton-circle-multi-line {
+    --c-h: 100% !important;
+    --c-s: 180px !important;
+    --c-pos: top !important;   
+}
