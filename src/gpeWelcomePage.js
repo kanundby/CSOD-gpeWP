@@ -1,8 +1,8 @@
 /**
  * Dynamic Welcome Page for Cornerstone OnDemand
- * @desc Dynamic welcome page engine for Cornerstone OnDemand. The script is using the navigation menu as base to generate the page.
+ * @desc Dynamic welcome page engine for Cornerstone OnDemand.
  * @author 		kanundby@csod.com	-	Klas Anundby
- * @version 	0.9.7
+ * @version 	0.9.8f
  */
 
 "use strict";
@@ -381,8 +381,8 @@ async function buildOnbWidget(demoRoleArg, cultureArg){
 		onbHeaderVideoDiv.className = "video";
 
 		let onbHeaderVideoObj = document.createElement( "video" );
-		onbHeaderVideoObj.setAttribute("width", "70%");
-		onbHeaderVideoObj.setAttribute("height", "420");
+		onbHeaderVideoObj.setAttribute("width", "640px");
+		onbHeaderVideoObj.setAttribute("height", "360px");
 		onbHeaderVideoObj.setAttribute("controls", "");
 		let onbHeaderVideoSrc = document.createElement( "source" );
 		onbHeaderVideoSrc.setAttribute("src", cs_customLocale[0].onboarding[cultureArg].videourl);
@@ -1475,9 +1475,9 @@ async function setUserModulesDetails() {
  * @returns JSON Array
  */
 async function getGoalProgress(userIDArrayArg){
-    let promiseArray = [];
-    userIDArrayArg.data.map(async function(userID){
-        var urlStr = "/services/api/goalSummary/summary/" + userID.id +"?StartDate="+new Date().getFullYear()+"-01-01&EndDate="+new Date().getFullYear()+"-12-31";
+	let promiseArray = [];
+    userIDArrayArg.map(async function(userID){
+        var urlStr = "/services/api/goalSummary/summary/" + userID.Id +"?StartDate="+new Date().getFullYear()+"-01-01&EndDate="+new Date().getFullYear()+"-12-31";
         promiseArray.push(fetch(urlStr, {
             method: 'GET',
             headers: {
@@ -1488,6 +1488,31 @@ async function getGoalProgress(userIDArrayArg){
         .then(response => response.json())
         .then(async function(response){
             return await response;
+        }));
+    });
+    return await Promise.all(promiseArray);
+}
+
+/**
+ * getUserDetails - Get User Details on several users
+ * @usedby buildExtendedWidget_v3
+ * @param {array} userIDArrayArg -
+ * @returns JSON Array
+ */
+ async function getUserDetails(userIDArrayArg){
+    let promiseArray = [];
+    userIDArrayArg.map(async function(userID){
+        var urlStr = "/Services/api/Profile/" + userID;
+        promiseArray.push(fetch(urlStr, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + sessionStorage.csToken,
+            },
+        } )
+        .then(response => response.json())
+        .then(async function(response){
+            return await response.data[0];
         }));
     });
     return await Promise.all(promiseArray);
@@ -1568,19 +1593,10 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 			} );
 		} )
 		.then( async function( userIDs ) {
-			let empURL = "/services/api/x/users/v2/employees?ids=" + userIDs.join();
-			return await Promise.resolve(fetch( empURL, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + sessionStorage.csToken,
-				},
-			} ));
+			return await Promise.resolve(getUserDetails(userIDs));
 		} )
-		.then( response => response.json() )
 		.then( async function( userData ) {
-			// Get goal
-			let userArr = userData.data;
+			let userArr = userData;
 
 			//If user has access to Goal then go ahead and get the data.
 			// let goalCheck = accessArrArg.some(function(accessItem) { 
@@ -1604,10 +1620,10 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 					}
 					//console.log(goalDataArr[goalArr]);
 					if(goalDataArr[goalArr].length !== 0) {
-							goalSummaryArr[goalArr] = {
-								id: goalDataArr[goalArr][0].User.Id,
-								goalprogress: Math.round(goalProgress / goalWeight)+"%"
-							};
+						goalSummaryArr[goalArr] = {
+							id: goalDataArr[goalArr][0].User.Id,
+							goalprogress: Math.round(goalProgress / goalWeight)+"%"
+						};
 					}
 				}
 				const finalArr =  userArr.map(e => goalSummaryArr.some(({ id }) => id == e.id) ? ({ ...e, ...goalSummaryArr.find(({ id }) => id == e.id)}) : e);
@@ -1619,38 +1635,44 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 		.then(async function(userData) {
 			let emplData = await userData.map( function( user ) {
 				return {
-					id: user.id,
-					firstName: user.firstName,
-					lastName: user.lastName,
-					fullName: user.firstName + " "+ user.lastName,
+					id: user.Id,
+					firstName: user.FirstName,
+					lastName: user.LastName,
+					fullName: user.FirstName + " "+ user.LastName,
 					username: user.userName,
-					primaryEmail: user.primaryEmail,
-					mobilPhone: user.mobilePhone,
-					workPhone: user.workPhone,
+					primaryEmail: user.Email,
+					workPhone: user.WorkPhone,
 					goalProgress: (user.goalprogress && user.goalprogress),
-					language: user.settings.displayLanguage,
-					timezone: user.settings.timeZone,
-					hiredate: (user.workerStatus.lastHireDate && user.workerStatus.lastHireDate.substring(0,10)),
-					address: {
-						line1: user.address.line1,
-						city: user.address.city,
-						country: user.address.country,
-						state: user.address.state
-					}
+					manager: user.Manager,
+					hiredate: user.LastHireDateLocal,
+					summary: user.Summary,
+					interests: user.Interests,
+					photo: user.ThumbImgUrl,
+					title: user.Title
 				};
 			});
 
-			let emplCols = [{
-				title: "User ID",
-				field: "id",
-				visible: false
-				}, {
-					title: cs_widgetConfig[0].managerwidget.tableheader.name[sessionStorage.csCulture],
-					field: "fullName"
-				}, {
-					title: cs_widgetConfig[0].managerwidget.tableheader.hiredate[sessionStorage.csCulture],
-					field: "hiredate"
+			let emplCols = [
+				{
+					title: "User ID",
+					field: "id",
+					visible: false
 				},
+				{
+					title: "",
+					field: "userphoto",
+					align: "center",
+					formatter: imageFormatter
+				},
+				{
+					title: cs_widgetConfig[0].managerwidget.tableheader.name[sessionStorage.csCulture],
+					field: "fullName",
+					formatter: nameFormatter
+				}, 
+				// {
+				// 	title: cs_widgetConfig[0].managerwidget.tableheader.hiredate[sessionStorage.csCulture],
+				// 	field: "hiredate"
+				// },
 				{
 					title: cs_widgetConfig[0].managerwidget.tableheader.actions[sessionStorage.csCulture],
 					field: "action",
@@ -1689,9 +1711,7 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 				showColumnsSearch: false,
 				checkboxHeader: false,
 				showToggle: false,
-				// detailView: true,
 				detailView: false,
-				// detailFormatter: detailFormatter,
 				columns: emplCols,
 				data: emplData
 			} );
@@ -1732,73 +1752,30 @@ function operateFormatter(value, row, index) {
 }
 
 /**
- * detailFormatter - Supporting function for bootstrap-table
- * @param {string} index -
+ * imageFormatter - Supporting function for bootstrap-table
+ * @param {string} value -
  * @param {array} row -
+ * @param {integer} index -
  * @returns html array to put inside the right cell within the table
  */
-function detailFormatter(index, row) {
-
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
-
+function imageFormatter(index, row) {
 	let html = [];
-
-	html.push('<div class="col-xs-12 col-sm-12 col-md-12 extended-details collapse" id="accordion">');
-	html.push('<div class="well well-sm">');
-	html.push('<div class="row">');
-
-	html.push('<div class="col-sm-6 col-md-6">');
-	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
-	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.firstname[sessionStorage.csCulture] +'</td>');
-	html.push('<td>'+ row.firstName +'</td>');
-	html.push('</tr>');
-	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.lastname[sessionStorage.csCulture] +'</td>');
-	html.push('<td>'+ row.lastName +'</td>');
-	html.push('</tr>');
-	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.email[sessionStorage.csCulture] +'</td>');
-	html.push('<td>'+ row.primaryEmail +'</td>');
-	html.push('</tr>');
-	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.phone[sessionStorage.csCulture] +'</td>');
-	html.push('<td>'+ row.workPhone +'</td>');
-	html.push('</tr>');
-	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.hiredate[sessionStorage.csCulture] +'</td>');
-	html.push('<td>'+ row.hiredate +'</td>');
-	html.push('</tr>');
-	html.push('</table>');
-	html.push('</div>');
-   
-	html.push('<div class="col-sm-6 col-md-6">');
-	html.push('<table border="0" cellspacing="0" cellpadding="0" class="detailoutable">');
-	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.address[sessionStorage.csCulture] +'</td>');
-	html.push('<td>'+ row.address.line1 +'</td>');
-	html.push('</tr>');
-	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.city[sessionStorage.csCulture] +'</td>');
-	html.push('<td>'+ row.address.city +'</td>');
-	html.push('</tr>');
-	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.state[sessionStorage.csCulture] +'</td>');
-	html.push('<td>'+ row.address.state +'</td>');
-	html.push('</tr>');
-	html.push('<tr>');
-	html.push('<td>'+ cs_widgetConfig[0].managerwidget.detailtable.country[sessionStorage.csCulture] +'</td>');
-	html.push('<td>'+ row.address.country +'</td>');
-	html.push('</tr>');
-	html.push('</table>');
-	html.push('</div>');
-   
-	html.push('</div>');
-	html.push('</div>');
-	html.push('</div>');
-   
+	html.push("<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser="+row.id+"' target='_blank'><img src='"+ row.photo +"' class='userphoto' style='width:40px;border-radius:50%'></a>");
 	return html.join('');
-   }
+}
+
+/**
+ * nameFormatter - Supporting function for bootstrap-table
+ * @param {string} value -
+ * @param {array} row -
+ * @param {integer} index -
+ * @returns html array to put inside the right cell within the table
+ */
+ function nameFormatter(index, row) {
+	let html = [];
+	html.push("<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser="+row.id+"' target='_blank'>"+row.fullName+"</a><br><div class='usertitle'>"+ row.title +"</div>");
+	return html.join('');
+}
 
 async function getNewHires(widgetArg, moduleArg) {
 	const tmpContentDiv = document.createElement( "div" );
@@ -1874,7 +1851,11 @@ async function getNewSubmissions(widgetArg, moduleArg){
 		summaryStr += "<div class='summaryItem col-md-12'>";
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url+"'>";
+
+		summaryStr += "<div class='d-flex align-items-center justify-content-center' style='height:210px'>";
 		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+newSubmissionCount+"</div>";
+		summaryStr += "</div>";
+
 		summaryStr += "</a>";
 		summaryStr += "</div>";
 		summaryStr += "</div>";		
@@ -1918,7 +1899,7 @@ async function getAllCandidates(widgetArg, moduleArg){
 		summaryStr += "<div class='summaryItem col-md-12'>";
 		summaryStr += "<div class='gpe-center'>";
 		summaryStr += "<a href='"+cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url+"'>";
-		summaryStr += "<div class='d-flex align-items-center justify-content-center'>";
+		summaryStr += "<div class='d-flex align-items-center justify-content-center' style='height:210px'>";
 		summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>"+localStr.data.totalItems+"</div>";
 		summaryStr += "</div>";
 		summaryStr += "</a>";
@@ -2450,6 +2431,28 @@ async function getTrendingForJob(widgetArg, moduleArg){
 	});	
 }
 
+function play(){
+
+	checkJWT()
+	.then( async function() {
+		//return await fetch( "/Services/api/Profile/48", {
+		return await fetch( "/services/api/Search/Team/"+ sessionStorage.csUser, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		} );
+	})
+	.then( response => response.json() )
+	.then( async function(localStr)  {
+		console.log(localStr);
+	});
+}
+
 async function getInspiredBySubjects(widgetArg, moduleArg){
 	const tmpContentDiv = document.createElement( "div" );
 	tmpContentDiv.className = widgetArg;
@@ -2965,7 +2968,7 @@ async function getCheckinsDetails( widgetArg, moduleArg ) {
 function status( response ) {
 	switch ( response.status ) {
 		case 202:
-			return new Promise( r => setTimeout( () => r( response ), 1200 ) );
+			return new Promise( r => setTimeout( () => r( response ), 800 ) );
 		case 200:
 			return Promise.resolve( response );
 		case 204:

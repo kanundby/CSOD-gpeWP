@@ -852,6 +852,10 @@ div#gpewp-main div[class*=gpewp_] table a:not(.btn):hover {
     --bs-table-accent-bg: transparent !important
 }
 
+.bootstrap-table .fixed-table-container .table thead th .th-inner {
+    padding: 0.72rem 0px 0px 0px !important;
+}
+
 .nav-tabs {
     border-bottom: 0 solid #fff !important
 }
@@ -946,9 +950,10 @@ span.abt-job-text {
     color: #fff;
     background: linear-gradient(-180deg, rgba(255, 255, 255, .25) 0, rgba(255, 255, 255, 0) 100%) var(--gpewp-brand-color--primary) !important;
     box-shadow: rgb(0 0 0 / 4%) 0 1px 2px 0;
-    height: 40px;
+    height: 35px;
     font-size: 14px;
-    font-family: Segoe UI, Arial, sans-serif
+    font-family: Segoe UI, Arial, sans-serif;
+    border-radius: 3px !important;
 }
 
 .bootstrap-table .btn:hover:not(:disabled) {
@@ -1205,6 +1210,10 @@ th.checkHeaderCol:not(:first-child) {
 
 div[id*="-right"] div[class*=col-md-] {
     margin-bottom: .5rem !important
+}
+
+#widgetCard_DIRECT_REPORTSwidget .card-body {
+    padding-top: 0px !important;
 }
 
 .card-header {
@@ -1754,3 +1763,16 @@ div#cs_report .card canvas {
     --c-s: 180px !important;
     --c-pos: top !important;   
 }
+
+.newHires img.cso-corner {
+    width: 80px;
+    border-radius: 50%;
+}
+
+.usertitle {
+    flex: 1 !important;
+    width: 210px !important;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
