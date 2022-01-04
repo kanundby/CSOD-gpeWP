@@ -5,7 +5,7 @@ The two files (html & js) are to be used together but in different HTML widgets.
 
 The script will check what access the logged in user has and will automatically display the widgets based on access and also what has been added in *accessURLs*.
 
-![2021-12-08_Welcome Page - IC](https://user-images.githubusercontent.com/56861994/145351840-1be9a34c-b156-4d5a-8eb9-5c88f1e374df.jpg)
+![2022-01-04_Welcome Page_mgr](https://user-images.githubusercontent.com/56861994/148040746-5a08431f-6f42-4535-a1d3-7cb46adde6ce.jpg)
 
 ## gpeWelcomePage.html
 This file should be included in the **first** widget on the page (type HTML Widget).
