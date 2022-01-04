@@ -22,10 +22,15 @@ You will need to add <script> </script> in the widget.
 5. Add HTML Widget in the end of all other widgets and paste the contents from *gpeWelcomePage.js*
 
 ### Custom Widgets currently in scope:
-- Transcript
-- Action items
-- Checkins
-- Goal progress
-- DevPlan progress
-- Connect Feed
-
+- Inspired by your subjects (LMS)
+- Trending for your job (LMS)
+- Transcript Overview (LMS)
+- Check-Ins (EPM/CAR)
+- Goal Progress (EPM/CAR)
+- Devplan Progress (EPM/CAR)
+- Team Details (CORE)
+- Goal Progress Report (EPM/CAR)
+- Past Due Report (LMS)
+- Total Candidates (ATS)
+- New Submissions (ATS)
+- New Hires (ATS)
