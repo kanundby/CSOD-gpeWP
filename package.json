@@ -1,6 +1,6 @@
 {
   "name": "gpewpes5",
-  "version": "0.9.8f",
+  "version": "0.9.9a",
   "description": "ES5 version of gpeWP",
   "main": "gpeWelcomePage.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "gtmbuild": "webpack --mode production",
     "start": "http-server"
   },
-  "author": "",
+  "author": "Klas Anundby",
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.16.0",

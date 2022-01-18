@@ -1,13 +1,16 @@
 var path = require('path');
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyPlugin = require("copy-webpack-plugin");
+
 var PACKAGE = require('./package.json');
 var version = PACKAGE.version;
 
 module.exports = {
     entry: ["regenerator-runtime/runtime.js", "./src/gpeWelcomePage.js"], 
     output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: "gpeWelcomePage-"+version+".min.js",
+        path: path.resolve(__dirname, 'build', version),
+        filename: "gpeWelcomePage.min.js",
         environment: {
             arrowFunction: false,
             bigIntLiteral: false,
@@ -47,9 +50,28 @@ module.exports = {
                         ]
                     ]
                 }
-            }
-        ]
+            },
+        ],
     },
+    plugins: [    
+        new HtmlWebpackPlugin({
+          template: './src/gpeWelcomePage.html',
+          filename: "gpeWelcomePage.min.html",
+          inject: false
+        }),
+        new CopyPlugin({
+            patterns: [
+              {
+                from: "src/json/gpe_widgetConfig-min.json",
+                to: "gpe_widgetConfig-min.json",
+              },
+              {
+                from: "src/json/gpe_customLocale-min.json",
+                to: "gpe_customLocale-min.json",
+              }
+            ]
+        })
+      ],        
     stats: {
         colors: true
     },

@@ -3,8 +3,8 @@
         "ATS": {
             "settings": {
                 "moduletitle": {
-                    "en-US": "Recruit & Onboarding",
-                    "en-UK": "Recruit & Onboarding"
+                    "en-US": "Recruiting & Onboarding",
+                    "en-UK": "Recruiting & Onboarding"
                 }
             },
             "USR": {
@@ -210,11 +210,11 @@
                         "ORDER": 4
                     },
                     "LINK_5": {
-                        "ID": "CHECKLISTS",
+                        "ID": "COMPETENCYTASK",
                         "ORDER": 5
                     },
                     "LINK_6": {
-                        "ID": "SKILLSMATRIX",
+                        "ID": "GOALS",
                         "ORDER": 6
                     }
                 }
@@ -1358,6 +1358,16 @@
             "COLUMNSIZE": 2,
             "MODULE": ["ATS"]
         },
+        "GOALS": {
+            "TITLE": {
+                "en-US": "Goals",
+                "en-UK": "Goals"
+            },
+            "URL": "/phnx/driver.aspx?routename=Goals/GoalList",
+            "ICON": "ats_ql_hiring_dashboard.png",
+            "COLUMNSIZE": 2,
+            "MODULE": ["ATS"]
+        },        
         "VIEWPEOPLE": {
             "TITLE": {
                 "en-US": "View People",
@@ -1468,6 +1478,16 @@
             "COLUMNSIZE": 2,
             "MODULE": ["LMS"]
         },
+        "COMPETENCYTASK": {
+            "TITLE": {
+                "en-US": "Competency Tasks",
+                "en-UK": "Competency Tasks"
+            },
+            "URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=2",
+            "ICON": "core_ql_reportbuilder.png",
+            "COLUMNSIZE": 2,
+            "MODULE": ["EPM"]
+        },        
         "EVENTS_SESSIONS": {
             "TITLE": {
                 "en-US": "Events & Sessions",
@@ -1497,7 +1517,7 @@
             "ICON": "lms_ql_lat.png",
             "COLUMNSIZE": 2,
             "MODULE": ["LMS"]
-        },
+        }, 
         "SNAPSHOT": {
             "TITLE": {
                 "en-US": "Snapshot",
@@ -1508,6 +1528,16 @@
             "COLUMNSIZE": 2,
             "MODULE": ["CORE"]
         },
+        "MYSESSIONS": {
+            "TITLE": {
+                "en-US": "My Sessions",
+                "en-UK": "My Sessions"
+            },
+            "URL": "/LMS/catalog/EventsCalendar.aspx?instructor=me",
+            "ICON": "lms_ql_mysessions.png",
+            "COLUMNSIZE": 2,
+            "MODULE": ["LMS"]
+        },        
         "SKILLSPROFILE": {
             "TITLE": {
                 "en-US": "Skills Profile",
@@ -1873,7 +1903,7 @@
                 "de-DE": ""
             },
             "getstartedurl": "#",
-            "module" : ["CORE"],
+            "module" : ["EPM"],
             "reportid" : 3
         },
         "RPT_TRAININGPROGRESSSUMMARY": {
@@ -1892,7 +1922,7 @@
                 "de-DE": ""
             },
             "getstartedurl": "#",
-            "module" : ["CORE"],
+            "module" : ["LMS"],
             "reportid" : 46
         },
         "RPT_USERRECORDBYMGR": {
@@ -1968,7 +1998,7 @@
                 "de-DE": ""
             },
             "getstartedurl": "#",
-            "module" : ["CORE"],
+            "module" : ["LMS"],
             "reportid" : 47
         },
         "RPT_ASSIGNEDTRAININGSTATUS": {
@@ -2189,8 +2219,8 @@
         "HRD" : {
             "SETTINGS" : {
                 "MODULETITLE" : {
-                    "en-US" : "HR Dashboard",
-                    "en-UK" : "HR Dashboard"
+                    "en-US" : "Talent Management",
+                    "en-UK" : "Talent Management"
                 },
                 "ORDER" : 1,
                 "TARGETDIV" : "HRD-right"
@@ -2328,7 +2358,7 @@
             },
             "LINKS" : {
                 "LINK_1" : {
-                    "ID" : "HIRINGDASHBOARD",
+                    "ID" : "MYSESSIONS",
                     "ORDER" : 1
                 },
                 "LINK_2" : {
