@@ -18,8 +18,7 @@ You will need to add <script> </script> in the widget.
 1. Create a welcome page or a Custom Page
 2. Configure the layout with 0 columns
 3. Add HTML Widget and paste the contents from *gpeWelcomePage.html*
-4. Add ALL standard widgets
-5. Add HTML Widget in the end of all other widgets and paste the contents from *gpeWelcomePage.js*
+4. Add the following CSOD Widgets: Inbox & Actions 
 
 ### Custom Widgets currently in scope:
 - Inspired by your subjects (LMS)
