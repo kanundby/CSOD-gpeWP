@@ -2,7 +2,7 @@
  * Dynamic Welcome Page for Cornerstone OnDemand
  * @desc Dynamic welcome page engine for Cornerstone OnDemand.
  * @author 		kanundby@csod.com	-	Klas Anundby
- * @version 	0.9.8f
+ * @version 	0.9.9a
  */
 
 "use strict";
@@ -2466,127 +2466,6 @@ async function getTrendingForJob(widgetArg, moduleArg){
 		console.error( "Error building getTrendingForJob - ", error );
 	});	
 }
-
-function play(){
-	return checkJWT()
-	.then(async function(){
-		return await fetch( "/services/api/x/users/v2/employees/"+ sessionStorage.csUser, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-		} );
-	})
-	.then( response => response.json() )
-	.then( async function(userData) {
-		//return await fetch( "/Services/api/Profile/48", {
-		// return await fetch( "/services/api/Search/Team/"+ sessionStorage.csUser, {
-		return await fetch( "/services/api/TranscriptAndTask/Inbox?UserId="+ userData.data.userName, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-		} );
-	})
-	.then( response => response.json() )
-	.then( async function(localStr)  {
-		return await localStr;
-	});
-}
-
-function play_v2(){
-	checkJWT()
-	.then(async function(){
-		// return await fetch( "/services/api/x/users/v2/employees/"+ sessionStorage.csUser, {
-		return await fetch( "/services/api/x/users/v2/employees/91", {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-		} );
-	})
-	.then( response => response.json() )
-	.then( async function(userData) {
-		//return await fetch( "/Services/api/Profile/48", {
-		// return await fetch( "/services/api/Search/Team/"+ sessionStorage.csUser, {
-		return await fetch( "/services/api/CertificationTranscript/CertificationTranscriptDetails?UserId="+ userData.data.userName, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-		} );
-	})
-	.then( response => response.json() )
-	.then( async function(localStr)  {
-		console.log(localStr);
-	});
-}
-
-function play_v3(){
-	checkJWT()
-	.then(async function(){
-		// return await fetch( "/services/api/x/users/v2/employees/"+ sessionStorage.csUser, { FutureManagerRef
-		return await fetch( "/services/api/x/odata/api/views/vw_rpt_onboarding?FutureManagerRef="+sessionStorage.csUser, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-		} );
-	})
-	.then( response => response.json() )
-	.then( async function(localStr)  {
-		console.log(localStr);
-	});
-}
-
-function play_v4(){
-	checkJWT()
-	.then(async function(){
-		// return await fetch( "/services/api/x/users/v2/employees/"+ sessionStorage.csUser, { FutureManagerRef
-		// https://lax-dem-ex.csod.com/ise-rendering/?respondent=bbbae0cb-283d-40eb-9441-bb094be2a027&cultureId=1&cn=ZGVtb2RhdmlkZQ==
-		let payload = {"corpName":"ZGVtb2RhdmlkZQ==","respondentId":"bbbae0cb-283d-40eb-9441-bb094be2a027","cultureId":1};
-		
-		return await fetch( "https://lax-dem-ex.csod.com/ise-rendering/api/auth/authenticate?sessionId=cgxt0r1myqw0", {
-			method: 'POST',
-			mode: 'no-cors',
-			headers: {
-                'Accept': 'application/json, text/plain',
-                'Content-Type': 'application/json;; charset=utf-8'
-			},
-			body: {
-				"corpName":	"ZGVtb2RhdmlkZQ==",
-				"respondentId":	"bbbae0cb-283d-40eb-9441-bb094be2a027",
-				"cultureId":	1
-			}
-		} );
-	})
-	.then( response => response.json() )
-	.then( async function(localStr)  {
-		console.log(localStr);
-	});
-}
-
-
 
 async function getInspiredBySubjects(widgetArg, moduleArg){
 	const tmpContentDiv = document.createElement( "div" );

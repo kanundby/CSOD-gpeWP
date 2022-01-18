@@ -11,8 +11,8 @@ The script will check what access the logged in user has and will automatically 
 This file should be included in the **first** widget on the page (type HTML Widget).
 
 ## gpeWelcomePage.js
-This file should be included in the **last** widget on the page (type HTML Widget).
-You will need to add <script> </script> in the widget.
+This file should be minified and processed via webpack and then either included in an HTML widget on the page (last widget) OR added via Google Tag Manager.
+If you add it to the widget you will need to add <script> </script> in the widget.
 
 ## Configuration
 1. Create a welcome page or a Custom Page
