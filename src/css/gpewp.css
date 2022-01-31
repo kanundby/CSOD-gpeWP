@@ -935,7 +935,7 @@ div#gpewp_topcontainer_upper {
     margin-right: auto;
     display: block;
     height: auto;
-    max-width: 100%;
+    max-width: 100px;
     border-radius: 50%
 }
 
@@ -1441,6 +1441,7 @@ a.c-search-icon {
     height: 50px;
     background-size: 80%;
     background-repeat: no-repeat;
+    background-position: center center;
     margin: 0 auto
 }
 
@@ -1619,7 +1620,8 @@ h3.moduleTitle {
 
 .moduleLinkTitle {
     font-family: Beatrice !important;
-    font-weight: 400 !important
+    font-weight: 400 !important;
+    white-space: nowrap !important;
 }
 
 .c-split-left {
@@ -1847,3 +1849,133 @@ div#cs_report .card canvas {
     background: #ffffff !important;
     --bs-table-accent-bg: #ffffff;
 }  
+
+span[style='white-space:pre'] {
+    display: none !important;
+}
+
+/* Skeleton responsive CSS */
+@media all and (min-width: 35.5em) {
+    .skeleton-circle {
+        --c-p: 20px!important;
+        --c-s: 200px!important;
+        --c-pos: top!important;
+        margin: 0 auto!important;
+    }    
+}
+
+@media all and (min-width: 48em) {
+    .skeleton-circle {
+        --c-p: 20px!important;
+        --c-s: 100px!important;
+        --c-pos: top!important;
+        margin: 0 auto!important;
+    }    
+}
+
+@media all and (min-width: 64em) {
+    .skeleton-circle {
+        --c-p: 20px!important;
+        --c-s: 130px!important;
+        --c-pos: top!important;
+        margin: 0 auto!important;
+    }    
+}
+
+@media all and (min-width: 80em) {
+    .skeleton-circle {
+        --c-p: 20px!important;
+        --c-s: 150px!important;
+        --c-pos: top!important;
+        margin: 0 auto!important;
+    }    
+}
+
+@media all and (min-width: 96em) {
+    .skeleton-circle {
+        --c-p: 20px!important;
+        --c-s: 200px!important;
+        --c-pos: top!important;
+        margin: 0 auto!important;
+    }    
+}
+
+/* Widget responsive CSS */
+@media all and (max-width: 32em) {
+    .gpeWelcomePageModules .card .chart-container canvas.chart_pie {
+        width: 60%!important;
+        height: 60%!important;
+    }
+    .gpeWelcomePageModules .card .chart-container canvas.chart_bar {
+        width: 100%!important;
+    }
+
+    .gpewp_MGR,
+    .gpewp_USR,
+    .gpewp_ADM,
+    .gpewp_INS,
+    .gpewp_REC,
+    .gpewp_HRD {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    }
+
+    .usertitle {
+        flex: 1 !important;
+        width: 50px !important;
+        white-space: nowrap !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #extendedUserTable td {
+          padding-top: 0px !important;
+          padding-bottom: 2px !important;
+      }
+}
+
+@media all and (min-width: 40em) {
+    .gpeWelcomePageModules .card .chart-container canvas.chart_pie {
+        width: 90%!important;
+        height: 90%!important;
+        margin-top: 0!important
+    }
+    .gpewp_MGR {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)) !important;
+        grid-template-rows: auto;
+        grid-auto-columns: 1fr;
+        gap: 0 0;
+        grid-auto-flow: row;
+        grid-template-areas:
+            "gpewp_MGR-right"
+            "gpewp_MGR-dashboards";
+        grid-area: gpewp_MGR;
+    }     
+}
+
+@media all and (min-width: 48em) {
+
+}
+
+@media all and (min-width: 64em) {
+
+}
+
+@media all and (min-width: 80em) {
+
+}
+
+@media all and (min-width: 96em) {
+
+}
+
+/* Widget links CSS */
+@media all and (max-width: 35em) {
+    .moduleLinkContainer li {
+        width: 70% !Important;
+    }
+    
+    .moduleLinkIcon {
+        background-size: 100% !important;
+    }
+}

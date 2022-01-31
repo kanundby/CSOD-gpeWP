@@ -1,6 +1,6 @@
 "use strict";
 
-let gpeWidgetConfig = [{
+const gpeWidgetConfig = [{
     "MODULECONFIG": {
         "ATS": {
             "settings": {
@@ -2398,4 +2398,4 @@ let gpeWidgetConfig = [{
     }
 }];
 
-sessionStorage.setItem("")
+sessionStorage.setItem("csWidgetConfig", JSON.stringify(gpeWidgetConfig));

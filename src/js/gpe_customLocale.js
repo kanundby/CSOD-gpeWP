@@ -1,3 +1,6 @@
+"use strict";
+
+const gpeCustomLocale = 
 [
     {
       "ManagerWidgetTitle": {
@@ -328,4 +331,6 @@
         }
       }
     }
-  ]
+  ];
+
+  sessionStorage.setItem("csCustomLocale", JSON.stringify(gpeCustomLocale));

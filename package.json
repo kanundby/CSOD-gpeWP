@@ -1,7 +1,7 @@
 {
-  "name": "gpewpes5",
-  "version": "0.9.9a",
-  "description": "ES5 version of gpeWP",
+  "name": "gpewelcomepage",
+  "version": "1.0.2d",
+  "description": "Cornerstone Hercules - Welcome Page Script",
   "main": "gpeWelcomePage.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

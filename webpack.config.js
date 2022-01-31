@@ -7,6 +7,7 @@ var PACKAGE = require('./package.json');
 var version = PACKAGE.version;
 
 module.exports = {
+    mode: 'production',
     entry: ["regenerator-runtime/runtime.js", "./src/gpeWelcomePage.js"], 
     output: {
         path: path.resolve(__dirname, 'build', version),
@@ -62,18 +63,21 @@ module.exports = {
         new CopyPlugin({
             patterns: [
               {
-                from: "src/json/gpe_widgetConfig-min.json",
-                to: "gpe_widgetConfig-min.json",
+                from: "src/js/gpe_widgetConfig.min.js",
+                to: "gpe_widgetConfig-min.js",
               },
               {
-                from: "src/json/gpe_customLocale-min.json",
-                to: "gpe_customLocale-min.json",
+                from: "src/js/gpe_customLocale.min.js",
+                to: "gpe_customLocale-min.js",
               }
             ]
         })
       ],        
     stats: {
-        colors: true
-    },
-    devtool: 'source-map'
+        colors: true,
+        env: true,
+        ids: true
+
+    }
+    // devtool: 'source-map'
 };
