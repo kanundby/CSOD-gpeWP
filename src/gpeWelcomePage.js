@@ -8,8 +8,10 @@
 "use strict";
 
 import packageInfo from '../package.json';
+import gpe_widgetConfig from ".//js/gpe_widgetConfig.min.js";
+import gpe_customLocale from ".//js/gpe_customLocale.min.js";
 const gpeWPversion = packageInfo.version;
-
+  
 const gpeABOUTCARDDIV = "gpewp_topcontainer_upper"; // where do we want to put the user photo name/job?
 const gpeDEMOPERSONADIV = "demopersona"; // id of persona div (user record custom field)
 const gpeDEMOMODULEDIV = "demomodules"; // User name
@@ -1674,19 +1676,15 @@ function checkJWT() {
 				var validity = tokenDate.getTime() > Date.now();
 
 				if (validity == false) {
-					//console.log("-[ UPDATING JWT ]-");
 					resolve(updateJWT());
 					return sessionStorage.csToken;
 				} else {
-					//console.log("-[ JWT OK ]-");
 					resolve(sessionStorage.csToken);
 				}
 			} else {
-				//console.log("-[ UPDATING JWT ]-");
 				resolve(updateJWT());
 			}
 		} else {
-			//console.log("-[ UPDATING JWT ]-");
 			resolve(updateJWT());
 		}
 	});
@@ -3352,10 +3350,10 @@ async function status(response) {
  * @returns true
  */
 async function checkReportToken() {
-	if (sessionStorage.reportToken) {
+	if (sessionStorage.getItem('reportToken')) {
 		var tokenDate = sessionStorage.reportTokenDate;
 		var dateDiff = Math.floor((Date.now() - tokenDate) / 1000 / 60);
-		if (dateDiff < 10) {
+		if (dateDiff < 15) {
 			return sessionStorage.reportToken;
 		} else {
 			return await updateReportToken();
@@ -3369,8 +3367,8 @@ async function checkReportToken() {
  * Updates sessionStorage with refreshed token details
  * @returns
  */
-function updateReportToken() {
-	return fetch("/Analytics/ReportBuilder/index.aspx", {
+async function updateReportToken() {
+	return await fetch("/Analytics/ReportBuilder/index.aspx", {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'text/html'
@@ -3394,7 +3392,6 @@ function updateReportToken() {
  * @returns
  */
 function fetchReport(reportIDArg) {
-	//console.log("REPORTID: "+ reportIDArg);
 	var rptDataSet = {};
 	return fetch("/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
 			method: 'GET',
@@ -3406,9 +3403,7 @@ function fetchReport(reportIDArg) {
 				'Authorization': sessionStorage.reportToken,
 			},
 		})
-		//.then(response => response.json())
 		.then(function (response) {
-			//console.log(response.status);
 			if (!response.ok) {
 				throw new Error("HTTP status " + response.status);
 			}
@@ -3471,7 +3466,13 @@ function fetchReport(reportIDArg) {
 async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleArg) {
 	return await checkReportToken()
 		.then(async function () {
-			return await fetchReport(reportIDArg);
+			if(sessionStorage.getItem(widgetIDArg) === null) {
+				let reportJson = await fetchReport(reportIDArg);
+				sessionStorage.setItem(widgetIDArg, JSON.stringify(reportJson));
+				return reportJson;
+			}else {
+				return JSON.parse(sessionStorage.getItem(widgetIDArg));
+			}
 		})
 		.then(async function (reportJson) {
 			let reportData = reportJson[0];
@@ -3664,32 +3665,6 @@ function lastinline() {
 		});
 })();
 
-async function fetchJson(urlARg, sessionStorageArg){
-	return await fetch(urlARg, {
-		cache: "no-store"
-	}).then(jsonData => jsonData.json())
-	.then(jsonData => sessionStorage.setItem(sessionStorageArg, JSON.stringify(jsonData)))
-	.catch(error => console.error("Error in loading gpe_widgetConfig-min.json: " + error));
-}
-
-function loadJs( url ){
-	return new Promise(( resolve, reject ) => {
-	  if (document.querySelector( `head > script[ src = "${url}" ]`) !== null ){
-		  console.warn( `script already loaded: ${url}` );
-		  resolve();
-	  }
-	  const script = document.createElement( "script" );
-	  script.src = url;
-	  script.onload = resolve;
-	  script.onerror = function( reason ){
-		  // This can be useful for your error-handling code
-		  reason.message = `error trying to load script ${url}`;
-		  reject( reason );
-	  };
-	  document.head.appendChild( script );
-	});
-  }
-
 /**
  * Welcome Page Build Function
  * @description Function is processed upon page load and will display the widgets and build the layout.
@@ -3697,80 +3672,55 @@ function loadJs( url ){
 (async function () {
 	var startTimer = performance.now();
 	await checkJWT()
-		.then(async function (tokenResponse) {
+	.then(function () {
+		sessionStorage.setItem("csDemoRole", gpeDEMOROLE);
+		sessionStorage.setItem("csDemoModules", gpeDEMOMODULES);
+		const gpeNav = buildNav(gpeDEMOROLE, sessionStorage.csCulture, gpeDEMOMODULES);
+		const gpeAboutCard = buildAboutCard();
 
-			// const gpe_widgetConfig_v2 = (!sessionStorage.csWidgetConfig) ? fetchJson("https://scfiles.csod.com/Baseline/Config/json/gpe_widgetConfig-min.json", "csWidgetConfig") : "false";
-			// const gpe_customLocale_v2 = (!sessionStorage.csCustomLocale) ? fetchJson("https://scfiles.csod.com/Baseline/Config/json/gpe_customLocale-min.json", "csCustomLocale") : "false";
+		const gpeOnboarding = (gpeDEMOROLE === "ONB") ? buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture) : "false";
+		const gpeExtendedWidgets = (gpeDEMOROLE !== "ONB") ? buildExtendedWidgets(gpeDEMOROLE, gpeDEMOMODULES) : "false";
+		const gpeModuleLayout = (gpeDEMOROLE !== "ONB") ? buildModuleWidget(gpeDEMOMODULES, gpeDEMOROLE) : "false";
+		const gpeWidgets = (gpeDEMOROLE !== "ONB") ? buildWidgets_v2(gpeDEMOMODULES, gpeDEMOROLE) : "false";
 
-			// return Promise.all([gpe_widgetConfig_v2, gpe_customLocale_v2]);
-			// const gpe_widgetConfig_v2 = document.createElement('script');
-			// gpe_widgetConfig_v2.src = await "https://scfiles.csod.com/Baseline/Config/JS/gpeWelcomePage/1.0.2c/gpe_widgetConfig-min.js";
-			// document.head.appendChild(gpe_widgetConfig_v2);
-
-			// const gpe_customLocale_v2 = document.createElement('script');
-			// gpe_customLocale_v2.src = await "https://scfiles.csod.com/Baseline/Config/JS/gpeWelcomePage/1.0.2c/gpe_customLocale-min.js";
-			// document.head.appendChild(gpe_customLocale_v2);
-
-			(!sessionStorage.csWidgetConfig) ? await loadJs( "https://scfiles.csod.com/Baseline/Config/JS/gpeWelcomePage/"+gpeWPversion+"/gpe_widgetConfig-min.js" ).catch( err => {} ) : "false";
-			(!sessionStorage.csCustomLocale) ? await loadJs( "https://scfiles.csod.com/Baseline/Config/JS/gpeWelcomePage/"+gpeWPversion+"/gpe_customLocale-min.js" ).catch( err => {} ) : "false";
-
-			// return true;
-		})
-		.then(function () {
-			var loadJsonTimer = performance.now();
-			//console.log('Load JSON: ' + (loadJsonTimer - startTimer) + ' ms.');
-			
-			sessionStorage.setItem("csDemoRole", gpeDEMOROLE);
-			sessionStorage.setItem("csDemoModules", gpeDEMOMODULES);
-
-			const gpeNav = buildNav(gpeDEMOROLE, sessionStorage.csCulture, gpeDEMOMODULES);
-			const gpeAboutCard = buildAboutCard();
-
-			const gpeOnboarding = (gpeDEMOROLE === "ONB") ? buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture) : "false";
-			const gpeExtendedWidgets = (gpeDEMOROLE !== "ONB") ? buildExtendedWidgets(gpeDEMOROLE, gpeDEMOMODULES) : "false";
-			const gpeModuleLayout = (gpeDEMOROLE !== "ONB") ? buildModuleWidget(gpeDEMOMODULES, gpeDEMOROLE) : "false";
-			const gpeWidgets = (gpeDEMOROLE !== "ONB") ? buildWidgets_v2(gpeDEMOMODULES, gpeDEMOROLE) : "false";
-
-			return Promise.all([gpeNav, gpeAboutCard, gpeOnboarding, gpeModuleLayout, gpeWidgets, gpeExtendedWidgets]);
-		})
-		.then(function (data) {
-
-			// Set event on logout to delete sessionStorage.
-			var logoutLink = document.querySelector("a[id*='header_headerResponsive_responsiveNav_lnkLogout']");
-			logoutLink.addEventListener("click", function (event) {
-				sessionStorage.clear();
-			});
-
-			var link = document.querySelector("link[rel~='icon']");
-			if (!link) {
-				link = document.createElement('link');
-				link.rel = 'icon';
-				document.getElementsByTagName('head')[0].appendChild(link);
-			}
-
-			link.href = gpeDEMOPERSONAIMAGE;
-			document.title = "CSOD Demo : " + gpeDEMOROLE;
-
-			// Checkins click events
-			$(".clickable-row").click(function () {
-				window.location = $(this).data("href");
-			});
-			// Get started click events
-			$(".getstarted_button").click(function () {
-				window.location = $(this).data("href");
-			});
-			// Get approval buttons click events
-			$(".approval_button").click(function () {
-				window.location = $(this).data("href");
-			});
-			// console.log(lastinline());
-			
-			var endTimer = performance.now();
-			console.log("gpeWP build: "+ gpeWPversion +" - ("+ Math.round((endTimer - startTimer))+" ms)");
-//			console.log('It took ' + (endTimer - startTimer) + ' ms.');
-			
-		})
-		.catch(error => {
-			console.error(error);
+		return Promise.all([gpeNav, gpeAboutCard, gpeOnboarding, gpeModuleLayout, gpeWidgets, gpeExtendedWidgets]);
+	})
+	.then(function () {
+		// Set event on logout to delete sessionStorage.
+		var logoutLink = document.querySelector("a[id*='header_headerResponsive_responsiveNav_lnkLogout']");
+		logoutLink.addEventListener("click", function (event) {
+			sessionStorage.clear();
 		});
+
+		var link = document.querySelector("link[rel~='icon']");
+		if (!link) {
+			link = document.createElement('link');
+			link.rel = 'icon';
+			document.getElementsByTagName('head')[0].appendChild(link);
+		}
+
+		link.href = gpeDEMOPERSONAIMAGE;
+		document.title = "CSOD Demo : " + gpeDEMOROLE;
+
+		// Checkins click events
+		$(".clickable-row").click(function () {
+			window.location = $(this).data("href");
+		});
+		// Get started click events
+		$(".getstarted_button").click(function () {
+			window.location = $(this).data("href");
+		});
+		// Get approval buttons click events
+		$(".approval_button").click(function () {
+			window.location = $(this).data("href");
+		});
+		// console.log(lastinline());
+		
+		var endTimer = performance.now();
+		console.log("gpeWP build: "+ gpeWPversion +" - ("+ Math.round((endTimer - startTimer))+" ms)");
+		
+	})
+	.catch(error => {
+		console.error(error);
+	});
 })();
