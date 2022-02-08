@@ -3457,7 +3457,7 @@ function fetchReport(reportIDArg) {
 		});
 }
 
-async function fetchReport_v2(reportIDArg) {
+function fetchReport_v2(reportIDArg) {
 	var rptDataSet = {};
 	return fetch("/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
 			method: 'GET',
@@ -3469,13 +3469,13 @@ async function fetchReport_v2(reportIDArg) {
 				'Authorization': sessionStorage.reportToken,
 			},
 		})
-		.then(function (response) {
+		.then((response) => {
 			if (!response.ok) {
 				throw new Error("HTTP status " + response.status);
 			}
 			return response.json();
 		})
-		.then(async reportDetailsResponse => {
+		.then((reportDetailsResponse) => {
 
 			var payload = {
 				"filters": [],
@@ -3486,7 +3486,7 @@ async function fetchReport_v2(reportIDArg) {
 
 			rptDataSet = reportDetailsResponse;
 
-			return await fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
+			return fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
 				method: 'POST',
 				mode: 'cors',
 				cache: 'default',
@@ -3517,11 +3517,11 @@ async function fetchReport_v2(reportIDArg) {
                 if(result.status !== 204){
                     return result;
                 }else {
-                    return getAsyncResult("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, 10, 100).then(queryResult => {
+                    return getAsyncResult("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, 200, 100).then(queryResult => {
                         return queryResult;
                       });
                 }
-            })
+            });
         })
 		.then(reportdata => reportdata.json())
 		.then(finalData => {
@@ -3545,7 +3545,7 @@ function getBodyAndStatus(response) {
     return new Promise((resolve, reject) => {
       // start monitoring after timeout
       setTimeout(() => {
-        repeatUntilSuccess(resolve, reject, 0)
+        repeatUntilSuccess(resolve, reject, 0);
       }, timeout);
     });
   
@@ -3568,15 +3568,15 @@ function getBodyAndStatus(response) {
           } else if (result.status === 204) {
               // Check again after timeout
             setTimeout(() => {
-              repeatUntilSuccess(resolve, reject, attempt + 1)
+              repeatUntilSuccess(resolve, reject, attempt + 1);
             }, timeout);
           } else {
             // Something went wrong
-            reject(result)
+            reject(result);
           }
         })
         .catch(err => reject(err));
-    };
+    }
   }
 
 /**
