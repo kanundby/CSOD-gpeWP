@@ -3327,25 +3327,6 @@ async function getCheckinsDetails(widgetArg, moduleArg) {
 		});
 }
 
-/* Status function - used to pause 202 responses */
-/**
- *
- * @param
- * @param
- * @returns
- */
-async function status(response) {
-	switch (response.status) {
-		case 202:
-			return await new Promise(r => setTimeout(() => r(response), 800));
-		case 200:
-			return await Promise.resolve(response);
-		case 204:
-//			return new Promise(r => setTimeout(() => r(response), 500));
-			return await Promise.resolve(response);
-	}
-}
-
 /**
  * Checks if Report Token needs to be refreshed
  * @returns true
@@ -3383,77 +3364,6 @@ async function updateReportToken() {
 		})
 		.catch(error => {
 			console.error("Function updateJWT failed: ", error);
-		});
-}
-/* Get reporta meta */
-/**
- *
- * @param
- * @param
- * @returns
- */
-function fetchReport(reportIDArg) {
-	var rptDataSet = {};
-	return fetch("/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': sessionStorage.reportToken,
-			},
-		})
-		.then(function (response) {
-			if (!response.ok) {
-				throw new Error("HTTP status " + response.status);
-			}
-			return response.json();
-		})
-		.then(async reportDetailsResponse => {
-
-			var payload = {
-				"filters": [],
-				"sorting": []
-			};
-			payload.filters = [...reportDetailsResponse.filters];
-			payload.sorting = [...reportDetailsResponse.sorting];
-
-			rptDataSet = reportDetailsResponse;
-
-			return await fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
-				method: 'POST',
-				mode: 'cors',
-				cache: 'default',
-				credentials: 'same-origin',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': sessionStorage.reportToken
-				},
-				body: JSON.stringify(payload)
-			});
-		})
-		.then(status)
-		.then(response => response.json())
-		.then(async metaresponse => {
-			return await fetch("/reportarchitect/rctdatacore/metaapi/v1" + metaresponse.location, {
-				method: 'GET',
-				mode: 'cors',
-				cache: 'no-cache',
-				credentials: 'same-origin',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': sessionStorage.reportToken,
-				},
-			});
-		})
-		.then(status)
-		.then(reportdata => reportdata.json())
-		.then(finalData => {
-			return [finalData, rptDataSet];
-		})
-		.catch(error => {
-			console.error("Error with fetchReport function - ", error);
 		});
 }
 
