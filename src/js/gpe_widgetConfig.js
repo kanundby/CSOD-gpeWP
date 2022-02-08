@@ -1,5 +1,5 @@
 "use strict";
-
+if(!sessionStorage.csWidgetConfig) {
 const gpeWidgetConfig = [{
     "MODULECONFIG": {
         "ATS": {
@@ -2399,3 +2399,4 @@ const gpeWidgetConfig = [{
 }];
 
 sessionStorage.setItem("csWidgetConfig", JSON.stringify(gpeWidgetConfig));
+}
