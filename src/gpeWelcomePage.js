@@ -3337,11 +3337,12 @@ async function getCheckinsDetails(widgetArg, moduleArg) {
 async function status(response) {
 	switch (response.status) {
 		case 202:
-			return new Promise(r => setTimeout(() => r(response), 700));
+			return await new Promise(r => setTimeout(() => r(response), 800));
 		case 200:
-			return Promise.resolve(response);
+			return await Promise.resolve(response);
 		case 204:
-			return Promise.resolve(response);
+//			return new Promise(r => setTimeout(() => r(response), 500));
+			return await Promise.resolve(response);
 	}
 }
 
@@ -3409,7 +3410,7 @@ function fetchReport(reportIDArg) {
 			}
 			return response.json();
 		})
-		.then(reportDetailsResponse => {
+		.then(async reportDetailsResponse => {
 
 			var payload = {
 				"filters": [],
@@ -3420,7 +3421,7 @@ function fetchReport(reportIDArg) {
 
 			rptDataSet = reportDetailsResponse;
 
-			return fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
+			return await fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
 				method: 'POST',
 				mode: 'cors',
 				cache: 'default',
@@ -3434,8 +3435,8 @@ function fetchReport(reportIDArg) {
 		})
 		.then(status)
 		.then(response => response.json())
-		.then(metaresponse => {
-			return fetch("/reportarchitect/rctdatacore/metaapi/v1" + metaresponse.location, {
+		.then(async metaresponse => {
+			return await fetch("/reportarchitect/rctdatacore/metaapi/v1" + metaresponse.location, {
 				method: 'GET',
 				mode: 'cors',
 				cache: 'no-cache',
@@ -3456,6 +3457,128 @@ function fetchReport(reportIDArg) {
 		});
 }
 
+async function fetchReport_v2(reportIDArg) {
+	var rptDataSet = {};
+	return fetch("/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': sessionStorage.reportToken,
+			},
+		})
+		.then(function (response) {
+			if (!response.ok) {
+				throw new Error("HTTP status " + response.status);
+			}
+			return response.json();
+		})
+		.then(async reportDetailsResponse => {
+
+			var payload = {
+				"filters": [],
+				"sorting": []
+			};
+			payload.filters = [...reportDetailsResponse.filters];
+			payload.sorting = [...reportDetailsResponse.sorting];
+
+			rptDataSet = reportDetailsResponse;
+
+			return await fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
+				method: 'POST',
+				mode: 'cors',
+				cache: 'default',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': sessionStorage.reportToken
+				},
+				body: JSON.stringify(payload)
+			});
+		})
+		.then(getBodyAndStatus)
+		.then((metaresponse) => {
+            return metaresponse.body.location;
+        })
+        .then((reportLocation) => {
+			return fetch("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, {
+				method: 'GET',
+				mode: 'cors',
+				cache: 'no-cache',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': sessionStorage.reportToken,
+				},
+			})
+            .then((result) => {
+                if(result.status !== 204){
+                    return result;
+                }else {
+                    return getAsyncResult("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, 10, 100).then(queryResult => {
+                        return queryResult;
+                      });
+                }
+            })
+        })
+		.then(reportdata => reportdata.json())
+		.then(finalData => {
+            return [finalData, rptDataSet];
+		})
+		.catch(error => {
+			console.error("Error with fetchReport function - ", error);
+		});
+}
+
+function getBodyAndStatus(response) {
+	return response.json().then(responseBody => {
+        return {
+		status: response.status,
+		body: responseBody
+	  };
+	});
+  }
+
+  function getAsyncResult(url, timeout, maxAttempt) {
+    return new Promise((resolve, reject) => {
+      // start monitoring after timeout
+      setTimeout(() => {
+        repeatUntilSuccess(resolve, reject, 0)
+      }, timeout);
+    });
+  
+    function repeatUntilSuccess(resolve, reject, attempt) {
+      fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.reportToken,
+            },
+        })
+        .then(result => {
+          if (result.status === 200) {
+            resolve(result);
+          } else if (attempt >= maxAttempt) {
+            reject("Max amount of attempt achived");
+          } else if (result.status === 204) {
+              // Check again after timeout
+            setTimeout(() => {
+              repeatUntilSuccess(resolve, reject, attempt + 1)
+            }, timeout);
+          } else {
+            // Something went wrong
+            reject(result)
+          }
+        })
+        .catch(err => reject(err));
+    };
+  }
+
 /**
  *
  * @param
@@ -3467,7 +3590,7 @@ async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleA
 	return await checkReportToken()
 		.then(async function () {
 			if(sessionStorage.getItem(widgetIDArg) === null) {
-				let reportJson = await fetchReport(reportIDArg);
+				let reportJson = await fetchReport_v2(reportIDArg);
 				sessionStorage.setItem(widgetIDArg, JSON.stringify(reportJson));
 				return reportJson;
 			}else {
