@@ -3499,7 +3499,7 @@ function getBodyAndStatus(response) {
 async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleArg) {
 	return await checkReportToken()
 		.then(async function () {
-			if(sessionStorage.getItem(widgetIDArg) === null) {
+			if(sessionStorage.getItem(widgetIDArg) === null || sessionStorage.getItem(widgetIDArg) === 'undefined') {
 				let reportJson = await fetchReport_v2(reportIDArg);
 				sessionStorage.setItem(widgetIDArg, JSON.stringify(reportJson));
 				return reportJson;
@@ -3635,28 +3635,6 @@ async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleA
 		.catch(error => console.error("Error in createDashboard function: " + error));
 }
 
-
-
-/**
- * lastinline - message printed when all is done
- * @returns {string} - Message to be printed via console.log
- */
-function lastinline() {
-	// const mad = String.fromCodePoint( 0x1F631 );
-	// const flame = String.fromCodePoint( 0x1F525 );
-	// const happy = String.fromCodePoint( 0x1F600 );
-	// const horns = String.fromCodePoint( 0x1F918 );
-	var lastinline = "";
-	// lastinline += happy +" "+ mad +" "+ flame +" "+ mad +" "+ happy +"\n";
-	// lastinline += "%cWe'll know for the first time.\n";
-	// lastinline += "If we're evil or divine\n";
-	// lastinline += "We're the last in line!\n";
-	// lastinline += horns +" "+ flame +" "+ mad +" "+ flame +" "+ horns +"\n\n";
-	lastinline += "gpeDEMOROLE: " + gpeDEMOROLE + "\n";
-	lastinline += "gpeDEMOMODULES: " + gpeDEMOMODULES + "\n";
-	return lastinline;
-}
-
 /**
  * Set background theme
  * @description Function is processed upon page load and will set potential image and set theme colours.
@@ -3747,7 +3725,6 @@ function lastinline() {
 		$(".approval_button").click(function () {
 			window.location = $(this).data("href");
 		});
-		// console.log(lastinline());
 		
 		var endTimer = performance.now();
 		console.log("gpeWP build: "+ gpeWPversion +" - ("+ Math.round((endTimer - startTimer))+" ms)");
