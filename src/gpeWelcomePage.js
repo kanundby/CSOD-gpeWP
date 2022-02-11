@@ -8,8 +8,9 @@
 "use strict";
 
 import packageInfo from '../package.json';
+import gpe_globalSettings from ".//js/gpe_globalSettings.min.js";
 import gpe_widgetConfig from ".//js/gpe_widgetConfig.min.js";
-import gpe_customLocale from ".//js/gpe_customLocale.min.js";
+import gpe_approvalURLS from ".//js/gpe_approvalURLs.min.js";
 const gpeWPversion = packageInfo.version;
   
 const gpeABOUTCARDDIV = "gpewp_topcontainer_upper"; // where do we want to put the user photo name/job?
@@ -24,90 +25,6 @@ const gpeDEMOPERSONAIMAGE = getDemoRolePhoto();
 const gpePRIMARYBGCSS = $('.c-nav-user').css('background-color');
 const gpeDEMOVISUALS = "demovisuals";
 const gpeBRANDING = getBrandingDetails(gpeDEMOVISUALS);
-
-/**
- * @const approvalURLs
- * @desc Array of translated welcome page data points.
- */
-const approvalURLs = {
-	training: {
-		url: "/reports/trackemployee/TrackEmpRequest.aspx",
-		link: "/reports/trackemployee/TrackEmpRequest.aspx",
-		icon: "gpe-appr-training",
-		imgname: "approval_training_req.png",
-		title: {
-			"en-US": "Training Request",
-			"en-UK": "Training Request",
-			"de-DE": "Schulungsanfrage",
-		},
-	},
-	goals: {
-		url: "/EPM/Goals/PendingGoals.aspx?tab_page_id=-580170",
-		link: "/phnx/driver.aspx?routename=Social/UniversalProfile/Requests",
-		icon: "gpe-appr-goals",
-		imgname: "approval_goal_req",
-		title: {
-			"en-US": "Goal Request",
-			"en-UK": "Goal Request",
-			"de-DE": "Antrag auf Zielgenehmigung",
-		},
-	},
-	exemption: {
-		url: "/LMS/Admin/PendingExemptionRequests.aspx",
-		link: "/LMS/Admin/PendingExemptionRequests.aspx",
-		icon: "gpe-appr-goals",
-		imgname: "approval_goal_req",
-		title: {
-			"en-US": "Exemption Request",
-			"en-UK": "Exemption Request",
-			"de-DE": "Exemption Request",
-		},
-	},
-	feedback: {
-		url: "/Social/SocialFeedback/FeedbackRequests.aspx",
-		link: "/Social/SocialFeedback/FeedbackRequests.aspx",
-		icon: "gpe-appr-feedback",
-		imgname: "approval_feedback_req.png",
-		title: {
-			"en-US": "Feedback Request",
-			"en-UK": "Feedback Request",
-			"de-DE": "Feedback-Anfrage",
-		},
-	},
-	connections: {
-		url: "/phnx/driver.aspx?routename=Social/UniversalProfile/PendingConnections",
-		link: "/phnx/driver.aspx?routename=Social/UniversalProfile/PendingConnections",
-		icon: "gpe-appr-connection",
-		imgname: "approval_connection_req.png",
-		title: {
-			"en-US": "Connection Request",
-			"en-UK": "Connection Request",
-			"de-DE": "Verbindungsanfrage",
-		},
-	},
-	formapproval: {
-		url: "/phnx/driver.aspx?routename=Social/UniversalProfile/Requests",
-		link: "/phnx/driver.aspx?routename=Social/UniversalProfile/Requests",
-		icon: "gpe-appr-form",
-		imgname: "approval_form_req.png",
-		title: {
-			"en-US": "Form Approval",
-			"en-UK": "Form Approval",
-			"de-DE": "Formulargenehmigung",
-		},
-	},
-	compensation: {
-		url: "/EPM/Compensation/User/ApprovalsList.aspx",
-		link: "/EPM/Compensation/User/ApprovalsList.aspx",
-		icon: "gpe-appr-form",
-		imgname: "approval_comp_req.png",
-		title: {
-			"en-US": "Compensation Plan",
-			"en-UK": "Compensation Plan",
-			"de-DE": "Kompensationsplan",
-		},
-	}
-};
 
 /**
  * @var cs_DashboardDetailsArray
@@ -362,7 +279,8 @@ function buildNav(demoRoleArg, cultureArg, moduleArg) {
 	/* Set top menu space  START */
 	if (!document.getElementById("framework-oldnav-home")) {
 
-		const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+		const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+		const gpeApprovalURLs = JSON.parse(sessionStorage.gpeApprovalURLs);
 
 		let tmpNav = document.createElement("nav");
 		tmpNav.className = "header__nav header__nav--custom";
@@ -407,7 +325,7 @@ function buildNav(demoRoleArg, cultureArg, moduleArg) {
 		topNavBtnUSR.setAttribute("aria-controls", "nav-USR");
 		topNavBtnUSR.setAttribute("aria-selected", "true");
 		topNavBtnUSR.setAttribute("_ngcontent-nml-c376", "");
-		topNavBtnUSR.innerHTML = cs_customLocale[0].topNavigationTitle.USR[cultureArg]; //sessionStorage["csCulture"]
+		topNavBtnUSR.innerHTML = gpeGlobalSettings[0].NAVIGATION.USR[cultureArg]; //sessionStorage["csCulture"]
 
 		topNavItmUSR.appendChild(topNavBtnUSR);
 		let topNavItmRole = 0;
@@ -440,7 +358,7 @@ function buildNav(demoRoleArg, cultureArg, moduleArg) {
 			topNavUL.appendChild(topNavItmRole);
 		}
 
-		let approvalCheck = getApprovalDetails_v2(approvalURLs, sessionStorage.csCulture, gpeDEMOROLE);
+		let approvalCheck = getApprovalDetails_v2(gpeApprovalURLs, sessionStorage.csCulture, gpeDEMOROLE);
 		if (approvalCheck == "ok") {
 			let topNavApprovalItem = buildExtraNavItem("APPROVALS", cultureArg, "modal");
 			topNavUL.appendChild(topNavApprovalItem);
@@ -497,7 +415,7 @@ function buildNav(demoRoleArg, cultureArg, moduleArg) {
  * @returns
  */
 function buildExtraNavItem(demoRoleArg, cultureArg, toogleTypeArg) {
-	const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
 
 	var topNavItmRole = document.createElement("li");
 	topNavItmRole.className = "trq-tab-group-item ng-star-inserted";
@@ -519,7 +437,7 @@ function buildExtraNavItem(demoRoleArg, cultureArg, toogleTypeArg) {
 	topNavBtnRole.setAttribute("aria-controls", "nav-" + demoRoleArg);
 	topNavBtnRole.setAttribute("aria-selected", "false");
 	topNavBtnRole.setAttribute("_ngcontent-nml-c376", "");
-	topNavBtnRole.innerHTML = cs_customLocale[0].topNavigationTitle[demoRoleArg][cultureArg]; //sessionStorage["csCulture"]
+	topNavBtnRole.innerHTML = gpeGlobalSettings[0].NAVIGATION[demoRoleArg][cultureArg]; //sessionStorage["csCulture"]
 	topNavItmRole.appendChild(topNavBtnRole);
 
 	return topNavItmRole;
@@ -534,7 +452,8 @@ function buildExtraNavItem(demoRoleArg, cultureArg, toogleTypeArg) {
 async function buildOnbWidget(demoRoleArg, cultureArg) {
 	if (demoRoleArg == "ONB") {
 
-		const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+		const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 		const inputs = {
 			csFirstName: gpeDEMOUNAME[0]
 		};
@@ -552,12 +471,11 @@ async function buildOnbWidget(demoRoleArg, cultureArg) {
 		onbHeader.className = "onbheader";
 		// Get header
 		let onbHeaderTitle = document.createElement("h5");
-		// onbHeaderTitle.innerHTML = cs_customLocale[0].onboarding[cultureArg].headertitle;
-		onbHeaderTitle.innerHTML = injectVariables(inputs, cs_customLocale[0].onboarding[cultureArg].headertitle);
+		onbHeaderTitle.innerHTML = injectVariables(inputs, gpeGlobalSettings[0].ONB[cultureArg].headertitle);
 
 		// Get text
 		let onbHeaderText = document.createElement("p");
-		onbHeaderText.innerHTML = cs_customLocale[0].onboarding[cultureArg].headertext;
+		onbHeaderText.innerHTML = gpeGlobalSettings[0].ONB[cultureArg].headertext;
 
 		// Get video
 		let onbHeaderVideoDiv = document.createElement("div");
@@ -568,7 +486,7 @@ async function buildOnbWidget(demoRoleArg, cultureArg) {
 		onbHeaderVideoObj.setAttribute("height", "360px");
 		onbHeaderVideoObj.setAttribute("controls", "");
 		let onbHeaderVideoSrc = document.createElement("source");
-		onbHeaderVideoSrc.setAttribute("src", cs_customLocale[0].onboarding[cultureArg].videourl);
+		onbHeaderVideoSrc.setAttribute("src", gpeGlobalSettings[0].ONB[cultureArg].videourl);
 		onbHeaderVideoSrc.setAttribute("type", "video/mp4");
 		onbHeaderVideoObj.appendChild(onbHeaderVideoSrc);
 		onbHeaderVideoDiv.appendChild(onbHeaderVideoObj);
@@ -584,7 +502,7 @@ async function buildOnbWidget(demoRoleArg, cultureArg) {
 
 		let onbProcessTitle = document.createElement('h5');
 		onbProcessTitle.className = "processtitle";
-		onbProcessTitle.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.title;
+		onbProcessTitle.innerHTML = gpeGlobalSettings[0].ONB[cultureArg].onbprocess.title;
 
 		let onbProcessDesc = document.createElement('div');
 		onbProcessDesc.className = "processdesc";
@@ -592,30 +510,30 @@ async function buildOnbWidget(demoRoleArg, cultureArg) {
 		let tmpOnbProcessTextOl = document.createElement('ol');
 		tmpOnbProcessTextOl.className = "list";
 
-		for (let textItem in cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem) {
+		for (let textItem in gpeGlobalSettings[0].ONB[cultureArg].onbprocess.textItem) {
 			let tmpOnbProcessTextLi = document.createElement('li');
 			tmpOnbProcessTextLi.className = "item";
 
 			let tmpOnbProcessTextLiHeadline = document.createElement('h2');
 			tmpOnbProcessTextLiHeadline.className = "headline";
-			tmpOnbProcessTextLiHeadline.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].headline;
+			tmpOnbProcessTextLiHeadline.innerHTML = gpeGlobalSettings[0].ONB[cultureArg].onbprocess.textItem[textItem].headline;
 
 			let tmpOnbProcessTextLiText = document.createElement('span');
-			tmpOnbProcessTextLiText.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].text;
+			tmpOnbProcessTextLiText.innerHTML = gpeGlobalSettings[0].ONB[cultureArg].onbprocess.textItem[textItem].text;
 
 			let tmpOnbResourceDiv = document.createElement('div');
 			tmpOnbResourceDiv.className = "resourceTitle";
-			tmpOnbResourceDiv.innerHTML = "<br>" + cs_customLocale[0].onboarding[cultureArg].onbprocess.resourceTitle;
+			tmpOnbResourceDiv.innerHTML = "<br>" + gpeGlobalSettings[0].ONB[cultureArg].onbprocess.resourceTitle;
 
 			let tmpOnbResourceUl = document.createElement('ul');
 			tmpOnbResourceUl.className = "resList";
-			for (let resItem in cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources) {
+			for (let resItem in gpeGlobalSettings[0].ONB[cultureArg].onbprocess.textItem[textItem].resources) {
 				let tmpOnbResourceLi = document.createElement("li");
 				tmpOnbResourceLi.className = "resItem";
-				if (cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].type == "url") {
-					tmpOnbResourceLi.innerHTML = "<a href='" + cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].url + "'>" + cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].text + "</a>";
+				if (gpeGlobalSettings[0].ONB[cultureArg].onbprocess.textItem[textItem].resources[resItem].type == "url") {
+					tmpOnbResourceLi.innerHTML = "<a href='" + gpeGlobalSettings[0].ONB[cultureArg].onbprocess.textItem[textItem].resources[resItem].url + "'>" + gpeGlobalSettings[0].ONB[cultureArg].onbprocess.textItem[textItem].resources[resItem].text + "</a>";
 				} else {
-					tmpOnbResourceLi.innerHTML = cs_customLocale[0].onboarding[cultureArg].onbprocess.textItem[textItem].resources[resItem].text;
+					tmpOnbResourceLi.innerHTML = gpeGlobalSettings[0].ONB[cultureArg].onbprocess.textItem[textItem].resources[resItem].text;
 
 				}
 				tmpOnbResourceUl.appendChild(tmpOnbResourceLi);
@@ -634,7 +552,7 @@ async function buildOnbWidget(demoRoleArg, cultureArg) {
 
 		let onbProcessImg = document.createElement('div');
 		onbProcessImg.className = "processimg";
-		onbProcessImg.style.backgroundImage = cs_customLocale[0].onboarding[cultureArg].onbprocess.imgurl;
+		onbProcessImg.style.backgroundImage = gpeGlobalSettings[0].ONB[cultureArg].onbprocess.imgurl;
 		onbProcessImg.style.backgroundRepeat = "no-repeat";
 		onbProcessImg.style.backgroundPosition = "center";
 		onbProcessImg.style.width = "100%";
@@ -665,7 +583,9 @@ async function buildOnbWidget(demoRoleArg, cultureArg) {
 
 async function buildModuleWidget(moduleArg, demoRoleArg) {
 
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 	const inputs = {
 		csUser: sessionStorage.csUser
 	};
@@ -681,30 +601,33 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 			case "EPM":
 				// check if module should be displayed... USR, MGR, HRD, ADM, REC, INS
 				//console.log("Demorole "+ demoRoleArg +" for module "+ moduleArg[module] +" is having the following availability:  "+ cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].AVAILABILITY);
-				if (cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].AVAILABILITY == 0) break;
+				console.log("ROLE: "+ demoRoleArg);
+				console.log("MODULE: "+ moduleArg[module]);
+				console.log("AVAILABILITY: "+ cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].SETTINGS.AVAILABILITY);
+				if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].SETTINGS.AVAILABILITY == 0) break;
 
 				let modContainer = document.createElement("div");
 				modContainer.className = "moduleContainer";
 				modContainer.setAttribute("id", "module_" + moduleArg[module]);
-				modContainer.setAttribute("style", "order:" + cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].ORDER + ";");
+				modContainer.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].SETTINGS.ORDER + ";");
 
 				let modContainerTitleDiv = document.createElement("div");
 				modContainerTitleDiv.className = "moduleTitleDiv";
 
 				let modContainerTitle = document.createElement("h3");
 				modContainerTitle.className = "moduleTitle";
-				modContainerTitle.innerHTML = cs_widgetConfig[0].MODULECONFIG[moduleArg[module]].settings.moduletitle[sessionStorage.csCulture];
+				modContainerTitle.innerHTML = gpeGlobalSettings[0].MODULES[moduleArg[module]].settings.moduletitle[sessionStorage.csCulture];
 
 				let modWidgetContainer = document.createElement("div");
 				modWidgetContainer.className = "moduleWidgetContainer row";
 
-				for (let widget in cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS) {
-					let tempWidgetID = cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS[widget].ID;
+				for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].WIDGETS) {
+					let tempWidgetID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].WIDGETS[widget].ID;
 
 					let modWidget = document.createElement("div");
-					modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS[widget].COLUMNSIZE;
+					modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].WIDGETS[widget].COLUMNSIZE;
 					modWidget.setAttribute("id", moduleArg[module] + "-" + tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
-					modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].WIDGETS[widget].ORDER + ";");
+					modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].WIDGETS[widget].ORDER + ";");
 
 					let preLoaderWrapper = document.createElement("div");
 					preLoaderWrapper.className = "wrapper widgetData col-md-12";
@@ -712,7 +635,7 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 					preLoaderCard.className = "skeleton-card";
 					let preLoaderType = document.createElement("div");
 					let widgetJSONtmp = moduleArg[module] + "-" + tempWidgetID;
-					preLoaderType.className = "skeleton " + cs_widgetConfig[0].WIDGETS[widgetJSONtmp].skeletoncss;
+					preLoaderType.className = "skeleton " + gpeGlobalSettings[0].WIDGETS[widgetJSONtmp].skeletoncss;
 
 					preLoaderWrapper.appendChild(preLoaderCard);
 					preLoaderWrapper.appendChild(preLoaderType);
@@ -731,29 +654,48 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 				modLinkContainer.className = "moduleLinkContainer";
 
 				// BUILD QUICKLINKS
-				for (let link in cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].LINKS) {
+				for (let link in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].LINKS) {
 
-					let tempLinkID = cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].LINKS[link].ID;
+					let tempLinkID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].LINKS[link].ID;
 
 					let modLink = document.createElement("li");
 					modLink.className = "moduleLink";
 					modLink.setAttribute("id", moduleArg[module] + "-" + tempLinkID);
-					modLink.setAttribute("style", "order:" + cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].LINKS[link].ORDER + ";");
+					modLink.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].LINKS[link].ORDER + ";");
 
 					let modLinkItemLink = document.createElement("a");
 					modLinkItemLink.className = "modLinkItemLink";
-					modLinkItemLink.href = injectVariables(inputs, cs_widgetConfig[0].LINKS[tempLinkID].URL);
+					modLinkItemLink.href = injectVariables(inputs, gpeGlobalSettings[0].LINKS[tempLinkID].URL);
 
 					let modLinkItem = document.createElement("div");
 					modLinkItem.className = "modLinkItem";
 
 					let modLinkIcon = document.createElement("div");
 					modLinkIcon.className = "moduleLinkIcon";
-					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + cs_widgetConfig[0].LINKS[tempLinkID].ICON + "')";
-
+					let svgDetails = await fetch("https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + gpeGlobalSettings[0].LINKS[tempLinkID].ICON)
+					.then(async (response) => {
+						if(!response.ok){
+							throw Error("SVG request returned error.");
+						}
+						return await response.text();
+					});
+					let svgDetails1 = encodeSVG(svgDetails);
+					//console.log(svgDetails1);
+					// modLinkIcon.style.backgroundImage = `url(data:image/svg+xml;charset=utf-8,${svgDetails1})`;
+					let quotes = getQuotes();
+					let resultSVg = `url(${quotes.level1}data:image/svg+xml,${svgDetails1}${quotes.level1});`;
+					// console.log(resultSVg);
+					//modLinkIcon.style.backgroundImage = resultSVg;
+					modLinkIcon.style.backgroundImage = "url("+quotes.level1+"data:image/svg+xml,"+svgDetails1+""+quotes.level1+")";
+					//modLinkIcon.style.backgroundImage = "url('data:image/svg+xml;charset=utf-8,"+svgDetails1+"')";
+					// console.log(modLinkIcon.style.backgroundImage);
+//					modLinkIcon.style.backgroundImage = "url('data:image/svg+xml;utf8,"+ svgData.responseText +"')";
+					//					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + gpeGlobalSettings[0].LINKS[tempLinkID].ICON + "')";
+					
+					
 					let modLinkTitle = document.createElement("div");
 					modLinkTitle.className = "moduleLinkTitle";
-					modLinkTitle.innerHTML = cs_widgetConfig[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture];
+					modLinkTitle.innerHTML = gpeGlobalSettings[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture];
 
 					modLinkItem.appendChild(modLinkIcon);
 					modLinkItem.appendChild(modLinkTitle);
@@ -774,7 +716,7 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 				modulesDiv.appendChild(modContainer);
 
 				// console.log(cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg]);
-				let gpewpMain = document.getElementById(cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].TARGETDIV + "-right");
+				let gpewpMain = document.getElementById(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].SETTINGS.TARGETDIV + "-right");
 				gpewpMain.appendChild(modulesDiv);
 
 				break;
@@ -782,9 +724,38 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 	}
 }
 
+function encodeSVG(data) {
+	const symbols = /[\r\n%#()<>?[\\\]^`{|}]/g;
+	// Use single quotes instead of double to avoid encoding.
+	data = data.replace(/"/g, `'`);
+  
+	data = data.replace(/>\s{1,}</g, `><`);
+	data = data.replace(/\s{2,}/g, ` `);
+  
+	// Using encodeURIComponent() as replacement function
+	// allows to keep result code readable
+	return data.replace(symbols, encodeURIComponent);
+  }
+
+
+  // Get quotes for levels
+// ----------------------------------------
+
+function getQuotes () {
+	let externalQuotesValue = "double";
+	const double = `"`;
+	const single = `'`;
+  
+	return {
+	  level1: externalQuotesValue === `double` ? double : single,
+	  level2: externalQuotesValue === `double` ? single : double
+	};
+  }
 async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 	const inputs = {
 		csUser: sessionStorage.csUser
 	};
@@ -798,36 +769,38 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 			let modContainer = document.createElement("div");
 			modContainer.className = "moduleContainer";
 			modContainer.setAttribute("id", "module_" + demoRoleArg);
-			modContainer.setAttribute("style", "order:" + cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].SETTINGS.ORDER + ";");
+			modContainer.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.SETTINGS.ORDER + ";");
 
 			let modContainerTitleDiv = document.createElement("div");
 			modContainerTitleDiv.className = "moduleTitleDiv";
 
 			let modContainerTitle = document.createElement("h3");
 			modContainerTitle.className = "moduleTitle";
-			modContainerTitle.innerHTML = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].SETTINGS.MODULETITLE[sessionStorage.csCulture];
+			modContainerTitle.innerHTML = gpeGlobalSettings[0].MODULES.ROLESPECIFIC[demoRoleArg].settings.moduletitle[sessionStorage.csCulture];
 
 			let modWidgetContainer = document.createElement("div");
 			modWidgetContainer.className = "moduleWidgetContainer row";
 
-			for (let widget in cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS) {
-				let widgetModule = cs_widgetConfig[0].WIDGETS[cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID].module;
+			for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS) {
+				// Array outlining which modules the user has in configuration
+				let widgetModule = gpeGlobalSettings[0].WIDGETS[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID].module;
+
 				if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
 
-					let tempWidgetID = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID;
+					let tempWidgetID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID;
 
 					let modWidget = document.createElement("div");
-					modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].COLUMNSIZE;
+					modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].COLUMNSIZE;
 					// modWidget.setAttribute("id", demoRoleArg+"-"+tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
 					modWidget.setAttribute("id", tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
-					modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ORDER + ";");
+					modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ORDER + ";");
 
 					let preLoaderWrapper = document.createElement("div");
 					preLoaderWrapper.className = "wrapper widgetData col-md-12";
 					let preLoaderCard = document.createElement("div");
 					preLoaderCard.className = "skeleton-card";
 					let preLoaderType = document.createElement("div");
-					preLoaderType.className = "skeleton " + cs_widgetConfig[0].WIDGETS[tempWidgetID].skeletoncss;
+					preLoaderType.className = "skeleton " + gpeGlobalSettings[0].WIDGETS[tempWidgetID].skeletoncss;
 
 					preLoaderWrapper.appendChild(preLoaderCard);
 					preLoaderWrapper.appendChild(preLoaderType);
@@ -847,31 +820,31 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 			modLinkContainer.className = "moduleLinkContainer";
 
 			// BUILD QUICKLINKS
-			for (let link in cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS) {
-				let userTopLinkID_tmp = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ID;
-				if ((moduleArg.some(r => cs_widgetConfig[0].LINKS[userTopLinkID_tmp].MODULE.includes(r))) || (cs_widgetConfig[0].LINKS[userTopLinkID_tmp].MODULE == "CORE")) {
+			for (let link in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS) {
+				let userTopLinkID_tmp = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS[link].ID;
+				if ((moduleArg.some(r => gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE.includes(r))) || (gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE == "CORE")) {
 
-					let tempLinkID = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ID;
+					let tempLinkID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS[link].ID;
 
 					let modLink = document.createElement("li");
 					modLink.className = "moduleLink";
 					modLink.setAttribute("id", demoRoleArg + "-" + tempLinkID);
-					modLink.setAttribute("style", "order:" + cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].LINKS[link].ORDER + ";");
+					modLink.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS[link].ORDER + ";");
 
 					let modLinkItemLink = document.createElement("a");
 					modLinkItemLink.className = "modLinkItemLink";
-					modLinkItemLink.href = injectVariables(inputs, cs_widgetConfig[0].LINKS[tempLinkID].URL);
+					modLinkItemLink.href = injectVariables(inputs, gpeGlobalSettings[0].LINKS[tempLinkID].URL);
 
 					let modLinkItem = document.createElement("div");
 					modLinkItem.className = "modLinkItem";
 
 					let modLinkIcon = document.createElement("div");
 					modLinkIcon.className = "moduleLinkIcon";
-					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + cs_widgetConfig[0].LINKS[tempLinkID].ICON + "')";
+					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + gpeGlobalSettings[0].LINKS[tempLinkID].ICON + "')";
 
 					let modLinkTitle = document.createElement("div");
 					modLinkTitle.className = "moduleLinkTitle";
-					modLinkTitle.innerHTML = cs_widgetConfig[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture];
+					modLinkTitle.innerHTML = gpeGlobalSettings[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture];
 
 					modLinkItem.appendChild(modLinkIcon);
 					modLinkItem.appendChild(modLinkTitle);
@@ -890,7 +863,7 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 			modContainer.appendChild(moduleLinkWrapper);
 
 
-			let checkModule = document.getElementById(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].SETTINGS.TARGETDIV).getElementsByClassName("gpeWelcomePageModules")[0];
+			let checkModule = document.getElementById(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.SETTINGS.TARGETDIV).getElementsByClassName("gpeWelcomePageModules")[0];
 			if (checkModule) {
 				let modulesDiv = checkModule.getElementsByClassName("gpeWelcomePageModules");
 				modulesDiv[0].appendChild(modContainer);
@@ -900,7 +873,7 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 				modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
 				modulesDiv.appendChild(modContainer);
 
-				let gpewpMain = document.getElementById(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].SETTINGS.TARGETDIV);
+				let gpewpMain = document.getElementById(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.SETTINGS.TARGETDIV);
 				gpewpMain.appendChild(modulesDiv);
 			}
 
@@ -991,15 +964,16 @@ async function buildExtendedWidgets(demoRoleArg, moduleArg) {
  * @returns
  */
 async function getExtendedWidgetData(demoRoleArg, moduleArg) {
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
-	let widgetPromisesArray = [];
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
 
-	if (cs_widgetConfig[0].ROLESPECIFIC.hasOwnProperty(demoRoleArg)) {
-		for (let widget in cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS) {
-			switch (cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID) {
+	let widgetPromisesArray = [];
+	if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.hasOwnProperty("EXT")) {
+		for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS) {
+			switch (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID) {
 
 				case "DIRECT_REPORTS":
-					widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, demoRoleArg));
+					widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID, demoRoleArg));
 					break;
 
 				case "RPT_TRAININGWITHDRAWALS":
@@ -1012,16 +986,16 @@ async function getExtendedWidgetData(demoRoleArg, moduleArg) {
 				case "RPT_TRAININGPROGRESSSUMMARY":
 				case "RPT_ORGGOALPROGRESS":
 				case "RPT_HEADCOUNT":
-					let widgetModule = cs_widgetConfig[0].WIDGETS[cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID].module;
+					let widgetModule = gpeGlobalSettings[0].WIDGETS[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID].module;
 					if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
-						let reportID = cs_widgetConfig[0].WIDGETS[cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID].reportid;
+						let reportID = gpeGlobalSettings[0].WIDGETS[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID].reportid;
 
 						let tmpContentDiv = document.createElement("div");
-						tmpContentDiv.className = cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID + " chart-container";
-						tmpContentDiv.setAttribute("id", cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID);
+						tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID + " chart-container";
+						tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID);
 
 						// widgetPromisesArray.push( await createDashboard( reportID, cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, tmpContentDiv, demoRoleArg) ); 
-						widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, tmpContentDiv, demoRoleArg));
+						widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID, tmpContentDiv, demoRoleArg));
 					}
 					break;
 			}
@@ -1037,50 +1011,50 @@ async function getExtendedWidgetData(demoRoleArg, moduleArg) {
  * @returns Content from function
  */
 async function getWidgetData_v2(moduleArg, demoRoleArg) {
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
 
 	switch (moduleArg) {
 		case "ATS":
 		case "EPM":
 		case "LMS":
-			if (cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].AVAILABILITY == 0) break;
+			if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].SETTINGS.AVAILABILITY == 0) break;
 
 			let widgetPromisesArray = [];
 
-			for (let widget in cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS) {
-				switch (cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID) {
+			for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS) {
+				switch (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID) {
 					case "DIRECT_REPORTS":
-						widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
 						break;
 					case "TOP_PICKS":
-						widgetPromisesArray.push(getTopPicks(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getTopPicks(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
 						break;
 					case "INSPIRED_BY_SUBJECTS":
-						widgetPromisesArray.push(getInspiredBySubjects(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getInspiredBySubjects(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
 						break;
 					case "TRENDING_FOR_JOB":
-						widgetPromisesArray.push(getTrendingForJob(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getTrendingForJob(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
 						break;
 					case "TRAINING_METRICS":
-						widgetPromisesArray.push(getTranscriptMetrics(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getTranscriptMetrics(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
 						break;
 					case "CHECKINS":
-						widgetPromisesArray.push(getCheckinsDetails(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getCheckinsDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
 						break;
 					case "GOAL_PROGRESS":
-						widgetPromisesArray.push(getGoalDetails(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, "/phnx/driver.aspx?routename=Goals/GoalList", moduleArg));
+						widgetPromisesArray.push(getGoalDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, "/phnx/driver.aspx?routename=Goals/GoalList", moduleArg));
 						break;
 					case "DEVPLAN_PROGRESS":
-						widgetPromisesArray.push(getDevPlanDetails(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot", moduleArg));
+						widgetPromisesArray.push(getDevPlanDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot", moduleArg));
 						break;
 					case "TOTALCANDIDATES":
-						widgetPromisesArray.push(getAllCandidates(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getAllCandidates(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
 						break;
 					case "NEWSUBMISSIONS":
-						widgetPromisesArray.push(getNewSubmissions(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getNewSubmissions(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
 						break;
 					case "NEWHIRES":
-						widgetPromisesArray.push(getNewHires(cs_widgetConfig[0].MODULECONFIG[moduleArg][demoRoleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getNewHires(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
 						break;
 				}
 			}
@@ -1105,7 +1079,8 @@ function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, 
 	//	console.log("WIDGET ID ARG: "+ widgetIDArg);
 	$("#" + widgetIDArg + " .wrapper").hide(); // Hide skeleton div
 
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 	const inputs = {
 		csUser: sessionStorage.csUser
 	};
@@ -1128,8 +1103,8 @@ function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, 
 
 	var tmpCardHeader = document.createElement("a");
 	tmpCardHeader.className = "card-header";
-	tmpCardHeader.innerHTML = cs_widgetConfig[0].WIDGETS[widgetIDArg].title[sessionStorage.csCulture];
-	tmpCardHeader.setAttribute('href', injectVariables(inputs, cs_widgetConfig[0].WIDGETS[widgetIDArg].url));
+	tmpCardHeader.innerHTML = gpeGlobalSettings[0].WIDGETS[widgetIDArg].title[sessionStorage.csCulture];
+	tmpCardHeader.setAttribute('href', injectVariables(inputs, gpeGlobalSettings[0].WIDGETS[widgetIDArg].url));
 
 	var tmpCardBody = document.createElement("div");
 	tmpCardBody.className = "card-body";
@@ -1214,7 +1189,9 @@ async function generateHTMLCard(cardTitleArg, cardTitleHrefArg, colArg, colIDArg
 async function buildAboutCard() {
 	if (!document.getElementById("gpeAboutCard")) {
 
-		const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+		const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
+		const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 		const inputs = {
 			csUser: sessionStorage.csUser
 		};
@@ -1270,10 +1247,10 @@ async function buildAboutCard() {
 
 		var topLinkContainer = document.createElement("ul");
 		topLinkContainer.className = "topLinkContainer d-flex justify-content-center";
-
-		for (let link in cs_widgetConfig[0].TOPNAVLINKS[gpeDEMOROLE]) {
-			let userTopLinkID_tmp = cs_widgetConfig[0].TOPNAVLINKS[gpeDEMOROLE][link].ID;
-			if ((gpeDEMOMODULES.includes(cs_widgetConfig[0].LINKS[userTopLinkID_tmp].MODULE)) || (cs_widgetConfig[0].LINKS[userTopLinkID_tmp].MODULE == "CORE")) {
+		
+		for (let link in cs_widgetConfig[0].GPEWPCONFIG[gpeDEMOROLE].TOPLINKS) {
+			let userTopLinkID_tmp = cs_widgetConfig[0].GPEWPCONFIG[gpeDEMOROLE].TOPLINKS[link].ID;
+			if ((gpeDEMOMODULES.includes(gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE)) || (gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE == "CORE")) {
 
 				let topLink = document.createElement("li");
 				topLink.className = "moduleLink";
@@ -1281,18 +1258,18 @@ async function buildAboutCard() {
 
 				let topLinkItemLink = document.createElement("a");
 				topLinkItemLink.className = "modLinkItemLink";
-				topLinkItemLink.href = injectVariables(inputs, cs_widgetConfig[0].LINKS[userTopLinkID_tmp].URL);
+				topLinkItemLink.href = injectVariables(inputs, gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].URL);
 
 				let topLinkItem = document.createElement("div");
 				topLinkItem.className = "modLinkItem";
 
 				let topLinkIcon = document.createElement("div");
 				topLinkIcon.className = "moduleLinkIcon";
-				topLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + cs_widgetConfig[0].LINKS[userTopLinkID_tmp].ICON + "')";
+				topLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].ICON + "')";
 
 				let topLinkTitle = document.createElement("div");
 				topLinkTitle.className = "moduleLinkTitle";
-				topLinkTitle.innerHTML = cs_widgetConfig[0].LINKS[userTopLinkID_tmp].TITLE[sessionStorage.csCulture];
+				topLinkTitle.innerHTML = gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].TITLE[sessionStorage.csCulture];
 
 				topLinkItem.appendChild(topLinkIcon);
 				topLinkItem.appendChild(topLinkTitle);
@@ -1375,7 +1352,7 @@ function getApprovalDetails_v2(approvalURLsArg, cultureArg, demoRoleArg) {
 	}
 	//console.log(aprvlDiv);
 	if (check == "ok") {
-		const cs_customLocale = JSON.parse(sessionStorage.csCustomLocale);
+		const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
 
 		let aprvlDiv = document.createElement("div");
 		aprvlDiv.className = "gpewp_approvals modal fade";
@@ -1397,7 +1374,7 @@ function getApprovalDetails_v2(approvalURLsArg, cultureArg, demoRoleArg) {
 		let aprvlDivModalHeaderTitle = document.createElement("h5");
 		aprvlDivModalHeaderTitle.className = "modal-title";
 		aprvlDivModalHeaderTitle.setAttribute("id", "modalTitle");
-		aprvlDivModalHeaderTitle.innerHTML = cs_customLocale[0].topNavigationTitle.APPROVALS[sessionStorage.csCulture];
+		aprvlDivModalHeaderTitle.innerHTML = gpeGlobalSettings[0].NAVIGATION.APPROVALS[sessionStorage.csCulture];
 
 		let aprvlDivModalHeaderTitleCloseBtn = document.createElement("button");
 		aprvlDivModalHeaderTitleCloseBtn.className = "btn-close";
@@ -1430,54 +1407,9 @@ function getApprovalDetails_v2(approvalURLsArg, cultureArg, demoRoleArg) {
  * @param
  * @returns
  */
-async function getDonutDetails(widgetIDArg, urlArg, moduleArg) {
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
-	let csConfigModuleWidget = moduleArg + "-" + widgetIDArg;
-
-	//console.log("GO DONUT csConfigModuleWidget: "+ csConfigModuleWidget);
-
-	return await Promise.resolve(await fetch(urlArg))
-		.then(async function (data) {
-			// console.log("%cDONUT DATA LOAD: "+ data, "color:#ccaa00;");
-			return await data.text();
-		})
-		.then(async function (dataResponse) {
-			// console.log("%cDONUT CHECK: "+ contentDivClassArg, "color:#ccaa00;");
-			switch (csConfigModuleWidget) {
-				case cs_widgetConfig[0].WIDGETS["EPM-GOAL_PROGRESS"].targetdiv:
-					return await $(dataResponse).find('.percentage').attr("data-percent");
-				case cs_widgetConfig[0].WIDGETS["EPM-DEVPLAN_PROGRESS"].targetdiv:
-					return await $(dataResponse).find("a[href*='/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew']").closest("div[class*='dashboard-widget-content']").find(".percentage span").text();
-			}
-		})
-		.then(async function (achievedData) {
-			// console.log("%cDONUT DATA: "+ achievedData, "color:#ccaa00;");
-			// IF ACHIEVED == 0 DO SOMETHING ELSE
-			let tmpContentDiv = document.createElement("div");
-			tmpContentDiv.className = widgetIDArg;
-			tmpContentDiv.setAttribute("id", moduleArg + "-" + widgetIDArg);
-			if (achievedData != 0) {
-				return await Promise.resolve(await drawDonut(achievedData, widgetIDArg, tmpContentDiv));
-			} else {
-				let tempTitle = cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture];
-				let noContentStr = "<div class='nocontent donut'>";
-				noContentStr += "<button type='button' id='" + widgetIDArg + "_nodata' class='getstarted_button' data-href='" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + tempTitle + "</button>";
-				noContentStr += "</div>";
-				tmpContentDiv.innerHTML = noContentStr;
-				return await tmpContentDiv;
-			}
-		})
-		.catch(error => console.error("Error in getDonutDetails: " + error));
-}
-
-/**
- *
- * @param
- * @param
- * @returns
- */
  async function getGoalDetails(widgetIDArg, urlArg, moduleArg) {
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 	let csConfigModuleWidget = moduleArg + "-" + widgetIDArg;
 
 	//console.log("GO DONUT csConfigModuleWidget: "+ csConfigModuleWidget);
@@ -1492,9 +1424,9 @@ async function getDonutDetails(widgetIDArg, urlArg, moduleArg) {
 			if (achievedData != 0) {
 				return await Promise.resolve(await drawDonut(achievedData, widgetIDArg, tmpContentDiv));
 			} else {
-				let tempTitle = cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture];
+				let tempTitle = gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture];
 				let noContentStr = "<div class='nocontent donut'>";
-				noContentStr += "<button type='button' id='" + widgetIDArg + "_nodata' class='getstarted_button' data-href='" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + tempTitle + "</button>";
+				noContentStr += "<button type='button' id='" + widgetIDArg + "_nodata' class='getstarted_button' data-href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + tempTitle + "</button>";
 				noContentStr += "</div>";
 				tmpContentDiv.innerHTML = noContentStr;
 				return await tmpContentDiv;
@@ -1510,7 +1442,8 @@ async function getDonutDetails(widgetIDArg, urlArg, moduleArg) {
  * @returns
  */
  async function getDevPlanDetails(widgetIDArg, urlArg, moduleArg) {
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	
 	let csConfigModuleWidget = moduleArg + "-" + widgetIDArg;
 
 	//console.log("GO DONUT csConfigModuleWidget: "+ csConfigModuleWidget);
@@ -1525,9 +1458,9 @@ async function getDonutDetails(widgetIDArg, urlArg, moduleArg) {
 			if (achievedData != 0) {
 				return await Promise.resolve(await drawDonut(achievedData, widgetIDArg, tmpContentDiv));
 			} else {
-				let tempTitle = cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture];
+				let tempTitle = gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture];
 				let noContentStr = "<div class='nocontent donut'>";
-				noContentStr += "<button type='button' id='" + widgetIDArg + "_nodata' class='getstarted_button' data-href='" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + tempTitle + "</button>";
+				noContentStr += "<button type='button' id='" + widgetIDArg + "_nodata' class='getstarted_button' data-href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + tempTitle + "</button>";
 				noContentStr += "</div>";
 				tmpContentDiv.innerHTML = noContentStr;
 				return await tmpContentDiv;
@@ -1900,7 +1833,8 @@ async function getTranscriptsStats(userIDArrayArg) {
  */
 async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	
 	let modEPMCAR = ["EPM", "CAR"];
 	let modLMS = ["LMS"];
 	let modATS = ["ATS"];
@@ -1971,7 +1905,7 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 					formatter: imageFormatter
 				},
 				{
-					title: cs_widgetConfig[0].managerwidget.tableheader.name[sessionStorage.csCulture],
+					title: gpeGlobalSettings[0].MANAGERWIDGET.tableheader.name[sessionStorage.csCulture],
 					field: "fullName",
 					formatter: nameFormatter
 				},
@@ -1980,7 +1914,7 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 				// 	field: "hiredate"
 				// },
 				{
-					title: cs_widgetConfig[0].managerwidget.tableheader.actions[sessionStorage.csCulture],
+					title: gpeGlobalSettings[0].MANAGERWIDGET.tableheader.actions[sessionStorage.csCulture],
 					field: "action",
 					align: "center",
 					clickToSelect: false,
@@ -2039,21 +1973,23 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
  * @returns html array to put inside the right cell within the table
  */
 function operateFormatter(value, row, index) {
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 	let html = [];
 	html.push('<div class="dropdown">');
 	html.push('<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">');
-	html.push(cs_widgetConfig[0].managerwidget.tableheader.actions[sessionStorage.csCulture]);
+	html.push(gpeGlobalSettings[0].MANAGERWIDGET.tableheader.actions[sessionStorage.csCulture]);
 	html.push('</a>');
 	html.push('<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">');
-	html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '">' + cs_widgetConfig[0].managerwidget.actionsitems.openup[sessionStorage.csCulture] + '</a></li>');
+	html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.openup[sessionStorage.csCulture] + '</a></li>');
 	if (gpeDEMOMODULES.includes("LMS")) {
-		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser=' + row.id + '">' + cs_widgetConfig[0].managerwidget.actionsitems.viewtranscript[sessionStorage.csCulture] + '</a></li>');
+		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewtranscript[sessionStorage.csCulture] + '</a></li>');
 	}
-	html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser=' + row.id + '">' + cs_widgetConfig[0].managerwidget.actionsitems.viewsnapshot[sessionStorage.csCulture] + '</a></li>');
+	html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewsnapshot[sessionStorage.csCulture] + '</a></li>');
 	if (gpeDEMOMODULES.includes("EPM") || gpeDEMOMODULES.includes("CAR")) {
-		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser=' + row.id + '">' + cs_widgetConfig[0].managerwidget.actionsitems.viewgoals[sessionStorage.csCulture] + '</a></li>');
-		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser=' + row.id + '">' + cs_widgetConfig[0].managerwidget.actionsitems.viewdevplan[sessionStorage.csCulture] + '</a></li>');
+		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewgoals[sessionStorage.csCulture] + '</a></li>');
+		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewdevplan[sessionStorage.csCulture] + '</a></li>');
 	}
 	html.push('</ul>');
 	html.push('</div>');
@@ -2128,7 +2064,8 @@ async function getNewHires(widgetArg, moduleArg) {
 
 async function getNewSubmissions(widgetArg, moduleArg) {
 
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	
 	let csConfigModuleWidget = moduleArg + "-" + widgetArg;
 
 	const tmpContentDiv = document.createElement("div");
@@ -2178,7 +2115,7 @@ async function getNewSubmissions(widgetArg, moduleArg) {
 			let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 			summaryStr += "<div class='summaryItem col-md-12'>";
 			summaryStr += "<div class='gpe-center'>";
-			summaryStr += "<a href='" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url + "'>";
+			summaryStr += "<a href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].url + "'>";
 
 			summaryStr += "<div class='d-flex align-items-center justify-content-center' style='height:210px'>";
 			summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>" + newSubmissionCount + "</div>";
@@ -2199,7 +2136,8 @@ async function getNewSubmissions(widgetArg, moduleArg) {
 
 async function getAllCandidates(widgetArg, moduleArg) {
 
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 	let csConfigModuleWidget = moduleArg + "-" + widgetArg;
 
 	const tmpContentDiv = document.createElement("div");
@@ -2252,7 +2190,7 @@ async function getAllCandidates(widgetArg, moduleArg) {
 			let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 			summaryStr += "<div class='summaryItem col-md-12'>";
 			summaryStr += "<div class='gpe-center'>";
-			summaryStr += "<a href='" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url + "'>";
+			summaryStr += "<a href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].url + "'>";
 			summaryStr += "<div class='d-flex align-items-center justify-content-center' style='height:210px'>";
 			summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>" + localStr.data.totalItems + "</div>";
 			summaryStr += "</div>";
@@ -2271,7 +2209,8 @@ async function getAllCandidates(widgetArg, moduleArg) {
 
 async function getCandidateMetrics(widgetArg, moduleArg) {
 
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 	let csConfigModuleWidget = moduleArg + "-" + widgetArg;
 
 	const tmpContentDiv = document.createElement("div");
@@ -2316,7 +2255,7 @@ async function getCandidateMetrics(widgetArg, moduleArg) {
 			let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 			summaryStr += "<div class='summaryItem col-md-12'>";
 			summaryStr += "<div class='gpe-center'>";
-			summaryStr += "<a href='" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].url + "'>";
+			summaryStr += "<a href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].url + "'>";
 			summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>" + localStr.data.totalItems + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
@@ -2334,7 +2273,8 @@ async function getCandidateMetrics(widgetArg, moduleArg) {
 
 async function getTranscriptMetrics(widgetArg, moduleArg) {
 
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	
 	let csConfigModuleWidget = moduleArg + "-" + widgetArg;
 
 	const tmpContentDiv = document.createElement("div");
@@ -2367,7 +2307,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 			summaryStr += "<div class='pastDueCount gpe-bold gpe-text20'>" + localStr.data[0].metrics.pastDueCount + "</div>";
-			summaryStr += "<div class='pastdueDesc gpe-desc'>" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].pastdueDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='pastdueDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].pastdueDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2375,7 +2315,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 			summaryStr += "<div class='dueSoonCount gpe-bold gpe-text20'>" + localStr.data[0].metrics.dueSoonCount + "</div>";
-			summaryStr += "<div class='dueSoonDesc gpe-desc'>" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].dueSoonDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='dueSoonDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].dueSoonDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2383,7 +2323,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 			summaryStr += "<div class='noDueDateCount gpe-bold gpe-text20'>" + localStr.data[0].metrics.noDueDateCount + "</div>";
-			summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].assignedNoDueDateDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].assignedNoDueDateDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2395,7 +2335,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
 			summaryStr += "<div class='playlistCount gpe-bold gpe-text20'>" + localStr.data[0].playlists.numPlaylists + "</div>";
-			summaryStr += "<div class='playlistDesc gpe-desc'>" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.createdDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='playlistDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].playlists.createdDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2404,7 +2344,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
 			summaryStr += "<div class='playlistnumFollowers gpe-bold gpe-text20'>" + localStr.data[0].playlists.numFollowers + "</div>";
-			summaryStr += "<div class='playlistFollowersDesc gpe-desc'>" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.followersDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='playlistFollowersDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].playlists.followersDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2413,7 +2353,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists?section=followed'>";
 			summaryStr += "<div class='playlistnumFollowed gpe-bold gpe-text20'>" + localStr.data[0].playlists.numFollowed + "</div>";
-			summaryStr += "<div class='playlistFollowedDesc gpe-desc'>" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].playlists.followedDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='playlistFollowedDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].playlists.followedDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -3214,7 +3154,9 @@ async function getTopPicks(widgetArg, moduleArg) {
  */
 async function getCheckinsDetails(widgetArg, moduleArg) {
 
-	const cs_widgetConfig = JSON.parse(sessionStorage.csWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
+	
 	let csConfigModuleWidget = moduleArg + "-" + widgetArg;
 
 	const tmpContentDiv = document.createElement("div");
@@ -3315,7 +3257,7 @@ async function getCheckinsDetails(widgetArg, moduleArg) {
 
 			} else {
 				checkinStr = "<div class='checkins nocontent'>";
-				checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + cs_widgetConfig[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture] + "</button>";
+				checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture] + "</button>";
 				checkinStr += "</div>";
 			}
 			//		console.log("checkinStr : "+ checkinStr);
@@ -3654,7 +3596,7 @@ async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleA
 
 	$.when(gpeBRANDING)
 		.then((brandingResponse) => {
-			// console.log(brandingResponse);
+			// console.log(brandingResponse);			
 			if (brandingResponse.TopBannerImage != "") {
 				// console.log("Image is in Custom Field!")
 				const topBannerImgURL = "https://scfiles.csod.com" + brandingResponse.TopBannerImage;

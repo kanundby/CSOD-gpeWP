@@ -68,8 +68,12 @@ module.exports = {
                 to: "gpe_widgetConfig-min.js",
               },
               {
-                from: "src/js/gpe_customLocale.min.js",
-                to: "gpe_customLocale-min.js",
+                from: "src/js/gpe_globalSettings.min.js",
+                to: "gpe_globalSettings-min.js",
+              },
+              {
+                from: "src/js/gpe_approvalURLs.min.js",
+                to: "gpe_approvalURLs-min.js",
               }
             ]
         })
