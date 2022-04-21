@@ -32,7 +32,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				"en-US": "Instructor Dashboard",
 				"en-UK": "Instructor Dashboard",
 				"de-DE": "Lehrer-Dashboard"
-			},
+			},		
 			"APPROVALS": {
 				"en-US": "Pending Approvals",
 				"en-UK": "Pending Approvals",
@@ -91,7 +91,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"ADM": {
 					"settings": {
-						"modiletitle": {
+						"moduletitle": {
 							"en-US": "Admin Dashboard",
 							"en-UK": "Admin Dashboard"
 						}
@@ -115,7 +115,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/ui/lms-learner-home/home",
 				"ICON": "svg/Learning-37.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"COMMUNITIES": {
@@ -125,7 +125,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/Communities",
 				"ICON": "svg/Comm-16.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"LEARNER_SEARCH": {
@@ -135,7 +135,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/ui/lms-learner-search/search?pageNumber=1",
 				"ICON": "svg/Perf-11.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"TRAINING_HISTORY": {
@@ -145,7 +145,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&preSelectedCategoryId=3",
 				"ICON": "svg/Learnin-36.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"PLAYLISTS": {
@@ -155,7 +155,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/ui/lms-learner-playlist/UsersPlaylists",
 				"ICON": "svg/Learning-19.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"LEADERBOARD": {
@@ -165,7 +165,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Leaderboard&TargetUser=${csUser}",
 				"ICON": "svg/Awards-45.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"SURVEYS": {
@@ -175,7 +175,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=16&sort=0",
 				"ICON": "svg/Social-18.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["EPM", "CAR"]
 			},
 			"ACTIONS": {
@@ -185,7 +185,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions",
 				"ICON": "svg/Awards-23.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"FEEDBACK": {
@@ -195,7 +195,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Feedback",
 				"ICON": "svg/Comm-29.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["EPM", "CAR"]
 			},
 			"PERF_REVIEWS": {
@@ -205,7 +205,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=6&sort=0",
 				"ICON": "svg/Team-4.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["EPM"]
 			},
 			"CHECKINS": {
@@ -215,8 +215,8 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/ui/perf-check-ins/Check-Ins/",
 				"ICON": "svg/Comm-7.svg",
-				"COLUMNSIZE": 2,
-				"MODULE": ["CAR"]
+				"CS": 2,
+				"MODULE": ["EPM", "CAR"]
 			},
 			"CHECKLISTS": {
 				"TITLE": {
@@ -225,8 +225,8 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=14",
 				"ICON": "svg/Perf-35.svg",
-				"COLUMNSIZE": 2,
-				"MODULE": ["EPM"]
+				"CS": 2,
+				"MODULE": ["EPM", "CAR"]
 			},
 			"SKILLSMATRIX": {
 				"TITLE": {
@@ -235,8 +235,8 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/EPM/SkillsMatrix/User/SkillsMatrixPage.aspx",
 				"ICON": "svg/Team-53.svg",
-				"COLUMNSIZE": 2,
-				"MODULE": ["EPM"]
+				"CS": 2,
+				"MODULE": ["EPM", "CAR"]
 			},
 			"REQREQUESTS": {
 				"TITLE": {
@@ -245,7 +245,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/ATS/JobRequisitionRequest/RequisitionRequests.aspx",
 				"ICON": "svg/Team-80.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["ATS"]
 			},
 			"MANAGEREQ": {
@@ -255,7 +255,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=ATS/RecruitingManagement/ManageRequisitions",
 				"ICON": "svg/Team-82.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["ATS"]
 			},
 			"MANAGECANDIDATES": {
@@ -265,7 +265,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/ui/ats-manage-candidates/managecandidates",
 				"ICON": "svg/Team-77.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["ATS"]
 			},
 			"INTERVIEWS": {
@@ -275,7 +275,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/ATS/Interview/ScheduledInterviews.aspx",
 				"ICON": "svg/Team-27.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["ATS"]
 			},
 			"HIRINGDASHBOARD": {
@@ -285,7 +285,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=ATS/Dashboard/HiringDashboard",
 				"ICON": "svg/Perf-25.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["ATS"]
 			},
 			"GOALS": {
@@ -295,7 +295,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Goals/GoalList",
 				"ICON": "svg/Perf-24.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["ATS"]
 			},
 			"VIEWPEOPLE": {
@@ -305,7 +305,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Analytics/ViewOrg",
 				"ICON": "svg/Team-48.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CHR"]
 			},
 			"VIEWDATA": {
@@ -315,7 +315,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Analytics/ViewDiscover",
 				"ICON": "svg/Team-32.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CHR"]
 			},
 			"DASHBOARD": {
@@ -325,7 +325,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/Dashboard/Main.aspx",
 				"ICON": "svg/Charts-3.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"TALENTPOOLS": {
@@ -335,7 +335,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=TalentPools/ManageTalentPools",
 				"ICON": "svg/Team-55.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["EPM"]
 			},
 			"9BOXGRIDS": {
@@ -345,7 +345,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/EPM/Smp/User/CurrentGridPlacement.aspx",
 				"ICON": "svg/Team-72.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["EPM"]
 			},
 			"ENGAGE": {
@@ -355,7 +355,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/Engage/Reporting.aspx",
 				"ICON": "svg/Tech-1.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CHR"]
 			},
 			"ORGPLANNING": {
@@ -365,7 +365,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/pbom/index.aspx",
 				"ICON": "svg/Team-31.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"INSIGHTS": {
@@ -375,7 +375,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/insights/#/index?tab_page_id=-200159302",
 				"ICON": "svg/Charts-14.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"BENCHMARK": {
@@ -385,7 +385,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/benchmark/#/benchmark-dashboard?tab_page_id=-200200000",
 				"ICON": "svg/Tech-2.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"CANDIDATESEARCH": {
@@ -395,7 +395,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/benchmark/#/benchmark-dashboard?tab_page_id=-200200000",
 				"ICON": "svg/Team-43.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["ATS"]
 			},
 			"CATALOGMANAGEMENT": {
@@ -405,7 +405,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Admin/Links&linkId=25",
 				"ICON": "svg/Tech-44.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"COMPETENCYTASK": {
@@ -415,8 +415,8 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Actions&filter=2",
 				"ICON": "svg/Perf-43.svg",
-				"COLUMNSIZE": 2,
-				"MODULE": ["EPM"]
+				"CS": 2,
+				"MODULE": ["EPM", "CAR"]
 			},
 			"EVENTS_SESSIONS": {
 				"TITLE": {
@@ -425,7 +425,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/LMS/ILT/main_sessions.aspx",
 				"ICON": "svg/Team-44.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"REPORTBUILDER": {
@@ -435,7 +435,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000",
 				"ICON": "svg/Team-14.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"LAT": {
@@ -445,7 +445,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Learning/EnrollTraining/EnrollTrainingManagement",
 				"ICON": "svg/Tech-58.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"SNAPSHOT": {
@@ -455,7 +455,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot",
 				"ICON": "svg/Perf-33.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"MYSESSIONS": {
@@ -465,7 +465,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/LMS/catalog/EventsCalendar.aspx?instructor=me",
 				"ICON": "svg/Tech-79.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"SKILLSPROFILE": {
@@ -475,7 +475,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/SkillsProfile",
 				"ICON": "svg/Perf-46.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"FORMS": {
@@ -485,7 +485,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/UniversalProfile/Bio",
 				"ICON": "svg/Awards-9.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"ORGCHART": {
@@ -495,7 +495,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Organization/OrgChart",
 				"ICON": "svg/Team-58.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"LIVEFEED": {
@@ -505,7 +505,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Social/Connect/LiveFeed",
 				"ICON": "svg/Comm-24.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"REPORTS": {
@@ -515,7 +515,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/SharedWithMe",
 				"ICON": "svg/Charts-9.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			},
 			"LEARNER_ADMIN": {
@@ -525,7 +525,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/phnx/driver.aspx?routename=Learning/AdminConsole",
 				"ICON": "svg/Tech-42.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["LMS"]
 			},
 			"CAREER_SITE": {
@@ -535,7 +535,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/ui/internal-career-site/app/search-jobs",
 				"ICON": "svg/Perf-17.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["ATS"]
 			},
 			"USERADMIN": {
@@ -545,11 +545,11 @@ if (!sessionStorage.gpeGlobalSettings) {
 				},
 				"URL": "/admin/Users.aspx",
 				"ICON": "svg/Perf-32.svg",
-				"COLUMNSIZE": 2,
+				"CS": 2,
 				"MODULE": ["CORE"]
 			}
 		},
-		"WIDGETS": {
+		"W": {
 			"EPM-DEVPLAN_PROGRESS": {
 				"width": 12,
 				"targetdiv": "EPM-DEVPLAN_PROGRESS",

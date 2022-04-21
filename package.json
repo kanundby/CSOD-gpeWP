@@ -1,6 +1,6 @@
 {
   "name": "gpewelcomepage",
-  "version": "1.0.4a",
+  "version": "1.1.2c",
   "description": "Cornerstone Hercules - Welcome Page Script",
   "main": "gpeWelcomePage.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.16.0",
+    "@rcl2/primitives": "^0.6.4",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "core-js": "^3.19.1",

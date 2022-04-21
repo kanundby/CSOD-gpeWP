@@ -8,23 +8,14 @@
 "use strict";
 
 import packageInfo from '../package.json';
+
 import gpe_globalSettings from ".//js/gpe_globalSettings.min.js";
 import gpe_widgetConfig from ".//js/gpe_widgetConfig.min.js";
 import gpe_approvalURLS from ".//js/gpe_approvalURLs.min.js";
+
 const gpeWPversion = packageInfo.version;
   
-const gpeABOUTCARDDIV = "gpewp_topcontainer_upper"; // where do we want to put the user photo name/job?
-const gpeDEMOPERSONADIV = "demopersona"; // id of persona div (user record custom field)
-const gpeDEMOMODULEDIV = "demomodules"; // User name
-const gpeDEMONAMEDIV = "demousername"; // User name
-const gpeTARGETNAVDIV = "gpewp_topcontainer_nav"; // where do we want to put the navigation menu?
-const gpeDEMOROLE = getDemoRole(document.getElementById(gpeDEMOPERSONADIV).getAttribute(gpeDEMOPERSONADIV));
-const gpeDEMOMODULES = getDemoModules(document.getElementById(gpeDEMOMODULEDIV).getAttribute(gpeDEMOMODULEDIV));
-const gpeDEMOUNAME = document.getElementById(gpeDEMONAMEDIV).getAttribute(gpeDEMONAMEDIV).split(';');
 const gpeDEMOPERSONAIMAGE = getDemoRolePhoto();
-const gpePRIMARYBGCSS = $('.c-nav-user').css('background-color');
-const gpeDEMOVISUALS = "demovisuals";
-const gpeBRANDING = getBrandingDetails(gpeDEMOVISUALS);
 
 /**
  * @var cs_DashboardDetailsArray
@@ -222,8 +213,8 @@ function IsJsonString(strArg) {
  * @param {string} brandingDivArg
  * @returns {array} Array to be used to set banner background and primary colors.
  */
-function getBrandingDetails(brandingDivArg) {
-	const brandingStr = document.getElementById(brandingDivArg).getAttribute(brandingDivArg);
+function getBrandingDetails() {
+	const brandingStr = sessionStorage.getItem("csDemoVisuals");
 	const brandingArr = (IsJsonString(brandingStr)) ? JSON.parse(brandingStr) : {
 		TopBannerImage: "",
 		UserHeaderColor: "",
@@ -262,7 +253,7 @@ function checkIfImageExists(url, callback) {
  * @returns {boolean} true if image exists.
  */
 function setBgImage(topBannerImgURLArg) {
-	var cssUpdateStr = "linear-gradient(180deg, #f1f1f100 360px, #f1f1f1 360px), url(" + topBannerImgURLArg + ") no-repeat center center / cover";
+	var cssUpdateStr = "linear-gradient(180deg, #f1f1f100 360px, #f1f1f1 360px), url(" + topBannerImgURLArg + ") no-repeat top / contain";
 	document.querySelector("html").style.setProperty('--gpewp-banner-background', cssUpdateStr, "important");
 	return true;
 }
@@ -279,6 +270,7 @@ function buildNav(demoRoleArg, cultureArg, moduleArg) {
 	/* Set top menu space  START */
 	if (!document.getElementById("framework-oldnav-home")) {
 
+		const gpeTARGETNAVDIV = "gpewp_topcontainer_nav"; // where do we want to put the navigation menu?
 		const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
 		const gpeApprovalURLs = JSON.parse(sessionStorage.gpeApprovalURLs);
 
@@ -358,7 +350,7 @@ function buildNav(demoRoleArg, cultureArg, moduleArg) {
 			topNavUL.appendChild(topNavItmRole);
 		}
 
-		let approvalCheck = getApprovalDetails_v2(gpeApprovalURLs, sessionStorage.csCulture, gpeDEMOROLE);
+		let approvalCheck = getApprovalDetails_v2(gpeApprovalURLs, sessionStorage.csCulture);
 		if (approvalCheck == "ok") {
 			let topNavApprovalItem = buildExtraNavItem("APPROVALS", cultureArg, "modal");
 			topNavUL.appendChild(topNavApprovalItem);
@@ -453,9 +445,10 @@ async function buildOnbWidget(demoRoleArg, cultureArg) {
 	if (demoRoleArg == "ONB") {
 
 		const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+		const gpeDemoName = JSON.parse(sessionStorage.csDemoName);
 
 		const inputs = {
-			csFirstName: gpeDEMOUNAME[0]
+			csFirstName: gpeDemoName[0]
 		};
 
 		// Remove left column
@@ -581,7 +574,7 @@ async function buildOnbWidget(demoRoleArg, cultureArg) {
 	}
 }
 
-async function buildModuleWidget(moduleArg, demoRoleArg) {
+function buildModuleWidget(moduleArg, demoRoleArg) {
 
 	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
 	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
@@ -594,22 +587,18 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 		let modulesDiv = document.createElement("div");
 		modulesDiv.className = "gpeWelcomePageModules";
 		modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
-		//console.log(moduleArg[module]);
 		switch (moduleArg[module]) {
 			case "ATS":
 			case "LMS":
 			case "EPM":
 				// check if module should be displayed... USR, MGR, HRD, ADM, REC, INS
-				//console.log("Demorole "+ demoRoleArg +" for module "+ moduleArg[module] +" is having the following availability:  "+ cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg].AVAILABILITY);
-				console.log("ROLE: "+ demoRoleArg);
-				console.log("MODULE: "+ moduleArg[module]);
-				console.log("AVAILABILITY: "+ cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].SETTINGS.AVAILABILITY);
-				if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].SETTINGS.AVAILABILITY == 0) break;
+				if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].CFG.AVB == 0) break;
 
 				let modContainer = document.createElement("div");
 				modContainer.className = "moduleContainer";
 				modContainer.setAttribute("id", "module_" + moduleArg[module]);
-				modContainer.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].SETTINGS.ORDER + ";");
+				
+				modulesDiv.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].CFG.O + ";");
 
 				let modContainerTitleDiv = document.createElement("div");
 				modContainerTitleDiv.className = "moduleTitleDiv";
@@ -621,13 +610,14 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 				let modWidgetContainer = document.createElement("div");
 				modWidgetContainer.className = "moduleWidgetContainer row";
 
-				for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].WIDGETS) {
-					let tempWidgetID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].WIDGETS[widget].ID;
+				for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].W) {
+					let tempWidgetID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].W[widget].ID;
 
 					let modWidget = document.createElement("div");
-					modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].WIDGETS[widget].COLUMNSIZE;
+					modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].W[widget].CS;
 					modWidget.setAttribute("id", moduleArg[module] + "-" + tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
-					modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].WIDGETS[widget].ORDER + ";");
+									
+					modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].W[widget].O + ";");
 
 					let preLoaderWrapper = document.createElement("div");
 					preLoaderWrapper.className = "wrapper widgetData col-md-12";
@@ -635,7 +625,7 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 					preLoaderCard.className = "skeleton-card";
 					let preLoaderType = document.createElement("div");
 					let widgetJSONtmp = moduleArg[module] + "-" + tempWidgetID;
-					preLoaderType.className = "skeleton " + gpeGlobalSettings[0].WIDGETS[widgetJSONtmp].skeletoncss;
+					preLoaderType.className = "skeleton " + gpeGlobalSettings[0].W[widgetJSONtmp].skeletoncss;
 
 					preLoaderWrapper.appendChild(preLoaderCard);
 					preLoaderWrapper.appendChild(preLoaderType);
@@ -660,8 +650,8 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 
 					let modLink = document.createElement("li");
 					modLink.className = "moduleLink";
-					modLink.setAttribute("id", moduleArg[module] + "-" + tempLinkID);
-					modLink.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].LINKS[link].ORDER + ";");
+					modLink.setAttribute("id", moduleArg[module] + "-" + tempLinkID +"_link");
+					modLink.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].LINKS[link].O + ";");
 
 					let modLinkItemLink = document.createElement("a");
 					modLinkItemLink.className = "modLinkItemLink";
@@ -672,26 +662,7 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 
 					let modLinkIcon = document.createElement("div");
 					modLinkIcon.className = "moduleLinkIcon";
-					let svgDetails = await fetch("https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + gpeGlobalSettings[0].LINKS[tempLinkID].ICON)
-					.then(async (response) => {
-						if(!response.ok){
-							throw Error("SVG request returned error.");
-						}
-						return await response.text();
-					});
-					let svgDetails1 = encodeSVG(svgDetails);
-					//console.log(svgDetails1);
-					// modLinkIcon.style.backgroundImage = `url(data:image/svg+xml;charset=utf-8,${svgDetails1})`;
-					let quotes = getQuotes();
-					let resultSVg = `url(${quotes.level1}data:image/svg+xml,${svgDetails1}${quotes.level1});`;
-					// console.log(resultSVg);
-					//modLinkIcon.style.backgroundImage = resultSVg;
-					modLinkIcon.style.backgroundImage = "url("+quotes.level1+"data:image/svg+xml,"+svgDetails1+""+quotes.level1+")";
-					//modLinkIcon.style.backgroundImage = "url('data:image/svg+xml;charset=utf-8,"+svgDetails1+"')";
-					// console.log(modLinkIcon.style.backgroundImage);
-//					modLinkIcon.style.backgroundImage = "url('data:image/svg+xml;utf8,"+ svgData.responseText +"')";
-					//					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + gpeGlobalSettings[0].LINKS[tempLinkID].ICON + "')";
-					
+					modLinkIcon.style.backgroundImage = "url('https://scfiles.csod.com/Baseline/Config/Images/gpeWelcomePage/" + gpeGlobalSettings[0].LINKS[tempLinkID].ICON + "')";
 					
 					let modLinkTitle = document.createElement("div");
 					modLinkTitle.className = "moduleLinkTitle";
@@ -715,8 +686,7 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 
 				modulesDiv.appendChild(modContainer);
 
-				// console.log(cs_widgetConfig[0].MODULECONFIG[moduleArg[module]][demoRoleArg]);
-				let gpewpMain = document.getElementById(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].SETTINGS.TARGETDIV + "-right");
+				let gpewpMain = document.getElementById(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[module]].CFG.TD + "-right");
 				gpewpMain.appendChild(modulesDiv);
 
 				break;
@@ -724,33 +694,6 @@ async function buildModuleWidget(moduleArg, demoRoleArg) {
 	}
 }
 
-function encodeSVG(data) {
-	const symbols = /[\r\n%#()<>?[\\\]^`{|}]/g;
-	// Use single quotes instead of double to avoid encoding.
-	data = data.replace(/"/g, `'`);
-  
-	data = data.replace(/>\s{1,}</g, `><`);
-	data = data.replace(/\s{2,}/g, ` `);
-  
-	// Using encodeURIComponent() as replacement function
-	// allows to keep result code readable
-	return data.replace(symbols, encodeURIComponent);
-  }
-
-
-  // Get quotes for levels
-// ----------------------------------------
-
-function getQuotes () {
-	let externalQuotesValue = "double";
-	const double = `"`;
-	const single = `'`;
-  
-	return {
-	  level1: externalQuotesValue === `double` ? double : single,
-	  level2: externalQuotesValue === `double` ? single : double
-	};
-  }
 async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 
 	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
@@ -769,7 +712,7 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 			let modContainer = document.createElement("div");
 			modContainer.className = "moduleContainer";
 			modContainer.setAttribute("id", "module_" + demoRoleArg);
-			modContainer.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.SETTINGS.ORDER + ";");
+			//modContainer.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.SETTINGS.ORDER + ";");
 
 			let modContainerTitleDiv = document.createElement("div");
 			modContainerTitleDiv.className = "moduleTitleDiv";
@@ -781,26 +724,26 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 			let modWidgetContainer = document.createElement("div");
 			modWidgetContainer.className = "moduleWidgetContainer row";
 
-			for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS) {
+			for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W) {
 				// Array outlining which modules the user has in configuration
-				let widgetModule = gpeGlobalSettings[0].WIDGETS[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID].module;
+				let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module;
 
 				if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
 
-					let tempWidgetID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID;
+					let tempWidgetID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID;
 
 					let modWidget = document.createElement("div");
-					modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].COLUMNSIZE;
+					modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].CS;
 					// modWidget.setAttribute("id", demoRoleArg+"-"+tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
 					modWidget.setAttribute("id", tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
-					modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ORDER + ";");
+					modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].O + ";");
 
 					let preLoaderWrapper = document.createElement("div");
 					preLoaderWrapper.className = "wrapper widgetData col-md-12";
 					let preLoaderCard = document.createElement("div");
 					preLoaderCard.className = "skeleton-card";
 					let preLoaderType = document.createElement("div");
-					preLoaderType.className = "skeleton " + gpeGlobalSettings[0].WIDGETS[tempWidgetID].skeletoncss;
+					preLoaderType.className = "skeleton " + gpeGlobalSettings[0].W[tempWidgetID].skeletoncss;
 
 					preLoaderWrapper.appendChild(preLoaderCard);
 					preLoaderWrapper.appendChild(preLoaderType);
@@ -829,7 +772,7 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 					let modLink = document.createElement("li");
 					modLink.className = "moduleLink";
 					modLink.setAttribute("id", demoRoleArg + "-" + tempLinkID);
-					modLink.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS[link].ORDER + ";");
+					modLink.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS[link].O + ";");
 
 					let modLinkItemLink = document.createElement("a");
 					modLinkItemLink.className = "modLinkItemLink";
@@ -863,7 +806,7 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 			modContainer.appendChild(moduleLinkWrapper);
 
 
-			let checkModule = document.getElementById(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.SETTINGS.TARGETDIV).getElementsByClassName("gpeWelcomePageModules")[0];
+			let checkModule = document.getElementById(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.CFG.TD).getElementsByClassName("gpeWelcomePageModules")[0];
 			if (checkModule) {
 				let modulesDiv = checkModule.getElementsByClassName("gpeWelcomePageModules");
 				modulesDiv[0].appendChild(modContainer);
@@ -871,9 +814,11 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 				let modulesDiv = document.createElement("div");
 				modulesDiv.className = "gpeWelcomePageModules";
 				modulesDiv.setAttribute("style", "display:flex;flex-direction:column;");
+				modulesDiv.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.CFG.O + ";");
+
 				modulesDiv.appendChild(modContainer);
 
-				let gpewpMain = document.getElementById(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.SETTINGS.TARGETDIV);
+				let gpewpMain = document.getElementById(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.CFG.TD);
 				gpewpMain.appendChild(modulesDiv);
 			}
 
@@ -888,12 +833,11 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
  * @returns
  */
 async function buildWidgets_v2(moduleArg, demoRoleArg) {
-
 	let widgetPromisesArray = [];
 	moduleArg.forEach(function (widget) {
 		widgetPromisesArray.push(getWidgetData_v2(widget, demoRoleArg));
 	});
-	return Promise.all(widgetPromisesArray)
+	return await Promise.all(widgetPromisesArray)
 		//	return await Promise.all( widgetPromisesArray )
 		.then(async function (widgetPromisesArrayComplete) {
 			return widgetPromisesArrayComplete.map(async function (widgetData, index) {
@@ -969,11 +913,11 @@ async function getExtendedWidgetData(demoRoleArg, moduleArg) {
 
 	let widgetPromisesArray = [];
 	if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.hasOwnProperty("EXT")) {
-		for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS) {
-			switch (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID) {
+		for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W) {
+			switch (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID) {
 
 				case "DIRECT_REPORTS":
-					widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID, demoRoleArg));
+					widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
 					break;
 
 				case "RPT_TRAININGWITHDRAWALS":
@@ -986,22 +930,19 @@ async function getExtendedWidgetData(demoRoleArg, moduleArg) {
 				case "RPT_TRAININGPROGRESSSUMMARY":
 				case "RPT_ORGGOALPROGRESS":
 				case "RPT_HEADCOUNT":
-					let widgetModule = gpeGlobalSettings[0].WIDGETS[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID].module;
+					let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module;
 					if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
-						let reportID = gpeGlobalSettings[0].WIDGETS[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID].reportid;
+						let reportID = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].reportid;
 
 						let tmpContentDiv = document.createElement("div");
-						tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID + " chart-container";
-						tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID);
-
-						// widgetPromisesArray.push( await createDashboard( reportID, cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, tmpContentDiv, demoRoleArg) ); 
-						widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.WIDGETS[widget].ID, tmpContentDiv, demoRoleArg));
+						tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID + " chart-container";
+						tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID);
+						widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
 					}
 					break;
 			}
 		}
 	}
-	//return await Promise.all(widgetPromisesArray);
 	return Promise.all(widgetPromisesArray);
 }
 
@@ -1017,44 +958,44 @@ async function getWidgetData_v2(moduleArg, demoRoleArg) {
 		case "ATS":
 		case "EPM":
 		case "LMS":
-			if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].SETTINGS.AVAILABILITY == 0) break;
+			if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].CFG.AVB == 0) break;
 
 			let widgetPromisesArray = [];
 
-			for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS) {
-				switch (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID) {
+			for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W) {
+				switch (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID) {
 					case "DIRECT_REPORTS":
-						widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
 					case "TOP_PICKS":
-						widgetPromisesArray.push(getTopPicks(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getTopPicks(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
 					case "INSPIRED_BY_SUBJECTS":
-						widgetPromisesArray.push(getInspiredBySubjects(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getInspiredBySubjects(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
 					case "TRENDING_FOR_JOB":
-						widgetPromisesArray.push(getTrendingForJob(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getTrendingForJob(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
 					case "TRAINING_METRICS":
-						widgetPromisesArray.push(getTranscriptMetrics(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getTranscriptMetrics(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
 					case "CHECKINS":
-						widgetPromisesArray.push(getCheckinsDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getCheckinsDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
 					case "GOAL_PROGRESS":
-						widgetPromisesArray.push(getGoalDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, "/phnx/driver.aspx?routename=Goals/GoalList", moduleArg));
+						widgetPromisesArray.push(getGoalDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, "/phnx/driver.aspx?routename=Goals/GoalList", moduleArg));
 						break;
 					case "DEVPLAN_PROGRESS":
-						widgetPromisesArray.push(getDevPlanDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot", moduleArg));
+						widgetPromisesArray.push(getDevPlanDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, "/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot", moduleArg));
 						break;
 					case "TOTALCANDIDATES":
-						widgetPromisesArray.push(getAllCandidates(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getAllCandidates(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
 					case "NEWSUBMISSIONS":
-						widgetPromisesArray.push(getNewSubmissions(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getNewSubmissions(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
 					case "NEWHIRES":
-						widgetPromisesArray.push(getNewHires(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].WIDGETS[widget].ID, moduleArg));
+						widgetPromisesArray.push(getNewHires(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
 				}
 			}
@@ -1066,17 +1007,15 @@ async function getWidgetData_v2(moduleArg, demoRoleArg) {
  * generateHTMLWidget - Builds a bootstrap card dynamically based on arguments given.
  * @param {string} widgetIDArg - Title of the card.
  * @param {string} columnWidthArg - URL on the card title.
- * @param {integer1} columnIDArg - Bootstrap column width. Max 12.
- * @param {string} rowIDArg - ID of the card column.
+ * @param {integer} columnIDArg - Bootstrap column width. Max 12.
  * @param {string} rowIDArg - ID of the card row. Check is made to either create new or reuse existing row.
  * @param {string} targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
  * @param {string} contentDivClassArg - css class name of the content. This in order to be able to further style the card.
  * @param {object} widgetContentArg - main content of the card.
  * @returns
  */
-function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg) {
+async function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg) {
 
-	//	console.log("WIDGET ID ARG: "+ widgetIDArg);
 	$("#" + widgetIDArg + " .wrapper").hide(); // Hide skeleton div
 
 	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
@@ -1103,8 +1042,8 @@ function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, 
 
 	var tmpCardHeader = document.createElement("a");
 	tmpCardHeader.className = "card-header";
-	tmpCardHeader.innerHTML = gpeGlobalSettings[0].WIDGETS[widgetIDArg].title[sessionStorage.csCulture];
-	tmpCardHeader.setAttribute('href', injectVariables(inputs, gpeGlobalSettings[0].WIDGETS[widgetIDArg].url));
+	tmpCardHeader.innerHTML = gpeGlobalSettings[0].W[widgetIDArg].title[sessionStorage.csCulture];
+	tmpCardHeader.setAttribute('href', injectVariables(inputs, gpeGlobalSettings[0].W[widgetIDArg].url));
 
 	var tmpCardBody = document.createElement("div");
 	tmpCardBody.className = "card-body";
@@ -1186,11 +1125,13 @@ async function generateHTMLCard(cardTitleArg, cardTitleHrefArg, colArg, colIDArg
  * @param
  * @returns
  */
-async function buildAboutCard() {
+async function buildAboutCard(demoModulesArg) {
 	if (!document.getElementById("gpeAboutCard")) {
 
+		const gpeABOUTCARDDIV = "gpewp_topcontainer_upper"; // where do we want to put the user photo name/job?
 		const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
 		const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+		const csDemoRole = JSON.parse(sessionStorage.csDemoRole);
 
 		const inputs = {
 			csUser: sessionStorage.csUser
@@ -1248,9 +1189,11 @@ async function buildAboutCard() {
 		var topLinkContainer = document.createElement("ul");
 		topLinkContainer.className = "topLinkContainer d-flex justify-content-center";
 		
-		for (let link in cs_widgetConfig[0].GPEWPCONFIG[gpeDEMOROLE].TOPLINKS) {
-			let userTopLinkID_tmp = cs_widgetConfig[0].GPEWPCONFIG[gpeDEMOROLE].TOPLINKS[link].ID;
-			if ((gpeDEMOMODULES.includes(gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE)) || (gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE == "CORE")) {
+		for (let link in cs_widgetConfig[0].GPEWPCONFIG[csDemoRole].TOPLINKS) {
+			let userTopLinkID_tmp = cs_widgetConfig[0].GPEWPCONFIG[csDemoRole].TOPLINKS[link].ID;
+
+			// Check if toplink is part of user's availability (demomodules)
+			if ((demoModulesArg.some(r=> gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE.indexOf(r) >= 0) === true) || (gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE == "CORE")) {
 
 				let topLink = document.createElement("li");
 				topLink.className = "moduleLink";
@@ -1311,7 +1254,7 @@ async function buildAboutCard() {
  */
 
 
-function getApprovalDetails_v2(approvalURLsArg, cultureArg, demoRoleArg) {
+function getApprovalDetails_v2(approvalURLsArg, cultureArg) {
 
 	let count = 0;
 	let check;
@@ -1350,7 +1293,6 @@ function getApprovalDetails_v2(approvalURLsArg, cultureArg, demoRoleArg) {
 			check = "ok";
 		});
 	}
-	//console.log(aprvlDiv);
 	if (check == "ok") {
 		const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
 
@@ -1412,21 +1354,17 @@ function getApprovalDetails_v2(approvalURLsArg, cultureArg, demoRoleArg) {
 
 	let csConfigModuleWidget = moduleArg + "-" + widgetIDArg;
 
-	//console.log("GO DONUT csConfigModuleWidget: "+ csConfigModuleWidget);
-
 	return await getUserGoalProgress()
 		.then(async function (achievedData) {
-			// console.log("%cDONUT DATA: "+ achievedData, "color:#ccaa00;");
-			// IF ACHIEVED == 0 DO SOMETHING ELSE
 			let tmpContentDiv = document.createElement("div");
 			tmpContentDiv.className = widgetIDArg;
 			tmpContentDiv.setAttribute("id", moduleArg + "-" + widgetIDArg);
 			if (achievedData != 0) {
 				return await Promise.resolve(await drawDonut(achievedData, widgetIDArg, tmpContentDiv));
 			} else {
-				let tempTitle = gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture];
+				let tempTitle = gpeGlobalSettings[0].W[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture];
 				let noContentStr = "<div class='nocontent donut'>";
-				noContentStr += "<button type='button' id='" + widgetIDArg + "_nodata' class='getstarted_button' data-href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + tempTitle + "</button>";
+				noContentStr += "<button type='button' id='" + widgetIDArg + "_nodata' class='getstarted_button' data-href='" + gpeGlobalSettings[0].W[csConfigModuleWidget].getstartedurl + "'>" + tempTitle + "</button>";
 				noContentStr += "</div>";
 				tmpContentDiv.innerHTML = noContentStr;
 				return await tmpContentDiv;
@@ -1446,21 +1384,17 @@ function getApprovalDetails_v2(approvalURLsArg, cultureArg, demoRoleArg) {
 	
 	let csConfigModuleWidget = moduleArg + "-" + widgetIDArg;
 
-	//console.log("GO DONUT csConfigModuleWidget: "+ csConfigModuleWidget);
-
 	return await getUserDevPlanProgress()
 		.then(async function (achievedData) {
-			// console.log("%cDONUT DATA: "+ achievedData, "color:#ccaa00;");
-			// IF ACHIEVED == 0 DO SOMETHING ELSE
 			let tmpContentDiv = document.createElement("div");
 			tmpContentDiv.className = widgetIDArg;
 			tmpContentDiv.setAttribute("id", moduleArg + "-" + widgetIDArg);
 			if (achievedData != 0) {
 				return await Promise.resolve(await drawDonut(achievedData, widgetIDArg, tmpContentDiv));
 			} else {
-				let tempTitle = gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture];
+				let tempTitle = gpeGlobalSettings[0].W[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture];
 				let noContentStr = "<div class='nocontent donut'>";
-				noContentStr += "<button type='button' id='" + widgetIDArg + "_nodata' class='getstarted_button' data-href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + tempTitle + "</button>";
+				noContentStr += "<button type='button' id='" + widgetIDArg + "_nodata' class='getstarted_button' data-href='" + gpeGlobalSettings[0].W[csConfigModuleWidget].getstartedurl + "'>" + tempTitle + "</button>";
 				noContentStr += "</div>";
 				tmpContentDiv.innerHTML = noContentStr;
 				return await tmpContentDiv;
@@ -1477,6 +1411,7 @@ function getApprovalDetails_v2(approvalURLsArg, cultureArg, demoRoleArg) {
  */
 async function drawDonut(completeArg, contentDivClassArg, tmpContentDivArg) {
 	let dataDonutArr = [completeArg, (100 - completeArg)];
+	const gpePRIMARYBGCSS = $('.c-nav-user').css('background-color');
 
 	let data = {
 		labels: [
@@ -1594,34 +1529,121 @@ async function updateJWT() {
 function checkJWT() {
 	return new Promise((resolve, reject) => {
 		if (sessionStorage.csToken) {
-			var checkReturningUser = $("[id*='pnlActionItems_titleMiddle'] a[href*='TargetUser=" + sessionStorage.csUser + "']").length ? true : false;
 
-			if (checkReturningUser == true) {
+			var jwt = JSON.parse(atob(sessionStorage.csToken.split('.')[1]));
+			var year = jwt.exp.substring(0, 4);
+			var month = jwt.exp.substring(4, 6);
+			var day = jwt.exp.substring(6, 8);
+			var hour = jwt.exp.substring(8, 10);
+			var minute = jwt.exp.substring(10, 12);
+			var second = jwt.exp.substring(12, 14);
+			var tokenDate = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+			var validity = tokenDate.getTime() > Date.now();
 
-				var jwt = JSON.parse(atob(sessionStorage.csToken.split('.')[1]));
-				var year = jwt.exp.substring(0, 4);
-				var month = jwt.exp.substring(4, 6);
-				var day = jwt.exp.substring(6, 8);
-				var hour = jwt.exp.substring(8, 10);
-				var minute = jwt.exp.substring(10, 12);
-				var second = jwt.exp.substring(12, 14);
-				var tokenDate = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
-				var validity = tokenDate.getTime() > Date.now();
-
-				if (validity == false) {
-					resolve(updateJWT());
-					return sessionStorage.csToken;
-				} else {
-					resolve(sessionStorage.csToken);
-				}
-			} else {
+			if (validity == false) {
 				resolve(updateJWT());
+				return sessionStorage.csToken;
+			} else {
+				resolve(sessionStorage.csToken);
 			}
 		} else {
 			resolve(updateJWT());
 		}
 	});
 }
+
+
+async function test() {
+	return await checkJWT()
+	.then(async function () {
+		// /services/api/Login/Rules?corpName={CORPNAME}&userName={USERNAME}
+		//let url = "/v1/password-preferences/user/csanders@CS_en-US";
+		//let url = "/services/api/Login/SsoLoginUrl?corp=demogpe-development&user=csanders@CS_en-US";
+		let url = "/v1/users/csanders@CS_en-US/password"
+		return await fetch(url, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		});
+	})
+	.then(response => response.json())
+	.then(async function (localStr) {
+		console.log(localStr);
+	})	
+}
+
+async function testPasswd() {
+	let payload = {
+		"password": "testpassword"
+	};
+
+	return await checkJWT()
+	.then(async function () {
+		// /services/api/Login/Rules?corpName={CORPNAME}&userName={USERNAME}
+// 		let url = "/services/api/Login/UpdatePassword";
+		//let url = "/services/api/Login/UpdatePassword?corpName=demogpe-development&userName=jstone@RPT";
+		let url = "https://us-demo.api.csod.com/v1/users/csanders@CS_en-US/password"
+		return await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'x-csod-corp-id': '',
+				'x-csod-cloud-corp-id': '',
+				'x-csod-user-id': '',
+				'x-csod-default-culture-id':'',
+				'x-csod-authentication': sessionStorage.csToken,
+			},
+			body: JSON.stringify(payload)
+		});
+	})
+	.then(response => response.json())
+	.then(async function (localStr) {
+		console.log(localStr);
+	})	
+}
+
+
+// method: 'POST',
+// headers: {
+// 	'Content-Type': 'application/json',
+// 	'Authorization': 'Bearer ' + sessionStorage.csToken,
+// },
+// body: JSON.stringify(payload)
+// })
+
+async function get_training_approvals() {
+	// let url = "/services/api/TranscriptAndTask/Approval?UserId=csanders@CS_en-US";
+	// let url = "/services/api/TranscriptAndTask/Inbox?UserId=csanders@CS_en-US";
+	// let url = "/services/api/TranscriptAndTask/Inbox?UserId=csanders@CS_en-US&Language=en-US";
+	let url = "/employee/csanders@CS_en-US/approvals";
+	return checkJWT()
+		.then(async function () {
+			return await fetch(url, {
+				method: 'GET',
+				mode: 'cors',
+				cache: 'no-cache',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + sessionStorage.csToken,
+				},
+				//body: JSON.stringify( payload )
+			});
+		})
+		.then(response => response.json())
+		.then(async function (localStr) {
+			console.log(localStr);
+		})
+		.catch(error => {
+			console.error(error);
+		});
+}
+
 
 async function getUserGoalProgress() {
 	let url = "/services/api/goalSummary/summary/" + sessionStorage.csUser + "?StartDate=" + new Date().getFullYear() + "-01-01&EndDate=" + new Date().getFullYear() + "-12-31";
@@ -1688,7 +1710,6 @@ async function getUserDevPlanProgress() {
 	});	
 }
 
-
 async function setUserModulesDetails() {
 	let url = "/services/api/x/users/v2/employees/" + sessionStorage.csUser;
 	return checkJWT()
@@ -1725,7 +1746,6 @@ async function setUserModulesDetails() {
 		.then(async function (localStr) {
 			var demoModules = localStr.value[0].title.substring(3); // Remove ROLE info
 			sessionStorage.setItem("csDemoModules", demoModules);
-			//console.log(sessionStorage.csDemoModules);
 			return demoModules;
 		})
 		.catch(error => {
@@ -1975,7 +1995,8 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 function operateFormatter(value, row, index) {
 	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
 	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
-
+	const csModules = getDemoModules(sessionStorage.getItem("csDemoModules"));
+	
 	let html = [];
 	html.push('<div class="dropdown">');
 	html.push('<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">');
@@ -1983,11 +2004,11 @@ function operateFormatter(value, row, index) {
 	html.push('</a>');
 	html.push('<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">');
 	html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.openup[sessionStorage.csCulture] + '</a></li>');
-	if (gpeDEMOMODULES.includes("LMS")) {
+	if (csModules.includes("LMS")) {
 		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewtranscript[sessionStorage.csCulture] + '</a></li>');
 	}
 	html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewsnapshot[sessionStorage.csCulture] + '</a></li>');
-	if (gpeDEMOMODULES.includes("EPM") || gpeDEMOMODULES.includes("CAR")) {
+	if (csModules.includes("EPM") || csModules.includes("CAR")) {
 		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewgoals[sessionStorage.csCulture] + '</a></li>');
 		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewdevplan[sessionStorage.csCulture] + '</a></li>');
 	}
@@ -2115,7 +2136,7 @@ async function getNewSubmissions(widgetArg, moduleArg) {
 			let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 			summaryStr += "<div class='summaryItem col-md-12'>";
 			summaryStr += "<div class='gpe-center'>";
-			summaryStr += "<a href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].url + "'>";
+			summaryStr += "<a href='" + gpeGlobalSettings[0].W[csConfigModuleWidget].url + "'>";
 
 			summaryStr += "<div class='d-flex align-items-center justify-content-center' style='height:210px'>";
 			summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>" + newSubmissionCount + "</div>";
@@ -2184,13 +2205,11 @@ async function getAllCandidates(widgetArg, moduleArg) {
 					}
 				});
 		})
-		//	.then( response => response.json() )
 		.then(async function (localStr) {
-			// console.log(localStr);
 			let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 			summaryStr += "<div class='summaryItem col-md-12'>";
 			summaryStr += "<div class='gpe-center'>";
-			summaryStr += "<a href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].url + "'>";
+			summaryStr += "<a href='" + gpeGlobalSettings[0].W[csConfigModuleWidget].url + "'>";
 			summaryStr += "<div class='d-flex align-items-center justify-content-center' style='height:210px'>";
 			summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>" + localStr.data.totalItems + "</div>";
 			summaryStr += "</div>";
@@ -2255,7 +2274,7 @@ async function getCandidateMetrics(widgetArg, moduleArg) {
 			let summaryStr = "<div class='ATS totalCandidates gpe-cap row'>";
 			summaryStr += "<div class='summaryItem col-md-12'>";
 			summaryStr += "<div class='gpe-center'>";
-			summaryStr += "<a href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].url + "'>";
+			summaryStr += "<a href='" + gpeGlobalSettings[0].W[csConfigModuleWidget].url + "'>";
 			summaryStr += "<div class='totalCandidates gpe-bold gpe-text40'>" + localStr.data.totalItems + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
@@ -2307,7 +2326,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 			summaryStr += "<div class='pastDueCount gpe-bold gpe-text20'>" + localStr.data[0].metrics.pastDueCount + "</div>";
-			summaryStr += "<div class='pastdueDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].pastdueDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='pastdueDesc gpe-desc'>" + gpeGlobalSettings[0].W[csConfigModuleWidget].pastdueDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2315,7 +2334,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 			summaryStr += "<div class='dueSoonCount gpe-bold gpe-text20'>" + localStr.data[0].metrics.dueSoonCount + "</div>";
-			summaryStr += "<div class='dueSoonDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].dueSoonDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='dueSoonDesc gpe-desc'>" + gpeGlobalSettings[0].W[csConfigModuleWidget].dueSoonDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2323,7 +2342,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript'>";
 			summaryStr += "<div class='noDueDateCount gpe-bold gpe-text20'>" + localStr.data[0].metrics.noDueDateCount + "</div>";
-			summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].assignedNoDueDateDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='assignedNoDueDateDesc gpe-desc'>" + gpeGlobalSettings[0].W[csConfigModuleWidget].assignedNoDueDateDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2335,7 +2354,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
 			summaryStr += "<div class='playlistCount gpe-bold gpe-text20'>" + localStr.data[0].playlists.numPlaylists + "</div>";
-			summaryStr += "<div class='playlistDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].playlists.createdDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='playlistDesc gpe-desc'>" + gpeGlobalSettings[0].W[csConfigModuleWidget].playlists.createdDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2344,7 +2363,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists'>";
 			summaryStr += "<div class='playlistnumFollowers gpe-bold gpe-text20'>" + localStr.data[0].playlists.numFollowers + "</div>";
-			summaryStr += "<div class='playlistFollowersDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].playlists.followersDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='playlistFollowersDesc gpe-desc'>" + gpeGlobalSettings[0].W[csConfigModuleWidget].playlists.followersDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2353,7 +2372,7 @@ async function getTranscriptMetrics(widgetArg, moduleArg) {
 			summaryStr += "<div class='gpe-center'>";
 			summaryStr += "<a href='/ui/lms-learner-playlist/UsersPlaylists?section=followed'>";
 			summaryStr += "<div class='playlistnumFollowed gpe-bold gpe-text20'>" + localStr.data[0].playlists.numFollowed + "</div>";
-			summaryStr += "<div class='playlistFollowedDesc gpe-desc'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].playlists.followedDesc[sessionStorage.csCulture] + "</div>";
+			summaryStr += "<div class='playlistFollowedDesc gpe-desc'>" + gpeGlobalSettings[0].W[csConfigModuleWidget].playlists.followedDesc[sessionStorage.csCulture] + "</div>";
 			summaryStr += "</a>";
 			summaryStr += "</div>";
 			summaryStr += "</div>";
@@ -2462,7 +2481,7 @@ async function getAssignedTraining(widgetArg, moduleArg) {
 
 				let carouselItemPanelTileLinkThmb = document.createElement("div");
 				carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
-				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "')";
+				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
 				carouselItemPanelTileLinkThmb.style.height = "100%";
 				carouselItemPanelTileLinkThmb.style.overflow = "hidden";
 
@@ -2657,7 +2676,7 @@ async function getTrendingForJob(widgetArg, moduleArg) {
 
 				let carouselItemPanelTileLinkThmb = document.createElement("div");
 				carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
-				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "')";
+				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
 				carouselItemPanelTileLinkThmb.style.height = "100%";
 				carouselItemPanelTileLinkThmb.style.overflow = "hidden";
 
@@ -2852,7 +2871,7 @@ async function getInspiredBySubjects(widgetArg, moduleArg) {
 
 				let carouselItemPanelTileLinkThmb = document.createElement("div");
 				carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
-				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "')";
+				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
 				carouselItemPanelTileLinkThmb.style.height = "100%";
 				carouselItemPanelTileLinkThmb.style.overflow = "hidden";
 
@@ -3042,7 +3061,7 @@ async function getTopPicks(widgetArg, moduleArg) {
 
 				let carouselItemPanelTileLinkThmb = document.createElement("div");
 				carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
-				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "')";
+				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
 				carouselItemPanelTileLinkThmb.style.height = "100%";
 				carouselItemPanelTileLinkThmb.style.overflow = "hidden";
 
@@ -3156,7 +3175,6 @@ async function getCheckinsDetails(widgetArg, moduleArg) {
 
 	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
 
-	
 	let csConfigModuleWidget = moduleArg + "-" + widgetArg;
 
 	const tmpContentDiv = document.createElement("div");
@@ -3179,7 +3197,6 @@ async function getCheckinsDetails(widgetArg, moduleArg) {
 		})
 		.then(response => response.json())
 		.then(async function (localStr) {
-			//		console.log("checkins 1 - done");
 			let endpointURL = sessionStorage.csCloud + "perf-conversations-api/v1/conversations";
 			localResponse = localStr.data;
 			return await fetch(endpointURL, {
@@ -3195,11 +3212,8 @@ async function getCheckinsDetails(widgetArg, moduleArg) {
 		})
 		.then(response => response.json())
 		.then(async function (checkinObjects) {
-			//		console.log("checkins 2 - done");
-			//		console.log(checkinObjects.length);
 			let checkinStr = "";
 			if (checkinObjects.length != 0) {
-				//			console.log("HERE I AM!");
 				var hostName = window.location.host.split('.');
 
 				checkinStr = "<table border='0' cellspacing='0' cellpadding='0' width='100%' class='table table-hover'>";
@@ -3257,10 +3271,10 @@ async function getCheckinsDetails(widgetArg, moduleArg) {
 
 			} else {
 				checkinStr = "<div class='checkins nocontent'>";
-				checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].getstartedurl + "'>" + gpeGlobalSettings[0].WIDGETS[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture] + "</button>";
+				checkinStr += "<button type='button' id='createNewCheckInsBTN' class='getstarted_button' data-href='" + gpeGlobalSettings[0].W[csConfigModuleWidget].getstartedurl + "'>" + gpeGlobalSettings[0].W[csConfigModuleWidget].nocontenttitle[sessionStorage.csCulture] + "</button>";
 				checkinStr += "</div>";
 			}
-			//		console.log("checkinStr : "+ checkinStr);
+
 			tmpContentDiv.innerHTML = checkinStr;
 			return tmpContentDiv;
 		})
@@ -3437,7 +3451,6 @@ function getBodyAndStatus(response) {
  * @param
  * @returns
  */
-// createDashboard( reportID, cs_widgetConfig[0].ROLESPECIFIC[demoRoleArg].WIDGETS[widget].ID, tmpContentDiv, demoRoleArg);
 async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleArg) {
 	return await checkReportToken()
 		.then(async function () {
@@ -3468,7 +3481,6 @@ async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleA
 
 			// If simple graph (one dimension)
 			if (rptDataSet.charts[0].chartDimensions.length == 1) {
-				// console.log("chartDimensions.length: "+ rptDataSet.charts[ 0 ].chartDimensions.length);
 				let chBgColor = [];
 				chBgColor = reportData.chartPalette.map(function (e) {
 					return e.color;
@@ -3493,7 +3505,6 @@ async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleA
 
 				// If advanced graph (two dimensions)
 			} else {
-				// console.log("Jag ska inte köras....");
 				for (let i in reportCols) {
 					dataSet[reportCols[i]] = [];
 					for (let labelIndex in labels) {
@@ -3577,99 +3588,330 @@ async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleA
 		.catch(error => console.error("Error in createDashboard function: " + error));
 }
 
-/**
- * Set background theme
- * @description Function is processed upon page load and will set potential image and set theme colours.
- */
-(async function () {
+function toggleGPEwp() {
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
 
-	var meta = document.createElement('meta');
-	meta.name = "viewport";
-	meta.content = "width=device-width, initial-scale=1.0";
-	document.getElementsByTagName('head')[0].appendChild(meta);
+	
+	var demopersonaDivElement = document.getElementById("demopersona");
 
-	// Set banner background color based on primary
-	const cssPrimaryBG = $('.c-nav-user').css('background-color');
-	document.querySelector('html').style.setProperty('--gpewp-brand-color--primary', cssPrimaryBG, "important");
-	const cssPrimaryBG_light = rgbToHsl(cssPrimaryBG, 10);
-	document.querySelector('html').style.setProperty('--gpewp-banner-bg-color--light', cssPrimaryBG_light, "important");
+	if (typeof(demopersonaDivElement) == 'undefined' || demopersonaDivElement == null) {
 
-	$.when(gpeBRANDING)
-		.then((brandingResponse) => {
-			// console.log(brandingResponse);			
-			if (brandingResponse.TopBannerImage != "") {
-				// console.log("Image is in Custom Field!")
-				const topBannerImgURL = "https://scfiles.csod.com" + brandingResponse.TopBannerImage;
-				const ProspectBG = checkIfImageExists(topBannerImgURL, (exists) => {
-					if (exists) {
-						// console.log("Yes, image exists.");
-						return setBgImage(topBannerImgURL);
-					} else {
-						// console.log("Nope, image really does not exist... perhaps we should set the header color?");
-					}
-				});
-			} else {
-				// console.log("Nope, image data does not exist.");
+		let switchMainDiv = document.createElement("div");
+		switchMainDiv.className = "form-check form-switch";
+		switchMainDiv.setAttribute("style", "margin-top: 40px");
+
+		let switchMainInput = document.createElement("input");
+		switchMainInput.className = "form-check-input";
+		switchMainInput.setAttribute("type", "checkbox");	
+		switchMainInput.setAttribute("id", "flexSwitchCheckDefault");	
+		if(urlParams.has('gpewp') && (urlParams.get('gpewp') == "true")) {
+			switchMainInput.setAttribute('checked', 'checked');
+		}
+
+		let switchMainLabel = document.createElement("label");
+		switchMainLabel.className = "form-check-label";
+		switchMainLabel.setAttribute("for", "flexSwitchCheckDefault");
+		switchMainLabel.innerText = "GPE Welcome Page switch";
+
+		switchMainDiv.appendChild(switchMainInput);
+		switchMainDiv.appendChild(switchMainLabel);
+
+		document.body.appendChild(switchMainDiv);
+
+		$('#flexSwitchCheckDefault').click(function() {
+
+			let url = new URL(window.location.href);
+			let params = new URLSearchParams(url.search.slice(1));
+		
+			var action = $('#flexSwitchCheckDefault').prop('checked');
+		
+			const queryString = window.location.search; 						// get url query string
+			const urlParams = new URLSearchParams(queryString); 				// parse query string
+		
+			if(action){
+				params.set('gpewp', true);
+			}else {
+				params.delete('gpewp')
 			}
-			// If there is a header color...
-			if (brandingResponse.UserHeaderColor != "") {
-				document.getElementById('gpewp_topcontainer_upper').style.setProperty("background-color", brandingResponse.UserHeaderColor, "important");
-			}
+		
+			params.toString();
+			window.history.replaceState({},'',`${window.location.pathname}?${params}${window.location.hash}`,);
+			location.reload();	
 		});
-})();
+	}
+}
+
+async function renderGPEWireframe() {
+	let roleArray = ["USR", "MGR", "HRD", "INS", "ADM", "REC"];
+
+	let gpewp = document.createElement("div");
+	gpewp.className = "gpewp_container";
+	gpewp.setAttribute("id", "gpewp");
+
+	let gpewp_top = document.createElement("div");
+	gpewp_top.className = "gpewp_topcontainer";
+	gpewp_top.setAttribute("id", "gpewp_top");
+
+	let gpewp_topcontainer_upper = document.createElement("div");
+	gpewp_topcontainer_upper.className = "gpewp_topcontainer_upper";
+	gpewp_topcontainer_upper.setAttribute("id", "gpewp_topcontainer_upper");
+
+	let gpewp_topcontainer_lower = document.createElement("div");
+	gpewp_topcontainer_lower.className = "gpewp_topcontainer_lower";
+	gpewp_topcontainer_lower.setAttribute("id", "gpewp_topcontainer_nav");
+
+	gpewp_top.appendChild(gpewp_topcontainer_upper);
+	gpewp_top.appendChild(gpewp_topcontainer_lower);
+	gpewp.appendChild(gpewp_top);
+
+	let gpewp_main = document.createElement("div");
+	gpewp_main.className = "gpewp_maincontent";
+	gpewp_main.setAttribute("id", "gpewp-main");
+
+	let nav_tabContent = document.createElement("div");
+	nav_tabContent.className = "tab-content gpewp_content";
+	nav_tabContent.setAttribute("id", "nav-tabContent");
+
+	/* USER START */
+	for (let role in roleArray) {
+		let nav_USR = document.createElement("div");
+		nav_USR.className = "tab-pane fade";
+		nav_USR.setAttribute("id", "nav-"+roleArray[role]);
+		nav_USR.setAttribute("role", "tabpanel");
+		nav_USR.setAttribute("aria-labelledby", "nav-"+ roleArray[role] +"-tab");
+	
+		let USR_content = document.createElement("div");
+		USR_content.className = "gpewp_"+roleArray[role];
+		USR_content.setAttribute("id", roleArray[role]+"-content");
+	
+		let USR_right = document.createElement("div");
+		USR_right.className = "gpewp_"+ roleArray[role] +"-right";
+		USR_right.setAttribute("id", roleArray[role]+"-right");
+		/* USER END */
+	
+		USR_content.appendChild(USR_right);
+		nav_USR.appendChild(USR_content);
+		nav_tabContent.appendChild(nav_USR);
+		gpewp_main.appendChild(nav_tabContent);
+	}
+
+	gpewp.appendChild(gpewp_main);
+
+	let csMain = document.querySelector("#mainContainer");
+	csMain.appendChild(gpewp);
+}
+
+async function initUserData() {
+	const queryString = window.location.search; 						// get url query string
+	const urlParams = new URLSearchParams(queryString); 				// parse query string
+	if(urlParams.has('gpewp') && (urlParams.get('gpewp') == "true")) {	// check if parameter exists
+		$(".widgetDropped").css({"display":"none"});					// hide the standard widgets
+		$("div[id*='ctl00_ContentPlaceHolder1_widgetLayout_mainDivRenderedWidgets']").css({"width":"100%"});
+
+		return await checkJWT()
+		.then(async function () {
+
+			let url = "/services/api/x/users/v2/employees/" + sessionStorage.csUser;
+			return await fetch(url, {
+				method: 'GET',
+				mode: 'cors',
+				cache: 'no-cache',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + sessionStorage.csToken,
+				},
+			});
+		})
+		.then(response => response.json())
+		.then(async function (localStr) {
+			let customFieldsArr = localStr.data.customFields;
+
+			let gpeDemoName = [localStr.data.firstName, localStr.data.lastName];
+
+			let gpeDemoBranding = (customFieldsArr.find(item => item.id === 157)) ? customFieldsArr.find(item => item.id === 157) : false;
+
+			let gpeDemoModules = customFieldsArr.find(item => item.id === 156);
+			let gpeDemoRole = customFieldsArr.find(item => item.id === 155);
+
+			sessionStorage.setItem("csDemoRole", JSON.stringify(getDemoRole(gpeDemoRole.value)));
+			sessionStorage.setItem("csDemoModules", JSON.stringify(getDemoModules(gpeDemoModules.value)));
+			sessionStorage.setItem("csDemoVisuals", gpeDemoBranding.value);
+			sessionStorage.setItem("csDemoName", JSON.stringify(gpeDemoName));
+
+			return true;
+		})
+		.then(function() {
+			renderGPEWireframe();
+			return true;
+		})
+		.catch(error => {
+				console.error(error);
+		});
+	}else {
+
+		let demoPersona = document.getElementById("demopersona");
+
+		if (typeof(demoPersona) === 'undefined' || demoPersona === null) {
+			return false;
+		}else {
+			return await checkJWT()
+			.then(async function () {
+				sessionStorage.setItem("csDemoRole", JSON.stringify(getDemoRole(document.getElementById("demopersona").getAttribute("demopersona"))));
+				sessionStorage.setItem("csDemoModules", JSON.stringify(getDemoModules(document.getElementById("demomodules").getAttribute("demomodules"))));
+				sessionStorage.setItem("csDemoName", JSON.stringify(document.getElementById("demousername").getAttribute("demousername").split(';')));
+				sessionStorage.setItem("csDemoVisuals", document.getElementById("demovisuals").getAttribute("demovisuals"));
+			
+				return true;
+			})
+			.catch(error => {
+				console.error(error);
+			});			
+		}
+	}
+}
 
 /**
  * Welcome Page Build Function
  * @description Function is processed upon page load and will display the widgets and build the layout.
  */
 (async function () {
+	//$(".widgetDropped").css({"display":"none"});				// hide the widgets
 	var startTimer = performance.now();
-	await checkJWT()
-	.then(function () {
-		sessionStorage.setItem("csDemoRole", gpeDEMOROLE);
-		sessionStorage.setItem("csDemoModules", gpeDEMOMODULES);
-		const gpeNav = buildNav(gpeDEMOROLE, sessionStorage.csCulture, gpeDEMOMODULES);
-		const gpeAboutCard = buildAboutCard();
+	await initUserData()
+	.then(function(gpeWP){
+		toggleGPEwp();
 
-		const gpeOnboarding = (gpeDEMOROLE === "ONB") ? buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture) : "false";
-		const gpeExtendedWidgets = (gpeDEMOROLE !== "ONB") ? buildExtendedWidgets(gpeDEMOROLE, gpeDEMOMODULES) : "false";
-		const gpeModuleLayout = (gpeDEMOROLE !== "ONB") ? buildModuleWidget(gpeDEMOMODULES, gpeDEMOROLE) : "false";
-		const gpeWidgets = (gpeDEMOROLE !== "ONB") ? buildWidgets_v2(gpeDEMOMODULES, gpeDEMOROLE) : "false";
+		var meta = document.createElement('meta');
+		meta.name = "viewport";
+		meta.content = "width=device-width, initial-scale=1.0";
+		document.getElementsByTagName('head')[0].appendChild(meta);
 
-		return Promise.all([gpeNav, gpeAboutCard, gpeOnboarding, gpeModuleLayout, gpeWidgets, gpeExtendedWidgets]);
+		if(gpeWP === false){
+			let cssArr = ['https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpewp-switch.min.css'];
+			for (let cssFile in cssArr) {
+				var link = document.createElement('link');
+				link.setAttribute('rel', 'stylesheet');
+				link.setAttribute('href', cssArr[cssFile]);
+				document.head.appendChild(link);
+			}			
+			return false;		
+		}else {	
+			$("#mainContainer").css({"text-align":"left"});
+
+			document.title = "loading...";
+
+			let cssArr = ['https://unpkg.com/css-skeletons@1.0.5/css/css-skeletons.min.css',
+						'https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css',
+						'https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css',
+						'https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpefonts.min.css',
+						'https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpewp-dev.min.css'];
+
+			for (let cssFile in cssArr) {
+				var link = document.createElement('link');
+				link.setAttribute('rel', 'stylesheet');
+				link.setAttribute('href', cssArr[cssFile]);
+				document.head.appendChild(link);
+			}
+			return true;
+		}
 	})
-	.then(function () {
-		// Set event on logout to delete sessionStorage.
-		var logoutLink = document.querySelector("a[id*='header_headerResponsive_responsiveNav_lnkLogout']");
-		logoutLink.addEventListener("click", function (event) {
-			sessionStorage.clear();
-		});
+	.then(async function(gpeWP) {
+		if(gpeWP === true) {	
+			// Set banner background color based on primary
+			const cssPrimaryBG = $('.c-nav-user').css('background-color');
+			document.querySelector('html').style.setProperty('--gpewp-brand-color--primary', cssPrimaryBG, "important");
+			const cssPrimaryBG_light = rgbToHsl(cssPrimaryBG, 10);
+			document.querySelector('html').style.setProperty('--gpewp-banner-bg-color--light', cssPrimaryBG_light, "important");	
+			return true;
+		} else {
+			return false;
+		}
+	})
+	.then(async function (gpeWP) {
+		if(gpeWP === true) {
+			let gpeDEMOROLE = JSON.parse(sessionStorage.getItem("csDemoRole"));
+			let gpeDEMOMODULES = JSON.parse(sessionStorage.getItem("csDemoModules"));
+			
+			if(typeof sessionStorage.getItem("csDemoVisuals") === 'string' && sessionStorage.getItem("csDemoVisuals") !== 'undefined' && sessionStorage.getItem("csDemoVisuals").length !== 0) {
 
-		var link = document.querySelector("link[rel~='icon']");
-		if (!link) {
-			link = document.createElement('link');
-			link.rel = 'icon';
-			document.getElementsByTagName('head')[0].appendChild(link);
+				let brandingResponse = JSON.parse(sessionStorage.getItem("csDemoVisuals"));
+
+				if (brandingResponse.TopBannerImage != "") {
+					const topBannerImgURL = "https://scfiles.csod.com" + brandingResponse.TopBannerImage;
+					const ProspectBG = checkIfImageExists(topBannerImgURL, (exists) => {
+						if (exists) {
+							return setBgImage(topBannerImgURL);
+						}
+					});
+				}
+
+				if (brandingResponse.UserHeaderColor != "") {
+					document.getElementById('gpewp_topcontainer_upper').style.setProperty("background-color", brandingResponse.UserHeaderColor, "important");
+				}
+			}
+
+			if($(".gpewp_container").length > 1) {
+				$(".widgetDropped").css({"display":"block"});					// display the standard widgets
+			}
+			// add row to role maindiv if not exist (only ifnot onb role)
+			if(gpeDEMOROLE !== "ONB") {
+				let roleMain = "div[class*='gpewp_"+ gpeDEMOROLE +"-right']";
+				const rowDivCheck = document.querySelector(roleMain);
+				if(rowDivCheck.classList.contains('row') === false)  rowDivCheck.classList.add("row");// true
+			}
+
+			const gpeNav = buildNav(gpeDEMOROLE, sessionStorage.csCulture, gpeDEMOMODULES);
+			const gpeAboutCard = buildAboutCard(gpeDEMOMODULES);
+
+			const gpeOnboarding = (gpeDEMOROLE === "ONB") ? buildOnbWidget(gpeDEMOROLE, sessionStorage.csCulture) : "false";
+			const gpeModuleLayout = (gpeDEMOROLE !== "ONB") ? buildModuleWidget(gpeDEMOMODULES, gpeDEMOROLE) : "false";
+			const gpeWidgets = (gpeDEMOROLE !== "ONB") ? buildWidgets_v2(gpeDEMOMODULES, gpeDEMOROLE) : "false";
+			const gpeExtendedWidgets = (gpeDEMOROLE !== "ONB") ? buildExtendedWidgets(gpeDEMOROLE, gpeDEMOMODULES) : "false";
+			return Promise.all([gpeNav, gpeAboutCard, gpeOnboarding, gpeModuleLayout, gpeWidgets, gpeExtendedWidgets]);
+		} else {
+			return false;
+		}
+	})
+	.then(function (gpeWP) {
+		if(gpeWP !== false) {
+
+			var link = document.querySelector("link[rel~='icon']");
+			if (!link) {
+				link = document.createElement('link');
+				link.rel = 'icon';
+				document.getElementsByTagName('head')[0].appendChild(link);
+			}
+
+			link.href = gpeDEMOPERSONAIMAGE;
+			document.title = "CSOD Demo : " + JSON.parse(sessionStorage.getItem("csDemoRole"));
+
+			let $body = $("body");
+			$body[0].style.setProperty('padding-top', '0px', 'important');
+
+			// Checkins click events
+			$(".clickable-row").click(function () {
+				window.location = $(this).data("href");
+			});
+			// Get started click events
+			$(".getstarted_button").click(function () {
+				window.location = $(this).data("href");
+			});
+			// Get approval buttons click events
+			$(".approval_button").click(function () {
+				window.location = $(this).data("href");
+			});
 		}
 
-		link.href = gpeDEMOPERSONAIMAGE;
-		document.title = "CSOD Demo : " + gpeDEMOROLE;
+			// Set event on logout to delete sessionStorage.
+			var logoutLink = document.querySelector("a[id*='header_headerResponsive_responsiveNav_lnkLogout']");
+			logoutLink.addEventListener("click", function (event) {
+				sessionStorage.clear();
+			});
 
-		// Checkins click events
-		$(".clickable-row").click(function () {
-			window.location = $(this).data("href");
-		});
-		// Get started click events
-		$(".getstarted_button").click(function () {
-			window.location = $(this).data("href");
-		});
-		// Get approval buttons click events
-		$(".approval_button").click(function () {
-			window.location = $(this).data("href");
-		});
-		
-		var endTimer = performance.now();
-		console.log("gpeWP build: "+ gpeWPversion +" - ("+ Math.round((endTimer - startTimer))+" ms)");
+			var endTimer = performance.now();
+			console.log("gpeWP build: "+ gpeWPversion +" - ("+ Math.round((endTimer - startTimer))+" ms)");
 		
 	})
 	.catch(error => {

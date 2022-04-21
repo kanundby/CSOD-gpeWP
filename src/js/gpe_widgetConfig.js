@@ -5,1070 +5,1156 @@ const gpeWidgetConfig = [{
 		"USR" : {
 			"MODS" : {
 				"ATS" : {
-					"SETTINGS": {
-						"AVAILABILITY": 0,
-						"ORDER": 99
+					"CFG": {
+						"AVB": 0,
+						"O": 99
 					}
 				},
 				"EPM" : {
-					"SETTINGS": {
-						"AVAILABILITY": 1,
-						"ORDER": 1,
-						"TARGETDIV" : "USR",
+					"CFG": {
+						"AVB": 1,
+						"O": 1,
+						"TD" : "USR",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "CHECKINS",
-							"ORDER": 1,
-							"COLUMNSIZE": 6
+							"O": 1,
+							"CS": 6
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "GOAL_PROGRESS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "DEVPLAN_PROGRESS",
-							"ORDER": 3,
-							"COLUMNSIZE": 3
+							"O": 3,
+							"CS": 3
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "SURVEYS",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "FEEDBACK",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "PERF_REVIEWS",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "CHECKINS",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "COMPETENCYTASK",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "GOALS",
-							"ORDER": 6
+							"O": 6
 						}
 					}				
 				},
 				"LMS" : {
-					"SETTINGS": {
-						"AVAILABILITY": 1,
-						"ORDER": 1,
-						"TARGETDIV" : "USR",
+					"CFG": {
+						"AVB": 1,
+						"O": 1,
+						"TD" : "USR",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "INSPIRED_BY_SUBJECTS",
-							"ORDER": 1,
-							"COLUMNSIZE": 3
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "TRENDING_FOR_JOB",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "TRAINING_METRICS",
-							"ORDER": 3,
-							"COLUMNSIZE": 6
+							"O": 3,
+							"CS": 6
 						}
 					},					
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "LEARNER_HOME",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "COMMUNITIES",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "LEARNER_SEARCH",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "TRAINING_HISTORY",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "PLAYLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "LEADERBOARD",
-							"ORDER": 6
+							"O": 6
 						}
 					}	
 				}
 			},
 			"TOPLINKS" : {
-				"LINK_1": {
+				"L_1": {
 					"ID": "SNAPSHOT",
-					"ORDER": 1
+					"O": 1
 				},
-				"LINK_2": {
+				"L_2": {
 					"ID": "SKILLSPROFILE",
-					"ORDER": 2
+					"O": 2
 				},
-				"LINK_3": {
+				"L_3": {
 					"ID": "FORMS",
-					"ORDER": 3
+					"O": 3
 				},
-				"LINK_4": {
+				"L_4": {
 					"ID": "LIVEFEED",
-					"ORDER": 4
+					"O": 4
 				},
-				"LINK_5": {
+				"L_5": {
 					"ID": "CAREER_SITE",
-					"ORDER": 5
+					"O": 5
 				}
 			}
 		},
 		"MGR" : {
 			"MODS" : {
 				"ATS" : {
-					"SETTINGS": {
-						"AVAILABILITY": 1,
-						"ORDER": 2,
-						"TARGETDIV" : "MGR"
+					"CFG": {
+						"AVB": 1,
+						"O": 2,
+						"TD" : "MGR"
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "TOTALCANDIDATES",
-							"ORDER": 1,
-							"COLUMNSIZE": 3
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "NEWSUBMISSIONS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "NEWHIRES",
-							"ORDER": 3,
-							"COLUMNSIZE": 6
+							"O": 3,
+							"CS": 6
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "REQREQUESTS",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "MANAGEREQ",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "MANAGECANDIDATES",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "INTERVIEWS",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "HIRINGDASHBOARD",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "CANDIDATESEARCH",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"EPM" : {
-					"SETTINGS": {
-						"AVAILABILITY": 1,
-						"ORDER": 2,
-						"TARGETDIV" : "USR",
+					"CFG": {
+						"AVB": 1,
+						"O": 1,
+						"TD" : "USR",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "CHECKINS",
-							"ORDER": 1,
-							"COLUMNSIZE": 6
+							"O": 1,
+							"CS": 6
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "GOAL_PROGRESS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "DEVPLAN_PROGRESS",
-							"ORDER": 3,
-							"COLUMNSIZE": 3
+							"O": 3,
+							"CS": 3
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "SURVEYS",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "FEEDBACK",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "PERF_REVIEWS",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "CHECKINS",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "CHECKLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "SKILLSMATRIX",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"LMS" : {
-					"SETTINGS": {
-						"AVAILABILITY": 1,
-						"ORDER": 1,
-						"TARGETDIV" : "USR",	
+					"CFG": {
+						"AVB": 1,
+						"O": 2,
+						"TD" : "USR",	
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "INSPIRED_BY_SUBJECTS",
-							"ORDER": 1,
-							"COLUMNSIZE": 3
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "TRENDING_FOR_JOB",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "TRAINING_METRICS",
-							"ORDER": 3,
-							"COLUMNSIZE": 6
+							"O": 3,
+							"CS": 6
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "LEARNER_HOME",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "COMMUNITIES",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "LEARNER_SEARCH",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "TRAINING_HISTORY",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "PLAYLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "LEADERBOARD",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"EXT" : {
-					"SETTINGS" : {
-						"ORDER" : 1,
-						"TARGETDIV" : "MGR-right"
+					"CFG" : {
+						"O" : 1,
+						"TD" : "MGR-right"
 					},
-					"WIDGETS" : {
-						"WIDGET_1" : {
+					"W" : {
+						"W_1" : {
 							"ID" : "DIRECT_REPORTS",
-							"ORDER" : 1,
-							"COLUMNSIZE" : 6
+							"O" : 1,
+							"CS" : 6
 						},
-						"WIDGET_2" : {
+						"W_2" : {
 							"ID" : "RPT_ORGGOALPROGRESS",
-							"ORDER" : 2,
-							"COLUMNSIZE" : 3
+							"O" : 2,
+							"CS" : 3
 						},
-						"WIDGET_3" : {
+						"W_3" : {
 							"ID" : "RPT_PASTDUE",
-							"ORDER" : 3,
-							"COLUMNSIZE" : 3
+							"O" : 3,
+							"CS" : 3
 						}                                   
 					},
 					"LINKS" : {
-						"LINK_1" : {
+						"L_1" : {
 							"ID" : "SKILLSMATRIX",
-							"ORDER" : 1
+							"O" : 1
 						},
-						"LINK_2" : {
+						"L_2" : {
 							"ID" : "CHECKLISTS",
-							"ORDER" : 2
+							"O" : 2
 						},
-						"LINK_3" : {
+						"L_3" : {
 							"ID" : "CHECKINS",
-							"ORDER" : 3
+							"O" : 3
 						},
-						"LINK_4" : {
+						"L_4" : {
 							"ID" : "VIEWDATA",
-							"ORDER" : 4
+							"O" : 4
 						},
-						"LINK_5" : {
+						"L_5" : {
 							"ID" : "VIEWPEOPLE",
-							"ORDER" : 5
+							"O" : 5
 						},
-						"LINK_6" : {
+						"L_6" : {
 							"ID" : "DASHBOARD",
-							"ORDER" : 6
+							"O" : 6
 						}
 					}
 				}
 			},
 			"TOPLINKS" : {
-				"LINK_1": {
+				"L_1": {
 					"ID": "SNAPSHOT",
-					"ORDER": 1
+					"O": 1
 				},
-				"LINK_2": {
+				"L_2": {
 					"ID": "SKILLSPROFILE",
-					"ORDER": 2
+					"O": 2
 				},
-				"LINK_3": {
+				"L_3": {
 					"ID": "ACTIONS",
-					"ORDER": 3
+					"O": 3
 				},
-				"LINK_4": {
+				"L_4": {
 					"ID": "ORGCHART",
-					"ORDER": 4
+					"O": 4
 				},
-				"LINK_5": {
+				"L_5": {
 					"ID": "REPORTS",
-					"ORDER": 5
+					"O": 5
 				}				
 			}
 		},
 		"HRD" : {
 			"MODS" : {
 				"ATS" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 1,
-						"TARGETDIV" : "HRD",
+					"CFG" : {
+						"AVB": 1,
+						"O": 1,
+						"TD" : "HRD"
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "TOTALCANDIDATES",
-							"ORDER": 1,
-							"COLUMNSIZE": 3
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "NEWSUBMISSIONS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "NEWHIRES",
-							"ORDER": 3,
-							"COLUMNSIZE": 6
+							"O": 3,
+							"CS": 6
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "REQREQUESTS",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "MANAGEREQ",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "MANAGECANDIDATES",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "INTERVIEWS",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "HIRINGDASHBOARD",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "CANDIDATESEARCH",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"EPM" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 3,
-						"TARGETDIV" : "USR",
+					"CFG" : {
+						"AVB": 1,
+						"O": 3,
+						"TD" : "USR",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "CHECKINS",
-							"ORDER": 1,
-							"COLUMNSIZE": 6
+							"O": 1,
+							"CS": 6
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "GOAL_PROGRESS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "DEVPLAN_PROGRESS",
-							"ORDER": 3,
-							"COLUMNSIZE": 3
+							"O": 3,
+							"CS": 3
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "SURVEYS",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "FEEDBACK",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "PERF_REVIEWS",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "CHECKINS",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "CHECKLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "SKILLSMATRIX",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"LMS" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 2,
-						"TARGETDIV" : "USR",
+					"CFG" : {
+						"AVB": 1,
+						"O": 2,
+						"TD" : "USR",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "INSPIRED_BY_SUBJECTS",
-							"ORDER": 1,
-							"COLUMNSIZE": 3
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "TOP_PICKS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "TRAINING_METRICS",
-							"ORDER": 3,
-							"COLUMNSIZE": 6
+							"O": 3,
+							"CS": 6
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "LEARNER_HOME",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "COMMUNITIES",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "LEARNER_SEARCH",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "TRAINING_HISTORY",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "PLAYLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "LEADERBOARD",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"EXT" : {
-					"SETTINGS" : {
-						"ORDER" : 1,
-						"TARGETDIV" : "HRD-right"
+					"CFG" : {
+						"O" : 1,
+						"TD" : "HRD-right"
 					},
-					"WIDGETS" : {
-						"WIDGET_1" : {
+					"W" : {
+						"W_1" : {
 							"ID" : "RPT_HEADCOUNT",
-							"ORDER" : 1,
-							"COLUMNSIZE" : 6
+							"O" : 1,
+							"CS" : 6
 						},
-						"WIDGET_2" : {
+						"W_2" : {
 							"ID" : "RPT_ORGGOALPROGRESS",
-							"ORDER" : 2,
-							"COLUMNSIZE" : 3
+							"O" : 2,
+							"CS" : 3
 						},
-						"WIDGET_3" : {
+						"W_3" : {
 							"ID" : "RPT_TRAININGPROGRESSSUMMARY",
-							"ORDER" : 3,
-							"COLUMNSIZE" : 3
+							"O" : 3,
+							"CS" : 3
 						}
 					}
 				}
 			},
 			"TOPLINKS" : {
-				"LINK_1": {
+				"L_1": {
 					"ID": "SNAPSHOT",
-					"ORDER": 1
+					"O": 1
 				},
-				"LINK_2": {
+				"L_2": {
 					"ID": "SKILLSPROFILE",
-					"ORDER": 2
+					"O": 2
 				},
-				"LINK_3": {
+				"L_3": {
 					"ID": "FORMS",
-					"ORDER": 3
+					"O": 3
 				},
-				"LINK_4": {
+				"L_4": {
 					"ID": "ORGCHART",
-					"ORDER": 4
+					"O": 4
 				},
-				"LINK_5": {
+				"L_5": {
 					"ID": "REPORTS",
-					"ORDER": 5
+					"O": 5
 				}				
 			}
 		},
 		"ADM" : {
 			"MODS" : {
 				"ATS" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 0,
-						"ORDER": 99
+					"CFG" : {
+						"AVB": 0,
+						"O": 2,
+						"TD" : "ADM"
 					},
-				},
-				"EPM" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 2,
-						"TARGETDIV" : "USR",
-					},
-					"WIDGETS": {
-						"WIDGET_1": {
-							"ID": "CHECKINS",
-							"ORDER": 1,
-							"COLUMNSIZE": 6
+					"W": {
+						"W_1": {
+							"ID": "TOTALCANDIDATES",
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
-							"ID": "GOAL_PROGRESS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+						"W_2": {
+							"ID": "NEWSUBMISSIONS",
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
-							"ID": "DEVPLAN_PROGRESS",
-							"ORDER": 3,
-							"COLUMNSIZE": 3
+						"W_3": {
+							"ID": "NEWHIRES",
+							"O": 3,
+							"CS": 6
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
-							"ID": "SURVEYS",
-							"ORDER": 1
+						"L_1": {
+							"ID": "REQREQUESTS",
+							"O": 1
 						},
-						"LINK_2": {
-							"ID": "FEEDBACK",
-							"ORDER": 2
+						"L_2": {
+							"ID": "MANAGEREQ",
+							"O": 2
 						},
-						"LINK_3": {
-							"ID": "PERF_REVIEWS",
-							"ORDER": 3
+						"L_3": {
+							"ID": "MANAGECANDIDATES",
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
+							"ID": "INTERVIEWS",
+							"O": 4
+						},
+						"L_5": {
+							"ID": "HIRINGDASHBOARD",
+							"O": 5
+						},
+						"L_6": {
+							"ID": "CANDIDATESEARCH",
+							"O": 6
+						}
+					}
+				},
+				"EPM" : {
+					"CFG": {
+						"AVB": 1,
+						"O": 2,
+						"TD" : "USR",
+					},
+					"W": {
+						"W_1": {
 							"ID": "CHECKINS",
-							"ORDER": 4
+							"O": 1,
+							"CS": 6
 						},
-						"LINK_5": {
+						"W_2": {
+							"ID": "GOAL_PROGRESS",
+							"O": 2,
+							"CS": 3
+						},
+						"W_3": {
+							"ID": "DEVPLAN_PROGRESS",
+							"O": 3,
+							"CS": 3
+						}
+					},
+					"LINKS": {
+						"L_1": {
+							"ID": "SURVEYS",
+							"O": 1
+						},
+						"L_2": {
+							"ID": "FEEDBACK",
+							"O": 2
+						},
+						"L_3": {
+							"ID": "PERF_REVIEWS",
+							"O": 3
+						},
+						"L_4": {
+							"ID": "CHECKINS",
+							"O": 4
+						},
+						"L_5": {
 							"ID": "CHECKLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "SKILLSMATRIX",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"LMS" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 1,
-						"TARGETDIV" : "USR",
+					"CFG" : {
+						"AVB": 1,
+						"O": 1,
+						"TD" : "USR",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "INSPIRED_BY_SUBJECTS",
-							"ORDER": 1,
-							"COLUMNSIZE": 3
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "TOP_PICKS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "TRAINING_METRICS",
-							"ORDER": 3,
-							"COLUMNSIZE": 6
+							"O": 3,
+							"CS": 6
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "LEARNER_HOME",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "COMMUNITIES",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "LEARNER_SEARCH",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "TRAINING_HISTORY",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "PLAYLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "LEADERBOARD",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"EXT" : {
-					"SETTINGS" : {
-						"ORDER" : 1,
-						"TARGETDIV" : "ADM-right"
+					"CFG" : {
+						"O" : 1,
+						"TD" : "ADM-right"
 					},
-					"WIDGETS" : {                               
-						"WIDGET_1" : {
+					"W" : {                               
+						"W_1" : {
 							"ID" : "RPT_HEADCOUNT",
-							"ORDER" : 1,
-							"COLUMNSIZE" : 6
+							"O" : 1,
+							"CS" : 6
 						},
-						"WIDGET_2" : {
+						"W_2" : {
 							"ID" : "RPT_USERRECORDBYMGR",
-							"ORDER" : 2,
-							"COLUMNSIZE" : 3
+							"O" : 2,
+							"CS" : 3
 						},
-						"WIDGET_3" : {
+						"W_3" : {
 							"ID" : "RPT_EMPLOYEESTATUS",
-							"ORDER" : 3,
-							"COLUMNSIZE" : 3
+							"O" : 3,
+							"CS" : 3
 						}
-					}
+					},
+					"LINKS": {
+						L_1: {
+							ID: "LEARNER_ADMIN",
+							ORDER: 1
+						},
+						L_2: {
+							ID: "CATALOGMANAGEMENT",
+							ORDER: 2
+						},
+						L_3: {
+							ID: "EVENTS_SESSIONS",
+							ORDER: 3
+						},
+						L_4: {
+							ID: "LAT",
+							ORDER: 4
+						},
+						L_5: {
+							ID: "USERADMIN",
+							ORDER: 5
+						},
+						L_6: {
+							ID: "REPORTBUILDER",
+							ORDER: 6
+						}
+					}					
 				}
 			},
 			"TOPLINKS" : {
-				"LINK_1": {
+				"L_1": {
 					"ID": "SNAPSHOT",
-					"ORDER": 1
+					"O": 1
 				},
-				"LINK_2": {
+				"L_2": {
 					"ID": "SKILLSPROFILE",
-					"ORDER": 2
+					"O": 2
 				},
-				"LINK_3": {
+				"L_3": {
 					"ID": "FORMS",
-					"ORDER": 3
+					"O": 3
 				},
-				"LINK_4": {
+				"L_4": {
 					"ID": "LEARNER_ADMIN",
-					"ORDER": 4
+					"O": 4
 				},
-				"LINK_5": {
+				"L_5": {
 					"ID": "REPORTS",
-					"ORDER": 5
-				}				
+					"O": 5
+				}
 			}
 		},
 		"REC" : {
 			"MODS" : {
 				"ATS" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 1,
-						"TARGETDIV" : "REC",
+					"CFG" : {
+						"AVB": 1,
+						"O": 1,
+						"TD" : "REC",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "TOTALCANDIDATES",
-							"ORDER": 1,
-							"COLUMNSIZE": 3
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "NEWSUBMISSIONS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "NEWHIRES",
-							"ORDER": 3,
-							"COLUMNSIZE": 6
+							"O": 3,
+							"CS": 6
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "REQREQUESTS",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "MANAGEREQ",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "MANAGECANDIDATES",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "INTERVIEWS",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "HIRINGDASHBOARD",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "CANDIDATESEARCH",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"EPM" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 2,
-						"TARGETDIV" : "USR",                
+					"CFG" : {
+						"AVB": 1,
+						"O": 2,
+						"TD" : "USR",                
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "CHECKINS",
-							"ORDER": 1,
-							"COLUMNSIZE": 6
+							"O": 1,
+							"CS": 6
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "GOAL_PROGRESS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "DEVPLAN_PROGRESS",
-							"ORDER": 3,
-							"COLUMNSIZE": 3
+							"O": 3,
+							"CS": 3
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "SURVEYS",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "FEEDBACK",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "PERF_REVIEWS",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "CHECKINS",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "CHECKLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "SKILLSMATRIX",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"LMS" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 3,
-						"TARGETDIV" : "USR",
+					"CFG" : {
+						"AVB": 1,
+						"O": 3,
+						"TD" : "USR",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "INSPIRED_BY_SUBJECTS",
-							"ORDER": 1,
-							"COLUMNSIZE": 3
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "TRENDING_FOR_JOB",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "TRAINING_METRICS",
-							"ORDER": 3,
-							"COLUMNSIZE": 6
+							"O": 3,
+							"CS": 6
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "LEARNER_HOME",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "COMMUNITIES",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "LEARNER_SEARCH",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "TRAINING_HISTORY",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "PLAYLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "LEADERBOARD",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				}
 			},
 			"TOPLINKS" : {
-				"LINK_1": {
+				"L_1": {
 					"ID": "SNAPSHOT",
-					"ORDER": 1
+					"O": 1
 				},
-				"LINK_2": {
+				"L_2": {
 					"ID": "SKILLSPROFILE",
-					"ORDER": 2
+					"O": 2
 				},
-				"LINK_3": {
+				"L_3": {
 					"ID": "FORMS",
-					"ORDER": 3
+					"O": 3
 				},
-				"LINK_4": {
+				"L_4": {
 					"ID": "ORGCHART",
-					"ORDER": 4
+					"O": 4
 				},
-				"LINK_5": {
+				"L_5": {
 					"ID": "REPORTS",
-					"ORDER": 5
+					"O": 5
 				}				
 			}
 		},
 		"INS" : {
 			"MODS" : {
 				"ATS" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 0,
-						"ORDER": 99
+					"CFG" : {
+						"AVB": 0,
+						"O": 99
 					}
 				},
 				"EPM" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 2,
-						"TARGETDIV" : "USR",
+					"CFG" : {
+						"AVB": 1,
+						"O": 2,
+						"TD" : "USR",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "CHECKINS",
-							"ORDER": 1,
-							"COLUMNSIZE": 6
+							"O": 1,
+							"CS": 6
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "GOAL_PROGRESS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "DEVPLAN_PROGRESS",
-							"ORDER": 3,
-							"COLUMNSIZE": 3
+							"O": 3,
+							"CS": 3
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "SURVEYS",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "FEEDBACK",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "PERF_REVIEWS",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "CHECKINS",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "CHECKLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "SKILLSMATRIX",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"LMS" : {
-					"SETTINGS" : {
-						"AVAILABILITY": 1,
-						"ORDER": 1,
-						"TARGETDIV" : "USR",
+					"CFG" : {
+						"AVB": 1,
+						"O": 1,
+						"TD" : "USR",
 					},
-					"WIDGETS": {
-						"WIDGET_1": {
+					"W": {
+						"W_1": {
 							"ID": "INSPIRED_BY_SUBJECTS",
-							"ORDER": 1,
-							"COLUMNSIZE": 3
+							"O": 1,
+							"CS": 3
 						},
-						"WIDGET_2": {
+						"W_2": {
 							"ID": "TOP_PICKS",
-							"ORDER": 2,
-							"COLUMNSIZE": 3
+							"O": 2,
+							"CS": 3
 						},
-						"WIDGET_3": {
+						"W_3": {
 							"ID": "TRAINING_METRICS",
-							"ORDER": 3,
-							"COLUMNSIZE": 6
+							"O": 3,
+							"CS": 6
 						}
 					},
 					"LINKS": {
-						"LINK_1": {
+						"L_1": {
 							"ID": "LEARNER_HOME",
-							"ORDER": 1
+							"O": 1
 						},
-						"LINK_2": {
+						"L_2": {
 							"ID": "COMMUNITIES",
-							"ORDER": 2
+							"O": 2
 						},
-						"LINK_3": {
+						"L_3": {
 							"ID": "LEARNER_SEARCH",
-							"ORDER": 3
+							"O": 3
 						},
-						"LINK_4": {
+						"L_4": {
 							"ID": "TRAINING_HISTORY",
-							"ORDER": 4
+							"O": 4
 						},
-						"LINK_5": {
+						"L_5": {
 							"ID": "PLAYLISTS",
-							"ORDER": 5
+							"O": 5
 						},
-						"LINK_6": {
+						"L_6": {
 							"ID": "LEADERBOARD",
-							"ORDER": 6
+							"O": 6
 						}
 					}
 				},
 				"EXT" : {
-					"SETTINGS" : {
-						"ORDER" : 1,
-						"TARGETDIV" : "INS-right"
+					"CFG" : {
+						"O" : 1,
+						"TD" : "INS-right"
 					},
-					"WIDGETS" : {
-						"WIDGET_1" : {
+					"W" : {
+						"W_1" : {
 							"ID" : "RPT_TRAININGWITHDRAWALS",
-							"ORDER" : 1,
-							"COLUMNSIZE" : 3
+							"O" : 1,
+							"CS" : 3
 						},
-						"WIDGET_2" : {
+						"W_2" : {
 							"ID" : "RPT_ASSIGNEDTRAININGSTATUS",
-							"ORDER" : 2,
-							"COLUMNSIZE" : 3
+							"O" : 2,
+							"CS" : 3
 						},
-						"WIDGET_3" : {
+						"W_3" : {
 							"ID" : "RPT_SESSIONSEATAVAILABILITY",
-							"ORDER" : 3,
-							"COLUMNSIZE" : 6
+							"O" : 3,
+							"CS" : 6
 						}                                            
 					},
 					"LINKS" : {
-						"LINK_1" : {
+						"L_1" : {
 							"ID" : "MYSESSIONS",
-							"ORDER" : 1
+							"O" : 1
 						},
-						"LINK_2" : {
+						"L_2" : {
 							"ID" : "CATALOGMANAGEMENT",
-							"ORDER" : 2
+							"O" : 2
 						},
-						"LINK_3" : {
+						"L_3" : {
 							"ID" : "EVENTS_SESSIONS",
-							"ORDER" : 3
+							"O" : 3
 						},
-						"LINK_4" : {
+						"L_4" : {
 							"ID" : "LEARNER_ADMIN",
-							"ORDER" : 4
+							"O" : 4
 						},
-						"LINK_5" : {
+						"L_5" : {
 							"ID" : "DASHBOARD",
-							"ORDER" : 5
+							"O" : 5
 						},
-						"LINK_6" : {
+						"L_6" : {
 							"ID" : "REPORTBUILDER",
-							"ORDER" : 6
+							"O" : 6
 						}
 					}
 				}
 			},
 			"TOPLINKS" : {
-				"LINK_1": {
+				"L_1": {
 					"ID": "SNAPSHOT",
-					"ORDER": 1
+					"O": 1
 				},
-				"LINK_2": {
+				"L_2": {
 					"ID": "SKILLSPROFILE",
-					"ORDER": 2
+					"O": 2
 				},
-				"LINK_3": {
+				"L_3": {
 					"ID": "FORMS",
-					"ORDER": 3
+					"O": 3
 				},
-				"LINK_4": {
+				"L_4": {
 					"ID": "ORGCHART",
-					"ORDER": 4
+					"O": 4
 				},
-				"LINK_5": {
+				"L_5": {
 					"ID": "REPORTS",
-					"ORDER": 5
+					"O": 5
 				}				
 			}
+		},
+		"ONB" : {
+			"TOPLINKS" : {
+				"L_1": {
+					"ID": "SNAPSHOT",
+					"O": 1
+				},
+				"L_2": {
+					"ID": "SKILLSPROFILE",
+					"O": 2
+				},
+				"L_3": {
+					"ID": "FORMS",
+					"O": 3
+				}
+			}			
 		}
 	}
 }];
