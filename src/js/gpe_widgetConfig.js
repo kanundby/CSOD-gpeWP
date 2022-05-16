@@ -69,17 +69,18 @@ const gpeWidgetConfig = [{
 					"W": {
 						"W_1": {
 							"ID": "INSPIRED_BY_SUBJECTS",
-							"O": 1,
+							"O": 2,
 							"CS": 3
 						},
 						"W_2": {
-							"ID": "TRENDING_FOR_JOB",
-							"O": 2,
+							// "ID": "TRENDING_FOR_JOB",
+							"ID": "NEW_TRAININGS",
+							"O": 3,
 							"CS": 3
 						},
 						"W_3": {
 							"ID": "TRAINING_METRICS",
-							"O": 3,
+							"O": 1,
 							"CS": 6
 						}
 					},					
@@ -189,7 +190,7 @@ const gpeWidgetConfig = [{
 				"EPM" : {
 					"CFG": {
 						"AVB": 1,
-						"O": 1,
+						"O": 2,
 						"TD" : "USR",
 					},
 					"W": {
@@ -244,7 +245,8 @@ const gpeWidgetConfig = [{
 					},
 					"W": {
 						"W_1": {
-							"ID": "INSPIRED_BY_SUBJECTS",
+							"ID": "NEW_TRAININGS",
+//							"ID": "INSPIRED_BY_SUBJECTS",
 							"O": 1,
 							"CS": 3
 						},
@@ -310,7 +312,7 @@ const gpeWidgetConfig = [{
 					},
 					"LINKS" : {
 						"L_1" : {
-							"ID" : "SKILLSMATRIX",
+							"ID" : "EXPRESSCLASS",
 							"O" : 1
 						},
 						"L_2" : {
@@ -322,7 +324,7 @@ const gpeWidgetConfig = [{
 							"O" : 3
 						},
 						"L_4" : {
-							"ID" : "VIEWDATA",
+							"ID" : "OJTOBS",
 							"O" : 4
 						},
 						"L_5" : {

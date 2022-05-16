@@ -12,6 +12,7 @@ import packageInfo from '../package.json';
 import gpe_globalSettings from ".//js/gpe_globalSettings.min.js";
 import gpe_widgetConfig from ".//js/gpe_widgetConfig.min.js";
 import gpe_approvalURLS from ".//js/gpe_approvalURLs.min.js";
+import gpe_newCCAConfig from ".//js/gpe_NewCCAConfig.min.js";
 
 const gpeWPversion = packageInfo.version;
   
@@ -82,6 +83,14 @@ function getDemoModules(elementArg) {
 	}
 	return usrModules;
 }
+
+function getDemoVertical(elementArg){
+	return elementArg.substring(
+		elementArg.indexOf("_") + 1, 
+		elementArg.lastIndexOf("_")
+	);
+}
+
 
 /**
  * Returns the users photo
@@ -976,6 +985,9 @@ async function getWidgetData_v2(moduleArg, demoRoleArg) {
 					case "TRENDING_FOR_JOB":
 						widgetPromisesArray.push(getTrendingForJob(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
+					case "NEW_TRAININGS":
+						widgetPromisesArray.push(getNewTrainings(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
+						break;
 					case "TRAINING_METRICS":
 						widgetPromisesArray.push(getTranscriptMetrics(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg].W[widget].ID, moduleArg));
 						break;
@@ -1553,28 +1565,219 @@ function checkJWT() {
 }
 
 
-async function test() {
+async function getLOIDs(loidArrArg) {
+	let promiseArray = [];
+	loidArrArg.map(async function (loID) {
+		// var urlStr = "/services/api/x/odata/api/views/vw_rpt_training?$select=lo_object_id&$filter=contains(lo_ref,'"+loID+"')";
+		var urlStr = "/services/api/x/odata/api/views/vw_rpt_training?&$filter=contains(lo_ref,'"+loID+"') and contains(lo_title, 'Mitarbeiter führen')";
+		promiseArray.push(fetch(urlStr, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + sessionStorage.csToken,
+				},
+			})
+			.then(response => response.json())
+			.then(async function (response) {
+				return await response.value[0];
+			}));
+	});
+	return await Promise.all(promiseArray);
+}
+
+async function getTrainingDetails(loidArrArg) {
+	let promiseArray = [];
+	loidArrArg.map(async function (loID) {
+		var urlStr = "/services/api/lms/trainingdetails?ids="+loID.lo_object_id+"&includeTranscriptDetails=true";
+		promiseArray.push(fetch(urlStr, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + sessionStorage.csToken,
+				},
+			})
+			.then(response => response.json())
+			.then(async function (response) {
+				return await response.data[0];
+			}));
+	});
+	return await Promise.all(promiseArray);
+}
+
+async function getNewTrainings(widgetArg, moduleArg) {
+	const tmpContentDiv = document.createElement("div");
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute("id", moduleArg + "-" + widgetArg);
+
 	return await checkJWT()
 	.then(async function () {
-		// /services/api/Login/Rules?corpName={CORPNAME}&userName={USERNAME}
-		//let url = "/v1/password-preferences/user/csanders@CS_en-US";
-		//let url = "/services/api/Login/SsoLoginUrl?corp=demogpe-development&user=csanders@CS_en-US";
-		let url = "/v1/users/csanders@CS_en-US/password"
-		return await fetch(url, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-		});
+		const gpe_newCCAConfig = JSON.parse(sessionStorage.gpeNewCCAConfig);
+		let csDemoVertical = JSON.parse(sessionStorage.csDemoVertical);
+
+		let ccaConfig = gpe_newCCAConfig[0][csDemoVertical][sessionStorage.csCulture];
+		let loRefArr = [];
+		Object.keys(ccaConfig).map(async function (item, value) {			
+			loRefArr.push(gpe_newCCAConfig[0][csDemoVertical][sessionStorage.csCulture][item]);
+		})
+		return await Promise.resolve(getLOIDs(loRefArr))
 	})
-	.then(response => response.json())
-	.then(async function (localStr) {
-		console.log(localStr);
-	})	
+	.then(async function (loIDReturnArr) {
+		return await Promise.resolve(getTrainingDetails(loIDReturnArr))
+	})
+	.then(async function(trainingDetailsReturn){
+		console.log(trainingDetailsReturn);
+		const localStr = trainingDetailsReturn;
+
+		let carouselMain = document.createElement("div");
+		carouselMain.className = "carousel slide";
+		carouselMain.setAttribute("id", widgetArg + "Carousel");
+		carouselMain.setAttribute("data-bs-ride", "carousel");
+		carouselMain.setAttribute("data-bs-interval", "false");
+		carouselMain.setAttribute("data-pause", "hover");
+
+		let carouselItems = document.createElement("div");
+		carouselItems.className = "carousel-inner";
+
+		let activeItem = "";
+		localStr.forEach(function (subjectItem, index) {
+			let carouselItem = document.createElement("div");
+			carouselItem.className = "carousel-item";
+			if (activeItem == "") {
+				carouselItem.className += " active";
+				activeItem = "active";
+			}
+
+			let carouselItemTile = document.createElement("div");
+			carouselItemTile.className = "carouselItemTile";
+			carouselItemTile.setAttribute("data-tag", subjectItem.id);
+			carouselItemTile.style.height = "225px";
+
+			let carouselItemPanel = document.createElement("div");
+			carouselItemPanel.className = "carouselItemPanel";
+			carouselItemPanel.setAttribute("data-tag", subjectItem.id);
+			carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
+
+			let carouselItemPanelC = document.createElement("div");
+
+			let carouselItemPanelItem = document.createElement("div");
+			carouselItemPanelItem.className = "carouselItemPanelItem";
+
+			let carouselItemPanelBody = document.createElement("div");
+			carouselItemPanelBody.className = "carouselItemPanelBody";
+
+			let carouselItemPanelD = document.createElement("div");
+
+			let carouselItemPanelTileBody = document.createElement("div");
+			carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
+
+			let carouselItemPanelTileLink = document.createElement("a");
+			carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
+			carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
+			carouselItemPanelTileLink.title = subjectItem.title;
+
+			let carouselItemPanelTileLinkThmb = document.createElement("div");
+			carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
+			carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
+			carouselItemPanelTileLinkThmb.style.height = "100%";
+			carouselItemPanelTileLinkThmb.style.overflow = "hidden";
+
+			carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
+			carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
+			carouselItemPanelD.appendChild(carouselItemPanelTileBody);
+			carouselItemPanelBody.appendChild(carouselItemPanelD);
+			carouselItemPanelItem.appendChild(carouselItemPanelBody);
+
+			let carouselItemPanelCourseDesc = document.createElement("div");
+			carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
+
+			let carouselItemPanelCourseDescDiv = document.createElement("div");
+			carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
+
+			let carouselItemPanelCourseDescDivType = document.createElement("span");
+			carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
+			carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
+			carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
+
+			let carouselItemPanelCourseDescDivTitle = document.createElement("a");
+			carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
+			carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
+			carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
+
+			let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+			carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
+			carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
+
+			let carouselItemPanelCourseDescD = document.createElement("div");
+			carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
+
+			let carouselItemPanelCourseDescTitleText = document.createElement("div");
+			carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
+			carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
+
+			let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+			carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
+
+			let carouselItemPanelCourseDescDuration = document.createElement("div");
+			carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
+			carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
+
+
+			carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
+			carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
+			carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
+			carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
+
+			carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
+			carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
+			carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
+
+			carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
+
+			carouselItemPanelC.appendChild(carouselItemPanelItem);
+			carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
+
+			carouselItemPanel.appendChild(carouselItemPanelC);
+
+			carouselItemTile.appendChild(carouselItemPanel);
+
+			carouselItem.appendChild(carouselItemTile);
+			carouselItems.appendChild(carouselItem);
+
+		});
+		carouselMain.appendChild(carouselItems);
+
+		let controlPrev = document.createElement("button");
+		controlPrev.className = "carousel-control-prev";
+		controlPrev.setAttribute("type", "button");
+		controlPrev.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
+		controlPrev.setAttribute("data-bs-slide", "prev");
+
+		let controlPrevIcon = document.createElement("span");
+		controlPrevIcon.className = "carousel-control-prev-icon";
+
+		let controlNext = document.createElement("button");
+		controlNext.className = "carousel-control-next";
+		controlNext.setAttribute("type", "button");
+		controlNext.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
+		controlNext.setAttribute("data-bs-slide", "next");
+
+		let controlNextIcon = document.createElement("span");
+		controlNextIcon.className = "carousel-control-next-icon";
+
+
+		controlPrev.appendChild(controlPrevIcon);
+		carouselMain.appendChild(controlPrev);
+
+		controlNext.appendChild(controlNextIcon);
+		carouselMain.appendChild(controlNext);
+
+		tmpContentDiv.appendChild(carouselMain);
+		return tmpContentDiv;
+	})
+	.catch(error => {
+		console.error("Error building getNewTrainings - ", error);
+	});
+	
 }
 
 async function testPasswd() {
@@ -1593,9 +1796,9 @@ async function testPasswd() {
 			headers: {
 				'Content-Type': 'application/json',
 				'x-csod-corp-id': '',
-				'x-csod-cloud-corp-id': '',
-				'x-csod-user-id': '',
-				'x-csod-default-culture-id':'',
+				'x-csod-cloud-corp-id': 'demogpe-development',
+				'x-csod-user-id': '39',
+				'x-csod-default-culture-id': '1',
 				'x-csod-authentication': sessionStorage.csToken,
 			},
 			body: JSON.stringify(payload)
@@ -1995,7 +2198,7 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 function operateFormatter(value, row, index) {
 	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
 	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
-	const csModules = getDemoModules(sessionStorage.getItem("csDemoModules"));
+	const csModules = JSON.parse(sessionStorage.getItem("csDemoModules"));
 	
 	let html = [];
 	html.push('<div class="dropdown">');
@@ -2004,6 +2207,9 @@ function operateFormatter(value, row, index) {
 	html.push('</a>');
 	html.push('<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">');
 	html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.openup[sessionStorage.csCulture] + '</a></li>');
+	if (csModules.includes("CHR")) {
+		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '&gpeForms=1">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.openforms[sessionStorage.csCulture] + '</a></li>');
+	}
 	if (csModules.includes("LMS")) {
 		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewtranscript[sessionStorage.csCulture] + '</a></li>');
 	}
@@ -3705,6 +3911,10 @@ async function renderGPEWireframe() {
 async function initUserData() {
 	const queryString = window.location.search; 						// get url query string
 	const urlParams = new URLSearchParams(queryString); 				// parse query string
+
+	let $body = $("body");
+	$body[0].style.setProperty('padding-top', '0px', 'important');
+
 	if(urlParams.has('gpewp') && (urlParams.get('gpewp') == "true")) {	// check if parameter exists
 		$(".widgetDropped").css({"display":"none"});					// hide the standard widgets
 		$("div[id*='ctl00_ContentPlaceHolder1_widgetLayout_mainDivRenderedWidgets']").css({"width":"100%"});
@@ -3736,6 +3946,7 @@ async function initUserData() {
 			let gpeDemoRole = customFieldsArr.find(item => item.id === 155);
 
 			sessionStorage.setItem("csDemoRole", JSON.stringify(getDemoRole(gpeDemoRole.value)));
+			sessionStorage.setItem("csDemoVertical", JSON.stringify(getDemoVertical(gpeDemoRole.value)));
 			sessionStorage.setItem("csDemoModules", JSON.stringify(getDemoModules(gpeDemoModules.value)));
 			sessionStorage.setItem("csDemoVisuals", gpeDemoBranding.value);
 			sessionStorage.setItem("csDemoName", JSON.stringify(gpeDemoName));
@@ -3759,6 +3970,7 @@ async function initUserData() {
 			return await checkJWT()
 			.then(async function () {
 				sessionStorage.setItem("csDemoRole", JSON.stringify(getDemoRole(document.getElementById("demopersona").getAttribute("demopersona"))));
+				sessionStorage.setItem("csDemoVertical", JSON.stringify(getDemoVertical(document.getElementById("demopersona").getAttribute("demopersona"))));
 				sessionStorage.setItem("csDemoModules", JSON.stringify(getDemoModules(document.getElementById("demomodules").getAttribute("demomodules"))));
 				sessionStorage.setItem("csDemoName", JSON.stringify(document.getElementById("demousername").getAttribute("demousername").split(';')));
 				sessionStorage.setItem("csDemoVisuals", document.getElementById("demovisuals").getAttribute("demovisuals"));
@@ -3806,7 +4018,7 @@ async function initUserData() {
 						'https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css',
 						'https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css',
 						'https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpefonts.min.css',
-						'https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpewp-dev.min.css'];
+						'https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpewp.min.css'];
 
 			for (let cssFile in cssArr) {
 				var link = document.createElement('link');
@@ -3886,9 +4098,6 @@ async function initUserData() {
 
 			link.href = gpeDEMOPERSONAIMAGE;
 			document.title = "CSOD Demo : " + JSON.parse(sessionStorage.getItem("csDemoRole"));
-
-			let $body = $("body");
-			$body[0].style.setProperty('padding-top', '0px', 'important');
 
 			// Checkins click events
 			$(".clickable-row").click(function () {
