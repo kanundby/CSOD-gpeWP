@@ -345,6 +345,7 @@ function buildNav(demoRoleArg, cultureArg, moduleArg) {
 			case "HRD":
 			case "INS":
 			case "ADM":
+			case "GPE":
 				buildExtendedModuleWidget(moduleArg, demoRoleArg);
 				topNavItmRole = buildExtraNavItem(demoRoleArg, cultureArg, "tab");
 				//topNavBtnUSR.classList.remove("active");
@@ -442,6 +443,117 @@ function buildExtraNavItem(demoRoleArg, cultureArg, toogleTypeArg) {
 	topNavItmRole.appendChild(topNavBtnRole);
 
 	return topNavItmRole;
+}
+
+async function parseGlobalSettings() {
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	
+	const languages = [
+		{"en-US": "EN-US"},
+		{"de-DE": "DE"},
+		{"en-UK": "EN-GB"},
+		{"es-ES": "ES"},
+		{"es-MX": "ES"},
+		{"fr-FR": "FR"},
+		{"it-IT": "IT"},
+		{"ja-JP": "JA"},
+		{"ko-KR": "EN-US"},
+		{"nl-NL": "NL"},
+		{"pt-BR": "PT-BR"},
+		{"sv-SE": "SV"},
+		{"zh-CN": "ZH"},
+		{"zh-Hant": "EN-US"}	
+	];
+
+	// Object.keys(gpeGlobalSettings[0].NAVIGATION).map(async function(item){
+	// 	languages.map(async function(lang){
+	// 		//gpeGlobalSettings[0].NAVIGATION[item][Object.keys(lang)] = gpeGlobalSettings[0].NAVIGATION[item]["en-US"];
+	// 		console.log(gpeGlobalSettings[0].NAVIGATION[item]["en-US"]);
+	// 		gpeGlobalSettings[0].NAVIGATION[item][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].NAVIGATION[item]["en-US"], Object.values(lang));
+	// 	})
+	// })
+
+	// Object.keys(gpeGlobalSettings[0].LINKS).map(async function(link, index, array){
+	// 	languages.map(async function(lang){
+	// 		//gpeGlobalSettings[0]["LINKS"][link].TITLE[Object.keys(lang)] = gpeGlobalSettings[0].LINKS[link].TITLE["en-US"];
+	// 		gpeGlobalSettings[0]["LINKS"][link].TITLE[Object.keys(lang)] = await translateText(gpeGlobalSettings[0].LINKS[link].TITLE["en-US"], Object.values(lang));
+	// 	})
+	// })	
+
+	// Object.keys(gpeGlobalSettings[0].MODULES).map(async function(item){
+	// 	if(item === "ROLESPECIFIC") {
+	// 		Object.keys(gpeGlobalSettings[0].MODULES["ROLESPECIFIC"]).map(async function(roleitem){
+	// 			languages.map(async function(lang){
+	// 				// gpeGlobalSettings[0].MODULES["ROLESPECIFIC"][roleitem].settings.moduletitle[Object.keys(lang)] = gpeGlobalSettings[0].MODULES["ROLESPECIFIC"][roleitem].settings.moduletitle["en-US"];
+	// 				gpeGlobalSettings[0].MODULES["ROLESPECIFIC"][roleitem].settings.moduletitle[Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MODULES["ROLESPECIFIC"][roleitem].settings.moduletitle["en-US"], Object.values(lang));
+	// 			})	
+	// 		})
+	// 	}else{
+	// 		languages.map(async function(lang){
+	// 			// gpeGlobalSettings[0].MODULES[item].settings.moduletitle[Object.keys(lang)] = gpeGlobalSettings[0].MODULES[item].settings.moduletitle["en-US"];
+	// 			gpeGlobalSettings[0].MODULES[item].settings.moduletitle[Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MODULES[item].settings.moduletitle["en-US"], Object.values(lang));
+	// 		})	
+	// 	}
+	// })	
+
+	// Object.keys(gpeGlobalSettings[0].W).map(async function(widget, index, array){
+	// 	languages.map(async function(lang){
+	// 		gpeGlobalSettings[0]["W"][widget].nocontenttitle[Object.keys(lang)] = gpeGlobalSettings[0].W[widget].nocontenttitle["en-US"];
+	// 		// gpeGlobalSettings[0]["W"][widget].title[Object.keys(lang)] = gpeGlobalSettings[0].W[widget].title["en-US"];
+	// 		gpeGlobalSettings[0]["W"][widget].title[Object.keys(lang)] = await translateText(gpeGlobalSettings[0].W[widget].title["en-US"], Object.values(lang));
+	// 	})
+	// })
+
+	// const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	Object.keys(gpeGlobalSettings[0].MANAGERWIDGET).map(async function(managerwidget, index, array){
+		switch(managerwidget){
+			case "title": 
+
+				languages.map(async function(lang){
+					// gpeGlobalSettings[0].MANAGERWIDGET.title[Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.title["en-US"];
+					gpeGlobalSettings[0].MANAGERWIDGET.title[Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.title["en-US"], Object.values(lang));
+				})
+			break;
+			case "tableheader":
+				Object.keys(gpeGlobalSettings[0].MANAGERWIDGET.tableheader).map(async function(tableitem){
+					languages.map(async function(lang){
+						// gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem][Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem]["en-US"];
+						gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem]["en-US"], Object.values(lang));
+					})
+				})
+			break;
+			case "detailtable":
+				Object.keys(gpeGlobalSettings[0].MANAGERWIDGET.detailtable).map(async function(detailitem){
+					languages.map(async function(lang){
+						// gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem][Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem]["en-US"];
+						gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem]["en-US"], Object.values(lang));
+					})
+				})				
+			break;
+			case "actionsitems":
+				Object.keys(gpeGlobalSettings[0].MANAGERWIDGET.actionsitems).map(async function(actionitem){
+					languages.map(async function(lang){
+						// gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem][Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem]["en-US"];
+						gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem]["en-US"], Object.values(lang));
+					})
+				})	
+			break;
+		}
+	})	
+	
+	//sessionStorage.gpeGlobalSettings = await JSON.stringify(gpeGlobalSettings)
+	return await gpeGlobalSettings;
+}
+
+async function translateText(textArg, targetLangArg){
+	// return textArg;
+	let url = "https://api-free.deepl.com/v2/translate?auth_key=39f02301-a407-e7b6-b590-f985a9122edf:fx&text="+textArg+"&target_lang="+targetLangArg;
+
+	return await fetch(url)
+	.then(response => response.json())
+	.then(async function (localStr) {
+		return await localStr.translations[0].text;
+	})	
 }
 
 /**
@@ -715,6 +827,7 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 	switch (demoRoleArg) {
 		case "INS":
 		case "ADM":
+		case "GPE":
 		case "HRD":
 		case "MGR":
 
@@ -847,7 +960,6 @@ async function buildWidgets_v2(moduleArg, demoRoleArg) {
 		widgetPromisesArray.push(getWidgetData_v2(widget, demoRoleArg));
 	});
 	return await Promise.all(widgetPromisesArray)
-		//	return await Promise.all( widgetPromisesArray )
 		.then(async function (widgetPromisesArrayComplete) {
 			return widgetPromisesArrayComplete.map(async function (widgetData, index) {
 				if (widgetData != null) {
@@ -923,33 +1035,51 @@ async function getExtendedWidgetData(demoRoleArg, moduleArg) {
 	let widgetPromisesArray = [];
 	if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.hasOwnProperty("EXT")) {
 		for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W) {
-			switch (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID) {
 
-				case "DIRECT_REPORTS":
-					widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
-					break;
-
-				case "RPT_TRAININGWITHDRAWALS":
-				case "RPT_ASSIGNEDTRAININGSTATUS":
-				case "RPT_SESSIONSEATAVAILABILITY":
-				case "RPT_PASTDUE":
-				case "RPT_EMPLOYEESTATUS":
-				case "RPT_USERRECORDBYMGR":
-				case "RPT_BADGELEADERBOARD":
-				case "RPT_TRAININGPROGRESSSUMMARY":
-				case "RPT_ORGGOALPROGRESS":
-				case "RPT_HEADCOUNT":
-					let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module;
-					if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
-						let reportID = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].reportid;
-
-						let tmpContentDiv = document.createElement("div");
-						tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID + " chart-container";
-						tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID);
-						widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
-					}
-					break;
+			if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID == "DIRECT_REPORTS") {
+				widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
 			}
+
+			if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID.includes("RPT_")) {
+				let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module;
+				if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
+					let reportID = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].reportid;
+
+					let tmpContentDiv = document.createElement("div");
+					tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID + " chart-container";
+					tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID);
+					widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
+				}		
+			}
+
+			// switch (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID) {
+
+			// 	case "DIRECT_REPORTS":
+			// 		widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
+			// 		break;
+
+			// 	case "RPT_TRAININGWITHDRAWALS":
+			// 	case "RPT_ASSIGNEDTRAININGSTATUS":
+			// 	case "RPT_SESSIONSEATAVAILABILITY":
+			// 	case "RPT_PASTDUE":
+			// 	case "RPT_EMPLOYEESTATUS":
+			// 	case "RPT_USERRECORDBYMGR":
+			// 	case "RPT_BADGELEADERBOARD":
+			// 	case "RPT_TRAININGPROGRESSSUMMARY":
+			// 	case "RPT_ORGGOALPROGRESS":
+			// 	case "RPT_GPE1":
+			// 	case "RPT_HEADCOUNT":
+			// 		let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module;
+			// 		if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
+			// 			let reportID = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].reportid;
+
+			// 			let tmpContentDiv = document.createElement("div");
+			// 			tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID + " chart-container";
+			// 			tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID);
+			// 			widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
+			// 		}
+			// 		break;
+			// }
 		}
 	}
 	return Promise.all(widgetPromisesArray);
@@ -1562,6 +1692,101 @@ function checkJWT() {
 			resolve(updateJWT());
 		}
 	});
+}
+
+async function test() {
+	// /services/api/TranscriptAndTask/Approval
+	// /services/x/corpsettings/v1/corpsettings
+	// /services/x/corpsettings/v1/systemevents/types
+	return await checkJWT()
+	.then(async function () {
+		// /services/api/Login/Rules?corpName={CORPNAME}&userName={USERNAME}
+// 		let url = "/services/api/Login/UpdatePassword";
+		//let url = "/services/api/Login/UpdatePassword?corpName=demogpe-development&userName=jstone@RPT";
+		// let url = "/services/api/TranscriptAndTask/Task?UserId=csanders@CS_en-US&Language=en-US"
+		let url = "/services/x/corpsettings/v1/corpsettings?keys=EnableManageCandidates";
+
+		return await fetch(url, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		});
+	})
+	.then(response => response.json())
+	.then(async function (localStr) {
+		console.log(localStr);
+	})	
+}
+
+
+
+async function getMachineLearningClusterInformation() {
+	// /services/api/TranscriptAndTask/Approval
+
+	return await checkJWT()
+	.then(async function () {
+		// /services/api/Login/Rules?corpName={CORPNAME}&userName={USERNAME}
+// 		let url = "/services/api/Login/UpdatePassword";
+		//let url = "/services/api/Login/UpdatePassword?corpName=demogpe-development&userName=jstone@RPT";
+		// let url = "/services/api/TranscriptAndTask/Task?UserId=csanders@CS_en-US&Language=en-US"
+		let url = "/services/x/machine-learning-prefs/v1/cluster-information?timeZoneId=28";
+
+		return await fetch(url, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+		});
+	})
+	.then(response => response.json())
+	.then(async function (localStr) {
+		console.log(localStr);
+	})	
+}
+
+
+
+
+
+async function createReq() {
+	let payload = {
+			"data":{
+				"record":[{
+					"JobRequisitionId":"11",
+					"UserId":"jedwards@CS_en-US",
+					"Status":"Offer Letter",
+					"MarkComplete":"false"
+				}]
+			}
+		};
+
+	return await checkJWT()
+	.then(async function () {
+		// /services/api/Login/Rules?corpName={CORPNAME}&userName={USERNAME}
+// 		let url = "/services/api/Login/UpdatePassword";
+		//let url = "/services/api/Login/UpdatePassword?corpName=demogpe-development&userName=jstone@RPT";
+		let url = "/services/api/Recruiting/JobApplicantUpdateStatus"
+		return await fetch(url, {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + sessionStorage.csToken,
+			},
+			body: JSON.stringify(payload)
+		});
+	})
+	.then(response => response.json())
+	.then(async function (localStr) {
+		console.log(localStr);
+	})	
 }
 
 
@@ -3849,7 +4074,7 @@ function toggleGPEwp() {
 }
 
 async function renderGPEWireframe() {
-	let roleArray = ["USR", "MGR", "HRD", "INS", "ADM", "REC"];
+	let roleArray = ["USR", "MGR", "HRD", "INS", "ADM", "REC", "GPE"];
 
 	let gpewp = document.createElement("div");
 	gpewp.className = "gpewp_container";
