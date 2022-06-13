@@ -1,12 +1,13 @@
 {
   "name": "gpewelcomepage",
-  "version": "1.1.2c",
+  "version": "1.2.7a",
   "description": "Cornerstone Hercules - Welcome Page Script",
   "main": "gpeWelcomePage.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d lib",
     "gtmbuild": "webpack --mode production",
+    "gtmdev": "webpack --mode development",
     "start": "http-server"
   },
   "author": "Klas Anundby",
@@ -16,8 +17,7 @@
     "@rcl2/primitives": "^0.6.4",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "core-js": "^3.19.1",
-    "regenerator-runtime": "^0.13.9"
+    "core-js": "^3.19.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-property-mutators": "^7.16.0",

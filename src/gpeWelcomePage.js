@@ -504,42 +504,146 @@ async function parseGlobalSettings() {
 	// 	})
 	// })
 
-	// const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
-	Object.keys(gpeGlobalSettings[0].MANAGERWIDGET).map(async function(managerwidget, index, array){
-		switch(managerwidget){
-			case "title": 
+	// Object.keys(gpeGlobalSettings[0].MANAGERWIDGET).map(async function(managerwidget, index, array){
+	// 	switch(managerwidget){
+	// 		case "title": 
 
-				languages.map(async function(lang){
-					// gpeGlobalSettings[0].MANAGERWIDGET.title[Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.title["en-US"];
-					gpeGlobalSettings[0].MANAGERWIDGET.title[Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.title["en-US"], Object.values(lang));
-				})
-			break;
-			case "tableheader":
-				Object.keys(gpeGlobalSettings[0].MANAGERWIDGET.tableheader).map(async function(tableitem){
-					languages.map(async function(lang){
-						// gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem][Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem]["en-US"];
-						gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem]["en-US"], Object.values(lang));
-					})
-				})
-			break;
-			case "detailtable":
-				Object.keys(gpeGlobalSettings[0].MANAGERWIDGET.detailtable).map(async function(detailitem){
-					languages.map(async function(lang){
-						// gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem][Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem]["en-US"];
-						gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem]["en-US"], Object.values(lang));
-					})
-				})				
-			break;
-			case "actionsitems":
-				Object.keys(gpeGlobalSettings[0].MANAGERWIDGET.actionsitems).map(async function(actionitem){
-					languages.map(async function(lang){
-						// gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem][Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem]["en-US"];
-						gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem]["en-US"], Object.values(lang));
-					})
-				})	
-			break;
+	// 			languages.map(async function(lang){
+	// 				// gpeGlobalSettings[0].MANAGERWIDGET.title[Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.title["en-US"];
+	// 				gpeGlobalSettings[0].MANAGERWIDGET.title[Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.title["en-US"], Object.values(lang));
+	// 			})
+	// 		break;
+	// 		case "tableheader":
+	// 			Object.keys(gpeGlobalSettings[0].MANAGERWIDGET.tableheader).map(async function(tableitem){
+	// 				languages.map(async function(lang){
+	// 					// gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem][Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem]["en-US"];
+	// 					gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.tableheader[tableitem]["en-US"], Object.values(lang));
+	// 				})
+	// 			})
+	// 		break;
+	// 		case "detailtable":
+	// 			Object.keys(gpeGlobalSettings[0].MANAGERWIDGET.detailtable).map(async function(detailitem){
+	// 				languages.map(async function(lang){
+	// 					// gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem][Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem]["en-US"];
+	// 					gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.detailtable[detailitem]["en-US"], Object.values(lang));
+	// 				})
+	// 			})				
+	// 		break;
+	// 		case "actionsitems":
+	// 			Object.keys(gpeGlobalSettings[0].MANAGERWIDGET.actionsitems).map(async function(actionitem){
+	// 				languages.map(async function(lang){
+	// 					// gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem][Object.keys(lang)] = gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem]["en-US"];
+	// 					gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem][Object.keys(lang)] = await translateText(gpeGlobalSettings[0].MANAGERWIDGET.actionsitems[actionitem]["en-US"], Object.values(lang));
+	// 				})
+	// 			})	
+	// 		break;
+	// 	}
+	// })	
+
+	// const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	languages.map(async function(lang){
+		gpeGlobalSettings[0].ONB[Object.keys(lang)] = {
+			"headertitle" : await translateText(gpeGlobalSettings[0].ONB["en-US"].headertitle, Object.values(lang)),
+			"headertext" : await translateText(gpeGlobalSettings[0].ONB["en-US"].headertext, Object.values(lang)),
+			"videourl" : gpeGlobalSettings[0].ONB["en-US"].videourl,
+			"onbprocess" :{
+				"title" : await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.title, Object.values(lang)),
+				"resourceTitle": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.resourceTitle, Object.values(lang)),
+				"imgurl": gpeGlobalSettings[0].ONB["en-US"].onbprocess.imgurl,
+				"textItem":{
+					"nextstepstext1":{
+					   "headline": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.headline, Object.values(lang)),
+					   "text" : await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.text, Object.values(lang)),
+					   "resources" : {
+							"res1":{
+								"text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res1.text, Object.values(lang)),
+								"url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res1.url,
+								"type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res1.type,
+							},
+							"res2":{
+								"text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res2.text, Object.values(lang)),
+								"url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res2.url,
+								"type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res2.type,
+							},
+							"res3":{
+								"text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res3.text, Object.values(lang)),
+								"url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res3.url,
+								"type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res3.type,
+							},	
+							"res4":{
+								"text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res3.text, Object.values(lang)),
+								"url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res3.url,
+								"type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext1.resources.res3.type,
+							},																   
+						}
+					},
+					"nextstepstext2":{
+						"headline": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.headline, Object.values(lang)),
+						"text" : await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.text, Object.values(lang)),
+						"resources" : {
+							 "res1":{
+								 "text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.resources.res1.text, Object.values(lang)),
+								 "url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.resources.res1.url,
+								 "type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.resources.res1.type,
+							 },
+							 "res2":{
+								 "text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.resources.res2.text, Object.values(lang)),
+								 "url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.resources.res2.url,
+								 "type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.resources.res2.type,
+							 },
+							 "res3":{
+								 "text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.resources.res3.text, Object.values(lang)),
+								 "url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.resources.res3.url,
+								 "type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext2.resources.res3.type,
+							 }														   
+						 }
+					 },
+					 "nextstepstext3":{
+						"headline": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.headline, Object.values(lang)),
+						"text" : await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.text, Object.values(lang)),
+						"resources" : {
+							 "res1":{
+								 "text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.resources.res1.text, Object.values(lang)),
+								 "url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.resources.res1.url,
+								 "type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.resources.res1.type,
+							 },
+							 "res2":{
+								 "text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.resources.res2.text, Object.values(lang)),
+								 "url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.resources.res2.url,
+								 "type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.resources.res2.type,
+							 },
+							 "res3":{
+								 "text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.resources.res3.text, Object.values(lang)),
+								 "url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.resources.res3.url,
+								 "type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext3.resources.res3.type,
+							 }															   
+						 }
+					 },
+					 "nextstepstext4":{
+						"headline": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.headline, Object.values(lang)),
+						"text" : await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.text, Object.values(lang)),
+						"resources" : {
+							 "res1":{
+								 "text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.resources.res1.text, Object.values(lang)),
+								 "url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.resources.res1.url,
+								 "type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.resources.res1.type,
+							 },
+							 "res2":{
+								 "text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.resources.res2.text, Object.values(lang)),
+								 "url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.resources.res2.url,
+								 "type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.resources.res2.type,
+							 },
+							 "res3":{
+								 "text": await translateText(gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.resources.res3.text, Object.values(lang)),
+								 "url": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.resources.res3.url,
+								 "type": gpeGlobalSettings[0].ONB["en-US"].onbprocess.textItem.nextstepstext4.resources.res3.type,
+							 }														   
+						 }
+					 }					 					 					
+				}
+			}
 		}
-	})	
+	})
 	
 	//sessionStorage.gpeGlobalSettings = await JSON.stringify(gpeGlobalSettings)
 	return await gpeGlobalSettings;
@@ -554,6 +658,36 @@ async function translateText(textArg, targetLangArg){
 	.then(async function (localStr) {
 		return await localStr.translations[0].text;
 	})	
+}
+
+async function translateTextString(textArg){
+	const languages = [
+		{"en-US": "EN-US"},
+		{"de-DE": "DE"},
+		{"en-UK": "EN-GB"},
+		{"es-ES": "ES"},
+		{"es-MX": "ES"},
+		{"fr-FR": "FR"},
+		{"it-IT": "IT"},
+		{"ja-JP": "JA"},
+		{"ko-KR": "EN-US"},
+		{"nl-NL": "NL"},
+		{"pt-BR": "PT-BR"},
+		{"sv-SE": "SV"},
+		{"zh-CN": "ZH"},
+		{"zh-Hant": "EN-US"}	
+	];
+
+	languages.map(async function(lang){
+		// return textArg;
+		let url = "https://api-free.deepl.com/v2/translate?auth_key=[DA-MOFO_AUTH-KEY-GOES-HERE]&text="+textArg+"&target_lang="+Object.values(lang);
+
+		return await fetch(url)
+		.then(response => response.json())
+		.then(async function (localStr) {
+			console.log('"'+ Object.keys(lang) +'" : "'+ localStr.translations[0].text+'",');
+		})	
+	})
 }
 
 /**
@@ -955,37 +1089,41 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
  * @returns
  */
 async function buildWidgets_v2(moduleArg, demoRoleArg) {
+
+	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
+	
 	let widgetPromisesArray = [];
 	moduleArg.forEach(function (widget) {
 		widgetPromisesArray.push(getWidgetData_v2(widget, demoRoleArg));
 	});
 	return await Promise.all(widgetPromisesArray)
-		.then(async function (widgetPromisesArrayComplete) {
-			return widgetPromisesArrayComplete.map(async function (widgetData, index) {
-				if (widgetData != null) {
-					widgetData.forEach(function (widget) {
-						if (widget != false) {
-							return generateHTMLWidget(
-								widget.id,
-								"12",
-								"widgetCard_" + widget.id,
-								"widgetWrapper_" + widget.id,
-								widget.id,
-								"cs_" + widget.id,
-								widget);
-						}
-					});
-				}
-			});
-		})
-		.then(async function (renderedWidgetsResp) {
-			$("canvas").each(function () {
-				var chart = Chart.getChart($(this).attr("id"));
-				chart.update();
-			});
-			return renderedWidgetsResp;
-		})
-		.catch(error => console.error("Error in getting widget data: " + error));
+	.then(async function (widgetPromisesArrayComplete) {
+		return widgetPromisesArrayComplete.map(async function (widgetData, index) {
+			if (widgetData != null) {
+				widgetData.forEach(function (widget, windex) {
+					if (widget != false) {
+						return generateHTMLWidget(
+							widget.id,
+							"12",
+							"widgetCard_" + widget.id,
+							"widgetWrapper_" + widget.id,
+							moduleArg[index]+"-"+cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[index]].W["W_"+windex].ID,
+							"cs_" + widget.id,
+							widget,
+							moduleArg[index]+"-"+cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS[moduleArg[index]].W["W_"+windex].ID);
+					}					
+				});
+			}
+		});
+	})
+	.then(async function (renderedWidgetsResp) {
+		$("canvas").each(function () {
+			var chart = Chart.getChart($(this).attr("id"));
+			chart.update();
+		});
+		return renderedWidgetsResp;
+	})
+	.catch(error => console.error("Error in getting widget data: " + error));
 }
 
 /**
@@ -1006,7 +1144,8 @@ async function buildExtendedWidgets(demoRoleArg, moduleArg) {
 						"widgetWrapper_" + widgetData.id,
 						widgetData.id,
 						"cs_" + widgetData.id,
-						widgetData);
+						widgetData,
+						widgetData.id);
 				} else {
 					return false;
 				}
@@ -1019,7 +1158,9 @@ async function buildExtendedWidgets(demoRoleArg, moduleArg) {
 			});
 			return renderedWidgetsResp;
 		})
-		.catch(error => console.error("Error in getting extended widget data: " + error));
+		.catch(error => {
+			console.error("Error in getting extended widget data: " + error)
+		} );
 }
 
 /**
@@ -1037,7 +1178,7 @@ async function getExtendedWidgetData(demoRoleArg, moduleArg) {
 		for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W) {
 
 			if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID == "DIRECT_REPORTS") {
-				widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
+				widgetPromisesArray.push(buildExtendedWidget_v4(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
 			}
 
 			if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID.includes("RPT_")) {
@@ -1051,35 +1192,6 @@ async function getExtendedWidgetData(demoRoleArg, moduleArg) {
 					widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
 				}		
 			}
-
-			// switch (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID) {
-
-			// 	case "DIRECT_REPORTS":
-			// 		widgetPromisesArray.push(buildExtendedWidget_v3(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
-			// 		break;
-
-			// 	case "RPT_TRAININGWITHDRAWALS":
-			// 	case "RPT_ASSIGNEDTRAININGSTATUS":
-			// 	case "RPT_SESSIONSEATAVAILABILITY":
-			// 	case "RPT_PASTDUE":
-			// 	case "RPT_EMPLOYEESTATUS":
-			// 	case "RPT_USERRECORDBYMGR":
-			// 	case "RPT_BADGELEADERBOARD":
-			// 	case "RPT_TRAININGPROGRESSSUMMARY":
-			// 	case "RPT_ORGGOALPROGRESS":
-			// 	case "RPT_GPE1":
-			// 	case "RPT_HEADCOUNT":
-			// 		let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module;
-			// 		if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
-			// 			let reportID = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].reportid;
-
-			// 			let tmpContentDiv = document.createElement("div");
-			// 			tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID + " chart-container";
-			// 			tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID);
-			// 			widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
-			// 		}
-			// 		break;
-			// }
 		}
 	}
 	return Promise.all(widgetPromisesArray);
@@ -1154,11 +1266,12 @@ async function getWidgetData_v2(moduleArg, demoRoleArg) {
  * @param {string} targetColDivIDArg - where to put the card. This ID need to exist in the HTML of the skeleton structure of the welcome page.
  * @param {string} contentDivClassArg - css class name of the content. This in order to be able to further style the card.
  * @param {object} widgetContentArg - main content of the card.
+ * @param {object} skeletontoHideArg - widget skeleton to hide.
  * @returns
  */
-async function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg) {
+async function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg, skeletontoHideArg) {
 
-	$("#" + widgetIDArg + " .wrapper").hide(); // Hide skeleton div
+	$("#" + skeletontoHideArg + " .wrapper").hide(); // Hide skeleton div					
 
 	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
 
@@ -2048,7 +2161,7 @@ async function get_training_approvals() {
 	// let url = "/services/api/TranscriptAndTask/Approval?UserId=csanders@CS_en-US";
 	// let url = "/services/api/TranscriptAndTask/Inbox?UserId=csanders@CS_en-US";
 	// let url = "/services/api/TranscriptAndTask/Inbox?UserId=csanders@CS_en-US&Language=en-US";
-	let url = "/employee/csanders@CS_en-US/approvals";
+	let url = "/services/api/x/users/v2/employees/129997";
 	return checkJWT()
 		.then(async function () {
 			return await fetch(url, {
@@ -2411,6 +2524,148 @@ async function buildExtendedWidget_v3(widgetArg, demoRoleArg) {
 		.catch(error => {
 			console.error("Error building buildExtendedWidget_v3 - ", error);
 		});
+}
+
+
+/**
+ * buildExtendedWidget_v4 - Builds an extended widget on the welcome page by retrieving data from a report (typically a shared report).
+ * @param {array} accessArrArg - Array of available navigation items which is based on user's security role (permissions).
+ * @param {string} appendDivArg - Where to put the card...
+ * @returns HTML table to be put on the welcome page
+ */
+ async function buildExtendedWidget_v4(widgetArg, demoRoleArg) {
+
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	const reportIDArg = 103;
+	const managerIDArg = "slin@HC_en-US";
+
+	let modEPMCAR = ["EPM", "CAR"];
+	let modLMS = ["LMS"];
+	let modATS = ["ATS"];
+	let modCHR = ["CHR"];
+
+	return await checkJWT()
+	.then(async function () {
+		// let rptUrl = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser + "&$select=user_id";
+		let rptUrl = "/services/api/x/odata/api/views/vw_rpt_user?$filter=user_mgr_id eq " + sessionStorage.csUser +" and user_status_id eq 1";
+		if(!sessionStorage.gpeDirectReports) {
+			await fetch(rptUrl, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + sessionStorage.csToken,
+				},
+			}).then(response => response.json())
+			.then(jsonData => sessionStorage.setItem("gpeDirectReports", JSON.stringify(jsonData)))
+			.catch(error => console.error("Error setting sessionStorage in buildExtendedWidget_v3 : " + error));				
+		}
+		return sessionStorage.gpeDirectReports;
+	})
+	.then(async function (gpeDirectReports) {
+		const userData = JSON.parse(gpeDirectReports);
+		return await userData.value.map(function (user) {
+			return user.user_id;
+		});
+	})	
+	.then(async function (userIDs) {
+		if(!sessionStorage.gpeDirectReportsDetails) {
+			return Promise.resolve(getUserDetails(userIDs))
+			.then(jsonData => sessionStorage.setItem("gpeDirectReportsDetails", JSON.stringify(jsonData)))
+			.catch(error => console.error("Error setting sessionStorage in buildExtendedWidget_v4 : " + error));				
+		}
+		return sessionStorage.gpeDirectReportsDetails;
+	})
+	.then(async function (gpeDirectReportsDetails) {
+		const userData = JSON.parse(sessionStorage.gpeDirectReportsDetails);
+		let emplData = userData.map(function (user) {
+			return {
+				id: user.Id,
+				firstName: user.FirstName,
+				lastName: user.LastName,
+				fullName: user.FirstName + " " + user.LastName,
+				username: user.userName,
+				primaryEmail: user.Email,
+				workPhone: user.WorkPhone,
+				// goalProgress: (user.goalprogress && user.goalprogress),
+				manager: user.Manager,
+				hiredate: user.LastHireDateLocal,
+				summary: user.Summary,
+				interests: user.Interests,
+				photo: user.ThumbImgUrl,
+				title: user.Title
+			};
+		});
+
+		let emplCols = [{
+				title: "User ID",
+				field: "id",
+				visible: false
+			},
+			{
+				title: "",
+				field: "userphoto",
+				align: "center",
+				formatter: imageFormatter
+			},
+			{
+				title: gpeGlobalSettings[0].MANAGERWIDGET.tableheader.name[sessionStorage.csCulture],
+				field: "fullName",
+				formatter: nameFormatter
+			},
+			// {
+			// 	title: cs_widgetConfig[0].managerwidget.tableheader.hiredate[sessionStorage.csCulture],
+			// 	field: "hiredate"
+			// },
+			{
+				title: gpeGlobalSettings[0].MANAGERWIDGET.tableheader.actions[sessionStorage.csCulture],
+				field: "action",
+				align: "center",
+				clickToSelect: false,
+				formatter: operateFormatter
+			}
+		];
+
+		//If user has access to Goal then add this as a column on manager widget.
+		// let goalCheck = accessArrArg.some(function(accessItem){ return accessItem.id == "Goals";});
+		// if(goalCheck) {
+
+		// emplCols.splice(3, 0, {
+		// 	title: "Goal Progress",
+		// 	field: "goalProgress",
+		// 	align: "center",
+		// });
+		// }
+
+		const tmpContentDiv = document.createElement("div");
+		tmpContentDiv.className = widgetArg;
+		tmpContentDiv.setAttribute("id", widgetArg);
+
+		var reportContentDiv = document.createElement("div");
+		// reportContentDiv.setAttribute( "id", "userReport" + reportIDArg ); // userReport51
+		reportContentDiv.setAttribute("id", "extendedUserWidget");
+		reportContentDiv.className = "user_table";
+
+		let $table;
+		$table = $("<table id='extendedUserTable'>");
+		$table.appendTo(reportContentDiv);
+		$table.bootstrapTable({
+			locale: sessionStorage.csCulture,
+			showColumns: false,
+			showColumnsSearch: false,
+			checkboxHeader: false,
+			showToggle: false,
+			detailView: false,
+			columns: emplCols,
+			data: emplData
+		});
+
+		tmpContentDiv.appendChild(reportContentDiv);
+
+		return tmpContentDiv;
+	})
+	.catch(error => {
+		console.error("Error building buildExtendedWidget_v4 - ", error);
+	});
 }
 
 /**
@@ -2845,169 +3100,7 @@ async function getAssignedTraining(widgetArg, moduleArg) {
 		.then(async function (assignedTrainingJson) {
 			const localStr = JSON.parse(assignedTrainingJson);
 
-			let carouselMain = document.createElement("div");
-			carouselMain.className = "carousel slide";
-			carouselMain.setAttribute("id", widgetArg + "Carousel");
-			carouselMain.setAttribute("data-bs-ride", "carousel");
-			carouselMain.setAttribute("data-bs-interval", "false");
-			carouselMain.setAttribute("data-pause", "hover");
-
-			let carouselIndicators = document.createElement("div");
-			carouselIndicators.className = "carousel-indicators";
-
-			let activeCarousel = "";
-			localStr.data.forEach(function (subjectItem, index) {
-				let carouselIndicator = document.createElement("button");
-				carouselIndicator.setAttribute("type", "button");
-				carouselIndicator.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-				carouselIndicator.setAttribute("data-bs-slide-to", index);
-				if (activeCarousel == "") {
-					carouselIndicator.className = "active";
-					activeCarousel = "active";
-				}
-				carouselIndicators.appendChild(carouselIndicator);
-			});
-
-			carouselMain.appendChild(carouselIndicators);
-
-			let carouselItems = document.createElement("div");
-			carouselItems.className = "carousel-inner";
-
-			let activeItem = "";
-			localStr.data.forEach(function (subjectItem, index) {
-				let carouselItem = document.createElement("div");
-				carouselItem.className = "carousel-item";
-				if (activeItem == "") {
-					carouselItem.className += " active";
-					activeItem = "active";
-				}
-
-				let carouselItemTile = document.createElement("div");
-				carouselItemTile.className = "carouselItemTile";
-				carouselItemTile.setAttribute("data-tag", subjectItem.id);
-				carouselItemTile.style.height = "225px";
-
-				let carouselItemPanel = document.createElement("div");
-				carouselItemPanel.className = "carouselItemPanel";
-				carouselItemPanel.setAttribute("data-tag", subjectItem.id);
-				carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
-
-				let carouselItemPanelC = document.createElement("div");
-
-				let carouselItemPanelItem = document.createElement("div");
-				carouselItemPanelItem.className = "carouselItemPanelItem";
-
-				let carouselItemPanelBody = document.createElement("div");
-				carouselItemPanelBody.className = "carouselItemPanelBody";
-
-				let carouselItemPanelD = document.createElement("div");
-
-				let carouselItemPanelTileBody = document.createElement("div");
-				carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
-
-				let carouselItemPanelTileLink = document.createElement("a");
-				carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
-				carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
-				carouselItemPanelTileLink.title = subjectItem.title;
-
-				let carouselItemPanelTileLinkThmb = document.createElement("div");
-				carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
-				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
-				carouselItemPanelTileLinkThmb.style.height = "100%";
-				carouselItemPanelTileLinkThmb.style.overflow = "hidden";
-
-				carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
-				carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
-				carouselItemPanelD.appendChild(carouselItemPanelTileBody);
-				carouselItemPanelBody.appendChild(carouselItemPanelD);
-				carouselItemPanelItem.appendChild(carouselItemPanelBody);
-
-				let carouselItemPanelCourseDesc = document.createElement("div");
-				carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
-
-				let carouselItemPanelCourseDescDiv = document.createElement("div");
-				carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
-
-				let carouselItemPanelCourseDescDivType = document.createElement("span");
-				carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
-				carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
-				carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
-
-				let carouselItemPanelCourseDescDivTitle = document.createElement("a");
-				carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
-				carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
-				carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
-
-				let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
-				carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
-				carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
-
-				let carouselItemPanelCourseDescD = document.createElement("div");
-				carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
-
-				let carouselItemPanelCourseDescTitleText = document.createElement("div");
-				carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
-				carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
-
-				let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
-				carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
-
-				// carouselItemPanelCourseDescDuration
-				let carouselItemPanelCourseDescDueDate = document.createElement("div");
-				carouselItemPanelCourseDescDueDate.className = "carouselItemPanelCourseDescDueDate";
-				carouselItemPanelCourseDescDueDate.innerHTML = subjectItem.dueDateString;
-
-				carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
-				carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
-				carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
-				carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
-
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDueDate);
-
-				carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
-
-				carouselItemPanelC.appendChild(carouselItemPanelItem);
-				carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
-
-				carouselItemPanel.appendChild(carouselItemPanelC);
-
-				carouselItemTile.appendChild(carouselItemPanel);
-
-				carouselItem.appendChild(carouselItemTile);
-				carouselItems.appendChild(carouselItem);
-
-			});
-			carouselMain.appendChild(carouselItems);
-
-			let controlPrev = document.createElement("button");
-			controlPrev.className = "carousel-control-prev";
-			controlPrev.setAttribute("type", "button");
-			controlPrev.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-			controlPrev.setAttribute("data-bs-slide", "prev");
-
-			let controlPrevIcon = document.createElement("span");
-			controlPrevIcon.className = "carousel-control-prev-icon";
-
-			let controlNext = document.createElement("button");
-			controlNext.className = "carousel-control-next";
-			controlNext.setAttribute("type", "button");
-			controlNext.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-			controlNext.setAttribute("data-bs-slide", "next");
-
-			let controlNextIcon = document.createElement("span");
-			controlNextIcon.className = "carousel-control-next-icon";
-
-
-			controlPrev.appendChild(controlPrevIcon);
-			carouselMain.appendChild(controlPrev);
-
-			controlNext.appendChild(controlNextIcon);
-			carouselMain.appendChild(controlNext);
-
-			tmpContentDiv.appendChild(carouselMain);
-			return tmpContentDiv;
+			return await buildCarousel(widgetArg, moduleArg, localStr)
 		})
 		.catch(error => {
 			console.error("Error building getAssignedTraining - ", error);
@@ -3015,10 +3108,6 @@ async function getAssignedTraining(widgetArg, moduleArg) {
 }
 
 async function getTrendingForJob(widgetArg, moduleArg) {
-	const tmpContentDiv = document.createElement("div");
-	tmpContentDiv.className = widgetArg;
-	tmpContentDiv.setAttribute("id", moduleArg + "-" + widgetArg);
-
 	return await checkJWT()
 		.then(async function () {
 			if(!sessionStorage.gpeTrendingForJob) {
@@ -3040,180 +3129,170 @@ async function getTrendingForJob(widgetArg, moduleArg) {
 		.then(async function (gpeTrendingForJob) {
 			const localStr = JSON.parse(gpeTrendingForJob);
 
-			let carouselMain = document.createElement("div");
-			carouselMain.className = "carousel slide";
-			carouselMain.setAttribute("id", widgetArg + "Carousel");
-			carouselMain.setAttribute("data-bs-ride", "carousel");
-			carouselMain.setAttribute("data-bs-interval", "false");
-			carouselMain.setAttribute("data-pause", "hover");
+			if(localStr.data.length === 0){
+				return await getTopPicks("TOP_PICKS", moduleArg);
+			}
 
-			// let carouselIndicators = document.createElement("div");
-			// carouselIndicators.className = "carousel-indicators";
-
-			// let activeCarousel = "";
-			// localStr.data.forEach(function(subjectItem, index){
-			// 	let carouselIndicator = document.createElement("button");
-			// 	carouselIndicator.setAttribute("type", "button");
-			// 	carouselIndicator.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
-			// 	carouselIndicator.setAttribute("data-bs-slide-to", index);
-			// 	if(activeCarousel == "") {
-			// 		carouselIndicator.className = "active";
-			// 		activeCarousel = "active";
-			// 	}
-			// 	carouselIndicators.appendChild(carouselIndicator);
-			// });
-
-			// carouselMain.appendChild(carouselIndicators);
-
-			let carouselItems = document.createElement("div");
-			carouselItems.className = "carousel-inner";
-
-			let activeItem = "";
-			localStr.data.forEach(function (subjectItem, index) {
-				let carouselItem = document.createElement("div");
-				carouselItem.className = "carousel-item";
-				if (activeItem == "") {
-					carouselItem.className += " active";
-					activeItem = "active";
-				}
-
-				let carouselItemTile = document.createElement("div");
-				carouselItemTile.className = "carouselItemTile";
-				carouselItemTile.setAttribute("data-tag", subjectItem.id);
-				carouselItemTile.style.height = "225px";
-
-				let carouselItemPanel = document.createElement("div");
-				carouselItemPanel.className = "carouselItemPanel";
-				carouselItemPanel.setAttribute("data-tag", subjectItem.id);
-				carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
-
-				let carouselItemPanelC = document.createElement("div");
-
-				let carouselItemPanelItem = document.createElement("div");
-				carouselItemPanelItem.className = "carouselItemPanelItem";
-
-				let carouselItemPanelBody = document.createElement("div");
-				carouselItemPanelBody.className = "carouselItemPanelBody";
-
-				let carouselItemPanelD = document.createElement("div");
-
-				let carouselItemPanelTileBody = document.createElement("div");
-				carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
-
-				let carouselItemPanelTileLink = document.createElement("a");
-				carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
-				carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
-				carouselItemPanelTileLink.title = subjectItem.title;
-
-				let carouselItemPanelTileLinkThmb = document.createElement("div");
-				carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
-				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
-				carouselItemPanelTileLinkThmb.style.height = "100%";
-				carouselItemPanelTileLinkThmb.style.overflow = "hidden";
-
-				carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
-				carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
-				carouselItemPanelD.appendChild(carouselItemPanelTileBody);
-				carouselItemPanelBody.appendChild(carouselItemPanelD);
-				carouselItemPanelItem.appendChild(carouselItemPanelBody);
-
-				let carouselItemPanelCourseDesc = document.createElement("div");
-				carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
-
-				let carouselItemPanelCourseDescDiv = document.createElement("div");
-				carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
-
-				let carouselItemPanelCourseDescDivType = document.createElement("span");
-				carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
-				carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
-				carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
-
-				let carouselItemPanelCourseDescDivTitle = document.createElement("a");
-				carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
-				carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
-				carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
-
-				let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
-				carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
-				carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
-
-				let carouselItemPanelCourseDescD = document.createElement("div");
-				carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
-
-				let carouselItemPanelCourseDescTitleText = document.createElement("div");
-				carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
-				carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
-
-				let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
-				carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
-
-				let carouselItemPanelCourseDescDuration = document.createElement("div");
-				carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
-				carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
-
-
-				carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
-				carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
-				carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
-				carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
-
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
-
-				carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
-
-				carouselItemPanelC.appendChild(carouselItemPanelItem);
-				carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
-
-				carouselItemPanel.appendChild(carouselItemPanelC);
-
-				carouselItemTile.appendChild(carouselItemPanel);
-
-				carouselItem.appendChild(carouselItemTile);
-				carouselItems.appendChild(carouselItem);
-
-			});
-			carouselMain.appendChild(carouselItems);
-
-			let controlPrev = document.createElement("button");
-			controlPrev.className = "carousel-control-prev";
-			controlPrev.setAttribute("type", "button");
-			controlPrev.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-			controlPrev.setAttribute("data-bs-slide", "prev");
-
-			let controlPrevIcon = document.createElement("span");
-			controlPrevIcon.className = "carousel-control-prev-icon";
-
-			let controlNext = document.createElement("button");
-			controlNext.className = "carousel-control-next";
-			controlNext.setAttribute("type", "button");
-			controlNext.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-			controlNext.setAttribute("data-bs-slide", "next");
-
-			let controlNextIcon = document.createElement("span");
-			controlNextIcon.className = "carousel-control-next-icon";
-
-
-			controlPrev.appendChild(controlPrevIcon);
-			carouselMain.appendChild(controlPrev);
-
-			controlNext.appendChild(controlNextIcon);
-			carouselMain.appendChild(controlNext);
-
-			tmpContentDiv.appendChild(carouselMain);
-			return tmpContentDiv;
+			return await buildCarousel(widgetArg, moduleArg, localStr)
 		})
 		.catch(error => {
 			console.error("Error building getTrendingForJob - ", error);
 		});
 }
 
-async function getInspiredBySubjects(widgetArg, moduleArg) {
+async function buildCarousel(widgetArg, moduleArg, localStr){
 	const tmpContentDiv = document.createElement("div");
 	tmpContentDiv.className = widgetArg;
 	tmpContentDiv.setAttribute("id", moduleArg + "-" + widgetArg);
 
+	let carouselMain = document.createElement("div");
+	carouselMain.className = "carousel slide";
+	carouselMain.setAttribute("id", widgetArg + "Carousel");
+	carouselMain.setAttribute("data-bs-ride", "carousel");
+	carouselMain.setAttribute("data-bs-interval", "false");
+	carouselMain.setAttribute("data-pause", "hover");
+
+	let carouselItems = document.createElement("div");
+	carouselItems.className = "carousel-inner";
+
+	let activeItem = "";
+	localStr.data.forEach(function (subjectItem, index) {
+		let carouselItem = document.createElement("div");
+		carouselItem.className = "carousel-item";
+		if (activeItem == "") {
+			carouselItem.className += " active";
+			activeItem = "active";
+		}
+
+		let carouselItemTile = document.createElement("div");
+		carouselItemTile.className = "carouselItemTile";
+		carouselItemTile.setAttribute("data-tag", subjectItem.id);
+		carouselItemTile.style.height = "225px";
+
+		let carouselItemPanel = document.createElement("div");
+		carouselItemPanel.className = "carouselItemPanel";
+		carouselItemPanel.setAttribute("data-tag", subjectItem.id);
+		carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
+
+		let carouselItemPanelC = document.createElement("div");
+
+		let carouselItemPanelItem = document.createElement("div");
+		carouselItemPanelItem.className = "carouselItemPanelItem";
+
+		let carouselItemPanelBody = document.createElement("div");
+		carouselItemPanelBody.className = "carouselItemPanelBody";
+
+		let carouselItemPanelD = document.createElement("div");
+
+		let carouselItemPanelTileBody = document.createElement("div");
+		carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
+
+		let carouselItemPanelTileLink = document.createElement("a");
+		carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
+		carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
+		carouselItemPanelTileLink.title = subjectItem.title;
+
+		let carouselItemPanelTileLinkThmb = document.createElement("div");
+		carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
+		carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
+		carouselItemPanelTileLinkThmb.style.height = "100%";
+		carouselItemPanelTileLinkThmb.style.overflow = "hidden";
+
+		carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
+		carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
+		carouselItemPanelD.appendChild(carouselItemPanelTileBody);
+		carouselItemPanelBody.appendChild(carouselItemPanelD);
+		carouselItemPanelItem.appendChild(carouselItemPanelBody);
+
+		let carouselItemPanelCourseDesc = document.createElement("div");
+		carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
+
+		let carouselItemPanelCourseDescDiv = document.createElement("div");
+		carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
+
+		let carouselItemPanelCourseDescDivType = document.createElement("span");
+		carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
+		carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
+		carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
+
+		let carouselItemPanelCourseDescDivTitle = document.createElement("a");
+		carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
+		carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
+		carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
+
+		let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+		carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
+		carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
+
+		let carouselItemPanelCourseDescD = document.createElement("div");
+		carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
+
+		let carouselItemPanelCourseDescTitleText = document.createElement("div");
+		carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
+		carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
+
+		let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+		carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
+
+		let carouselItemPanelCourseDescDuration = document.createElement("div");
+		carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
+		carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
+
+
+		carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
+		carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
+		carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
+		carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
+
+		carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
+		carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
+		carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
+
+		carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
+
+		carouselItemPanelC.appendChild(carouselItemPanelItem);
+		carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
+
+		carouselItemPanel.appendChild(carouselItemPanelC);
+
+		carouselItemTile.appendChild(carouselItemPanel);
+
+		carouselItem.appendChild(carouselItemTile);
+		carouselItems.appendChild(carouselItem);
+
+	});
+	carouselMain.appendChild(carouselItems);
+
+	let controlPrev = document.createElement("button");
+	controlPrev.className = "carousel-control-prev";
+	controlPrev.setAttribute("type", "button");
+	controlPrev.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
+	controlPrev.setAttribute("data-bs-slide", "prev");
+
+	let controlPrevIcon = document.createElement("span");
+	controlPrevIcon.className = "carousel-control-prev-icon";
+
+	let controlNext = document.createElement("button");
+	controlNext.className = "carousel-control-next";
+	controlNext.setAttribute("type", "button");
+	controlNext.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
+	controlNext.setAttribute("data-bs-slide", "next");
+
+	let controlNextIcon = document.createElement("span");
+	controlNextIcon.className = "carousel-control-next-icon";
+
+
+	controlPrev.appendChild(controlPrevIcon);
+	carouselMain.appendChild(controlPrev);
+
+	controlNext.appendChild(controlNextIcon);
+	carouselMain.appendChild(controlNext);
+
+	tmpContentDiv.appendChild(carouselMain);
+	return tmpContentDiv;	
+}
+
+async function getInspiredBySubjects(widgetArg, moduleArg) {
 	return await checkJWT()
 		.then(async function () {
 			if(!sessionStorage.gpeInspiredBySubjects) {
@@ -3235,169 +3314,7 @@ async function getInspiredBySubjects(widgetArg, moduleArg) {
 		.then(async function (gpeInspiredBySubjects) {
 			const localStr = JSON.parse(gpeInspiredBySubjects);
 
-			let carouselMain = document.createElement("div");
-			carouselMain.className = "carousel slide";
-			carouselMain.setAttribute("id", widgetArg + "Carousel");
-			carouselMain.setAttribute("data-bs-ride", "carousel");
-			carouselMain.setAttribute("data-bs-interval", "false");
-			carouselMain.setAttribute("data-pause", "hover");
-
-			// let carouselIndicators = document.createElement("div");
-			// carouselIndicators.className = "carousel-indicators";
-
-			// let activeCarousel = "";
-			// localStr.data.forEach(function(subjectItem, index){
-			// 	let carouselIndicator = document.createElement("button");
-			// 	carouselIndicator.setAttribute("type", "button");
-			// 	carouselIndicator.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
-			// 	carouselIndicator.setAttribute("data-bs-slide-to", index);
-			// 	if(activeCarousel == "") {
-			// 		carouselIndicator.className = "active";
-			// 		activeCarousel = "active";
-			// 	}
-			// 	carouselIndicators.appendChild(carouselIndicator);
-			// });
-
-			// carouselMain.appendChild(carouselIndicators);
-
-			let carouselItems = document.createElement("div");
-			carouselItems.className = "carousel-inner";
-
-			let activeItem = "";
-			localStr.data.forEach(function (subjectItem, index) {
-				let carouselItem = document.createElement("div");
-				carouselItem.className = "carousel-item";
-				if (activeItem == "") {
-					carouselItem.className += " active";
-					activeItem = "active";
-				}
-
-				let carouselItemTile = document.createElement("div");
-				carouselItemTile.className = "carouselItemTile";
-				carouselItemTile.setAttribute("data-tag", subjectItem.id);
-				carouselItemTile.style.height = "225px";
-
-				let carouselItemPanel = document.createElement("div");
-				carouselItemPanel.className = "carouselItemPanel";
-				carouselItemPanel.setAttribute("data-tag", subjectItem.id);
-				carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
-
-				let carouselItemPanelC = document.createElement("div");
-
-				let carouselItemPanelItem = document.createElement("div");
-				carouselItemPanelItem.className = "carouselItemPanelItem";
-
-				let carouselItemPanelBody = document.createElement("div");
-				carouselItemPanelBody.className = "carouselItemPanelBody";
-
-				let carouselItemPanelD = document.createElement("div");
-
-				let carouselItemPanelTileBody = document.createElement("div");
-				carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
-
-				let carouselItemPanelTileLink = document.createElement("a");
-				carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
-				carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
-				carouselItemPanelTileLink.title = subjectItem.title;
-
-				let carouselItemPanelTileLinkThmb = document.createElement("div");
-				carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
-				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
-				carouselItemPanelTileLinkThmb.style.height = "100%";
-				carouselItemPanelTileLinkThmb.style.overflow = "hidden";
-
-				carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
-				carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
-				carouselItemPanelD.appendChild(carouselItemPanelTileBody);
-				carouselItemPanelBody.appendChild(carouselItemPanelD);
-				carouselItemPanelItem.appendChild(carouselItemPanelBody);
-
-				let carouselItemPanelCourseDesc = document.createElement("div");
-				carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
-
-				let carouselItemPanelCourseDescDiv = document.createElement("div");
-				carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
-
-				let carouselItemPanelCourseDescDivType = document.createElement("span");
-				carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
-				carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
-				carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
-
-				let carouselItemPanelCourseDescDivTitle = document.createElement("a");
-				carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
-				carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
-				carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
-
-				let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
-				carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
-				carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
-
-				let carouselItemPanelCourseDescD = document.createElement("div");
-				carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
-
-				let carouselItemPanelCourseDescTitleText = document.createElement("div");
-				carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
-				carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
-
-				let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
-				carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
-
-				let carouselItemPanelCourseDescDuration = document.createElement("div");
-				carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
-				carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
-
-
-				carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
-				carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
-				carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
-				carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
-
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
-
-				carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
-
-				carouselItemPanelC.appendChild(carouselItemPanelItem);
-				carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
-
-				carouselItemPanel.appendChild(carouselItemPanelC);
-
-				carouselItemTile.appendChild(carouselItemPanel);
-
-				carouselItem.appendChild(carouselItemTile);
-				carouselItems.appendChild(carouselItem);
-
-			});
-			carouselMain.appendChild(carouselItems);
-
-			let controlPrev = document.createElement("button");
-			controlPrev.className = "carousel-control-prev";
-			controlPrev.setAttribute("type", "button");
-			controlPrev.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-			controlPrev.setAttribute("data-bs-slide", "prev");
-
-			let controlPrevIcon = document.createElement("span");
-			controlPrevIcon.className = "carousel-control-prev-icon";
-
-			let controlNext = document.createElement("button");
-			controlNext.className = "carousel-control-next";
-			controlNext.setAttribute("type", "button");
-			controlNext.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-			controlNext.setAttribute("data-bs-slide", "next");
-
-			let controlNextIcon = document.createElement("span");
-			controlNextIcon.className = "carousel-control-next-icon";
-
-
-			controlPrev.appendChild(controlPrevIcon);
-			carouselMain.appendChild(controlPrev);
-
-			controlNext.appendChild(controlNextIcon);
-			carouselMain.appendChild(controlNext);
-
-			tmpContentDiv.appendChild(carouselMain);
-			return tmpContentDiv;
+			return await buildCarousel(widgetArg, moduleArg, localStr);
 		})
 		.catch(error => {
 			console.error("Error building getInspiredBySubjects - ", error);
@@ -3405,10 +3322,6 @@ async function getInspiredBySubjects(widgetArg, moduleArg) {
 }
 
 async function getTopPicks(widgetArg, moduleArg) {
-	const tmpContentDiv = document.createElement("div");
-	tmpContentDiv.className = widgetArg;
-	tmpContentDiv.setAttribute("id", moduleArg + "-" + widgetArg);
-
 	return await checkJWT()
 		.then(async function () {
 			return await fetch("/services/api/lms/user/" + sessionStorage.csUser + "/recommendedtraining?type=TopPicks&pageSize=20&pageNum=1", {
@@ -3424,170 +3337,7 @@ async function getTopPicks(widgetArg, moduleArg) {
 		})
 		.then(response => response.json())
 		.then(async function (localStr) {
-
-			let carouselMain = document.createElement("div");
-			carouselMain.className = "carousel slide";
-			carouselMain.setAttribute("id", widgetArg + "Carousel");
-			carouselMain.setAttribute("data-bs-ride", "carousel");
-			carouselMain.setAttribute("data-bs-interval", "false");
-			carouselMain.setAttribute("data-pause", "hover");
-
-			// let carouselIndicators = document.createElement("div");
-			// carouselIndicators.className = "carousel-indicators";
-
-			// let activeCarousel = "";
-			// localStr.data.forEach(function(subjectItem, index){
-			// 	let carouselIndicator = document.createElement("button");
-			// 	carouselIndicator.setAttribute("type", "button");
-			// 	carouselIndicator.setAttribute("data-bs-target", "#"+widgetArg+"Carousel");
-			// 	carouselIndicator.setAttribute("data-bs-slide-to", index);
-			// 	if(activeCarousel == "") {
-			// 		carouselIndicator.className = "active";
-			// 		activeCarousel = "active";
-			// 	}
-			// 	carouselIndicators.appendChild(carouselIndicator);
-			// });
-
-			// carouselMain.appendChild(carouselIndicators);
-
-			let carouselItems = document.createElement("div");
-			carouselItems.className = "carousel-inner";
-
-			let activeItem = "";
-			localStr.data.forEach(function (subjectItem, index) {
-				let carouselItem = document.createElement("div");
-				carouselItem.className = "carousel-item";
-				if (activeItem == "") {
-					carouselItem.className += " active";
-					activeItem = "active";
-				}
-
-				let carouselItemTile = document.createElement("div");
-				carouselItemTile.className = "carouselItemTile";
-				carouselItemTile.setAttribute("data-tag", subjectItem.id);
-				carouselItemTile.style.height = "225px";
-
-				let carouselItemPanel = document.createElement("div");
-				carouselItemPanel.className = "carouselItemPanel";
-				carouselItemPanel.setAttribute("data-tag", subjectItem.id);
-				carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
-
-				let carouselItemPanelC = document.createElement("div");
-
-				let carouselItemPanelItem = document.createElement("div");
-				carouselItemPanelItem.className = "carouselItemPanelItem";
-
-				let carouselItemPanelBody = document.createElement("div");
-				carouselItemPanelBody.className = "carouselItemPanelBody";
-
-				let carouselItemPanelD = document.createElement("div");
-
-				let carouselItemPanelTileBody = document.createElement("div");
-				carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
-
-				let carouselItemPanelTileLink = document.createElement("a");
-				carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
-				carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
-				carouselItemPanelTileLink.title = subjectItem.title;
-
-				let carouselItemPanelTileLinkThmb = document.createElement("div");
-				carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
-				carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
-				carouselItemPanelTileLinkThmb.style.height = "100%";
-				carouselItemPanelTileLinkThmb.style.overflow = "hidden";
-
-				carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
-				carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
-				carouselItemPanelD.appendChild(carouselItemPanelTileBody);
-				carouselItemPanelBody.appendChild(carouselItemPanelD);
-				carouselItemPanelItem.appendChild(carouselItemPanelBody);
-
-				let carouselItemPanelCourseDesc = document.createElement("div");
-				carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
-
-				let carouselItemPanelCourseDescDiv = document.createElement("div");
-				carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
-
-				let carouselItemPanelCourseDescDivType = document.createElement("span");
-				carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
-				carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
-				carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
-
-				let carouselItemPanelCourseDescDivTitle = document.createElement("a");
-				carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
-				carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
-				carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
-
-				let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
-				carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
-				carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
-
-				let carouselItemPanelCourseDescD = document.createElement("div");
-				carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
-
-				let carouselItemPanelCourseDescTitleText = document.createElement("div");
-				carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
-				carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
-
-				let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
-				carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
-
-				let carouselItemPanelCourseDescDuration = document.createElement("div");
-				carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
-				carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
-
-
-				carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
-				carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
-				carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
-				carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
-
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
-				carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
-
-				carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
-
-				carouselItemPanelC.appendChild(carouselItemPanelItem);
-				carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
-
-				carouselItemPanel.appendChild(carouselItemPanelC);
-
-				carouselItemTile.appendChild(carouselItemPanel);
-
-				carouselItem.appendChild(carouselItemTile);
-				carouselItems.appendChild(carouselItem);
-
-			});
-			carouselMain.appendChild(carouselItems);
-
-			let controlPrev = document.createElement("button");
-			controlPrev.className = "carousel-control-prev";
-			controlPrev.setAttribute("type", "button");
-			controlPrev.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-			controlPrev.setAttribute("data-bs-slide", "prev");
-
-			let controlPrevIcon = document.createElement("span");
-			controlPrevIcon.className = "carousel-control-prev-icon";
-
-			let controlNext = document.createElement("button");
-			controlNext.className = "carousel-control-next";
-			controlNext.setAttribute("type", "button");
-			controlNext.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-			controlNext.setAttribute("data-bs-slide", "next");
-
-			let controlNextIcon = document.createElement("span");
-			controlNextIcon.className = "carousel-control-next-icon";
-
-
-			controlPrev.appendChild(controlPrevIcon);
-			carouselMain.appendChild(controlPrev);
-
-			controlNext.appendChild(controlNextIcon);
-			carouselMain.appendChild(controlNext);
-
-			tmpContentDiv.appendChild(carouselMain);
-			return tmpContentDiv;
+			return await buildCarousel(widgetArg, moduleArg, localStr);
 		})
 		.catch(error => {
 			console.error("Error building getInspiredBySubjects - ", error);
@@ -3754,9 +3504,67 @@ async function updateReportToken() {
 		});
 }
 
+async function fetchReportData(reportIDArg, managerIDArg) {
+	return await checkReportToken()
+	.then(async function () {
+		return await fetchReportManagerDirectReports(reportIDArg, managerIDArg);
+	})
+	.then(async function (reportJson) {
+		reportJson.data.shift();
+		managerReports = reportJson.data.map(function(report){
+			return report[0];
+		})
+		console.log(managerReports);
+	})
+}
+
 function fetchReport_v2(reportIDArg) {
 	var rptDataSet = {};
 	return fetch("/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
+		method: 'GET',
+		mode: 'cors',
+		cache: 'no-cache',
+		credentials: 'same-origin',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': sessionStorage.reportToken,
+		},
+	})
+	.then((response) => {
+		if (!response.ok) {
+			throw new Error("HTTP status " + response.status);
+		}
+		return response.json();
+	})
+	.then((reportDetailsResponse) => {
+
+		var payload = {
+			"filters": [],
+			"sorting": []
+		};
+		payload.filters = [...reportDetailsResponse.filters];
+		payload.sorting = [...reportDetailsResponse.sorting];
+
+		rptDataSet = reportDetailsResponse;
+
+		return fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
+			method: 'POST',
+			mode: 'cors',
+			cache: 'default',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': sessionStorage.reportToken
+			},
+			body: JSON.stringify(payload)
+		});
+	})
+	.then(getBodyAndStatus)
+	.then((metaresponse) => {
+		return metaresponse.body.location;
+	})
+	.then((reportLocation) => {
+		return fetch("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, {
 			method: 'GET',
 			mode: 'cors',
 			cache: 'no-cache',
@@ -3766,115 +3574,150 @@ function fetchReport_v2(reportIDArg) {
 				'Authorization': sessionStorage.reportToken,
 			},
 		})
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error("HTTP status " + response.status);
+		.then((result) => {
+			if(result.status !== 204){
+				return result;
+			}else {
+				return getAsyncResult("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, 200, 100).then(queryResult => {
+					return queryResult;
+					});
 			}
-			return response.json();
-		})
-		.then((reportDetailsResponse) => {
-
-			var payload = {
-				"filters": [],
-				"sorting": []
-			};
-			payload.filters = [...reportDetailsResponse.filters];
-			payload.sorting = [...reportDetailsResponse.sorting];
-
-			rptDataSet = reportDetailsResponse;
-
-			return fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
-				method: 'POST',
-				mode: 'cors',
-				cache: 'default',
-				credentials: 'same-origin',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': sessionStorage.reportToken
-				},
-				body: JSON.stringify(payload)
-			});
-		})
-		.then(getBodyAndStatus)
-		.then((metaresponse) => {
-            return metaresponse.body.location;
-        })
-        .then((reportLocation) => {
-			return fetch("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, {
-				method: 'GET',
-				mode: 'cors',
-				cache: 'no-cache',
-				credentials: 'same-origin',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': sessionStorage.reportToken,
-				},
-			})
-            .then((result) => {
-                if(result.status !== 204){
-                    return result;
-                }else {
-                    return getAsyncResult("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, 200, 100).then(queryResult => {
-                        return queryResult;
-                      });
-                }
-            });
-        })
-		.then(reportdata => reportdata.json())
-		.then(finalData => {
-            return [finalData, rptDataSet];
-		})
-		.catch(error => {
-			console.error("Error with fetchReport function - ", error);
 		});
+	})
+	.then(reportdata => reportdata.json())
+	.then(finalData => {
+		return [finalData, rptDataSet];
+	})
+	.catch(error => {
+		console.error("Error with fetchReport function - ", error);
+	});
+}
+
+async function fetchReportManagerDirectReports(reportIDArg, valueArg) {
+	var rptDataSet = {};
+	return fetch("/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
+		method: 'GET',
+		mode: 'cors',
+		cache: 'no-cache',
+		credentials: 'same-origin',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': sessionStorage.reportToken,
+		},
+	})
+	.then((response) => {
+		if (!response.ok) {
+			throw new Error("HTTP status " + response.status);
+		}
+		return response.json();
+	})
+	.then((reportDetailsResponse) => {
+
+		var payload = {
+			"filters": [],
+			"sorting": []
+		};
+		payload.filters = [...reportDetailsResponse.filters];
+		payload.sorting = [...reportDetailsResponse.sorting];
+
+		payload.filters[0].values[0].value = valueArg;
+
+		console.log(payload.filters);
+
+		rptDataSet = reportDetailsResponse;
+
+		return fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
+			method: 'POST',
+			mode: 'cors',
+			cache: 'default',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': sessionStorage.reportToken
+			},
+			body: JSON.stringify(payload)
+		});
+	})
+	.then(getBodyAndStatus)
+	.then((metaresponse) => {
+		return metaresponse.body.location;
+	})
+	.then((reportLocation) => {
+		return fetch("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'no-cache',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': sessionStorage.reportToken,
+			},
+		})
+		.then((result) => {
+			if(result.status !== 204){
+				return result;
+			}else {
+				return getAsyncResult("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, 200, 100).then(queryResult => {
+					return queryResult;
+					});
+			}
+		});
+	})
+	.then(reportdata => reportdata.json())
+	.then(finalData => {
+		return finalData;
+	})
+	.catch(error => {
+		console.error("Error with fetchReport function - ", error);
+	});
 }
 
 function getBodyAndStatus(response) {
 	return response.json().then(responseBody => {
-        return {
+		return {
 		status: response.status,
 		body: responseBody
-	  };
+		};
 	});
-  }
+}
 
-  function getAsyncResult(url, timeout, maxAttempt) {
-    return new Promise((resolve, reject) => {
-      // start monitoring after timeout
-      setTimeout(() => {
-        repeatUntilSuccess(resolve, reject, 0);
-      }, timeout);
-    });
+function getAsyncResult(url, timeout, maxAttempt) {
+	return new Promise((resolve, reject) => {
+		// start monitoring after timeout
+		setTimeout(() => {
+		repeatUntilSuccess(resolve, reject, 0);
+		}, timeout);
+	});
   
-    function repeatUntilSuccess(resolve, reject, attempt) {
-      fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': sessionStorage.reportToken,
-            },
-        })
-        .then(result => {
-          if (result.status === 200) {
-            resolve(result);
-          } else if (attempt >= maxAttempt) {
-            reject("Max amount of attempt achived");
-          } else if (result.status === 204) {
-              // Check again after timeout
-            setTimeout(() => {
-              repeatUntilSuccess(resolve, reject, attempt + 1);
-            }, timeout);
-          } else {
-            // Something went wrong
-            reject(result);
-          }
-        })
-        .catch(err => reject(err));
-    }
-  }
+	function repeatUntilSuccess(resolve, reject, attempt) {
+		fetch(url, {
+		method: 'GET',
+		mode: 'cors',
+		cache: 'no-cache',
+		credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': sessionStorage.reportToken,
+			},
+		})
+		.then(result => {
+			if (result.status === 200) {
+			resolve(result);
+			} else if (attempt >= maxAttempt) {
+			reject("Max amount of attempt achived");
+			} else if (result.status === 204) {
+				// Check again after timeout
+			setTimeout(() => {
+				repeatUntilSuccess(resolve, reject, attempt + 1);
+			}, timeout);
+			} else {
+			// Something went wrong
+			reject(result);
+			}
+		})
+		.catch(err => reject(err));
+	}
+}
 
 /**
  *
@@ -4242,8 +4085,8 @@ async function initUserData() {
 			let cssArr = ['https://unpkg.com/css-skeletons@1.0.5/css/css-skeletons.min.css',
 						'https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css',
 						'https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css',
-						'https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpefonts.min.css',
-						'https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpewp.min.css'];
+						'https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpefonts.min.css?v'+gpeWPversion,
+						'https://scfiles.csod.com/Baseline/Config/CSS/gpeWelcomePage/gpewp.min.css?v'+gpeWPversion];
 
 			for (let cssFile in cssArr) {
 				var link = document.createElement('link');

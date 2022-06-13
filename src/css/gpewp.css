@@ -893,6 +893,28 @@ p[_ngcontent-nml-c376] {
     grid-area: gpewp_REC-dashboards
 }
 
+.gpewp_GPE {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 0 0;
+    grid-auto-flow: row;
+    grid-template-areas: "gpewp_GPE-right""gpewp_GPE-dashboards";
+    grid-area: gpewp_GPE
+}
+
+.gpewp_GPE-left {
+    grid-area: gpewp_GPE-left
+}
+
+.gpewp_GPE-right {
+    grid-area: gpewp_GPE-right
+}
+
+.gpewp_GPE-dashboards {
+    grid-area: gpewp_GPE-dashboards
+}
+
 div#gpewp-main div[class*=gpewp_] table a:not(.btn) {
     color: var(--gpewp-brand-color--primary) !important;
     text-decoration: none !important
@@ -1606,6 +1628,14 @@ a.c-search-icon {
     margin-top: 20px
 }
 
+.gpeWelcomePageModules {
+    font-size: 12px !important;
+}
+
+.cso-text-bold {
+    font-weight: 700 !important;
+}
+
 .moduleWidget .card-header {
     padding-left: 10px
 }
@@ -1644,8 +1674,19 @@ h3.moduleTitle {
 }
 
 .TRAINING_METRICS .summaryItem {
-    padding-top: 30px;
-    height: 100px
+    padding-top: 20px;
+    height: 110px;
+	margin-top: 10px;
+
+}
+
+#widgetCard_LMS-TRAINING_METRICSwidget .card-body {
+    margin-top: 0px;
+    padding: 0px 25px 0px 25px;
+}
+
+div#LMS-TRAINING_METRICS.TRAINING_METRICS {
+	padding: 20px;
 }
 
 .ATS .cso-split-table {
@@ -1856,6 +1897,33 @@ div#cs_report .card canvas {
     --bs-table-accent-bg: #ffffff;
 }  
 
+/* Scrollbars on widgets becoming too big */
+.DIRECT_REPORTS::-webkit-scrollbar,
+.CHECKINS::-webkit-scrollbar {
+	width: 20px;
+}
+
+.DIRECT_REPORTS::-webkit-scrollbar-track,
+.CHECKINS::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+.DIRECT_REPORTS::-webkit-scrollbar-thumb,
+.CHECKINS::-webkit-scrollbar-thumb {
+	background-color: #d6dee1;
+	border-radius: 20px;
+	border: 6px solid transparent;
+	background-clip: content-box;
+}
+.DIRECT_REPORTS::-webkit-scrollbar-thumb:hover,
+.CHECKINS::-webkit-scrollbar-thumb:hover {
+	background-color: #a8bbbf;
+}
+.DIRECT_REPORTS,
+.CHECKINS {
+	max-height: 240px !important;
+	overflow: auto !important;
+}
+
 span[style='white-space:pre'] {
     display: none !important;
 }
@@ -1921,7 +1989,8 @@ span[style='white-space:pre'] {
     .gpewp_ADM,
     .gpewp_INS,
     .gpewp_REC,
-    .gpewp_HRD {
+    .gpewp_HRD,
+	.gpewp_GPE {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
     }
 

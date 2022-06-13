@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"MinifyAll.minifyOnSaveToNewFile": true,
+		"MinifyAll.disableHtml": true
+	}
+}

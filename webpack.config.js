@@ -81,7 +81,8 @@ module.exports = {
     stats: {
         colors: true,
         env: true,
-        ids: true
+        ids: true,
+		logging: 'warn'
 
     }
     // devtool: 'source-map'
