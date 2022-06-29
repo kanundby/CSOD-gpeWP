@@ -607,7 +607,34 @@ if (!sessionStorage.gpeGlobalSettings) {
 				 "CS":2,
 				 "MODULE":[
 					"EPM",
-					"CAR"
+					"CAR",
+					"LMS"
+				 ]
+			  },
+			  "MYCHECKLISTS":{
+				 "TITLE":{
+					"en-US":"My Checklists",
+					"en-UK":"My Checklists",
+					"de-DE":"-",
+					"es-ES":"-",
+					"nl-NL":"-",
+					"zh-CN":"-",
+					"it-IT":"-",
+					"pt-BR":"-",
+					"sv-SE":"Mina Checklistor",
+					"es-MX":"-",
+					"ja-JP":"-",
+					"ko-KR":"-",
+					"fr-FR":"-",
+					"zh-Hant":"-"
+				 },
+				 "URL":"/EPM/POC/MyChecklist.aspx",
+				 "ICON":"svg/Perf-35.svg",
+				 "CS":2,
+				 "MODULE":[
+					"EPM",
+					"CAR",
+					"LMS"
 				 ]
 			  },
 			  "SKILLSMATRIX":{
@@ -776,9 +803,33 @@ if (!sessionStorage.gpeGlobalSettings) {
 				 "ICON":"svg/Perf-24.svg",
 				 "CS":2,
 				 "MODULE":[
-					"ATS"
+					"EPM"
 				 ]
 			  },
+			  "TEAMGOALS":{
+				"TITLE":{
+				   "en-US":"Team Goals",
+				   "en-UK":"Team Goals",
+				   "de-DE":"Team Goals",
+				   "nl-NL":"Team Goals",
+				   "fr-FR":"Team Goals",
+				   "es-ES":"Team Goals",
+				   "it-IT":"Team Goals",
+				   "sv-SE":"Team Goals",
+				   "ja-JP":"Team Goals",
+				   "pt-BR":"Team Goals",
+				   "ko-KR":"Team Goals",
+				   "es-MX":"Team Goals",
+				   "zh-CN":"Team Goals",
+				   "zh-Hant":"Team Goals"
+				},
+				"URL":"/phnx/driver.aspx?routename=Goals/TeamGoals",
+				"ICON":"svg/Perf-3.svg",
+				"CS":2,
+				"MODULE":[
+				   "EPM"
+				]
+			 },			  
 			  "VIEWPEOPLE":{
 				 "TITLE":{
 					"en-US":"View People",
@@ -1429,7 +1480,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				 ]
 			  }
 		   },
-		   "W":{
+		   "W":{			
 			  "EPM-DEVPLAN_PROGRESS":{
 				 "width":12,
 				 "targetdiv":"EPM-DEVPLAN_PROGRESS",
@@ -1473,6 +1524,46 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"CAR"
 				 ]
 			  },
+			  "PORTALDETAILS":{
+				"width":12,
+				"targetdiv":"PORTALDETAILS",
+				"skeletoncss":"skeleton-list",
+				"url":"#",
+				"title":{
+				   "en-US":"Portal Details",
+				   "en-UK":"Portal Details",
+				   "de-DE":"Portal Details",
+				   "sv-SE":"Portal Details",
+				   "nl-NL":"Portal Details",
+				   "ja-JP":"Portal Details",
+				   "fr-FR":"Portal Details",
+				   "es-ES":"Portal Details",
+				   "pt-BR":"Portal Details",
+				   "ko-KR":"Portal Details",
+				   "es-MX":"Portal Details",
+				   "zh-CN":"Portal Details",
+				   "zh-Hant":"Portal Details",
+				   "it-IT":"Portal Details"
+				},
+				"nocontenttitle":{
+				   "en-US" : "",
+				   "en-UK" : "",
+				   "ko-KR" : "",
+				   "nl-NL" : "",
+				   "sv-SE" : "",
+				   "de-DE" : "",
+				   "fr-FR" : "",
+				   "zh-Hant" : "",
+				   "ja-JP" : "",
+				   "zh-CN" : "",
+				   "it-IT" : "",
+				   "es-ES" : "",
+				   "es-MX" : "",
+				   "pt-BR" : "",
+				},
+				"getstartedurl":"#",
+				"module":["CORE"]
+			 },			  
 			  "EPM-GOAL_PROGRESS":{
 				 "width":12,
 				 "targetdiv":"EPM-GOAL_PROGRESS",
@@ -2081,7 +2172,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				 "width":12,
 				 "targetdiv":"RPT_HEADCOUNT",
 				 "skeletoncss":"skeleton-chart-columns",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/29",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"Headcount Report",
 					"en-UK":"Headcount Report",
@@ -2124,7 +2215,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				 "width":12,
 				 "targetdiv":"RPT_ORGGOALPROGRESS",
 				 "skeletoncss":"skeleton-circle",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/3",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"Goal Progress Report",
 					"en-UK":"Goal Progress Report",
@@ -2158,16 +2249,14 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":""
 				 },
 				 "getstartedurl":"#",
-				 "module":[
-					"EPM"
-				 ],
+				 "module":["EPM"],
 				 "reportid":3
 			  },
 			  "RPT_TRAININGPROGRESSSUMMARY":{
 				 "width":12,
 				 "targetdiv":"RPT_TRAININGPROGRESSSUMMARY",
 				 "skeletoncss":"skeleton-circle",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/46",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"Training Progress Summary",
 					"en-UK":"Training Progress Summary",
@@ -2201,16 +2290,14 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":""
 				 },
 				 "getstartedurl":"#",
-				 "module":[
-					"LMS"
-				 ],
+				 "module":["LMS"],
 				 "reportid":46
 			  },
 			  "RPT_USERRECORDBYMGR":{
 				 "width":12,
 				 "targetdiv":"RPT_USERRECORDBYMGR",
 				 "skeletoncss":"skeleton-circle",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/50",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"User Record Report",
 					"en-UK":"User Record Report",
@@ -2253,7 +2340,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				 "width":12,
 				 "targetdiv":"RPT_BADGELEADERBOARD",
 				 "skeletoncss":"skeleton-chart-columns",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/12",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"Badge Leaderboard",
 					"en-UK":"Badge Leaderboard",
@@ -2295,7 +2382,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				 "width":12,
 				 "targetdiv":"RPT_EMPLOYEESTATUS",
 				 "skeletoncss":"skeleton-circle",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/59",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"Employee Status Report",
 					"en-UK":"Employee Status Report",
@@ -2338,7 +2425,7 @@ if (!sessionStorage.gpeGlobalSettings) {
 				 "width":12,
 				 "targetdiv":"RPT_PASTDUE",
 				 "skeletoncss":"skeleton-circle",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/47",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"Past Due Report",
 					"en-UK":"Past Due Report",
@@ -2372,16 +2459,14 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":""
 				 },
 				 "getstartedurl":"#",
-				 "module":[
-					"LMS"
-				 ],
+				 "module":["LMS"],
 				 "reportid":47
 			  },
 			  "RPT_ASSIGNEDTRAININGSTATUS":{
 				 "width":12,
 				 "targetdiv":"RPT_ASSIGNEDTRAININGSTATUS",
 				 "skeletoncss":"skeleton-circle",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/14",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"Assigned Training status",
 					"en-UK":"Assigned Training status",
@@ -2415,16 +2500,14 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":""
 				 },
 				 "getstartedurl":"#",
-				 "module":[
-					"LMS"
-				 ],
+				 "module":["LMS"],
 				 "reportid":14
 			  },
 			  "RPT_SESSIONSEATAVAILABILITY":{
 				 "width":12,
 				 "targetdiv":"RPT_SESSIONSEATAVAILABILITY",
 				 "skeletoncss":"skeleton-circle",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/60",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"Session Seat Availability Report",
 					"en-UK":"Session Seat Availability Report",
@@ -2458,16 +2541,14 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":""
 				 },
 				 "getstartedurl":"#",
-				 "module":[
-					"LMS"
-				 ],
+				 "module":["LMS"],
 				 "reportid":60
 			  },
 			  "RPT_TRAININGWITHDRAWALS":{
 				 "width":12,
 				 "targetdiv":"RPT_TRAININGWITHDRAWALS",
 				 "skeletoncss":"skeleton-circle",
-				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer/30",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
 				 "title":{
 					"en-US":"Training Withdrawals",
 					"en-UK":"Training Withdrawals",
@@ -2501,10 +2582,49 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":""
 				 },
 				 "getstartedurl":"#",
-				 "module":[
-					"LMS"
-				 ],
+				 "module":["LMS"],
 				 "reportid":30
+			  },
+			  "RPT_PRDISTRIBUTION":{
+				 "width":12,
+				 "targetdiv":"RPT_PRDISTRIBUTION",
+				 "skeletoncss":"skeleton-circle",
+				 "url":"/Analytics/ReportBuilder/index.aspx?tab_page_id=-880000#/viewer",
+				 "title":{
+					"en-US":"Performance Review distribution",
+					"en-UK":"Performance Review distribution",
+					"de-DE":"Verteilung der Leistungsüberprüfung",
+					"fr-FR":"Distribution de l'examen des performances",
+					"nl-NL":"Verdeling van de prestatiebeoordeling",
+					"it-IT":"Distribuzione della valutazione delle prestazioni",
+					"es-ES":"Distribución de la revisión del rendimiento",
+					"pt-BR":"Distribuição da Performance Review",
+					"sv-SE":"Fördelning av resultatbedömningar",
+					"zh-CN":"绩效审查分配",
+					"ko-KR":"Performance Review distribution",
+					"es-MX":"Distribución de la revisión del rendimiento",
+					"zh-Hant":"Performance Review distribution",
+					"ja-JP":"パフォーマンスレビュー配信"
+				 },
+				 "nocontenttitle":{
+					"en-US":"",
+					"en-UK":"",
+					"de-DE":"",
+					"es-ES":"",
+					"es-MX":"",
+					"fr-FR":"",
+					"it-IT":"",
+					"ja-JP":"",
+					"ko-KR":"",
+					"nl-NL":"",
+					"pt-BR":"",
+					"sv-SE":"",
+					"zh-CN":"",
+					"zh-Hant":""
+				 },
+				 "getstartedurl":"#",
+				 "module":["EPM"],
+				 "reportid":26
 			  }
 		   },
 		   "MANAGERWIDGET":{

@@ -991,10 +991,10 @@ span.abt-job-text {
     color: #757575 !important
 }
 
-#extendedUserWidget .fixed-table-body {
+/* #extendedUserWidget .fixed-table-body {
     overflow-x: visible !important;
     overflow-y: visible !important
-}
+} */
 
 #extendedUserWidget .detail-view div[class*=col-md-] {
     margin: 0 !important
@@ -1706,7 +1706,11 @@ div#LMS-TRAINING_METRICS.TRAINING_METRICS {
 }
 
 .topLinkContainer li.moduleLink .moduleLinkTitle {
-    font-size: 14px !important
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-wrap: normal;
+	font-size: 12px !important;
 }
 
 .topLinkContainer .moduleLinkIcon {
@@ -1898,27 +1902,31 @@ div#cs_report .card canvas {
 }  
 
 /* Scrollbars on widgets becoming too big */
-.DIRECT_REPORTS::-webkit-scrollbar,
+.fixed-table-body {
+	max-height: 250px !important;
+}
+
+.fixed-table-body::-webkit-scrollbar,
 .CHECKINS::-webkit-scrollbar {
 	width: 20px;
 }
 
-.DIRECT_REPORTS::-webkit-scrollbar-track,
+.fixed-table-body::-webkit-scrollbar-track,
 .CHECKINS::-webkit-scrollbar-track {
 	background-color: transparent;
 }
-.DIRECT_REPORTS::-webkit-scrollbar-thumb,
+.fixed-table-body::-webkit-scrollbar-thumb,
 .CHECKINS::-webkit-scrollbar-thumb {
 	background-color: #d6dee1;
 	border-radius: 20px;
 	border: 6px solid transparent;
 	background-clip: content-box;
 }
-.DIRECT_REPORTS::-webkit-scrollbar-thumb:hover,
+.fixed-table-body::-webkit-scrollbar-thumb:hover,
 .CHECKINS::-webkit-scrollbar-thumb:hover {
 	background-color: #a8bbbf;
 }
-.DIRECT_REPORTS,
+.fixed-table-body,
 .CHECKINS {
 	max-height: 240px !important;
 	overflow: auto !important;

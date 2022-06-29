@@ -35,7 +35,7 @@ const gpeWidgetConfig = [{
 					},
 					"LINKS": {
 						"L_1": {
-							"ID": "SURVEYS",
+							"ID": "MYCHECKLISTS",
 							"O": 1
 						},
 						"L_2": {
@@ -306,10 +306,20 @@ const gpeWidgetConfig = [{
 							"CS" : 3
 						},
 						"W_2" : {
-							"ID" : "RPT_PASTDUE",
+							"ID" : "RPT_TRAININGPROGRESSSUMMARY",
 							"O" : 3,
 							"CS" : 3
-						}                                   
+						},
+						"W_3" : {
+							"ID" : "RPT_PASTDUE",
+							"O" : 4,
+							"CS" : 3
+						},
+						"W_4" : {
+							"ID" : "RPT_PRDISTRIBUTION",
+							"O" : 5,
+							"CS" : 3
+						}
 					},
 					"LINKS" : {
 						"L_1" : {
@@ -334,6 +344,46 @@ const gpeWidgetConfig = [{
 						},
 						"L_6" : {
 							"ID" : "DASHBOARD",
+							"O" : 6
+						},
+						"L_7" : {
+							"ID" : "LEARNER_SEARCH",
+							"O" : 6
+						},
+						"L_8" : {
+							"ID" : "SNAPSHOT",
+							"O" : 6
+						},
+						"L_9" : {
+							"ID" : "COMMUNITIES",
+							"O" : 6
+						},
+						"L_10" : {
+							"ID" : "PLAYLISTS",
+							"O" : 6
+						},
+						"L_11" : {
+							"ID" : "LEADERBOARD",
+							"O" : 6
+						},
+						"L_12" : {
+							"ID" : "SURVEYS",
+							"O" : 6
+						},
+						"L_13" : {
+							"ID" : "ACTIONS",
+							"O" : 6
+						},
+						"L_14" : {
+							"ID" : "FEEDBACK",
+							"O" : 6
+						},
+						"L_15" : {
+							"ID" : "PERF_REVIEWS",
+							"O" : 6
+						},
+						"L_16" : {
+							"ID" : "REQREQUESTS",
 							"O" : 6
 						}
 					}
@@ -1345,7 +1395,7 @@ const gpeWidgetConfig = [{
 					},
 					"W" : {
 						"W_0" : {
-							"ID" : "RPT_PASTDUE",
+							"ID" : "PORTALDETAILS",
 							"O" : 1,
 							"CS" : 4
 						},

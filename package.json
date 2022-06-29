@@ -1,6 +1,6 @@
 {
   "name": "gpewelcomepage",
-  "version": "1.2.7a",
+  "version": "1.2.9c",
   "description": "Cornerstone Hercules - Welcome Page Script",
   "main": "gpeWelcomePage.js",
   "scripts": {

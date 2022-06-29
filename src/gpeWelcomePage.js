@@ -7,6 +7,7 @@
 
 "use strict";
 
+
 import packageInfo from '../package.json';
 
 import gpe_globalSettings from ".//js/gpe_globalSettings.min.js";
@@ -911,6 +912,7 @@ function buildModuleWidget(moduleArg, demoRoleArg) {
 					let modLinkItemLink = document.createElement("a");
 					modLinkItemLink.className = "modLinkItemLink";
 					modLinkItemLink.href = injectVariables(inputs, gpeGlobalSettings[0].LINKS[tempLinkID].URL);
+					modLinkItemLink.title = gpeGlobalSettings[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture];
 
 					let modLinkItem = document.createElement("div");
 					modLinkItem.className = "modLinkItem";
@@ -980,32 +982,36 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 			let modWidgetContainer = document.createElement("div");
 			modWidgetContainer.className = "moduleWidgetContainer row";
 
+			let widgetCounter = 0;
 			for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W) {
 				// Array outlining which modules the user has in configuration
 				let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module;
 
 				if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
+					if(widgetCounter <= 2) {
 
-					let tempWidgetID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID;
+						let tempWidgetID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID;
 
-					let modWidget = document.createElement("div");
-					modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].CS;
-					// modWidget.setAttribute("id", demoRoleArg+"-"+tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
-					modWidget.setAttribute("id", tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
-					modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].O + ";");
+						let modWidget = document.createElement("div");
+						modWidget.className = "moduleWidget col-md-" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].CS;
+						// modWidget.setAttribute("id", demoRoleArg+"-"+tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
+						modWidget.setAttribute("id", tempWidgetID); /* IMPORTANT ID - This is used to target the widget card */
+						modWidget.setAttribute("style", "order:" + cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].O + ";");
 
-					let preLoaderWrapper = document.createElement("div");
-					preLoaderWrapper.className = "wrapper widgetData col-md-12";
-					let preLoaderCard = document.createElement("div");
-					preLoaderCard.className = "skeleton-card";
-					let preLoaderType = document.createElement("div");
-					preLoaderType.className = "skeleton " + gpeGlobalSettings[0].W[tempWidgetID].skeletoncss;
+						let preLoaderWrapper = document.createElement("div");
+						preLoaderWrapper.className = "wrapper widgetData col-md-12";
+						let preLoaderCard = document.createElement("div");
+						preLoaderCard.className = "skeleton-card";
+						let preLoaderType = document.createElement("div");
+						preLoaderType.className = "skeleton " + gpeGlobalSettings[0].W[tempWidgetID].skeletoncss;
 
-					preLoaderWrapper.appendChild(preLoaderCard);
-					preLoaderWrapper.appendChild(preLoaderType);
-					modWidget.appendChild(preLoaderWrapper);
+						preLoaderWrapper.appendChild(preLoaderCard);
+						preLoaderWrapper.appendChild(preLoaderType);
+						modWidget.appendChild(preLoaderWrapper);
 
-					modWidgetContainer.appendChild(modWidget);
+						modWidgetContainer.appendChild(modWidget);
+					}
+					widgetCounter++;
 				}
 			}
 
@@ -1018,11 +1024,22 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 			let modLinkContainer = document.createElement("ul");
 			modLinkContainer.className = "moduleLinkContainer";
 
+			// moduleArg.map(function(module){
+			// 	let linksPerModuleLimit = Math.ceil(6 / moduleArg.length);
+			// 	console.log("Module: "+ module);
+			// 	console.log("Number of links per module: "+ linksPerModuleLimit);
+			// 	for(let i=0; i < linksPerModuleLimit; i++) {
+					
+			// 		console.log(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS[i].ID);
+			// 	}
+			// })
+
 			// BUILD QUICKLINKS
+			let quickLinkCounter = 0;
 			for (let link in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS) {
 				let userTopLinkID_tmp = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS[link].ID;
 				if ((moduleArg.some(r => gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE.includes(r))) || (gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].MODULE == "CORE")) {
-
+					if(quickLinkCounter <= 5) {
 					let tempLinkID = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.LINKS[link].ID;
 
 					let modLink = document.createElement("li");
@@ -1033,6 +1050,7 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 					let modLinkItemLink = document.createElement("a");
 					modLinkItemLink.className = "modLinkItemLink";
 					modLinkItemLink.href = injectVariables(inputs, gpeGlobalSettings[0].LINKS[tempLinkID].URL);
+					modLinkItemLink.title = gpeGlobalSettings[0].LINKS[tempLinkID].TITLE[sessionStorage.csCulture]; // Adds title to link
 
 					let modLinkItem = document.createElement("div");
 					modLinkItem.className = "modLinkItem";
@@ -1051,6 +1069,8 @@ async function buildExtendedModuleWidget(moduleArg, demoRoleArg) {
 					modLink.appendChild(modLinkItemLink);
 
 					modLinkContainer.appendChild(modLink);
+					}
+				quickLinkCounter++;
 				}
 			}
 
@@ -1154,7 +1174,7 @@ async function buildExtendedWidgets(demoRoleArg, moduleArg) {
 		.then(async function (renderedWidgetsResp) {
 			$("canvas").each(function () {
 				var chart = Chart.getChart($(this).attr("id"));
-				chart.update();
+				chart.update();	
 			});
 			return renderedWidgetsResp;
 		})
@@ -1175,23 +1195,33 @@ async function getExtendedWidgetData(demoRoleArg, moduleArg) {
 
 	let widgetPromisesArray = [];
 	if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.hasOwnProperty("EXT")) {
+		let widgetCounter = 0;
 		for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W) {
+			if(widgetCounter <= 2) {
+				console.log(widget);
+				if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID == "DIRECT_REPORTS") {
+					widgetPromisesArray.push(buildExtendedWidget_v4(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
+				}
 
-			if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID == "DIRECT_REPORTS") {
-				widgetPromisesArray.push(buildExtendedWidget_v4(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
+				if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID == "PORTALDETAILS") {
+					widgetPromisesArray.push(getPortalDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
+				}
+
+				if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID.includes("RPT_")) {
+					await checkReportToken().then(function(){
+						let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module; // Get module widget is connected to
+						if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) { // Check if modules of user exists in module widget or is CORE
+							let reportID = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].reportid;
+	
+							let tmpContentDiv = document.createElement("div");
+							tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID + " chart-container";
+							tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID);
+							widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
+						}
+					})
+				}
 			}
-
-			if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID.includes("RPT_")) {
-				let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module;
-				if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) {
-					let reportID = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].reportid;
-
-					let tmpContentDiv = document.createElement("div");
-					tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID + " chart-container";
-					tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID);
-					widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
-				}		
-			}
+			widgetCounter++;
 		}
 	}
 	return Promise.all(widgetPromisesArray);
@@ -1270,7 +1300,6 @@ async function getWidgetData_v2(moduleArg, demoRoleArg) {
  * @returns
  */
 async function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowIDArg, targetColDivIDArg, contentDivClassArg, widgetContentArg, skeletontoHideArg) {
-
 	$("#" + skeletontoHideArg + " .wrapper").hide(); // Hide skeleton div					
 
 	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
@@ -1298,7 +1327,10 @@ async function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowI
 	var tmpCardHeader = document.createElement("a");
 	tmpCardHeader.className = "card-header";
 	tmpCardHeader.innerHTML = gpeGlobalSettings[0].W[widgetIDArg].title[sessionStorage.csCulture];
-	tmpCardHeader.setAttribute('href', injectVariables(inputs, gpeGlobalSettings[0].W[widgetIDArg].url));
+	// If object has reportid then we will use the reportid as part of the URL. If not - use the URL as is.
+	let tmpCardHeaderURL = (gpeGlobalSettings[0].W[widgetIDArg].hasOwnProperty('reportid') ? gpeGlobalSettings[0].W[widgetIDArg].url +"/"+ gpeGlobalSettings[0].W[widgetIDArg].reportid : gpeGlobalSettings[0].W[widgetIDArg].url);
+	tmpCardHeader.setAttribute('href', injectVariables(inputs, tmpCardHeaderURL));
+	tmpCardHeader.setAttribute('title', gpeGlobalSettings[0].W[widgetIDArg].title[sessionStorage.csCulture]);
 
 	var tmpCardBody = document.createElement("div");
 	tmpCardBody.className = "card-body";
@@ -1313,7 +1345,6 @@ async function generateHTMLWidget(widgetIDArg, columnWidthArg, columnIDArg, rowI
 	tmpCardParent.append(tmpCardHeader, tmpCardBody);
 	tmpColDiv.appendChild(tmpCardParent);
 	tmpRowDiv.appendChild(tmpColDiv);
-
 	var mainContent = document.getElementById(targetColDivIDArg);
 	mainContent.appendChild(tmpRowDiv);
 
@@ -1457,6 +1488,7 @@ async function buildAboutCard(demoModulesArg) {
 				let topLinkItemLink = document.createElement("a");
 				topLinkItemLink.className = "modLinkItemLink";
 				topLinkItemLink.href = injectVariables(inputs, gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].URL);
+				topLinkItemLink.title = gpeGlobalSettings[0].LINKS[userTopLinkID_tmp].TITLE[sessionStorage.csCulture];
 
 				let topLinkItem = document.createElement("div");
 				topLinkItem.className = "modLinkItem";
@@ -1807,15 +1839,13 @@ function checkJWT() {
 	});
 }
 
-async function getMachineLearningClusterInformation() {
-	// /services/api/TranscriptAndTask/Approval
+async function getPortalDetails(widgetArg, moduleArg) {
+	const tmpContentDiv = document.createElement("div");
+	tmpContentDiv.className = widgetArg;
+	tmpContentDiv.setAttribute("id", widgetArg);
 
 	return await checkJWT()
 	.then(async function () {
-		// /services/api/Login/Rules?corpName={CORPNAME}&userName={USERNAME}
-// 		let url = "/services/api/Login/UpdatePassword";
-		//let url = "/services/api/Login/UpdatePassword?corpName=demogpe-development&userName=jstone@RPT";
-		// let url = "/services/api/TranscriptAndTask/Task?UserId=csanders@CS_en-US&Language=en-US"
 		let url = "/services/x/machine-learning-prefs/v1/cluster-information?timeZoneId=28";
 
 		return await fetch(url, {
@@ -1831,13 +1861,12 @@ async function getMachineLearningClusterInformation() {
 	})
 	.then(response => response.json())
 	.then(async function (localStr) {
-		console.log(localStr);
+		// console.log(localStr.data.mostRecentComputationTimeLocal);
+		let portalDetailStr = "<p>Last Cluster Computation: "+localStr.data.mostRecentComputationTimeLocal+"</p>";
+		tmpContentDiv.innerHTML = portalDetailStr;
+		return tmpContentDiv
 	})	
 }
-
-
-
-
 
 async function createReq() {
 	let payload = {
@@ -1870,7 +1899,6 @@ async function createReq() {
 		console.log(localStr);
 	})	
 }
-
 
 async function getLOIDs(loidArrArg) {
 	let promiseArray = [];
@@ -2651,26 +2679,59 @@ function operateFormatter(value, row, index) {
 	
 	let html = [];
 	html.push('<div class="dropdown">');
-	html.push('<a class="btn btn-secondary dropdown-toggle" data-boundary="viewport" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">');
+	html.push('<button class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink-'+row.id+'" data-bs-toggle="dropdown">');
 	html.push(gpeGlobalSettings[0].MANAGERWIDGET.tableheader.actions[sessionStorage.csCulture]);
-	html.push('</a>');
-	html.push('<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">');
-	html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.openup[sessionStorage.csCulture] + '</a></li>');
+	html.push('</button>');
+	html.push('<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuLink-'+row.id+'">');
+	html.push('<li role="presentation"><a role="menuitem" class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.openup[sessionStorage.csCulture] + '</a></li>');
 	if (csModules.includes("CHR")) {
-		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '&gpeForms=1">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.openforms[sessionStorage.csCulture] + '</a></li>');
+		html.push('<li role="presentation"><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '&gpeForms=1">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.openforms[sessionStorage.csCulture] + '</a></li>');
 	}
 	if (csModules.includes("LMS")) {
-		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewtranscript[sessionStorage.csCulture] + '</a></li>');
+		html.push('<li role="presentation"><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewtranscript[sessionStorage.csCulture] + '</a></li>');
 	}
-	html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewsnapshot[sessionStorage.csCulture] + '</a></li>');
+	html.push('<li role="presentation"><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewsnapshot[sessionStorage.csCulture] + '</a></li>');
 	if (csModules.includes("EPM") || csModules.includes("CAR")) {
-		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewgoals[sessionStorage.csCulture] + '</a></li>');
-		html.push('<li><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewdevplan[sessionStorage.csCulture] + '</a></li>');
+		html.push('<li role="presentation"><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewgoals[sessionStorage.csCulture] + '</a></li>');
+		html.push('<li role="presentation"><a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewdevplan[sessionStorage.csCulture] + '</a></li>');
 	}
 	html.push('</ul>');
 	html.push('</div>');
 	return html.join('');
 }
+
+function operateFormatter_old(value, row, index) {
+	const cs_widgetConfig = JSON.parse(sessionStorage.gpeWidgetConfig);
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+	const csModules = JSON.parse(sessionStorage.getItem("csDemoModules"));
+
+	var linkString = "";
+	linkString = '<div class="dropdown">';
+	linkString += '<button class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+gpeGlobalSettings[0].MANAGERWIDGET.tableheader.actions[sessionStorage.csCulture]+'</button>';
+	linkString += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
+   
+	// $.each(development_plans,function(i,obj) {
+	//  linkString += '<a class="dropdown-item" href="/ui/devplans/blueprints/add?templateId='+obj.plan_id+'&userid='+row.user_id+'">'+ obj.plan_title +'</a>';
+	// });  
+
+	if (csModules.includes("CHR")) {
+		linkString += '<a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Bio&TargetUser=' + row.id + '&gpeForms=1">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.openforms[sessionStorage.csCulture] + '</a>';
+	}
+	if (csModules.includes("LMS")) {
+		linkString += '<a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Transcript&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewtranscript[sessionStorage.csCulture] + '</a>';
+	}
+		linkString += '<a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewsnapshot[sessionStorage.csCulture] + '</a>';
+	if (csModules.includes("EPM") || csModules.includes("CAR")) {
+		linkString += '<a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/Goals&TargetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewgoals[sessionStorage.csCulture] + '</a>';
+		linkString += '<a class="dropdown-item" href="/phnx/driver.aspx?routename=Social/UniversalProfile/Snapshot/DevPlanNew&targetUser=' + row.id + '">' + gpeGlobalSettings[0].MANAGERWIDGET.actionsitems.viewdevplan[sessionStorage.csCulture] + '</a>';
+	}
+
+	linkString += '</div>';
+	linkString += '</div>';
+   
+   return linkString;
+   } 
+
 
 /**
  * imageFormatter - Supporting function for bootstrap-table
@@ -3439,20 +3500,20 @@ async function getCheckinsDetails(widgetArg, moduleArg) {
  */
 async function checkReportToken() {
 	if (sessionStorage.getItem('reportToken')) {
-		var tokenDate = sessionStorage.reportTokenDate;
+		var tokenDate = sessionStorage.getItem("reportTokenDate");
 		var dateDiff = Math.floor((Date.now() - tokenDate) / 1000 / 60);
-		if (dateDiff < 15) {
+		if (dateDiff < 10) {
 			return sessionStorage.reportToken;
 		} else {
-			return await updateReportToken();
+			return updateReportToken();
 		}
 	} else {
-		return await updateReportToken();
+		return updateReportToken();
 	}
 }
 
 /**
- * Updates sessionStorage with refreshed token details
+ * Updates sessionStorage with refreshed report token details
  * @returns
  */
 async function updateReportToken() {
@@ -3464,103 +3525,96 @@ async function updateReportToken() {
 		})
 		.then(response => response.text())
 		.then(tokenStr => {
-			sessionStorage.reportTokenDate = Date.now();
-			sessionStorage.reportToken = tokenStr.substring(tokenStr.indexOf("accessToken:") + 14, tokenStr.indexOf("',", tokenStr.indexOf("accessToken")));
-			return sessionStorage.csToken;
+			let tmpReportToken = tokenStr.substring(tokenStr.indexOf("accessToken:") + 14, tokenStr.indexOf("',", tokenStr.indexOf("accessToken")));
+			sessionStorage.setItem("reportTokenDate", Date.now());
+			sessionStorage.setItem("reportToken", tmpReportToken);
+			return tmpReportToken;
 		})
 		.catch(error => {
 			console.error("Function updateJWT failed: ", error);
 		});
 }
 
-async function fetchReportData(reportIDArg, managerIDArg) {
-	return await checkReportToken()
-	.then(async function () {
-		return await fetchReportManagerDirectReports(reportIDArg, managerIDArg);
-	})
-	.then(async function (reportJson) {
-		reportJson.data.shift();
-		managerReports = reportJson.data.map(function(report){
-			return report[0];
-		})
-		console.log(managerReports);
-	})
-}
-
-function fetchReport_v2(reportIDArg) {
-	var rptDataSet = {};
-	return fetch("/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
-		method: 'GET',
-		mode: 'cors',
-		cache: 'no-cache',
-		credentials: 'same-origin',
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': sessionStorage.reportToken,
-		},
-	})
-	.then((response) => {
-		if (!response.ok) {
-			throw new Error("HTTP status " + response.status);
-		}
-		return response.json();
-	})
-	.then((reportDetailsResponse) => {
-
-		var payload = {
-			"filters": [],
-			"sorting": []
-		};
-		payload.filters = [...reportDetailsResponse.filters];
-		payload.sorting = [...reportDetailsResponse.sorting];
-
-		rptDataSet = reportDetailsResponse;
-
-		return fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
-			method: 'POST',
-			mode: 'cors',
-			cache: 'default',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': sessionStorage.reportToken
-			},
-			body: JSON.stringify(payload)
-		});
-	})
-	.then(getBodyAndStatus)
-	.then((metaresponse) => {
-		return metaresponse.body.location;
-	})
-	.then((reportLocation) => {
-		return fetch("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, {
+async function fetchReport_v3(reportIDArg, widgetIDArg) {
+	if(sessionStorage.getItem(widgetIDArg) === null || sessionStorage.getItem(widgetIDArg) === 'undefined') {
+		var rptDataSet = {};
+		return await fetch("/reportarchitect/rctmetacore/metaapi/v1/report/" + reportIDArg, {
 			method: 'GET',
 			mode: 'cors',
 			cache: 'no-cache',
 			credentials: 'same-origin',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': sessionStorage.reportToken,
-			},
-		})
-		.then((result) => {
-			if(result.status !== 204){
-				return result;
-			}else {
-				return getAsyncResult("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, 200, 100).then(queryResult => {
-					return queryResult;
-					});
+				'Authorization': sessionStorage.reportToken
 			}
+		})
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error("HTTP status " + response.status);
+			}
+			return response.json();
+		})
+		.then((reportDetailsResponse) => {
+
+			var payload = {
+				"filters": [],
+				"sorting": []
+			};
+			payload.filters = [...reportDetailsResponse.filters];
+			payload.sorting = [...reportDetailsResponse.sorting];
+
+			rptDataSet = reportDetailsResponse;
+
+			return fetch("/reportarchitect/rctdatacore/metaapi/v1/report/" + reportIDArg + "/rendered", {
+				method: 'POST',
+				mode: 'cors',
+				cache: 'default',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': sessionStorage.reportToken
+				},
+				body: JSON.stringify(payload)
+			});
+		})
+		.then(getBodyAndStatus)
+		.then((metaresponse) => {
+			return metaresponse.body.location;
+		})
+		.then((reportLocation) => {
+			return fetch("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, {
+				method: 'GET',
+				mode: 'cors',
+				cache: 'no-cache',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': sessionStorage.reportToken,
+				},
+			})
+			.then((result) => {
+				if(result.status !== 204){
+					return result;
+				}else {
+					return getAsyncResult("/reportarchitect/rctdatacore/metaapi/v1" + reportLocation, 200, 100).then(queryResult => {
+						return queryResult;
+						});
+				}
+			});
+		})
+		.then(reportdata => reportdata.json())
+		.then(finalData => {
+			return [finalData, rptDataSet];
+		})
+		.catch(error => {
+			console.error("Error with fetchReport function - ", error);
 		});
-	})
-	.then(reportdata => reportdata.json())
-	.then(finalData => {
-		return [finalData, rptDataSet];
-	})
-	.catch(error => {
-		console.error("Error with fetchReport function - ", error);
-	});
+	}
+	else {
+		return JSON.parse(sessionStorage.getItem(widgetIDArg));
+	}
 }
+
 
 async function fetchReportManagerDirectReports(reportIDArg, valueArg) {
 	var rptDataSet = {};
@@ -3591,7 +3645,7 @@ async function fetchReportManagerDirectReports(reportIDArg, valueArg) {
 
 		payload.filters[0].values[0].value = valueArg;
 
-		console.log(payload.filters);
+		//console.log(payload.filters);
 
 		rptDataSet = reportDetailsResponse;
 
@@ -3687,7 +3741,11 @@ function getAsyncResult(url, timeout, maxAttempt) {
 		.catch(err => reject(err));
 	}
 }
-
+function delay(t, v) {
+	return new Promise(function(resolve) { 
+		setTimeout(resolve.bind(null, v), t)
+	});
+ }
 /**
  *
  * @param
@@ -3695,140 +3753,125 @@ function getAsyncResult(url, timeout, maxAttempt) {
  * @returns
  */
 async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleArg) {
-	return await checkReportToken()
-		.then(async function () {
-			if(sessionStorage.getItem(widgetIDArg) === null || sessionStorage.getItem(widgetIDArg) === 'undefined') {
-				let reportJson = await fetchReport_v2(reportIDArg);
-				sessionStorage.setItem(widgetIDArg, JSON.stringify(reportJson));
-				return reportJson;
-			}else {
-				return JSON.parse(sessionStorage.getItem(widgetIDArg));
-			}
-		})
-		.then(async function (reportJson) {
-			let reportData = reportJson[0];
-			let rptDataSet = reportJson[1];
+	return await fetchReport_v3(reportIDArg, widgetIDArg)
+	.then(async function (reportJson) {
+		let reportData = reportJson[0];
+		let rptDataSet = reportJson[1];
 
-			let [, ...labels] = [...new Set(reportData.chartData.map(x => x[0]))];
+		let [, ...labels] = [...new Set(reportData.chartData.map(x => x[0]))];
 
-			let [, ...reportCols] = [...new Set(reportData.chartData.map(status => status[1]))];
+		let [, ...reportCols] = [...new Set(reportData.chartData.map(status => status[1]))];
 
-			const chartData = {
-				labels: [...labels],
-				datasets: [],
-			};
+		const chartData = {
+			labels: [...labels],
+			datasets: [],
+		};
 
-			let legendFlag = "";
+		let legendFlag = "";
 
-			let dataSet = [];
+		let dataSet = [];
 
-			// If simple graph (one dimension)
-			if (rptDataSet.charts[0].chartDimensions.length == 1) {
-				let chBgColor = [];
-				chBgColor = reportData.chartPalette.map(function (e) {
-					return e.color;
-				});
-				$.each(rptDataSet.charts[0].chartDimensions, function (e, i) { // for each dimension we need to get the data...
-					$.each(reportData.chartData, function (labelIndex, labelValue) {
-						dataSet = reportData.chartData.map(function (value, index) {
-							return value.slice(-1)[0];
-						});
+		// If simple graph (one dimension)
+		if (rptDataSet.charts[0].chartDimensions.length == 1) {
+			let chBgColor = [];
+			chBgColor = reportData.chartPalette.map(function (e) {
+				return e.color;
+			});
+			$.each(rptDataSet.charts[0].chartDimensions, function (e, i) { // for each dimension we need to get the data...
+				$.each(reportData.chartData, function (labelIndex, labelValue) {
+					dataSet = reportData.chartData.map(function (value, index) {
+						return value.slice(-1)[0];
 					});
-
 				});
-				dataSet.shift();
-				// chartData.shift();
-				chartData.datasets.push({
-					backgroundColor: chBgColor,
-					hoverBackgroundColor: chBgColor,
-					data: dataSet,
-					fill: true,
-				});
-				legendFlag = false;
 
-				// If advanced graph (two dimensions)
-			} else {
-				for (let i in reportCols) {
-					dataSet[reportCols[i]] = [];
-					for (let labelIndex in labels) {
-						dataSet[reportCols[i]][labelIndex] = [];
-						for (let k in reportData.chartData) {
-							if ((labels[labelIndex] == reportData.chartData[k][0]) && (reportData.chartData[k][rptDataSet.charts[0].chartDimensions.length - 1] == reportCols[i])) {
-								dataSet[reportCols[i]][labelIndex] = reportData.chartData[k][rptDataSet.charts[0].chartDimensions.length];
-							}
+			});
+			dataSet.shift();
+			// chartData.shift();
+			chartData.datasets.push({
+				backgroundColor: chBgColor,
+				hoverBackgroundColor: chBgColor,
+				data: dataSet,
+				fill: true,
+			});
+			legendFlag = true;
+
+			// If advanced graph (two dimensions)
+		} else {
+			for (let i in reportCols) {
+				dataSet[reportCols[i]] = [];
+				for (let labelIndex in labels) {
+					dataSet[reportCols[i]][labelIndex] = [];
+					for (let k in reportData.chartData) {
+						if ((labels[labelIndex] == reportData.chartData[k][0]) && (reportData.chartData[k][rptDataSet.charts[0].chartDimensions.length - 1] == reportCols[i])) {
+							dataSet[reportCols[i]][labelIndex] = reportData.chartData[k][rptDataSet.charts[0].chartDimensions.length];
 						}
 					}
-					let bgColor = reportData.chartPalette.filter(function (item) {
-						return item.displayName === reportCols[i];
-					});
-
-					let bgColor1 = bgColor.map(function (item) {
-						return item.color;
-					});
-
-					chartData.datasets.push({
-						label: reportCols[i],
-						backgroundColor: bgColor,
-						data: dataSet[reportCols[i]],
-						fill: true,
-						datalabels: {
-							anchor: 'end',
-							align: 'start',
-						},
-					});
 				}
-				legendFlag = true;
-			}
+				let bgColor = reportData.chartPalette.filter(function (item) {
+					return item.displayName === reportCols[i];
+				});
 
-			const config = {
-				type: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].type,
-				data: chartData,
-				options: {
-					// maintainAspectRatio: "true",
-					// aspectRatio: 1,
-					responsive: "true",
-					plugins: {
-						legend: {
-							display: legendFlag,
-							position: "top",
-						},
-						title: {
-							display: false,
-							text: rptDataSet.charts[0].title
-						},
+				let bgColor1 = bgColor.map(function (item) {
+					return item.color;
+				});
+
+				chartData.datasets.push({
+					label: reportCols[i],
+					backgroundColor: bgColor,
+					data: dataSet[reportCols[i]],
+					fill: true,
+					datalabels: {
+						anchor: 'end',
+						align: 'start',
 					},
-					scales: {
-						y: {
-							display: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].scale.ydisplay,
-						},
-						x: {
-							display: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].scale.xdisplay,
-						},
+				});
+			}
+			legendFlag = true;
+		}
+
+		var canv = document.createElement('canvas'); // creates new canvas element
+		canv.id = widgetIDArg + "_chart"; // gives canvas id
+		canv.className = "chart_" + cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].type;
+		targetDivArg.appendChild(canv);
+
+		let canvasLegend = document.createElement("div");
+		canvasLegend.id = widgetIDArg+"_legend";
+		canvasLegend.className = "chart-legend";
+		targetDivArg.appendChild(canvasLegend);
+
+		const myChart = new Chart(canv, {
+			type: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].type,
+			data: chartData,
+			options: {
+				// maintainAspectRatio: "true",
+				// aspectRatio: 1,
+				responsive: "false",		
+				plugins: {
+					htmlLegend: {
+						containerID: widgetIDArg + "_legend",
+					},						
+					legend: {
+						display: false,
+					},
+					title: {
+						display: false,
+						text: rptDataSet.charts[0].title
+					}					
+				},				
+				scales: {
+					y: {
+						display: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].scale.ydisplay,
+					},
+					x: {
+						display: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].scale.xdisplay,
 					},
 				},
-
-			};
-
-			var canv = document.createElement('canvas'); // creates new canvas element
-			canv.setAttribute("style", "height: 140px, width: 100%");
-			canv.id = widgetIDArg + "_chart"; // gives canvas id
-			document.body.appendChild(canv); // adds the canvas to the body element
-
-			var canvas1 = document.getElementById(canv.id); //find new canvas we created
-			canvas1.setAttribute("style", "height: 140px, width: 100%");
-			var context = canvas1.getContext('2d');
-			let myChart = new Chart(context, config);
-
-			document.body.removeChild(canv); // removes new canvas
-
-			canvas1.width = "200px";
-			canvas1.height = "200px";
-			canvas1.className = "chart_" + cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].type;
-			targetDivArg.appendChild(canvas1);
-
-			return await targetDivArg;
-		})
-		.catch(error => console.error("Error in createDashboard function: " + error));
+			},
+			// plugins: [htmlLegendPlugin]
+		});
+		return await targetDivArg;
+	})
+	.catch(error => console.error("Error in createDashboard function: " + error));
 }
 
 function toggleGPEwp() {
@@ -4021,12 +4064,14 @@ async function initUserData() {
 	}
 }
 
+
 /**
  * Welcome Page Build Function
  * @description Function is processed upon page load and will display the widgets and build the layout.
  */
 (async function () {
 	//$(".widgetDropped").css({"display":"none"});				// hide the widgets
+	// $("#mainContainer").hide();
 	var startTimer = performance.now();
 	await initUserData()
 	.then(function(gpeWP){
@@ -4111,6 +4156,8 @@ async function initUserData() {
 				if(rowDivCheck.classList.contains('row') === false)  rowDivCheck.classList.add("row");// true
 			}
 
+			// $("#mainContainer").show();
+
 			const gpeNav = buildNav(gpeDEMOROLE, sessionStorage.csCulture, gpeDEMOMODULES);
 			const gpeAboutCard = buildAboutCard(gpeDEMOMODULES);
 
@@ -4148,6 +4195,38 @@ async function initUserData() {
 			$(".approval_button").click(function () {
 				window.location = $(this).data("href");
 			});
+
+			//add BT DD show event
+			$(".dropdown").on("show.bs.dropdown", function() {
+				var $btnDropDown = $(this).find(".dropdown-toggle");
+				var $listHolder = $(this).find(".dropdown-menu");
+				//reset position property for DD container
+				$(this).css("position", "static");
+				$listHolder.css({
+				"top": ($btnDropDown.offset().top + $btnDropDown.outerHeight(true)) + "px",
+				"left": $btnDropDown.offset().left + "px"
+				});
+				$listHolder.data("open", true);
+			});
+			//add BT DD hide event
+			$(".dropdown").on("hidden.bs.dropdown", function() {
+				var $listHolder = $(this).find(".dropdown-menu");
+				$listHolder.data("open", false);
+			});
+			//add on scroll for table holder
+			$(".fixed-table-body").scroll(function() {
+				var $ddHolder = $(this).find(".dropdown")
+				var $btnDropDown = $(this).find(".dropdown-toggle");
+				var $listHolder = $(this).find(".dropdown-menu");
+				if ($listHolder.data("open")) {
+				$listHolder.css({
+					"top": ($btnDropDown.offset().top + $btnDropDown.outerHeight(true)) + "px",
+					"left": $btnDropDown.offset().left + "px"
+				});
+				$ddHolder.toggleClass("open", ($btnDropDown.offset().left > $(this).offset().left))
+				}
+			})
+
 		}
 
 			// Set event on logout to delete sessionStorage.
