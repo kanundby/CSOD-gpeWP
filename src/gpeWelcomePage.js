@@ -1807,37 +1807,6 @@ function checkJWT() {
 	});
 }
 
-async function test() {
-	// /services/api/TranscriptAndTask/Approval
-	// /services/x/corpsettings/v1/corpsettings
-	// /services/x/corpsettings/v1/systemevents/types
-	return await checkJWT()
-	.then(async function () {
-		// /services/api/Login/Rules?corpName={CORPNAME}&userName={USERNAME}
-// 		let url = "/services/api/Login/UpdatePassword";
-		//let url = "/services/api/Login/UpdatePassword?corpName=demogpe-development&userName=jstone@RPT";
-		// let url = "/services/api/TranscriptAndTask/Task?UserId=csanders@CS_en-US&Language=en-US"
-		let url = "/services/x/corpsettings/v1/corpsettings?keys=EnableManageCandidates";
-
-		return await fetch(url, {
-			method: 'GET',
-			mode: 'cors',
-			cache: 'no-cache',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + sessionStorage.csToken,
-			},
-		});
-	})
-	.then(response => response.json())
-	.then(async function (localStr) {
-		console.log(localStr);
-	})	
-}
-
-
-
 async function getMachineLearningClusterInformation() {
 	// /services/api/TranscriptAndTask/Approval
 
