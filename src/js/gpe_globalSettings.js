@@ -1672,20 +1672,20 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":"Inspired by your Subjects"
 				 },
 				 "nocontenttitle":{
-					"en-US":"",
-					"en-UK":"",
-					"de-DE":"",
-					"es-ES":"",
-					"es-MX":"",
-					"fr-FR":"",
-					"it-IT":"",
-					"ja-JP":"",
-					"ko-KR":"",
-					"nl-NL":"",
-					"pt-BR":"",
-					"sv-SE":"",
-					"zh-CN":"",
-					"zh-Hant":""
+					"en-US":"Could not retrieve any data.",
+					"en-UK":"Could not retrieve any data.",
+					"de-DE":"Could not retrieve any data.",
+					"es-ES":"Could not retrieve any data.",
+					"es-MX":"Could not retrieve any data.",
+					"fr-FR":"Could not retrieve any data.",
+					"it-IT":"Could not retrieve any data.",
+					"ja-JP":"Could not retrieve any data.",
+					"ko-KR":"Could not retrieve any data.",
+					"nl-NL":"Could not retrieve any data.",
+					"pt-BR":"Could not retrieve any data.",
+					"sv-SE":"Could not retrieve any data.",
+					"zh-CN":"Could not retrieve any data.",
+					"zh-Hant":"Could not retrieve any data."
 				 },
 				 "getstartedurl":"#",
 				 "module":[
@@ -1854,20 +1854,20 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":"Trending for your job"
 				 },
 				 "nocontenttitle":{
-					"en-US":"",
-					"en-UK":"",
-					"de-DE":"",
-					"es-ES":"",
-					"es-MX":"",
-					"fr-FR":"",
-					"it-IT":"",
-					"ja-JP":"",
-					"ko-KR":"",
-					"nl-NL":"",
-					"pt-BR":"",
-					"sv-SE":"",
-					"zh-CN":"",
-					"zh-Hant":""
+					"en-US":"Could not retrieve any data.",
+					"en-UK":"Could not retrieve any data.",
+					"de-DE":"Could not retrieve any data.",
+					"es-ES":"Could not retrieve any data.",
+					"es-MX":"Could not retrieve any data.",
+					"fr-FR":"Could not retrieve any data.",
+					"it-IT":"Could not retrieve any data.",
+					"ja-JP":"Could not retrieve any data.",
+					"ko-KR":"Could not retrieve any data.",
+					"nl-NL":"Could not retrieve any data.",
+					"pt-BR":"Could not retrieve any data.",
+					"sv-SE":"Could not retrieve any data.",
+					"zh-CN":"Could not retrieve any data.",
+					"zh-Hant":"Could not retrieve any data."
 				 },
 				 "getstartedurl":"#",
 				 "module":[
@@ -1896,20 +1896,20 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":"Your top picks"
 				 },
 				 "nocontenttitle":{
-					"en-US":"",
-					"en-UK":"",
-					"de-DE":"",
-					"es-ES":"",
-					"es-MX":"",
-					"fr-FR":"",
-					"it-IT":"",
-					"ja-JP":"",
-					"ko-KR":"",
-					"nl-NL":"",
-					"pt-BR":"",
-					"sv-SE":"",
-					"zh-CN":"",
-					"zh-Hant":""
+					"en-US":"Could not retrieve any data.",
+					"en-UK":"Could not retrieve any data.",
+					"de-DE":"Could not retrieve any data.",
+					"es-ES":"Could not retrieve any data.",
+					"es-MX":"Could not retrieve any data.",
+					"fr-FR":"Could not retrieve any data.",
+					"it-IT":"Could not retrieve any data.",
+					"ja-JP":"Could not retrieve any data.",
+					"ko-KR":"Could not retrieve any data.",
+					"nl-NL":"Could not retrieve any data.",
+					"pt-BR":"Could not retrieve any data.",
+					"sv-SE":"Could not retrieve any data.",
+					"zh-CN":"Could not retrieve any data.",
+					"zh-Hant":"Could not retrieve any data."
 				 },
 				 "getstartedurl":"#",
 				 "module":[
@@ -1938,20 +1938,20 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"zh-Hant":"Assigned Training"
 				 },
 				 "nocontenttitle":{
-					"en-US":"",
-					"en-UK":"",
-					"de-DE":"",
-					"es-ES":"",
-					"es-MX":"",
-					"fr-FR":"",
-					"it-IT":"",
-					"ja-JP":"",
-					"ko-KR":"",
-					"nl-NL":"",
-					"pt-BR":"",
-					"sv-SE":"",
-					"zh-CN":"",
-					"zh-Hant":""
+					"en-US":"Could not retrieve any data.",
+					"en-UK":"Could not retrieve any data.",
+					"de-DE":"Could not retrieve any data.",
+					"es-ES":"Could not retrieve any data.",
+					"es-MX":"Could not retrieve any data.",
+					"fr-FR":"Could not retrieve any data.",
+					"it-IT":"Could not retrieve any data.",
+					"ja-JP":"Could not retrieve any data.",
+					"ko-KR":"Could not retrieve any data.",
+					"nl-NL":"Could not retrieve any data.",
+					"pt-BR":"Could not retrieve any data.",
+					"sv-SE":"Could not retrieve any data.",
+					"zh-CN":"Could not retrieve any data.",
+					"zh-Hant":"Could not retrieve any data."
 				 },
 				 "getstartedurl":"#",
 				 "module":[
@@ -1980,20 +1980,20 @@ if (!sessionStorage.gpeGlobalSettings) {
 					"es-MX":"Nuevo"
 				 },
 				 "nocontenttitle":{
-					"en-US":"",
-					"en-UK":"",
-					"de-DE":"",
-					"es-ES":"",
-					"es-MX":"",
-					"fr-FR":"",
-					"it-IT":"",
-					"ja-JP":"",
-					"ko-KR":"",
-					"nl-NL":"",
-					"pt-BR":"",
-					"sv-SE":"",
-					"zh-CN":"",
-					"zh-Hant":""
+					"en-US":"Could not retrieve any data.",
+					"en-UK":"Could not retrieve any data.",
+					"de-DE":"Could not retrieve any data.",
+					"es-ES":"Could not retrieve any data.",
+					"es-MX":"Could not retrieve any data.",
+					"fr-FR":"Could not retrieve any data.",
+					"it-IT":"Could not retrieve any data.",
+					"ja-JP":"Could not retrieve any data.",
+					"ko-KR":"Could not retrieve any data.",
+					"nl-NL":"Could not retrieve any data.",
+					"pt-BR":"Could not retrieve any data.",
+					"sv-SE":"Could not retrieve any data.",
+					"zh-CN":"Could not retrieve any data.",
+					"zh-Hant":"Could not retrieve any data."
 				 },
 				 "getstartedurl":"#",
 				 "module":[
@@ -2626,6 +2626,26 @@ if (!sessionStorage.gpeGlobalSettings) {
 				 "module":["EPM"],
 				 "reportid":26
 			  }
+		   },
+		   "GLOBAL" : {
+				"WIDGET" : {
+					"nocontenttitle" : {
+						"en-US":"No report data.",
+						"en-UK":"No report data.",
+						"de-DE":"No report data.",
+						"fr-FR":"No report data.",
+						"sv-SE":"No report data.",
+						"it-IT":"No report data.",
+						"ja-JP":"No report data.",
+						"es-ES":"No report data.",
+						"ko-KR":"No report data.",
+						"zh-Hant":"No report data.",
+						"zh-CN":"No report data.",
+						"nl-NL":"No report data.",
+						"pt-BR":"No report data.",
+						"es-MX":"No report data."	   
+					}
+				}
 		   },
 		   "MANAGERWIDGET":{
 			  "title":{

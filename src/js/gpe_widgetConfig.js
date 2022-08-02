@@ -339,7 +339,7 @@ const gpeWidgetConfig = [{
 							"O" : 4
 						},
 						"L_5" : {
-							"ID" : "VIEWPEOPLE",
+							"ID" : "TEAMGOALS",
 							"O" : 5
 						},
 						"L_6" : {
@@ -1397,17 +1397,17 @@ const gpeWidgetConfig = [{
 						"W_0" : {
 							"ID" : "PORTALDETAILS",
 							"O" : 1,
-							"CS" : 4
+							"CS" : 6
 						},
 						"W_1" : {
 							"ID" : "RPT_ORGGOALPROGRESS",
 							"O" : 2,
-							"CS" : 4
+							"CS" : 3
 						},
 						"W_2" : {
 							"ID" : "RPT_TRAININGPROGRESSSUMMARY",
 							"O" : 3,
-							"CS" : 4
+							"CS" : 3
 						}
 					},
 					"LINKS": {

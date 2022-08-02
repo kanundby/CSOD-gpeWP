@@ -172,7 +172,7 @@ function checkRandomCustomBG() {
 		return fetch('https://unsplash.com/ngetty/v3/search/images/creative?' + new URLSearchParams({
 				fields: "display_set,referral_destinations,title",
 				page_size: "50",
-				phrase: "customer care office organisation",
+				phrase: "cities office building corporate",
 				sort_order: "best_match",
 				graphical_styles: "photography",
 				exclude_nudity: "true",
@@ -1197,33 +1197,34 @@ async function getExtendedWidgetData(demoRoleArg, moduleArg) {
 	if (cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.hasOwnProperty("EXT")) {
 		let widgetCounter = 0;
 		for (let widget in cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W) {
-			if(widgetCounter <= 2) {
-				console.log(widget);
 				if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID == "DIRECT_REPORTS") {
 					widgetPromisesArray.push(buildExtendedWidget_v4(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
+					widgetCounter++;
 				}
 
 				if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID == "PORTALDETAILS") {
 					widgetPromisesArray.push(getPortalDetails(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, demoRoleArg));
+					widgetCounter++;
 				}
 
 				if(cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID.includes("RPT_")) {
 					await checkReportToken().then(function(){
 						let widgetModule = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].module; // Get module widget is connected to
 						if ((moduleArg.some(r => widgetModule.includes(r))) || (widgetModule == "CORE")) { // Check if modules of user exists in module widget or is CORE
-							let reportID = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].reportid;
-	
-							let tmpContentDiv = document.createElement("div");
-							tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID + " chart-container";
-							tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID);
-							widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
+							if(widgetCounter <= 2) {
+								let reportID = gpeGlobalSettings[0].W[cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID].reportid;
+								let tmpContentDiv = document.createElement("div");
+
+								tmpContentDiv.className = cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID + " chart-container";
+								tmpContentDiv.setAttribute("id", cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID);
+								widgetPromisesArray.push(createDashboard(reportID, cs_widgetConfig[0].GPEWPCONFIG[demoRoleArg].MODS.EXT.W[widget].ID, tmpContentDiv, demoRoleArg));
+							}
+							widgetCounter++;
 						}
 					})
 				}
 			}
-			widgetCounter++;
 		}
-	}
 	return Promise.all(widgetPromisesArray);
 }
 
@@ -3171,155 +3172,168 @@ async function getTrendingForJob(widgetArg, moduleArg) {
 }
 
 async function buildCarousel(widgetArg, moduleArg, localStr){
+
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 	const tmpContentDiv = document.createElement("div");
 	tmpContentDiv.className = widgetArg;
 	tmpContentDiv.setAttribute("id", moduleArg + "-" + widgetArg);
 
-	let carouselMain = document.createElement("div");
-	carouselMain.className = "carousel slide";
-	carouselMain.setAttribute("id", widgetArg + "Carousel");
-	carouselMain.setAttribute("data-bs-ride", "carousel");
-	carouselMain.setAttribute("data-bs-interval", "false");
-	carouselMain.setAttribute("data-pause", "hover");
+	if(localStr.data.length !== 0) {
 
-	let carouselItems = document.createElement("div");
-	carouselItems.className = "carousel-inner";
+		let carouselMain = document.createElement("div");
+		carouselMain.className = "carousel slide";
+		carouselMain.setAttribute("id", widgetArg + "Carousel");
+		carouselMain.setAttribute("data-bs-ride", "carousel");
+		carouselMain.setAttribute("data-bs-interval", "false");
+		carouselMain.setAttribute("data-pause", "hover");
 
-	let activeItem = "";
-	localStr.data.forEach(function (subjectItem, index) {
-		let carouselItem = document.createElement("div");
-		carouselItem.className = "carousel-item";
-		if (activeItem == "") {
-			carouselItem.className += " active";
-			activeItem = "active";
-		}
+		let carouselItems = document.createElement("div");
+		carouselItems.className = "carousel-inner";
 
-		let carouselItemTile = document.createElement("div");
-		carouselItemTile.className = "carouselItemTile";
-		carouselItemTile.setAttribute("data-tag", subjectItem.id);
-		carouselItemTile.style.height = "225px";
+		let activeItem = "";
+		localStr.data.forEach(function (subjectItem, index) {
+			let carouselItem = document.createElement("div");
+			carouselItem.className = "carousel-item";
+			if (activeItem == "") {
+				carouselItem.className += " active";
+				activeItem = "active";
+			}
 
-		let carouselItemPanel = document.createElement("div");
-		carouselItemPanel.className = "carouselItemPanel";
-		carouselItemPanel.setAttribute("data-tag", subjectItem.id);
-		carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
+			let carouselItemTile = document.createElement("div");
+			carouselItemTile.className = "carouselItemTile";
+			carouselItemTile.setAttribute("data-tag", subjectItem.id);
+			carouselItemTile.style.height = "225px";
 
-		let carouselItemPanelC = document.createElement("div");
+			let carouselItemPanel = document.createElement("div");
+			carouselItemPanel.className = "carouselItemPanel";
+			carouselItemPanel.setAttribute("data-tag", subjectItem.id);
+			carouselItemPanel.setAttribute("style", "height: 100%; overflow: hidden;");
 
-		let carouselItemPanelItem = document.createElement("div");
-		carouselItemPanelItem.className = "carouselItemPanelItem";
+			let carouselItemPanelC = document.createElement("div");
 
-		let carouselItemPanelBody = document.createElement("div");
-		carouselItemPanelBody.className = "carouselItemPanelBody";
+			let carouselItemPanelItem = document.createElement("div");
+			carouselItemPanelItem.className = "carouselItemPanelItem";
 
-		let carouselItemPanelD = document.createElement("div");
+			let carouselItemPanelBody = document.createElement("div");
+			carouselItemPanelBody.className = "carouselItemPanelBody";
 
-		let carouselItemPanelTileBody = document.createElement("div");
-		carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
+			let carouselItemPanelD = document.createElement("div");
 
-		let carouselItemPanelTileLink = document.createElement("a");
-		carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
-		carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
-		carouselItemPanelTileLink.title = subjectItem.title;
+			let carouselItemPanelTileBody = document.createElement("div");
+			carouselItemPanelTileBody.className = "carouselItemPanelTileBody";
 
-		let carouselItemPanelTileLinkThmb = document.createElement("div");
-		carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
-		carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
-		carouselItemPanelTileLinkThmb.style.height = "100%";
-		carouselItemPanelTileLinkThmb.style.overflow = "hidden";
+			let carouselItemPanelTileLink = document.createElement("a");
+			carouselItemPanelTileLink.className = "carouselItemPanelTileLink";
+			carouselItemPanelTileLink.href = subjectItem.trainingDetailsUrl;
+			carouselItemPanelTileLink.title = subjectItem.title;
 
-		carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
-		carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
-		carouselItemPanelD.appendChild(carouselItemPanelTileBody);
-		carouselItemPanelBody.appendChild(carouselItemPanelD);
-		carouselItemPanelItem.appendChild(carouselItemPanelBody);
+			let carouselItemPanelTileLinkThmb = document.createElement("div");
+			carouselItemPanelTileLinkThmb.className = "carouselItemPanelTileLinkThmb";
+			carouselItemPanelTileLinkThmb.style.backgroundImage = "url('" + subjectItem.thumbnailImage + "'), url('/phnx/images/LMS/DefaultTrainingImages/onlinecontent.jpg')";
+			carouselItemPanelTileLinkThmb.style.height = "100%";
+			carouselItemPanelTileLinkThmb.style.overflow = "hidden";
 
-		let carouselItemPanelCourseDesc = document.createElement("div");
-		carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
+			carouselItemPanelTileLink.appendChild(carouselItemPanelTileLinkThmb);
+			carouselItemPanelTileBody.appendChild(carouselItemPanelTileLink);
+			carouselItemPanelD.appendChild(carouselItemPanelTileBody);
+			carouselItemPanelBody.appendChild(carouselItemPanelD);
+			carouselItemPanelItem.appendChild(carouselItemPanelBody);
 
-		let carouselItemPanelCourseDescDiv = document.createElement("div");
-		carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
+			let carouselItemPanelCourseDesc = document.createElement("div");
+			carouselItemPanelCourseDesc.className = "carouselItemPanelCourseDesc";
 
-		let carouselItemPanelCourseDescDivType = document.createElement("span");
-		carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
-		carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
-		carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
+			let carouselItemPanelCourseDescDiv = document.createElement("div");
+			carouselItemPanelCourseDescDiv.className = "carouselItemPanelCourseDescDiv";
 
-		let carouselItemPanelCourseDescDivTitle = document.createElement("a");
-		carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
-		carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
-		carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
+			let carouselItemPanelCourseDescDivType = document.createElement("span");
+			carouselItemPanelCourseDescDivType.className = "carouselItemPanelCourseDescDivType";
+			carouselItemPanelCourseDescDivType.setAttribute("title", subjectItem.trainingType);
+			carouselItemPanelCourseDescDivType.innerHTML = subjectItem.trainingType;
 
-		let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
-		carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
-		carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
+			let carouselItemPanelCourseDescDivTitle = document.createElement("a");
+			carouselItemPanelCourseDescDivTitle.className = "carouselItemPanelCourseDescDivTitle";
+			carouselItemPanelCourseDescDivTitle.setAttribute("title", subjectItem.title);
+			carouselItemPanelCourseDescDivTitle.href = subjectItem.trainingDetailsUrl;
 
-		let carouselItemPanelCourseDescD = document.createElement("div");
-		carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
+			let carouselItemPanelCourseDescDivTitleWrapper = document.createElement("div");
+			carouselItemPanelCourseDescDivTitleWrapper.className = "carouselItemPanelCourseDescDivTitleWrapper";
+			carouselItemPanelCourseDescDivTitleWrapper.setAttribute("style", "min-height: 40px; overflow: hidden;");
 
-		let carouselItemPanelCourseDescTitleText = document.createElement("div");
-		carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
-		carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
+			let carouselItemPanelCourseDescD = document.createElement("div");
+			carouselItemPanelCourseDescD.className = "carouselItemPanelCourseDescD";
 
-		let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
-		carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
+			let carouselItemPanelCourseDescTitleText = document.createElement("div");
+			carouselItemPanelCourseDescTitleText.className = "carouselItemPanelCourseDescTitleText";
+			carouselItemPanelCourseDescTitleText.innerHTML = subjectItem.title;
 
-		let carouselItemPanelCourseDescDuration = document.createElement("div");
-		carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
-		carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
+			let carouselItemPanelCourseDescTitleTextFader = document.createElement("div");
+			carouselItemPanelCourseDescTitleTextFader.className = "carouselItemPanelCourseDescTitleTextFader";
 
-
-		carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
-		carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
-		carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
-		carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
-
-		carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
-		carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
-		carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
-
-		carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
-
-		carouselItemPanelC.appendChild(carouselItemPanelItem);
-		carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
-
-		carouselItemPanel.appendChild(carouselItemPanelC);
-
-		carouselItemTile.appendChild(carouselItemPanel);
-
-		carouselItem.appendChild(carouselItemTile);
-		carouselItems.appendChild(carouselItem);
-
-	});
-	carouselMain.appendChild(carouselItems);
-
-	let controlPrev = document.createElement("button");
-	controlPrev.className = "carousel-control-prev";
-	controlPrev.setAttribute("type", "button");
-	controlPrev.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-	controlPrev.setAttribute("data-bs-slide", "prev");
-
-	let controlPrevIcon = document.createElement("span");
-	controlPrevIcon.className = "carousel-control-prev-icon";
-
-	let controlNext = document.createElement("button");
-	controlNext.className = "carousel-control-next";
-	controlNext.setAttribute("type", "button");
-	controlNext.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
-	controlNext.setAttribute("data-bs-slide", "next");
-
-	let controlNextIcon = document.createElement("span");
-	controlNextIcon.className = "carousel-control-next-icon";
+			let carouselItemPanelCourseDescDuration = document.createElement("div");
+			carouselItemPanelCourseDescDuration.className = "carouselItemPanelCourseDescDuration";
+			carouselItemPanelCourseDescDuration.innerHTML = subjectItem.durationString;
 
 
-	controlPrev.appendChild(controlPrevIcon);
-	carouselMain.appendChild(controlPrev);
+			carouselItemPanelCourseDescTitleText.appendChild(carouselItemPanelCourseDescTitleTextFader);
+			carouselItemPanelCourseDescD.appendChild(carouselItemPanelCourseDescTitleText);
+			carouselItemPanelCourseDescDivTitleWrapper.appendChild(carouselItemPanelCourseDescD);
+			carouselItemPanelCourseDescDivTitle.appendChild(carouselItemPanelCourseDescDivTitleWrapper);
 
-	controlNext.appendChild(controlNextIcon);
-	carouselMain.appendChild(controlNext);
+			carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivType);
+			carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDivTitle);
+			carouselItemPanelCourseDescDiv.appendChild(carouselItemPanelCourseDescDuration);
 
-	tmpContentDiv.appendChild(carouselMain);
-	return tmpContentDiv;	
+			carouselItemPanelCourseDesc.appendChild(carouselItemPanelCourseDescDiv);
+
+			carouselItemPanelC.appendChild(carouselItemPanelItem);
+			carouselItemPanelC.appendChild(carouselItemPanelCourseDesc);
+
+			carouselItemPanel.appendChild(carouselItemPanelC);
+
+			carouselItemTile.appendChild(carouselItemPanel);
+
+			carouselItem.appendChild(carouselItemTile);
+			carouselItems.appendChild(carouselItem);
+
+		});
+		carouselMain.appendChild(carouselItems);
+
+		let controlPrev = document.createElement("button");
+		controlPrev.className = "carousel-control-prev";
+		controlPrev.setAttribute("type", "button");
+		controlPrev.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
+		controlPrev.setAttribute("data-bs-slide", "prev");
+
+		let controlPrevIcon = document.createElement("span");
+		controlPrevIcon.className = "carousel-control-prev-icon";
+
+		let controlNext = document.createElement("button");
+		controlNext.className = "carousel-control-next";
+		controlNext.setAttribute("type", "button");
+		controlNext.setAttribute("data-bs-target", "#" + widgetArg + "Carousel");
+		controlNext.setAttribute("data-bs-slide", "next");
+
+		let controlNextIcon = document.createElement("span");
+		controlNextIcon.className = "carousel-control-next-icon";
+
+
+		controlPrev.appendChild(controlPrevIcon);
+		carouselMain.appendChild(controlPrev);
+
+		controlNext.appendChild(controlNextIcon);
+		carouselMain.appendChild(controlNext);
+
+		tmpContentDiv.appendChild(carouselMain);
+		return tmpContentDiv;
+	}else {
+		const gpeModule = moduleArg+"-"+widgetArg;
+		let noContentDiv = document.createElement("div");
+		noContentDiv.className = "nocontent-widget";
+		noContentDiv.innerText = gpeGlobalSettings[0].W[gpeModule].nocontenttitle[sessionStorage.csCulture];
+		tmpContentDiv.appendChild(noContentDiv);
+		return tmpContentDiv;
+	}
 }
 
 async function getInspiredBySubjects(widgetArg, moduleArg) {
@@ -3502,7 +3516,7 @@ async function checkReportToken() {
 	if (sessionStorage.getItem('reportToken')) {
 		var tokenDate = sessionStorage.getItem("reportTokenDate");
 		var dateDiff = Math.floor((Date.now() - tokenDate) / 1000 / 60);
-		if (dateDiff < 10) {
+		if (dateDiff < 2) {
 			return sessionStorage.reportToken;
 		} else {
 			return updateReportToken();
@@ -3753,123 +3767,136 @@ function delay(t, v) {
  * @returns
  */
 async function createDashboard(reportIDArg, widgetIDArg, targetDivArg, demoRoleArg) {
+	
+	const gpeGlobalSettings = JSON.parse(sessionStorage.gpeGlobalSettings);
+
 	return await fetchReport_v3(reportIDArg, widgetIDArg)
 	.then(async function (reportJson) {
 		let reportData = reportJson[0];
 		let rptDataSet = reportJson[1];
 
-		let [, ...labels] = [...new Set(reportData.chartData.map(x => x[0]))];
+		// Check if resultCount is zero or not.
+		if(reportData.resultsCount !== 0) {
 
-		let [, ...reportCols] = [...new Set(reportData.chartData.map(status => status[1]))];
+			let [, ...labels] = [...new Set(reportData.chartData.map(x => x[0]))];
 
-		const chartData = {
-			labels: [...labels],
-			datasets: [],
-		};
+			let [, ...reportCols] = [...new Set(reportData.chartData.map(status => status[1]))];
 
-		let legendFlag = "";
+			const chartData = {
+				labels: [...labels],
+				datasets: [],
+			};
 
-		let dataSet = [];
+			let legendFlag = "";
 
-		// If simple graph (one dimension)
-		if (rptDataSet.charts[0].chartDimensions.length == 1) {
-			let chBgColor = [];
-			chBgColor = reportData.chartPalette.map(function (e) {
-				return e.color;
-			});
-			$.each(rptDataSet.charts[0].chartDimensions, function (e, i) { // for each dimension we need to get the data...
-				$.each(reportData.chartData, function (labelIndex, labelValue) {
-					dataSet = reportData.chartData.map(function (value, index) {
-						return value.slice(-1)[0];
-					});
+			let dataSet = [];
+
+			// If simple graph (one dimension)
+			if (rptDataSet.charts[0].chartDimensions.length == 1) {
+				let chBgColor = [];
+				chBgColor = reportData.chartPalette.map(function (e) {
+					return e.color;
 				});
+				$.each(rptDataSet.charts[0].chartDimensions, function (e, i) { // for each dimension we need to get the data...
+					$.each(reportData.chartData, function (labelIndex, labelValue) {
+						dataSet = reportData.chartData.map(function (value, index) {
+							return value.slice(-1)[0];
+						});
+					});
 
-			});
-			dataSet.shift();
-			// chartData.shift();
-			chartData.datasets.push({
-				backgroundColor: chBgColor,
-				hoverBackgroundColor: chBgColor,
-				data: dataSet,
-				fill: true,
-			});
-			legendFlag = true;
+				});
+				dataSet.shift();
+				// chartData.shift();
+				chartData.datasets.push({
+					backgroundColor: chBgColor,
+					hoverBackgroundColor: chBgColor,
+					data: dataSet,
+					fill: true,
+				});
+				legendFlag = true;
 
-			// If advanced graph (two dimensions)
-		} else {
-			for (let i in reportCols) {
-				dataSet[reportCols[i]] = [];
-				for (let labelIndex in labels) {
-					dataSet[reportCols[i]][labelIndex] = [];
-					for (let k in reportData.chartData) {
-						if ((labels[labelIndex] == reportData.chartData[k][0]) && (reportData.chartData[k][rptDataSet.charts[0].chartDimensions.length - 1] == reportCols[i])) {
-							dataSet[reportCols[i]][labelIndex] = reportData.chartData[k][rptDataSet.charts[0].chartDimensions.length];
+				// If advanced graph (two dimensions)
+			} else {
+				for (let i in reportCols) {
+					dataSet[reportCols[i]] = [];
+					for (let labelIndex in labels) {
+						dataSet[reportCols[i]][labelIndex] = [];
+						for (let k in reportData.chartData) {
+							if ((labels[labelIndex] == reportData.chartData[k][0]) && (reportData.chartData[k][rptDataSet.charts[0].chartDimensions.length - 1] == reportCols[i])) {
+								dataSet[reportCols[i]][labelIndex] = reportData.chartData[k][rptDataSet.charts[0].chartDimensions.length];
+							}
 						}
 					}
+					let bgColor = reportData.chartPalette.filter(function (item) {
+						return item.displayName === reportCols[i];
+					});
+
+					let bgColor1 = bgColor.map(function (item) {
+						return item.color;
+					});
+
+					chartData.datasets.push({
+						label: reportCols[i],
+						backgroundColor: bgColor,
+						data: dataSet[reportCols[i]],
+						fill: true,
+						datalabels: {
+							anchor: 'end',
+							align: 'start',
+						},
+					});
 				}
-				let bgColor = reportData.chartPalette.filter(function (item) {
-					return item.displayName === reportCols[i];
-				});
-
-				let bgColor1 = bgColor.map(function (item) {
-					return item.color;
-				});
-
-				chartData.datasets.push({
-					label: reportCols[i],
-					backgroundColor: bgColor,
-					data: dataSet[reportCols[i]],
-					fill: true,
-					datalabels: {
-						anchor: 'end',
-						align: 'start',
-					},
-				});
+				legendFlag = true;
 			}
-			legendFlag = true;
-		}
 
-		var canv = document.createElement('canvas'); // creates new canvas element
-		canv.id = widgetIDArg + "_chart"; // gives canvas id
-		canv.className = "chart_" + cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].type;
-		targetDivArg.appendChild(canv);
+			var canv = document.createElement('canvas'); // creates new canvas element
+			canv.id = widgetIDArg + "_chart"; // gives canvas id
+			canv.className = "chart_" + cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].type;
+			targetDivArg.appendChild(canv);
 
-		let canvasLegend = document.createElement("div");
-		canvasLegend.id = widgetIDArg+"_legend";
-		canvasLegend.className = "chart-legend";
-		targetDivArg.appendChild(canvasLegend);
+			let canvasLegend = document.createElement("div");
+			canvasLegend.id = widgetIDArg+"_legend";
+			canvasLegend.className = "chart-legend";
+			targetDivArg.appendChild(canvasLegend);
 
-		const myChart = new Chart(canv, {
-			type: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].type,
-			data: chartData,
-			options: {
-				// maintainAspectRatio: "true",
-				// aspectRatio: 1,
-				responsive: "false",		
-				plugins: {
-					htmlLegend: {
-						containerID: widgetIDArg + "_legend",
-					},						
-					legend: {
-						display: false,
-					},
-					title: {
-						display: false,
-						text: rptDataSet.charts[0].title
-					}					
-				},				
-				scales: {
-					y: {
-						display: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].scale.ydisplay,
-					},
-					x: {
-						display: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].scale.xdisplay,
+			const myChart = new Chart(canv, {
+				type: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].type,
+				data: chartData,
+				options: {
+					// maintainAspectRatio: "true",
+					// aspectRatio: 1,
+					responsive: "false",		
+					plugins: {
+						htmlLegend: {
+							containerID: widgetIDArg + "_legend",
+						},						
+						legend: {
+							display: false,
+						},
+						title: {
+							display: false,
+							text: rptDataSet.charts[0].title
+						}					
+					},				
+					scales: {
+						y: {
+							display: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].scale.ydisplay,
+						},
+						x: {
+							display: cs_DashboardDetailsArray[rptDataSet.charts[0].chartTypeId].scale.xdisplay,
+						},
 					},
 				},
-			},
-			// plugins: [htmlLegendPlugin]
-		});
-		return await targetDivArg;
+				// plugins: [htmlLegendPlugin]
+			});
+			return await targetDivArg;
+		}else {
+			let noContentDiv = document.createElement("div");
+			noContentDiv.className = "nocontent-widget";
+			noContentDiv.innerText = gpeGlobalSettings[0].GLOBAL.WIDGET.nocontenttitle[sessionStorage.csCulture];
+			targetDivArg.appendChild(noContentDiv);
+			return await targetDivArg;
+		}
 	})
 	.catch(error => console.error("Error in createDashboard function: " + error));
 }
@@ -4237,6 +4264,7 @@ async function initUserData() {
 
 			var endTimer = performance.now();
 			console.log("gpeWP build: "+ gpeWPversion +" - ("+ Math.round((endTimer - startTimer))+" ms)");
+			sessionStorage.removeItem("reportToken");
 		
 	})
 	.catch(error => {

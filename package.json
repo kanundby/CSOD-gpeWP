@@ -1,16 +1,13 @@
 {
   "name": "gpewelcomepage",
-  "version": "1.2.9c",
+  "version": "1.2.9f",
   "description": "Cornerstone Hercules - Welcome Page Script",
   "main": "gpeWelcomePage.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d lib",
-    "gtmbuild": "webpack --mode production",
-    "gtmdev": "webpack --mode development",
-    "start": "http-server"
+    "gpebuild": "webpack --mode production",
+    "gpedev": "webpack --mode development"
   },
-  "author": "Klas Anundby",
+  "author": "Klas Anundby - Cornerstone OnDemand 2022",
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.16.0",
